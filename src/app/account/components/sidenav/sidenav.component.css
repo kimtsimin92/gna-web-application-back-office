@@ -1,0 +1,42 @@
+mat-tree {
+  padding-top: 60px;
+  background-color: #f6993f;
+}
+
+.mat-tree-node {
+  font-size: 11px!important;
+  color: white!important;
+}
+
+.mat-tree-node {
+  min-height: 38px!important;
+}
+
+.gna-icon-ml {
+  margin-right: 3px;
+  margin-left: 5px;
+}
+
+mat-icon {
+  margin-top: 5px;
+  font-size: 15px;
+}
+
+.mtn-mh {
+  min-height: 28px!important;
+  padding-left: 30px;
+}
+
+.mtn-selected {
+  position: relative;
+  z-index: 1;
+  background-color: white!important;
+  opacity: 20% !important;
+  color: #2960A3!important;
+  font-weight: bold;
+}
+
+.gna-tree-node {
+  cursor: pointer;
+  z-index: 2;
+}

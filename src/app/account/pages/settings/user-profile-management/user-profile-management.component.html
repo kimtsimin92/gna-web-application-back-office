@@ -1,0 +1,165 @@
+<div class="container-fluid">
+
+  <div class="gna-content-header">
+    <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
+  </div>
+
+  <div>
+    <mat-card class="gna-card">
+      @if (isLoadingResults || isRateLimitReached) {
+        <div class="example-loading-shade">
+          @if (isLoadingResults) {
+            <mat-spinner></mat-spinner>
+          }
+          @if (isRateLimitReached) {
+            <div class="example-rate-limit-reached">
+              GNA API rate limit has been reached. It will be reset in one minute.
+            </div>
+          }
+        </div>
+      }
+
+      <div class="container-fluid">
+
+        <div class="gna-list-header">
+          <div class="gna-list-header-1">
+            <button mat-stroked-button color="primary"
+                    (click)="onReload()"
+                    matTooltip="Actualiser la page">
+              <i class="pi pi-refresh"></i>
+            </button>
+          </div>
+          <div class="gna-list-header-2">
+          <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (keyup)="applyFilter($event)" placeholder="Rechercher"
+                           class="example-full-width" pTooltip="Filtrer le tableau"/>
+                      </span>
+          </div>
+          <div class="gna-list-header-3">
+            <button mat-raised-button color="primary"
+                    class="gna-btn-default">Créer Profil
+            </button>
+          </div>
+        <!--  <div class="gna-list-header-3">
+            <button mat-raised-button color="primary"
+                    class="gna-btn-default"
+                    (click)="onViewAdd()">Créer Profil
+            </button>
+          </div>-->
+        </div>
+        <div class="example-table-container">
+          <table
+            class="demo-table"
+            mat-table [dataSource]="dataSource"
+            matSort matSortActive="createdAt"
+            matSortDisableClear
+            matSortDirection="desc"
+            (matSortChange)="announceSortChange($event)">
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()"
+                              [aria-label]="checkboxLabel()"
+                              color="primary" class="gna-table-header-checkbox">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)"
+                              [aria-label]="checkboxLabel(row)"
+                              color="primary">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef
+                  mat-sort-header>Nom
+              </th>
+              <td mat-cell *matCellDef="let element"
+                  class="app-clickable">{{ element.name }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef
+                  mat-sort-header>Type Utilisateur
+              </th>
+              <td mat-cell *matCellDef="let element"
+                  class="app-clickable">
+                @if (element.type) {
+                  {{ element.type.name }}
+                } @else {
+                  N/A
+                }
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef
+                  mat-sort-header>Etat
+              </th>
+              <td mat-cell *matCellDef="let element"
+                  class="app-clickable">
+                @if (element.enabled) {
+                  <p-chip label="Activé" class="gna-chip-g"></p-chip>
+                } @else {
+                  <p-chip label="Désactivé" class="gna-chip-r"></p-chip>
+                }
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>
+              </th>
+              <td mat-cell *matCellDef="let element"
+                  class="app-clickable">
+              <span class="gna-action-span-div">
+                   <span class="gna-action-span">
+                    <p-button icon="pi pi-eye" [rounded]="true" class="gna-btn-eye"
+                              pTooltip="Afficher"
+                              tooltipPosition="bottom"></p-button>
+                  </span>
+                <!--<span class="gna-action-span">
+                    <p-button icon="pi pi-eye" [rounded]="true" class="gna-btn-eye"
+                              pTooltip="Afficher"
+                              tooltipPosition="bottom"
+                              (click)="onView(element)"></p-button>
+                  </span>-->
+                <span class="gna-action-span">
+                    <p-button icon="pi pi-pencil" class="gna-btn-edit"
+                              pTooltip="Modifier"
+                              tooltipPosition="bottom"></p-button>
+                  </span>
+               <!-- <span class="gna-action-span">
+                    <p-button icon="pi pi-pencil" class="gna-btn-edit"
+                              pTooltip="Modifier"
+                              tooltipPosition="bottom"
+                              (click)="onViewEdit(element)"></p-button>
+                  </span>-->
+                  </span>
+
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        <mat-paginator
+          [length]="resultsLength"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 50, 100]"
+          showFirstLastButtons
+        >
+        </mat-paginator>
+
+      </div>
+
+    </mat-card>
+
+  </div>
+</div>

@@ -1,0 +1,25 @@
+.example-full-width-f {
+  width: 100%;
+}
+
+.example-full-width-2 {
+  width: 100%;
+}
+
+.gna-card .mat-mdc-card {
+  min-height: 500px!important;
+  max-height: 500px!important;
+}
+
+.nav-item {
+  font-size: 12px;
+}
+.gna-profile-card-f {
+  min-height: 368px;
+  max-height: 368px;
+  margin-top: 40px;
+}
+
+.btn-new {
+  text-align: end;
+}

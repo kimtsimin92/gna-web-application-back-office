@@ -1,0 +1,14 @@
+version: '3'
+services:
+  backoffice-web-application:
+    build: .
+    image: gna-backoffice-web-application:v1
+    container_name: gna-backoffice-web-application
+    networks:
+      - gna-network
+    ports:
+      - "24200:80"
+    restart: always
+networks:
+  gna-network:
+    external: true

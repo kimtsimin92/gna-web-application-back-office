@@ -1,0 +1,16 @@
+.gna-loading {
+  height: 100%;
+  padding-top: 10%;
+  text-align: center;
+  background-color: #F4F5F6;
+}
+
+.gna-loading-image {
+  text-align: center;
+}
+
+.gna-loading-spinner {
+  position: absolute;
+  z-index: 1;
+  margin-left: 48%;
+}

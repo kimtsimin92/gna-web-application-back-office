@@ -1,0 +1,29 @@
+@use 'sass:map';
+
+$theme-colors: (
+  "primary": #1C3694,
+  "accent":  #f6993f,
+  "warn":#ff4136,
+);
+
+$gna-primary: (
+  50: #1C3694,
+  A100: #1C3694,
+);
+
+.mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element, .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+  background: #1C3694;
+}
+
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #1C3694;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  padding: 0!important;
+}
+
+.gna-mat-mdc-text-field-wrapper ::ng-deep .mat-mdc-text-field-wrapper {
+    height: 42px!important;
+}
+

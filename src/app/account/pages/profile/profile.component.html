@@ -1,0 +1,159 @@
+<div class="gna-main-content">
+
+      <div class="gna-content-header">
+        <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
+      </div>
+
+  <div class="container-fluid">
+    <mat-card class="gna-profile-card">
+      <mat-card-content>
+            <div class="container-fluid">
+              <mat-tab-group>
+                <mat-tab label="Informations personnelles" [disabled]="isSave">
+                  <div class="container-fluid mt-2 gna-card-header-title">
+                      <mat-slide-toggle [(ngModel)]="modeEditInfo" [disabled]="!formProfile.valid || isSave"
+                      color="primary"> Modifier</mat-slide-toggle>
+                  </div>
+                <div class="container-fluid gna-profile-card-f">
+                  <form *ngIf="userData"
+                        (ngSubmit)="openConfirmEditProfile()"
+                        [formGroup]="formProfile">
+                    <div class="row">
+                      <div class="col-3">
+                        <mat-form-field appearance="outline" class="example-full-width-2 gna-mff">
+                          <mat-label>Nom</mat-label>
+                          <input matInput
+                                 [value]="userData.firstName"
+                                disabled>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-3">
+                        <mat-form-field appearance="outline" class="example-full-width-2 gna-mff">
+                          <mat-label>Prénom</mat-label>
+                          <input matInput
+                                 [value]="userData.lastName"
+                                 disabled>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-3">
+                        <mat-form-field appearance="outline" class="example-full-width-2 gna-mff">
+                          <mat-label>Genre</mat-label>
+                          <input matInput
+                                 [value]="userData.gender"
+                                 disabled>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-3">
+                        <mat-form-field appearance="outline" class="example-full-width-2 gna-mff">
+                          <mat-label>Adresse</mat-label>
+                          <input matInput
+                                 [value]="userData.address"
+                                 disabled>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-3">
+                        <mat-form-field appearance="outline" class="example-full-width-2 gna-mff">
+                          <mat-label>E-mail</mat-label>
+                          <input matInput
+                                 [value]="userData.email" disabled>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-3">
+                        <mat-form-field appearance="outline" class="example-full-width-2 gna-mff">
+                          <mat-label>Téléphone</mat-label>
+                          <input matInput
+                                 pattern="^\d{10}$"
+                                 required
+                                 formControlName="phone"
+                                 [readonly]="!modeEditInfo || isSave">
+                          <mat-error *ngIf="profileForm.phone.invalid">{{getErrorMessagePhone()}}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="btn-new">
+                        <button mat-raised-button class="gna-btn-default gna-btn-save"
+                        [disabled]="!formProfile.valid || !modeEditInfo || isSave">Enregistrer</button>
+                      </div>
+                  </form>
+                </div>
+
+                </mat-tab>
+                <mat-tab label="Mot de passe" [disabled]="isSave">
+                  <div class="container-fluid mt-2 gna-card-header-title">
+                    <mat-slide-toggle [(ngModel)]="modeEditPwd"
+                                      [disabled]="isSave"
+                                      color="primary"> Modifier</mat-slide-toggle>
+                  </div>
+                  <div class="container-fluid gna-profile-card-form">
+                    <form *ngIf="userData"
+                          (ngSubmit)="openConfirmEditProfilePassword()"
+                          [formGroup]="formProfilePwd">
+                      <div class="row">
+                        <div class="col-3">
+                          <mat-form-field appearance="outline" class="example-full-width-2 gna-mff">
+                            <mat-label>Ancien mot de passe</mat-label>
+                            <input matInput
+
+                                   required
+                                   formControlName="passwordOld"
+                                   [type]="hideOld || !modeEditPwd ? 'password' : 'text'"
+                                   [readonly]="!modeEditPwd || isSave"
+                                   (keyup)="onPasswordCompare()">
+                            <mat-icon matSuffix (click)="hideOld = !hideOld" color="primary">{{hideOld || !modeEditPwd ? 'visibility' : 'visibility_off'}}</mat-icon>
+                          </mat-form-field>
+                          <div class="row">
+                            <mat-error *ngIf="modeEditPwd && profileFormPwd.passwordOld.invalid">{{getErrorMessagePasswordOld()}}</mat-error>
+                          </div>
+                        </div>
+
+                        <div class="col-3">
+                          <mat-form-field appearance="outline" class="example-full-width-2 gna-mff">
+                            <mat-label>Nouveau mot de passe</mat-label>
+                            <input matInput
+
+                                   pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                   required
+                                   formControlName="passwordNew"
+                                   [readonly]="!modeEditPwd || isSave"
+                                   [type]="hideNew || !modeEditPwd ? 'password' : 'text'"
+                                   (keyup)="onPasswordCompare()">
+                            <mat-icon matSuffix (click)="hideNew = !hideNew" color="primary">{{hideNew || !modeEditPwd ? 'visibility' : 'visibility_off'}}</mat-icon>
+                          </mat-form-field>
+                          <div class="row">
+                            <mat-error *ngIf="modeEditPwd && profileFormPwd.passwordNew.invalid">{{getErrorMessagePasswordNew()}}</mat-error>
+                          </div>
+                        </div>
+
+                        <div class="col-3">
+                          <mat-form-field appearance="outline" class="example-full-width-2 gna-mff">
+                            <mat-label>Confirmer nouveau mot de passe</mat-label>
+                            <input matInput
+
+                                   required
+                                   formControlName="passwordConfirm"
+                                   [readonly]="!modeEditPwd || isSave"
+                                   [type]="hideConfirm || !modeEditPwd ? 'password' : 'text'"
+                                   (keyup)="onPasswordCompare()">
+                            <mat-icon matSuffix (click)="hideConfirm = !hideConfirm" color="primary">{{hideConfirm || !modeEditPwd ? 'visibility' : 'visibility_off'}}</mat-icon>
+                          </mat-form-field>
+                          <div class="row">
+                            <mat-error *ngIf="modeEditPwd && profileFormPwd.passwordConfirm.invalid">{{ getErrorMessagePasswordConfirm() }}</mat-error>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="btn-new">
+                        <button mat-raised-button class="gna-btn-default gna-btn-save"
+                                [disabled]="!formProfilePwd.valid || !modeEditPwd || isSave">Enregistrer</button>
+                      </div>
+                    </form>
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>
+

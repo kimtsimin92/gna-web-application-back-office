@@ -1,0 +1,15 @@
+<h1 mat-dialog-title class="text-center">
+  <img src="assets/gna/images/gna-logo.png"
+       class="gna-dialog-logo">
+</h1>
+<div mat-dialog-content>
+  <p class="gna-text-secondary text-center">
+    <mat-icon>warning</mat-icon>
+  </p>
+  Voulez-vous éffectuer la suppression <span *ngIf="dialogMessage">{{ dialogMessage }}</span> ?
+  <p class="gna-text-secondary text-center">NB : La suppression est irréversible.</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="false" color="accent" class="btn-tw">Non</button>
+  <button mat-raised-button [mat-dialog-close]="true" color="primary">Oui</button>
+</div>

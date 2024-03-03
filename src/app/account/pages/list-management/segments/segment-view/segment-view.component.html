@@ -1,0 +1,48 @@
+<div class="gna-main-content">
+
+  <div class="gna-content-header">
+    <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
+  </div>
+
+  <div class="container-fluid gna-main-div-card">
+    <mat-card class="gna-card">
+      <mat-card-header class="gna-card-header">
+        <div class="gna-card-header-title">
+          Segment
+        </div>
+        <div class="gna-card-header-btn">
+          <div class="gna-card-header-btn-1">
+
+            <button mat-stroked-button color="primary"
+                    class="gna-btn-default"
+                    (click)="onBack()">Retour</button>
+          </div>
+          <div class="gna-card-header-btn-2">
+            <button mat-stroked-button color="primary"
+                    class="gna-btn-default"
+                    (click)="onGoToEdit()">Modifier</button>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="mt-4">
+          <div class="card">
+            <div class="card-body gna-card-body">
+              <div class="row">
+                <div class="col-3">
+                  <span class="gna-view-label">Code : </span>
+                  <span class="gna-view-value">{{ segmentData.code }}</span>
+                </div>
+                <div class="col-3">
+                  <span class="gna-view-label">Nom : </span>
+                  <span class="gna-view-value">{{ segmentData.name }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

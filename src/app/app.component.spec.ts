@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'gna-backoffice-web-application' title`, () => {
+  it(`should have the 'gna-erp-web-application' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('gna-backoffice-web-application');
+    expect(app.title).toEqual('gna-erp-web-application');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, gna-backoffice-web-application');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, gna-erp-web-application');
   });
 });

@@ -1,0 +1,289 @@
+<div class="gna-main-content">
+
+  <div class="gna-content-header">
+    <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
+  </div>
+
+  <div class="container-fluid gna-main-div-card">
+    <mat-card class="gna-card">
+      <mat-card-header class="gna-card-header">
+        <div class="gna-card-header-title">
+          <span>Garantie</span>
+        </div>
+        <div class="gna-card-header-btn">
+          <div class="gna-card-header-btn-1">
+            <button mat-raised-button
+                    class="gna-btn-default gna-btn-cancel"
+                    (click)="onBack()"
+                    [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
+          </div>
+          <div class="gna-card-header-btn-2">
+            @if (!formData.valid) {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-save"
+                      (click)="onGetNotBlankAlert()">Enregistrer</button>
+            } @else {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-save"
+                      [disabled]="!formData.valid || isSave || accountService.pageLoading || accountService.isSave"
+                      (click)="onConfirm()">Enregistrer</button>
+            }
+          </div>
+
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+          <mat-tab-group>
+            <mat-tab label="Informations Garantie" [disabled]="isSave">
+              <div class="container-fluid mt-5">
+                <form
+                  [formGroup]="formData">
+                  <div class="row pb-2">
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Code</mat-label>
+                        <input matInput
+                               disabled>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Nom</mat-label>
+                        <input matInput
+                               required
+                               formControlName="name"
+                               [readonly]="isSave || accountService.pageLoading">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Taux de taxe</mat-label>
+                        <input matInput
+                               type="number"
+                               pattern="^\d+(\.\d+)?$"
+                               required
+                               formControlName="taxRate"
+                               [readonly]="isSave || accountService.pageLoading">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Taux franchise</mat-label>
+                        <input matInput
+                               type="number"
+                               pattern="^\d+(\.\d+)?$"
+                               formControlName="franchiseRate"
+                               [readonly]="isSave || accountService.pageLoading">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Franchise minimum</mat-label>
+                        <input matInput
+                               type="number"
+                               pattern="^\d+$"
+                               min="1"
+                               max="{{franchiseMaximum.value}}"
+                               #franchiseMinimum
+                               formControlName="franchiseMinimum"
+                               [readonly]="isSave || accountService.pageLoading">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Franchise maximum</mat-label>
+                        <input matInput
+                               type="number"
+                               pattern="^\d+$"
+                               min="{{franchiseMinimum.value}}"
+                               #franchiseMaximum
+                               formControlName="franchiseMaximum"
+                               [readonly]="isSave || accountService.pageLoading">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Durée minimum souscription</mat-label>
+                        <input matInput
+                               type="number"
+                               pattern="^\d+$"
+                               min="1"
+                               max="{{subscriptionMaximumPeriod.value}}"
+                               required
+                               #subscriptionMinimumPeriod
+                               formControlName="subscriptionMinimumPeriod"
+                               [readonly]="isSave || accountService.pageLoading">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Durée maximum souscription</mat-label>
+                        <input matInput
+                               type="number"
+                               pattern="^\d+$"
+                               min="{{subscriptionMinimumPeriod.value}}"
+                               required
+                               #subscriptionMaximumPeriod
+                               formControlName="subscriptionMaximumPeriod"
+                               [readonly]="isSave || accountService.pageLoading">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Délai de carence</mat-label>
+                        <input matInput
+                               type="number"
+                               pattern="^\d+$"
+                               min="1"
+                               #deficiencyDeadline
+                               formControlName="deficiencyDeadline"
+                               [readonly]="isSave || accountService.pageLoading">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      @if (periodList && periodList.length > 0) {
+                        <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                          <mat-label>Unité délai de carence</mat-label>
+                          <mat-select formControlName="deficiencyDeadlineUnit"
+                                      [required]="deficiencyDeadline && deficiencyDeadline.value.length > 0">
+                            <mat-option>Aucun</mat-option>
+                            @for (period of periodList; track period) {
+                              <mat-option [value]="period.id"
+                                          [disabled]="deficiencyDeadline && deficiencyDeadline.value.length <= 0 || isSave || accountService.pageLoading">{{period.name}}</mat-option>
+                            }
+                          </mat-select>
+                        </mat-form-field>
+                      } @else {
+                        <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                          <mat-label>Unité délai de carence</mat-label>
+                          <mat-select disabled>
+                            <mat-option>Accune données disponible</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      }
+                    </div>
+
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Plancher de garantie</mat-label>
+                        <input matInput
+                               type="number"
+                               pattern="^\d+$"
+                               min="1"
+                               formControlName="guaranteeFloor"
+                               [readonly]="isSave || accountService.pageLoading">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Plafond de garantie</mat-label>
+                        <input matInput
+                               type="number"
+                               pattern="^\d+$"
+                               min="1"
+                               formControlName="guaranteeCeiling"
+                               [readonly]="isSave || accountService.pageLoading">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Prime minimum</mat-label>
+                        <input matInput
+                               type="number"
+                               pattern="^\d+$"
+                               min="1"
+                               required
+                               formControlName="premiumMinimum"
+                               [readonly]="isSave || accountService.pageLoading">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                        <mat-label>Réduction applicable</mat-label>
+                        <mat-select
+                          required
+                          formControlName="discountApplicable">
+                          <mat-option value="true" [disabled]="isSave">Oui</mat-option>
+                          <mat-option value="false" [disabled]="isSave">Non</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      @if (zoneList && zoneList.length > 0) {
+                        <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                          <mat-label>Territoire</mat-label>
+                          <mat-select formControlName="zone"
+                          required>
+                            @for (zone of zoneList; track zone) {
+                              <mat-option [value]="zone.id"
+                                          [disabled]="isSave || accountService.pageLoading">{{zone.name}}</mat-option>
+                            }
+                          </mat-select>
+                        </mat-form-field>
+                      } @else {
+                        <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                          <mat-label>Territoire</mat-label>
+                          <mat-select disabled>
+                            <mat-option>Accune données disponible</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      }
+                    </div>
+                    <div class="col-3">
+                      @if (zoneList && zoneList.length > 0) {
+                        <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                          <mat-label>Partenaires techniques</mat-label>
+                          <mat-select formControlName="partners" multiple
+                                      required>
+                            @for (partner of partnerList; track partner) {
+                              <mat-option [value]="partner.id"
+                                          [disabled]="isSave || accountService.pageLoading">{{partner.name}}</mat-option>
+                            }
+                          </mat-select>
+                        </mat-form-field>
+                      } @else {
+                        <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                          <mat-label>Partenaires techniques</mat-label>
+                          <mat-select disabled>
+                            <mat-option>Accune données disponible</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      }
+                    </div>
+                    <div class="col-6">
+                      <mat-form-field appearance="outline" class="example-full-width gna-mfft">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput
+                                  formControlName="description"></textarea>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <button
+                        type="button"
+                        mat-stroked-button color="primary" class="example-full-width"
+                        (click)="openClauseEditorDialog()">Clauses</button>
+                    </div>
+                    <div class="col-3">
+                      <section>
+                        <label class="example-margin">Statut:</label>
+                        <mat-radio-group formControlName="enabled">
+                          <mat-radio-button value="true" color="primary"
+                                            [disabled]="isSave || accountService.pageLoading">Activé</mat-radio-button>
+                          <mat-radio-button value="false" color="primary"
+                                            [disabled]="isSave || accountService.pageLoading">Désactivé</mat-radio-button>
+                        </mat-radio-group>
+                      </section>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </mat-tab>
+            <mat-tab label="Sous Garanties" [disabled]="isDisable">
+            </mat-tab>
+          </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

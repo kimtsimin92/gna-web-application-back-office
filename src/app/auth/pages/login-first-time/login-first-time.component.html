@@ -1,0 +1,126 @@
+<header *ngIf="!accountService.loadingPage">
+
+  <nav class="navbar navbar-expand-lg navbar-dark gna-navbar fixed-top">
+
+    <div class="container-fluid gna-footer">
+
+      <!--<a class="navbar-brand app-clickable">
+        <img src="assets/gna/images/logo_logo_29600_logo_logo_1639742942.png" alt="gna WMS"
+             alt="" width="80" class="d-inline-block">
+      </a>-->
+
+      <!--  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+
+          <span class="navbar-toggler-icon"></span>
+
+        </button>-->
+
+    </div>
+
+  </nav>
+
+</header>
+<main *ngIf="!accountService.loadingPage">
+
+  <!--<div class="gna-page-loading">
+    <mat-spinner *ngIf="accountService.pageLoading"></mat-spinner>
+  </div>-->
+  <div class="container login-container">
+    <div class="login-form">
+
+      <!--  <div class="auth-loading">
+          <mat-spinner></mat-spinner>
+        </div>-->
+
+      <div class="text-center">
+        <img src="assets/gna/images/gna-logo.png" alt="" width="150">
+      </div>
+
+      <div class="row">
+
+        <div class="col">
+
+              <form [formGroup]="formProfilePwd">
+                <div class="row">
+                  <div class="col-7 mt-4">
+                    <p class="gna-text-primary gna-text-bold">C'est votre première connexion, veuillez procéder au changement de votre mot de passe.</p>
+                    <div class="row">
+                      <div class="col-6">
+                        <div>
+                          <img src="assets/images/undraw_Forgot_password_re_hxwm.png" alt="" width="300">
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div>
+                          <mat-error *ngIf="profileFormPwd.passwordNew.invalid" class="mb-3">{{getErrorMessagePasswordNew()}}</mat-error>
+                        </div>
+                     <div>
+                       <mat-error *ngIf="profileFormPwd.passwordConfirm.invalid">{{getErrorMessagePasswordConfirm()}}</mat-error>
+                     </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-5">
+                    <br>
+                    <div class="row">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Nouveau mot de passe</mat-label>
+                        <input matInput formControlName="passwordNew"  required
+                               [type]="hideNew? 'password' : 'text'"
+                               (keyup)="onPasswordCompare()"
+                        [readonly]="accountService.pageLoading || isSave">
+                        <mat-icon matSuffix (click)="hideNew = !hideNew" color="primary">{{hideNew ? 'visibility' : 'visibility_off'}}</mat-icon>
+                      </mat-form-field>
+                    </div>
+                    <div class="row">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Confirmer nouveau mot de passe</mat-label>
+                        <input matInput formControlName="passwordConfirm"  required
+                               [type]="hideConfirm? 'password' : 'text'"
+                               (keyup)="onPasswordCompare()"
+                               [readonly]="accountService.pageLoading || isSave">
+                        <mat-icon matSuffix (click)="hideConfirm = !hideConfirm" color="primary">{{hideConfirm ? 'visibility' : 'visibility_off'}}</mat-icon>
+                      </mat-form-field>
+                    </div>
+                    <div>
+                      <button mat-raised-button color="accent" class="btn-mr btn-tw"
+                              (click)="onCancel()">
+                        Annuler
+                      </button>
+                      <button mat-raised-button color="primary"
+                              (click)="openChangePassword()"
+                              [disabled]="!formProfilePwd.valid || accountService.pageLoading || isSave">Changer</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+<footer
+  *ngIf="!accountService.loadingPage">
+
+  <nav class="navbar navbar-expand-lg navbar-dark gna-navbar fixed-bottom">
+
+    <div class="container-fluid">
+
+      <div class="gna-footer">
+        <div class="container text-center">
+          <br>
+          <span class="login-text-footer">
+          <a href="https://gna.ci/" target="_blank">Génération Nouvelle d'Assurance</a> © 2024</span>
+        </div>
+      </div>
+    </div>
+
+  </nav>
+
+</footer>
+<app-gna-loading *ngIf="accountService.loadingPage"></app-gna-loading>

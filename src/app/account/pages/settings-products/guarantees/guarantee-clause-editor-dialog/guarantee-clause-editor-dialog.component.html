@@ -1,0 +1,73 @@
+<h1 mat-dialog-title class="gna-text-primary text-center" style="font-size: 16px; font-weight: bold">
+  LES CLAUSES DE LA GARANTIE
+</h1>
+<mat-dialog-content class="mat-typography">
+  <p-editor [(ngModel)]="guaranteeClauses" [style]="{ height: '300px' }">
+    <ng-template pTemplate="header">
+        <span class="ql-formats">
+          <select class="ql-size">
+              <option value="small">Petite</option>
+              <option selected>Normale</option>
+              <option value="large">Grande</option>
+              <option value="huge">Très grande</option>
+            </select>
+        </span>
+      <span class="ql-formats">
+            <button type="button" class="ql-bold" aria-label="Bold"></button>
+            <button type="button" class="ql-italic" aria-label="Italic"></button>
+            <button type="button" class="ql-underline" aria-label="Underline"></button>
+      </span>
+      <span class="ql-formats">
+            <select title="Text Alignment" class="ql-align" >
+              <option selected>Gauche</option>
+              <option value="center" label="Center"></option>
+              <option value="right" label="Right"></option>
+              <option value="justify" label="Justify"></option>
+            </select>
+          </span>
+      <span class="ql-formats">
+            <select title="Text Color" class="ql-color" defaultValue="rgb(0, 0, 0)">
+              <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
+              ...
+               <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
+              ...
+                 <option value="rgb(255, 0, 0)" label="rgb(255, 0, 0)"></option>
+                  ...
+                 <option value="rgb(0, 128, 0)" label="rgb(0, 128, 0)"></option>
+              ...
+              <option value="rgb(28, 54, 148)" label="rgb(28, 54, 148)"></option>
+              ...
+              <option value="rgb(246, 153, 63)" label="rgb(246, 153, 63)"></option>
+            </select>
+            <span class="ql-format-separator"></span>
+            <select title="Background Color" class="ql-background" defaultValue="rgb(255, 255, 255)">
+             <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
+              ...
+               <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
+              ...
+                 <option value="rgb(255, 0, 0)" label="rgb(255, 0, 0)"></option>
+                  ...
+                 <option value="rgb(0, 128, 0)" label="rgb(0, 128, 0)"></option>
+              ...
+              <option value="rgb(28, 54, 148)" label="rgb(28, 54, 148)"></option>
+              ...
+              <option value="rgb(246, 153, 63)" label="rgb(246, 153, 63)"></option>
+            </select>
+        </span>
+      <span class="ql-formats">
+           <button class="ql-list" value="ordered"></button>
+           <button class="ql-list" value="bullet"></button>
+            <button type="button" class="ql-blockquote" aria-label="blockquote"></button>
+            <button type="button" class="ql-link" aria-label="link"></button>
+          </span>
+    </ng-template>
+    @if (guaranteeClauses) {
+      {{ guaranteeClauses }}
+    }
+  </p-editor>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button color="primary" mat-dialog-close>Fermer</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="guaranteeClauses"
+  *ngIf="guaranteeClauses">Ajouter</button>
+</mat-dialog-actions>

@@ -1,0 +1,21 @@
+<app-header
+  (drawerEvent)="onToggle($event)"
+[headerTitle]="headerTitle"></app-header>
+<mat-drawer-container [hasBackdrop]="false"
+  class="example-container"
+                      *ngIf="!accountService.loadingPage">
+  <mat-drawer [mode]="'side'"  #drawer
+              [opened]="drawerToggle">
+    <app-sidenav></app-sidenav>
+  </mat-drawer>
+  <mat-drawer-content>
+    <main>
+      <!--<div class="gna-page-loading">
+        <mat-spinner *ngIf="accountService.pageLoading"></mat-spinner>
+      </div>-->
+      <router-outlet></router-outlet>
+    </main>
+    <app-footer></app-footer>
+  </mat-drawer-content>
+</mat-drawer-container>
+<!--<app-gna-loading *ngIf="accountService.loadingPage"></app-gna-loading>-->

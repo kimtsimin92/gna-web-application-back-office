@@ -1,0 +1,32 @@
+mat-toolbar {
+  height: 50px!important;
+}
+
+mat-icon {
+  font-size: 20px;
+}
+
+.gna-header-text {
+  font-size: 12px
+}
+
+.gna-erp-header {
+  height: 20px;
+  font-size: 12px
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.gna-header-title {
+  width: 1px;
+  height: 30px;
+  background-color: white;
+  margin-left: 77px;
+  margin-right: 20px;
+}
+
+.btn-hmr {
+  width: 100px;
+}

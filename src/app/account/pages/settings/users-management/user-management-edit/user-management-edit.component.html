@@ -1,0 +1,143 @@
+<div class="gna-main-content">
+
+  <div class="gna-content-header">
+    <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
+  </div>
+
+  <div class="container-fluid gna-main-div-card">
+    <mat-card class="gna-main-card">
+      <mat-card-header class="gna-card-header">
+        <div class="gna-card-header-title">
+          Utilisateur
+        </div>
+        <div class="gna-card-header-btn">
+          <div class="gna-card-header-btn-1">
+
+            <button mat-raised-button
+                    class="gna-btn-default gna-btn-cancel"
+                    (click)="onBack()"
+                    [disabled]="isSave">Annuler</button>
+          </div>
+          <div class="gna-card-header-btn-2">
+            <button mat-raised-button
+                    class="gna-btn-default gna-btn-save"
+                    (click)="openConfirmEdit()"
+                    [disabled]="!formProfile.valid || isSave">Enregistrer</button>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="mt-4">
+
+          <form
+            [formGroup]="formProfile">
+            <div class="row pb-2">
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Nom</mat-label>
+                  <input matInput
+                         required
+                         formControlName="firstName"
+                         [readonly]="isSave">
+                  <mat-error *ngIf="profileForm.firstName.invalid">{{getErrorMessageFirstNane()}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Prénom</mat-label>
+                  <input matInput
+                         required
+                         formControlName="lastName"
+                         [readonly]="isSave">
+                  <mat-error *ngIf="profileForm.lastName.invalid">{{getErrorMessageLastNane()}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Genre</mat-label>
+                  <mat-select formControlName="gender">
+                    @for (gender of genders; track gender) {
+                      <mat-option [value]="gender.value"
+                                  [disabled]="isSave">{{gender.viewValue}}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Adresse</mat-label>
+                  <input matInput
+                         formControlName="address"
+                         [readonly]="isSave">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>E-mail</mat-label>
+                  <input matInput
+                         required
+                         formControlName="email"
+                         [readonly]="isSave">
+                  <mat-error *ngIf="profileForm.email.invalid">{{getErrorMessageEmail()}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Téléphone</mat-label>
+                  <input matInput
+                         inputmode="numeric"
+                         pattern="^\d{10}$"
+                         required
+                         formControlName="phone"
+                         [readonly]="isSave">
+                  <mat-error *ngIf="profileForm.phone.invalid">{{getErrorMessagePhone()}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Type Utilisateur</mat-label>
+                  <mat-select formControlName="userType">
+                    @for (type of userTypes; track type) {
+                      <mat-option [value]="type.value"
+                                  [disabled]="isSave"
+                                  (click)="onGetProfileByUserType(type)">{{type.viewValue}}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Profil Utilisateur</mat-label>
+                  <mat-select formControlName="userProfile">
+                    @for (profile of profilesByUserType; track profile) {
+                      <mat-option [value]="profile.id"
+                                  [disabled]="isSave || profileList.length <= 0">{{profile.name}}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <section class="example-section">
+                  <label class="example-margin">Statut:</label>
+                  <mat-radio-group formControlName="enabled">
+                    <mat-radio-button class="example-margin" value="true" color="primary"
+                                      [disabled]="isSave">Activé</mat-radio-button>
+                    <mat-radio-button class="example-margin" value="false" color="primary"
+                                      [disabled]="isSave">Désactivé</mat-radio-button>
+                  </mat-radio-group>
+                </section>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>
+

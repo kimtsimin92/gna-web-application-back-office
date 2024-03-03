@@ -1,0 +1,10 @@
+
+
+.gna-dialog-logo {
+  margin-top: 5px;
+  width: 120px;
+}
+
+.mat-mdc-dialog-actions {
+  justify-content: space-between;
+}

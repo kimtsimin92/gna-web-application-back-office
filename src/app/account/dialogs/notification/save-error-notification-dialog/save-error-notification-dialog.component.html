@@ -1,0 +1,44 @@
+
+
+  <div class="gna-dialog-logo">
+    <img src="assets/gna/images/gna-logo.png">
+  </div>
+<div mat-dialog-content>
+  <p class="text-danger text-center">
+    <mat-icon>error</mat-icon>
+  </p>
+
+  <div
+       *ngIf="!httpError && dialogMessage || httpError && httpError.error && !httpError.error.message && dialogMessage"
+  class="text-center">
+    <span class="gna-text-secondary">
+       {{ dialogMessage }}
+    </span>
+  </div>
+
+    <div
+      *ngIf="httpError && httpError.error && !httpError.error.error && httpError.error.message"
+    class="text-center">
+    <span class="gna-text-secondary">
+      @if (httpError.status !== 500) {
+        <span>
+        {{ httpError.error.message }}
+      </span>
+      } @else {
+        <span>
+        {{ httpError.error.status }}
+      </span>
+      }
+    </span>
+    </div>
+  <div class="gna-dialog-bar">
+  </div>
+  <div class="text-center" style="color: #717171; font-size: 12px">
+    Vous pouvez cliquer sur le buton OK pour continuer vos actions d'enregistrement.
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="true" class="gna-btn-default-2 gna-btn-save">OK</button>
+</div>
+

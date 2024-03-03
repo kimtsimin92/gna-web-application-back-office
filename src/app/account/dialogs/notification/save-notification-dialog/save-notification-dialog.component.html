@@ -1,0 +1,22 @@
+<div class="gna-dialog-logo">
+  <img src="assets/gna/images/gna-logo.png">
+</div>
+<div mat-dialog-content>
+  <p class="text-success text-center">
+    <mat-icon>check_circle</mat-icon>
+  </p>
+  <h5 class="gna-text-secondary text-center mb-5">
+    <span *ngIf="dialogMessage">{{ dialogMessage }}</span>
+    <div class="gna-dialog-bar">
+    </div>
+  </h5>
+  <div class="text-center" style="color: #717171; font-size: 12px">
+    Vous pouvez cliquer sur le buton OK pour continuer.
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="true" class="gna-btn-default-2 gna-btn-save">OK</button>
+</div>
+
+
+

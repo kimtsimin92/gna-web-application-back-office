@@ -1,0 +1,105 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+$dark-primary-text: rgba(black, 0.87);
+$dark-secondary-text: rgba(black, 0.54);
+$dark-disabled-text: rgba(black, 0.38);
+$dark-dividers: rgba(black, 0.12);
+$dark-focused: rgba(black, 0.12);
+$light-primary-text: white;
+$light-secondary-text: rgba(white, 0.7);
+$light-disabled-text: rgba(white, 0.5);
+$light-dividers: rgba(white, 0.12);
+$light-focused: rgba(white, 0.12);
+
+@mixin color($theme) {
+
+  // Get the color config from the theme.
+  $color-config: mat.get-color-config($theme);
+
+  // Get the primary color palette from the color-config.
+  $primary-palette: map.get($color-config, 'primary');
+  $accent-palette: map.get($color-config, 'accent');
+  $warn-palette: map.get($color-config, 'warn');
+
+  .my-style {
+    color: mat.get-color-from-palette($primary-palette, 500);
+  }
+
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+}
+
+
+$gna-palette: (
+  50: #e8eaf6,
+  100: #7ed4ed,
+  200: #2960A3,
+  300: #2960A3,
+  400: #2960A3,
+  500: #2960A3,
+  600: #2960A3,
+  700: #2960A3,
+  800: #2960A3,
+  900: #2960A3,
+  A100: #2960A3,
+  A200: #2960A3,
+  A400: #2960A3,
+  A700: #2960A3,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $light-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  )
+);
+
+$gna-palette-accent: (
+  50: #e8eaf6,
+  100: #7ed4ed,
+  200: #F6993F,
+  300: #F6993F,
+  400: #F6993F,
+  500: #F6993F,
+  600: #F6993F,
+  700: #F6993F,
+  800: #F6993F,
+  900: #F6993F,
+  A100: #F6993F,
+  A200: #F6993F,
+  A400: #F6993F,
+  A700: #F6993F,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $light-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  )
+);
+
+

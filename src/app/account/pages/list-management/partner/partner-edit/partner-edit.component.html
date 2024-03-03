@@ -1,0 +1,97 @@
+<div class="gna-main-content">
+
+  <div class="gna-content-header">
+    <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
+  </div>
+
+  <div class="container-fluid gna-main-div-card">
+    <mat-card class="gna-card">
+      <mat-card-header class="gna-card-header">
+        <div class="gna-card-header-title">
+          Partenaire
+        </div>
+        <div class="gna-card-header-btn">
+          <div class="gna-card-header-btn-1">
+
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-cancel"
+                      (click)="onBack()"
+                      [disabled]="isSave">Annuler</button>
+          </div>
+          <div class="gna-card-header-btn-2">
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-save"
+                      [disabled]="!formData.valid || !modeEdit || isSave"
+                      (click)="openConfirmEdit()">Enregistrer</button>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="mt-4">
+
+          <form
+            [formGroup]="formData">
+            <div class="row pb-2">
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Code</mat-label>
+                  <input matInput
+                         formControlName="code"
+                         readonly>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Nom</mat-label>
+                  <input matInput
+                         required
+                         formControlName="name"
+                         [readonly]="!modeEdit || isSave">
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Adresse</mat-label>
+                  <input matInput
+                         formControlName="address"
+                         [readonly]="isSave">
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Téléphone</mat-label>
+                  <input matInput
+                         pattern="^\d{10}$"
+                         formControlName="phone"
+                         [readonly]="isSave">
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Email</mat-label>
+                  <input matInput
+                         formControlName="email"
+                         [readonly]="isSave">
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field appearance="outline" class="example-full-width gna-mff">
+                  <mat-label>Type Partenaire</mat-label>
+                  <mat-select formControlName="partnerType">
+                    @for (type of typeList; track type) {
+                      <mat-option [value]="type.id"
+                                  [disabled]="!modeEdit || isSave">{{type.name}}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

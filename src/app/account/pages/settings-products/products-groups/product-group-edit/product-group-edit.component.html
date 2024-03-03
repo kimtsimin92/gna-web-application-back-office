@@ -1,0 +1,284 @@
+<div class="gna-bc">
+  <span>Configuration Produit / Groupes Produits / Modification</span>
+</div>
+
+
+<div class="gna-main-content">
+
+  <div class="container-fluid gna-main-div-card">
+    <mat-card class="gna-card">
+      <mat-card-header class="gna-card-header">
+        <div class="gna-card-header-btn row">
+          <div class="col-12 col-sm-6">
+            <button mat-raised-button
+                    class="gna-btn-default gna-btn-cancel"
+                    (click)="onBack()"
+                    [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
+          </div>
+          <div class="col-12 col-sm-6">
+            @if (!formData.valid) {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-save"
+                      (click)="onGetNotBlankAlert()">Modifier</button>
+            } @else {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-save"
+                      [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                      (click)="onConfirm()">Modifier</button>
+            }
+          </div>
+
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="container-fluid">
+          <form
+            [formGroup]="formData">
+            <div class="row pb-2 gna-form">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">Nom Groupe produit</label>
+                <br>
+                <input pInputText
+                       type="text" id="name" aria-describedby="name-help" placeholder="Nom Groupe produit *" class="gna-form-input"
+                       required
+                       formControlName="name"/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="description">Description</label>
+                <br>
+                <input pInputText
+                       type="text" id="description" aria-describedby="description-help" placeholder="Description" class="gna-form-input"
+                       formControlName="description"/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                @if (branchList && branchList.length > 0) {
+                  <label>Branche</label>
+                  <br>
+                  <p-dropdown [options]="branchList" optionValue="name"
+                              optionLabel="name" placeholder="Branche *"
+                              class="gna-form-dropdown"
+                              formControlName="branchId"
+                              [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                    <ng-template let-branch pTemplate="item">
+                      <div class="flex align-items-center gap-2">
+                        <div>{{ branch.name }}</div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                } @else {
+                  <label>Branche</label>
+                  <br>
+                  <p-dropdown placeholder="Branche"
+                              class="gna-form-dropdown" [disabled]="isDisable"></p-dropdown>
+                }
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="accessoryAmountCompany">Montant accessoires Compagnie</label>
+                <br>
+                <input pInputText pKeyFilter="money"
+                       id="accessoryAmountCompany" aria-describedby="accessory-amount-company-help" placeholder="Montant accessoires Compagnie *" class="gna-form-input"
+                       type="number"
+                       pattern="^\d+$"
+                       min="1"
+                       formControlName="accessoryAmountCompany"
+                       [readonly]="isSave || accountService.pageLoading"/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="accessoryAmountCompany">Montant accessoires Intermédiaire</label>
+                <br>
+                <input pInputText pKeyFilter="money"
+                       id="accessoryAmountIntermediate" aria-describedby="accessory-amount-intermediate-help" placeholder="Montant accessoires Intermédiaire *" class="gna-form-input"
+                       type="number"
+                       pattern="^\d+$"
+                       min="1"
+                       formControlName="accessoryAmountIntermediate"
+                       [readonly]="isSave || accountService.pageLoading"/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="accessoryAmountCompany">Taux taxe accessoires</label>
+                <br>
+                <input pInputText pKeyFilter="money"
+                       id="accessoryTaxRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux taxe accessoires *" class="gna-form-input"
+                       type="number"
+                       pattern="^\d+$"
+                       min="1"
+                       formControlName="accessoryTaxRate"
+                       [readonly]="isSave || accountService.pageLoading"/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label>Règlement</label>
+                <br>
+                <p-dropdown formControlName="paymentMethodId" [options]="paymentMethodList" optionLabel="name" optionValue="name"
+                            placeholder="Règlement"
+                            class="gna-form-dropdown"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label>Périodicité</label>
+                <br>
+                <p-dropdown formControlName="periodicityId" [options]="periodicityList" optionLabel="name"  optionValue="name"
+                            placeholder="Périodicité"
+                            class="gna-form-dropdown"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label>Secteur d'assurance</label>
+                <br>
+                <p-dropdown formControlName="insuranceSectorId" [options]="insuranceSectorList" optionLabel="name"
+                            optionValue="name"
+                            placeholder="Secteur d'assurance"
+                            class="gna-form-dropdown"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                @if (apiList && apiList.length > 0) {
+                  <label>APIs</label>
+                  <br>
+                  <p-multiSelect [options]="apiList"
+                                 optionLabel="name"
+                                 optionValue="name"
+                                 placeholder="APIs"
+                                 class="gna-form-multiselect"
+                                 formControlName="apiIds"
+                                 [filter]="false"
+                                 [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                    <ng-template let-api pTemplate="item">
+                      <div class="flex align-items-center gap-2">
+                        <div>{{ api.name }}</div>
+                      </div>
+                    </ng-template>
+                  </p-multiSelect>
+                } @else {
+                  <label>APIs</label>
+                  <br>
+                  <p-dropdown placeholder="APIs"
+                              class="gna-form-dropdown" [disabled]="isDisable"></p-dropdown>
+                }
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <div class="row">
+                  <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <label>Mode gestion</label>
+                    <br>
+                    <p-checkbox formControlName="managementMode" [binary]="true" inputId="managementMode"
+                                class="gna-form-checkbox"
+                                [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
+                  </div>
+                  <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <label>Assurés multiples</label>
+                    <br>
+                    <p-checkbox formControlName="insuredMultiple" [binary]="true" inputId="insuredMultiple"
+                                class="gna-form-checkbox"
+                                [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label>Taux couverture</label>
+                <br>
+                <p-checkbox formControlName="coverageRate" [binary]="true" inputId="coverageRate"
+                            class="gna-form-checkbox"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
+              </div>
+            </div>
+          </form>
+          <mat-divider class="mt-3"></mat-divider>
+          <div class="row gna-form mb-3">
+
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+              @if (guaranteeList && guaranteeList.length > 0) {
+                <label>Garantie</label>
+                <br>
+                <p-dropdown [options]="guaranteeList"
+                            optionLabel="name" placeholder="Garantie *"
+                            class="gna-form-dropdown"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                  <ng-template let-guarantee pTemplate="guarantee">
+                    <div class="flex align-items-center gap-2"
+                         (click)="onSelectGuarantee(guarantee)">
+                      <div>
+                        {{ guarantee.name }}
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+              } @else {
+                <label>Garantie</label>
+                <br>
+                <p-dropdown placeholder="Garantie"
+                            class="gna-form-dropdown" [disabled]="isDisable"></p-dropdown>
+              }
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6 col-lg-9 col-xl-9 mt-5 btn-new">
+              @if (!guaranteeCode || guaranteeList && guaranteeList.length <= 0) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-add gna-disable">Ajouter</button>
+              } @else {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-add"
+                        (click)="onAddGuaranteeToTable()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Ajouter</button>
+              }
+            </div>
+
+          </div>
+          <div class="example-table-con ">
+            <table class="table table-borderless gi-table">
+              <thead>
+              <tr>
+                <th>Code garantie</th>
+                <th>Nom de la garantie</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+                @for (selectGuarantee of selectGuaranteeList | keyvalue; track selectGuarantee) {
+                  <tr>
+                    <td>
+                      @if (selectGuarantee.value.guaranteeCode) {
+                        {{ selectGuarantee.value.guaranteeCode }}
+                      } @else {
+                        {{ selectGuarantee.value.code }}
+                      }
+                    </td>
+                    <td>
+                      @if (selectGuarantee.value.guaranteeName) {
+                        {{ selectGuarantee.value.guaranteeName }}
+                      } @else {
+                        {{ selectGuarantee.value.name }}
+                      }
+                    </td>
+                    <td>
+                              <span class="gna-action-span-div">
+                      <span class="gna-action-span">
+                          <p-checkbox  [binary]="true" [(ngModel)]="selectGuarantee.value.mandatory"
+                                       [readonly]="isSave || accountService.pageLoading || accountService.isSave"
+                                       class="gna-table-checkbox"></p-checkbox>
+                      </span>
+                                        <span class="gna-action-span">
+                                          @if (isSave || accountService.pageLoading || accountService.isSave) {
+                                            <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2">
+                                          } @else {
+                                            <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2"
+                                                 (click)="onRemoveGuaranteeFromList(selectGuarantee.value)">
+                                          }
+                                      </span>
+                              </span>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr><td></td></tr>
+                  <tr><td></td></tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

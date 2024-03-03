@@ -1,0 +1,209 @@
+<main>
+
+  <div class="container-fluid">
+  <div class="row">
+
+    <div class="col-8 gna-login-page-banner">
+      <div class="gna-login-page-banner-logo">
+        <img src="assets/gna/images/gna-logo.png">
+      </div>
+      <div class="gna-login-page-banner-text">
+        <h2 class="gna-text-secondary gna-text-bold mb-4">Connectez-vous</h2>
+        <span class="text-light small">Accédez à votre espace personnel pour profiter pleinement des services dédiés à votre profil.</span>
+      </div>
+    </div>
+
+
+    <div class="col-4 gna-login-page-form">
+
+      <div class="gna-login-page-form-title">
+      <div class="gna-login-page-form-title-logo">
+        <img src="assets/gna/images/gna-logo.png">
+      </div>
+
+      <div class="gna-login-page-form-title-text">
+        <span>Votre identification</span>
+      </div>
+      </div>
+
+      <form
+        [formGroup]="form">
+        <div class="container-fluid">
+          <div class="row">
+          <div class="col-12">
+              <label for="username">Email</label>
+            <br>
+              <input pInputText type="email" id="username" aria-describedby="username-help" formControlName="username"
+                     required
+                     class="gna-login-page-input"
+                      [readonly]="auth.loading || auth.isError" />
+            <small id="username-help" class="gna-text-red"
+                   *ngIf="authRequest.username.invalid && (authRequest.username.dirty || authRequest.username.touched)">
+              <br>{{ getErrorMessageEmail() }}</small>
+          </div>
+          <div class="col-12 mt-3">
+              <label for="password">Mot de passe</label>
+            <br>
+              <span class="p-input-icon-right gna-login-page-icon">
+                    <i (click)="hide = !hide"
+                      class="{{hide ? 'pi pi-eye-slash gna-clickable' : 'pi pi-eye gna-clickable'}}"></i>
+              <input pInputText id="password" aria-describedby="password-help" formControlName="password"
+                     required
+                     [type]="hide ? 'password' : 'text'"
+              class="gna-login-page-input"
+                      [readonly]="auth.loading || auth.isError"/>
+                  </span>
+            <small id="password-help" class="gna-text-red"
+                   *ngIf="authRequest.password.invalid && (authRequest.password.dirty || authRequest.password.touched)">
+              <br>
+              {{ getErrorMessagePassword() }}</small>
+          </div>
+          </div>
+            <div class="mt-3">
+              <a routerLink="/login">Mot de passe oublié</a>
+            </div>
+          <div class="mt-5">
+            @if (form.valid && !auth.isError) {
+              <button mat-raised-button color="primary" (click)="onAuth()"
+                      [disabled]="auth.loading || auth.isError">   Connexion
+              </button>
+            } @else {
+              <button mat-raised-button color="primary">   Connexion
+              </button>
+            }
+          </div>
+        </div>
+      </form>
+
+    </div>
+
+  </div>
+  </div>
+
+</main>
+
+<footer>
+
+  <nav class="navbar navbar-expand-lg navbar-dark gna-login-page-footer fixed-bottom">
+
+    <div class="container-fluid">
+      <div class="container text-center">
+       <div class="gna-login-page-footer-text">
+         <span>
+           Mentions légales
+         </span>
+         <span>
+           CGU
+         </span>
+         <span>
+           Cookies
+         </span>
+         <span>
+           Politique de confidentialité
+         </span>
+       </div>
+      </div>
+    </div>
+
+  </nav>
+
+</footer>
+
+<!--
+<header *ngIf="!accountService.loadingPage">
+
+  <nav class="navbar navbar-expand-lg navbar-dark gna-navbar">
+
+    <div class="container-fluid gna-footer">
+
+    </div>
+
+  </nav>
+
+</header>
+<main
+  *ngIf="!accountService.loadingPage">
+
+
+    <div class="container login-container">
+    <div class="login-form row">
+
+      <div class="col">
+        <div class="text-center mb-3">
+          <img src="assets/gna/images/gna-logo.png" alt="" width="150">
+        </div>
+
+        <div class="row">
+
+          <div class="col">
+            <mat-card>
+              <mat-card-title class="login-card-title text-center text-white">
+                AUTHENTIFICATION
+              </mat-card-title>
+              <form
+                (ngSubmit)="onAuth()"
+                [formGroup]="form"
+                class="needs-validation mt-3" novalidate>
+                <div class="example-container">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Adresse email</mat-label>
+                    <input matInput  formControlName="username" required
+                           [readonly]="auth.loading || auth.isError">
+                    <mat-icon color="primary" matSuffix>email</mat-icon>
+                    <mat-error *ngIf="authRequest.username.invalid">{{getErrorMessageEmail()}}</mat-error>
+                  </mat-form-field>
+                  <mat-form-field  appearance="outline">
+                    <mat-label>Mot de passe</mat-label>
+                    <input matInput  [type]="hide ? 'password' : 'text'"
+                           formControlName="password" required
+                           [readonly]="auth.loading || auth.isError">
+                    <mat-icon matSuffix (click)="hide = !hide" color="primary">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    <mat-error *ngIf="authRequest.password.invalid">{{getErrorMessagePassword()}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="btn-new">
+                  <button mat-raised-button color="primary"
+                          [disabled]="!form.valid || auth.isError"
+                          class="login-btn">   Se connecter
+                    <mat-icon>login</mat-icon>
+                  </button>
+                </div>
+              </form>
+              <div class="login-fp">
+                <a routerLink="/login/password/forgot">Mot de passe oublié ?</a>
+              </div>
+            </mat-card>
+          </div>
+
+
+        </div>
+      </div>
+
+
+    </div>
+    </div>
+
+</main>
+<footer
+  *ngIf="!accountService.loadingPage">
+
+  <nav class="navbar navbar-expand-lg navbar-dark gna-navbar fixed-bottom">
+
+    <div class="container-fluid">
+
+      <div class="gna-footer">
+        <div class="container text-center">
+          <br>
+          <span class="login-text-footer">
+          <a href="https://gna.ci/" target="_blank">Génération Nouvelle d'Assurance</a> © 2024</span>
+        </div>
+      </div>
+
+    </div>
+
+  </nav>
+
+</footer>
+<app-gna-loading *ngIf="accountService.loadingPage"></app-gna-loading>
+-->
+

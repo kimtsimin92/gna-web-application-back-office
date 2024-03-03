@@ -1,0 +1,39 @@
+.example-full-width {
+  width: 100%;
+}
+
+.gna-home-img {
+  width: 60px;
+  height: 60px;
+}
+
+
+.gna-home-title {
+  color: #1C3694;
+  text-align: center;
+  margin-top: 140px;
+  margin-bottom: 30px;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+
+.gna-profile-card {
+  height: 440px;
+}
+
+.gna-profile-div-card {
+  margin-top: 35px;
+}
+
+.nav-item {
+  font-size: 12px;
+}
+.gna-profile-card-form {
+  height: 350px;
+  margin-top: 40px;
+}
+
+.btn-new {
+  text-align: end;
+}

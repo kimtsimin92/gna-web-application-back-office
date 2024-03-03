@@ -1,0 +1,49 @@
+<header class="gna-erp-header fixed-top">
+  <nav>
+    <p>
+      <mat-toolbar color="primary">
+       <!-- <button
+          (click)="onDrawerToggle()"
+          [disabled]="accountService.pageLoading || accountService.isSave"
+          mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+          <mat-icon>apps</mat-icon>
+        </button>-->
+        <span class="gna-ml gna-clickable">
+          <img src="assets/gna/images/51f51f4b-de2c-4033-8a43-44f4fff25edf.png"
+               width="80"
+               (click)="onDrawerToggle()">
+        </span>
+        <span class="gna-header-title">
+        </span>
+        <span *ngIf="headerTitle" class="gna-cursor-t">
+         {{ headerTitle }}
+        </span>
+        <span class="example-spacer"></span>
+             <button mat-icon-button [disabled]="accountService.pageLoading || accountService.isSave">
+          <mat-icon>notifications</mat-icon>
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="menu"
+                [disabled]="accountService.pageLoading || accountService.isSave">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <span class="btn-hmr">
+        <span *ngIf="auth.getUserFullName()">
+         <span class="gna-cursor">{{ auth.getUserFullName() }}</span>
+        </span>
+        </span>
+        <mat-menu #menu="matMenu">
+                    <button mat-menu-item
+                      (click)="onGoToProfile('/account/profile')">
+                      <span class="gna-header-text">Profil</span>
+                    </button>
+          <button mat-menu-item
+          (click)="auth.loadingLogout()">
+            <span class="gna-header-text">Déconnexion</span>
+          </button>
+        </mat-menu>
+      </mat-toolbar>
+    </p>
+
+  </nav>
+</header>
+

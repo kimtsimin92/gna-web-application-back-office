@@ -1,0 +1,34 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl"
+>
+            <!-- This is the tree node template for leaf nodes -->
+            <mat-tree-node *matTreeNodeDef="let node"
+                           (click)="onGetNodeToToggle(node)"
+                           [class.mtn-mh]="!node.name.icon"
+                           [disabled]="accountService.isSave"
+                           [ngClass]="{'mtn-selected': node.name.class}">
+              <mat-icon *ngIf="node.name.icon" class="gna-icon-ml gna-tree-node"
+                        (click)="onGoTo(node.name.link)">{{node.name.icon}}</mat-icon>
+               <span class="gna-tree-node"
+                     (click)="onGoTo(node)">{{node.name.name}}</span>
+            </mat-tree-node>
+            <!-- This is the tree node template for expandable nodes -->
+            <mat-tree-node *matTreeNodeDef="let node;when: hasChild"
+            (click)="onGetNodeToToggle(node)"
+                           [disabled]="accountService.isSave"
+                           [ngClass]="{'mtn-selected': node.name.class}">
+              <mat-icon *ngIf="node.name.icon" class="gna-icon-ml gna-tree-node">{{node.name.icon}}</mat-icon>
+              <span class="gna-tree-node" matTreeNodeToggle
+                    (click)="onGetNodeToToggle(node)">{{node.name.name}}
+              </span>
+              <span class="icon-mla">
+                 <button mat-icon-button matTreeNodeToggle
+                         [attr.aria-label]="'Toggle ' + node.name.name"
+                         (click)="onGetNodeToToggle(node)">
+                <mat-icon class="mat-icon-rtl-mirror gna-icon-white"
+                          (click)="onGetNodeToToggle(node)">
+                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+              </button>
+              </span>
+            </mat-tree-node>
+        </mat-tree>
