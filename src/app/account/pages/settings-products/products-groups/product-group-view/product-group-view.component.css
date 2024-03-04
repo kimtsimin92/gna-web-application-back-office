@@ -273,7 +273,6 @@ table th {
 .example-table-con {
   position: relative;
   max-height: 110px;
-  min-height: 110px;
   overflow: auto;
 }
 

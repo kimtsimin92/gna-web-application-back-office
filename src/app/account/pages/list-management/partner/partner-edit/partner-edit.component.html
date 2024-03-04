@@ -1,92 +1,109 @@
-<div class="gna-main-content">
+<div class="gna-bc">
+  <span>Gestion des listes / Partenaires / Modification</span>
+</div>
 
-  <div class="gna-content-header">
-    <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
-  </div>
+
+<div class="gna-main-content">
 
   <div class="container-fluid gna-main-div-card">
     <mat-card class="gna-card">
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-title">
-          Partenaire
-        </div>
-        <div class="gna-card-header-btn">
-          <div class="gna-card-header-btn-1">
-
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-cancel"
-                      (click)="onBack()"
-                      [disabled]="isSave">Annuler</button>
+        <div class="gna-card-header-btn row">
+          <div class="col-12 col-sm-6">
+            <button mat-raised-button
+                    class="gna-btn-default gna-btn-cancel"
+                    (click)="onBack()"
+                    [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
           </div>
-          <div class="gna-card-header-btn-2">
+          <div class="col-12 col-sm-6">
+            @if (!formData.valid) {
               <button mat-raised-button
                       class="gna-btn-default gna-btn-save"
-                      [disabled]="!formData.valid || !modeEdit || isSave"
-                      (click)="openConfirmEdit()">Enregistrer</button>
+                      (click)="onGetNotBlankAlert()">Modifier</button>
+            } @else {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-save"
+                      [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                      (click)="openConfirmEdit()">Modifier</button>
+            }
           </div>
+
         </div>
       </mat-card-header>
       <mat-card-content>
-        <div class="mt-4">
-
+        <div class="container-fluid">
           <form
             [formGroup]="formData">
-            <div class="row pb-2">
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Code</mat-label>
-                  <input matInput
-                         formControlName="code"
-                         readonly>
-                </mat-form-field>
+            <div class="row pb-2 gna-form">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">Nom Partenaire</label>
+                <input pInputText
+                       type="text" id="name" aria-describedby="name-help" placeholder="Nom Partenaire *" class="gna-form-input"
+                       required
+                       formControlName="name"/>
               </div>
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Nom</mat-label>
-                  <input matInput
-                         required
-                         formControlName="name"
-                         [readonly]="!modeEdit || isSave">
-                </mat-form-field>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                @if (typeList && typeList.length > 0) {
+                  <label>Type Partenaire</label>
+                  <p-dropdown [options]="typeList"
+                              optionLabel="name" optionValue="name" placeholder="Type partenaire *"
+                              class="gna-form-dropdown"
+                              formControlName="typeId"
+                              [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                    <ng-template let-type pTemplate="item">
+                      <div class="flex align-items-center gap-2">
+                        <div>{{ type.name }}</div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                } @else {
+                  <label>Type Partenaire</label>
+                  <br>
+                  <p-dropdown placeholder="Type Partenaire *"
+                              class="gna-form-dropdown" [disabled]="isDisable"></p-dropdown>
+                }
               </div>
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Adresse</mat-label>
-                  <input matInput
-                         formControlName="address"
-                         [readonly]="isSave">
-                </mat-form-field>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                @if (groupList && groupList.length > 0) {
+                  <label>Groupe Partenaire</label>
+                  <p-dropdown [options]="groupList"
+                              optionLabel="name" optionValue="name" placeholder="Groupe partenaire"
+                              class="gna-form-dropdown"
+                              formControlName="groupId"
+                              [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                    <ng-template let-type pTemplate="item">
+                      <div class="flex align-items-center gap-2">
+                        <div>{{ type.name }}</div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                } @else {
+                  <label>Groupe Partenaire</label>
+                  <br>
+                  <p-dropdown placeholder="Groupe Partenaire"
+                              class="gna-form-dropdown" [disabled]="isDisable"></p-dropdown>
+                }
               </div>
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Téléphone</mat-label>
-                  <input matInput
-                         pattern="^\d{10}$"
-                         formControlName="phone"
-                         [readonly]="isSave">
-                </mat-form-field>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="address">Adresse</label>
+                <input pInputText
+                       type="text" id="address" aria-describedby="name-help" placeholder="Adresse" class="gna-form-input"
+                       formControlName="address"/>
               </div>
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Email</mat-label>
-                  <input matInput
-                         formControlName="email"
-                         [readonly]="isSave">
-                </mat-form-field>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="address">Téléphone</label>
+                <input pInputText pKeyFilter="num"
+                       type="text" id="phone" aria-describedby="name-help" placeholder="Téléphone" class="gna-form-input"
+                       pattern="^\d{10}$"
+                       formControlName="phone"/>
               </div>
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Type Partenaire</mat-label>
-                  <mat-select formControlName="partnerType">
-                    @for (type of typeList; track type) {
-                      <mat-option [value]="type.id"
-                                  [disabled]="!modeEdit || isSave">{{type.name}}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="email">Email</label>
+                <input pInputText
+                       type="email" id="email" aria-describedby="name-help" placeholder="Email" class="gna-form-input"
+                       formControlName="email"/>
               </div>
             </div>
-
           </form>
 
         </div>

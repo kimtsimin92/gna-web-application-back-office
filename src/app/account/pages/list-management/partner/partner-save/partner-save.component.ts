@@ -9,7 +9,7 @@ import {MatOption} from "@angular/material/autocomplete";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatSelect} from "@angular/material/select";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
-import {NgIf} from "@angular/common";
+import {KeyValuePipe, NgIf} from "@angular/common";
 import {MenuItem} from "primeng/api";
 import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
@@ -35,29 +35,44 @@ import {
   ConfirmationEditDialogComponent
 } from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
+import {CheckboxModule} from "primeng/checkbox";
+import {DropdownModule} from "primeng/dropdown";
+import {InputTextModule} from "primeng/inputtext";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {KeyFilterModule} from "primeng/keyfilter";
+import {MatDivider} from "@angular/material/divider";
+import {MultiSelectModule} from "primeng/multiselect";
 
 @Component({
   selector: 'app-partner-save',
   standalone: true,
-    imports: [
-        BreadcrumbModule,
-        FormsModule,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatError,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        MatOption,
-        MatRadioButton,
-        MatRadioGroup,
-        MatSelect,
-        MatSlideToggle,
-        NgIf,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BreadcrumbModule,
+    FormsModule,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatError,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatOption,
+    MatRadioButton,
+    MatRadioGroup,
+    MatSelect,
+    MatSlideToggle,
+    NgIf,
+    ReactiveFormsModule,
+    CheckboxModule,
+    DropdownModule,
+    InputTextModule,
+    InputTextareaModule,
+    KeyFilterModule,
+    KeyValuePipe,
+    MatDivider,
+    MultiSelectModule
+  ],
   templateUrl: './partner-save.component.html',
   styleUrl: './partner-save.component.css'
 })
@@ -68,6 +83,7 @@ export class PartnerSaveComponent implements OnInit, OnDestroy {
   formData: FormGroup = new FormGroup({}, undefined, undefined);
   dataForm: PartnerSaveForm = new PartnerSaveForm();
   typeList: any[] = [];
+  groupList: any[] = [];
 
   modeEdit: boolean = false;
   isSave: boolean = false;
@@ -77,6 +93,7 @@ export class PartnerSaveComponent implements OnInit, OnDestroy {
 
   partnerData: any = null;
   loadingPage: boolean = false;
+  isDisable: boolean = true;
 
 
   constructor(
@@ -93,33 +110,11 @@ export class PartnerSaveComponent implements OnInit, OnDestroy {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Partenaires";
+    this.headerTitle = "Gestion des listes";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
-
-    if (localStorage.getItem("PARTNER_DATA")) {
-     // @ts-ignore
-      this.partnerData = JSON.parse(localStorage.getItem("PARTNER_DATA"));
-    }
-
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
-
-    this.items = [{ label: 'Gestion Listes' }, { label: 'Partenaires'}, {label: "Création"}];
-
-    if (localStorage.getItem("PARTNER_DATA")) {
-      this.modeEdit = false;
-      // @ts-ignore
-      this.partnerData = JSON.parse(localStorage.getItem("PARTNER_DATA"));
-      this.dataForm.code.setValue(this.partnerData.code);
-      this.dataForm.name.setValue(this.partnerData.name);
-      this.dataForm.partnerType.setValue(this.partnerData.type.id);
-     // this.dataForm.enabled.setValue(this.partnerData.enabled);
-    } else {
-      this.modeEdit = true;
-    }
-
-
     this.onGetTypeList();
+    this.onGetGroupList();
 
     this.formData = this._fb.group(this.dataForm);
 
@@ -144,6 +139,18 @@ export class PartnerSaveComponent implements OnInit, OnDestroy {
 
   }
 
+  onGetGroupList() {
+    this.accountService.getPartnerGroupList()
+      .subscribe((responseData) => {
+        console.info(responseData)
+        // @ts-ignore
+        this.groupList = responseData["body"];
+      }, (errorData) => {
+        console.info(errorData);
+      });
+
+  }
+
   openConfirmAdd(): void {
 
     this.isSave = true;
@@ -151,8 +158,8 @@ export class PartnerSaveComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
-      width: '370px',
-      height: '200px',
+      width: '400px',
+      height: '340px',
       data: {
         dialogMessage: "de ce partenaire"
       },
@@ -193,12 +200,20 @@ export class PartnerSaveComponent implements OnInit, OnDestroy {
     this.openSaveLoadingDialog();
 
     let requestData = {
-      token: this.accountService.getToken(),
       name: this.formData.value.name,
       address: this.formData.value.address,
       phone: this.formData.value.phone,
       email: this.formData.value.email,
-      typeId: this.formData.value.partnerType
+      typeId: null,
+      groupId: null
+    }
+
+    if (this.formData.value.typeId) {
+      requestData.typeId = this.formData.value.typeId.id;
+    }
+
+    if (this.formData.value.groupId) {
+      requestData.groupId = this.formData.value.groupId.id;
     }
 
     console.log(requestData);
@@ -237,7 +252,7 @@ export class PartnerSaveComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/partners/edit")
+      this._router.navigateByUrl("/account/partners/list")
         .then(() => {
           // @ts-ignore
           localStorage.setItem("PARTNER_DATA", JSON.stringify(this.partnerData));

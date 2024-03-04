@@ -33,6 +33,11 @@ import {
   GuaranteeClauseEditorDialogComponent
 } from "../guarantee-clause-editor-dialog/guarantee-clause-editor-dialog.component";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
+import {InputTextModule} from "primeng/inputtext";
+import {KeyFilterModule} from "primeng/keyfilter";
+import {DropdownModule} from "primeng/dropdown";
+import {MultiSelectModule} from "primeng/multiselect";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 @Component({
   selector: 'app-guarantee-add',
@@ -57,7 +62,12 @@ import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
     MatTabGroup,
     EditorModule,
     MatRadioButton,
-    MatRadioGroup
+    MatRadioGroup,
+    InputTextModule,
+    KeyFilterModule,
+    DropdownModule,
+    MultiSelectModule,
+    InputTextareaModule
   ],
   templateUrl: './guarantee-add.component.html',
   styleUrl: './guarantee-add.component.css'
@@ -77,9 +87,20 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
   guaranteeData: any = null;
   loadingPage: boolean = false;
 
-  periodList: any[] = []
-  zoneList: any[] = []
-  partnerList: any[] = []
+  yesOrNoList: any[] = [
+    {
+      value: true,
+      name: "Oui",
+    },
+    {
+      value: false,
+      name: "Non",
+    },
+  ];
+
+  periodList: any[] = [];
+  zoneList: any[] = [];
+  partnerList: any[] = [];
 
   guaranteeClauses: any;
 
@@ -104,7 +125,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Garanties";
+    this.headerTitle = "Configuration des produits";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
 
@@ -144,8 +165,8 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
-      width: '380px',
-      height: '200px',
+      width: '400px',
+      height: '340px',
       data: {
         dialogMessage: "de cette garantie"
       },
@@ -198,12 +219,30 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
       guaranteeFloor: this.formData.value.guaranteeFloor,
       guaranteeCeiling: this.formData.value.guaranteeCeiling,
       premiumMinimum: this.formData.value.premiumMinimum,
-      discountApplicable: this.formData.value.discountApplicable,
-      zoneId: this.formData.value.zone,
-      partnerIds: this.formData.value.partners,
+      discountApplicable: null,
+      zoneId: null,
+      partnerIds: [],
       description: this.formData.value.description,
       clauses: this.guaranteeClauses,
       enabled: this.formData.value.enabled
+    }
+
+    if (this.formData.value.discountApplicable) {
+      requestData.discountApplicable = this.formData.value.discountApplicable.value;
+    }
+
+    if (this.formData.value.zone) {
+      requestData.zoneId = this.formData.value.zone.id;
+    }
+
+    if (this.formData.value.partners) {
+      let partners = this.formData.value.partners;
+      if (partners.length > 0) {
+        partners.forEach((p: any) => {
+          // @ts-ignore
+          requestData.partnerIds.push(p.id);
+        });
+      }
     }
 
     console.log(requestData);
@@ -241,7 +280,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/guarantees/edit")
+      this._router.navigateByUrl("/account/guarantees/list")
         .then(() => {
           // @ts-ignore
           localStorage.setItem("GUARANTEE_DATA", JSON.stringify(this.guaranteeData));
@@ -256,7 +295,8 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
+      height: '340px',
       data: {
         httpError: error,
         dialogMessage: "L'enregistrement de cette garantie a échoué."
@@ -281,7 +321,8 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onGetNotBlankAlert() {
     const dialogRef = this._dialog.open(NotBlankDialogComponent, {
-      width: '440px',
+      width: '400px',
+      height: '340px',
     });
 
     dialogRef.afterClosed().subscribe(result => {});

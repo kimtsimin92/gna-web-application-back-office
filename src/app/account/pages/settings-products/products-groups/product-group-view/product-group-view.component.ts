@@ -29,26 +29,28 @@ import {
   SaveErrorNotificationDialogComponent
 } from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 @Component({
   selector: 'app-product-group-view',
   standalone: true,
-    imports: [
-        CheckboxModule,
-        DropdownModule,
-        InputTextModule,
-        KeyFilterModule,
-        KeyValuePipe,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatDivider,
-        MultiSelectModule,
-        PaginatorModule,
-        ReactiveFormsModule,
-        SharedModule,
-    ],
+  imports: [
+    CheckboxModule,
+    DropdownModule,
+    InputTextModule,
+    KeyFilterModule,
+    KeyValuePipe,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatDivider,
+    MultiSelectModule,
+    PaginatorModule,
+    ReactiveFormsModule,
+    SharedModule,
+    InputTextareaModule,
+  ],
   templateUrl: './product-group-view.component.html',
   styleUrl: './product-group-view.component.css'
 })

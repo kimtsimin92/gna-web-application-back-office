@@ -491,8 +491,8 @@ a {
 .gna-card {
   position: relative;
   margin: 20px;
-  min-height: 495px!important;
-  max-height: 495px!important;
+  min-height: 500px!important;
+  max-height: 500px!important;
   overflow: auto;
 }
 
@@ -855,6 +855,36 @@ th, td {
   opacity: 1!important;
 }
 
+.gna-list-status-green {
+  text-align: center;
+  display: block;
+  width: 60px;
+  height: 18px;
+  color: #203A79CC;
+  font-size: 10px!important;
+  background-color: #B6F8BD;
+  border-radius: 3px;
+  padding-top: 1px;
+  border: 1px solid rgba(28, 155, 216, 0.5) !important;
+  box-shadow: 0 1px 0 #1C9BD81A;
+  opacity: 1!important;
+}
+
+.gna-list-status-red {
+  text-align: center;
+  display: block;
+  width: 60px;
+  height: 18px;
+  color: #FFFFFFCC;
+  font-size: 10px!important;
+  background-color: #C9273A;
+  border-radius: 3px;
+  padding-top: 1px;
+  border: 1px solid rgba(28, 155, 216, 0.5) !important;
+  box-shadow: 0 1px 0 #1C9BD81A;
+  opacity: 1!important;
+}
+
 .gna-pagination {
   display: flex;
   justify-content: flex-end;
@@ -918,18 +948,24 @@ th, td {
 }
 
 .gna-form-input {
-  margin-top: 5px!important;
   width: 100%!important;
   border: 1px solid rgba(29, 53, 146, 0.5) !important;
-  border-radius: 5px!important;
+  border-radius: 2px!important;
 }
 
 .gna-form .p-inputtext.ng-dirty.ng-invalid {
   border-color: #e24c4c!important;
 }
 
-.gna-form-multiselect .p-multiselect {
+
+.gna-form-textarea .p-inputtextarea {
   margin-top: 5px;
+  width: 100%!important;
+  border: 1px solid rgba(29, 53, 146, 0.5);
+  border-radius: 2px!important;
+}
+
+.gna-form-multiselect .p-multiselect {
   width: 100%!important;
   border: 1px solid rgba(29, 53, 146, 0.5);
   border-radius: 2px!important;
@@ -987,7 +1023,6 @@ th, td {
 }
 
 .gna-form-dropdown .p-dropdown {
-  margin-top: 5px;
   width: 100%!important;
   border: 1px solid rgba(29, 53, 146, 0.5);
   border-radius: 2px!important;
@@ -1045,8 +1080,14 @@ th, td {
 }
 
 .gna-table-btn {
-  width: 15px!important;
-  height: 15px!important;
+  width: 13px!important;
+  height: 13px!important;
+}
+
+.gna-table-btn-enable {
+  width: 25px!important;
+  height: 25px!important;
+  padding-bottom: 5px!important;
 }
 
 .gna-table-btn-2 {
@@ -1067,7 +1108,7 @@ th, td {
   text-align: center!important;
   box-shadow: 0 3px 6px #00000029;
   opacity: 1;
-  margin-left: 40%;
+  margin-left: 42%;
 }
 
 .gna-dialog-logo img {
@@ -1076,7 +1117,7 @@ th, td {
 }
 
 .gna-dialog-bar {
-  margin-left: 30% !important;
+  margin-left: 32% !important;
   margin-top: 15px;
   margin-bottom: 40px;
   height: 3px!important;
@@ -1088,3 +1129,7 @@ th, td {
   border: 1px solid rgba(29, 53, 146, 0.5)!important;
 }
 
+.gna-btn-clauses {
+  border: 1px solid rgba(29, 53, 146, 0.5)!important;
+  height: 32px!important;
+}

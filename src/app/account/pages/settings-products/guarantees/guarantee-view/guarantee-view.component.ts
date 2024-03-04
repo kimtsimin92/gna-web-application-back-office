@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {GuaranteeForm} from "../guarantee-form";
 import {MenuItem} from "primeng/api";
 import {MatDialog} from "@angular/material/dialog";
@@ -28,6 +28,12 @@ import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {DecimalPipe, NgIf} from "@angular/common";
 import {ChipModule} from "primeng/chip";
 import {MatChipListbox, MatChipOption} from "@angular/material/chips";
+import {DropdownModule} from "primeng/dropdown";
+import {InputTextModule} from "primeng/inputtext";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {KeyFilterModule} from "primeng/keyfilter";
+import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import {MultiSelectModule} from "primeng/multiselect";
 
 @Component({
   selector: 'app-guarantee-view',
@@ -42,7 +48,16 @@ import {MatChipListbox, MatChipOption} from "@angular/material/chips";
     NgIf,
     ChipModule,
     MatChipListbox,
-    MatChipOption
+    MatChipOption,
+    DropdownModule,
+    FormsModule,
+    InputTextModule,
+    InputTextareaModule,
+    KeyFilterModule,
+    MatTab,
+    MatTabGroup,
+    MultiSelectModule,
+    ReactiveFormsModule
   ],
   templateUrl: './guarantee-view.component.html',
   styleUrl: './guarantee-view.component.css'
@@ -62,6 +77,12 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
 
   guaranteeClauses: any;
   private loadingPage: boolean = false;
+  isDisable: boolean = true;
+  periodList: any[] = [];
+  yesOrNoList: any[] = [];
+  zoneList: any[] = [];
+  partnerList: any[] = [];
+  guaranteeItemsData: any;
 
   constructor(
     private _fb: FormBuilder,
@@ -75,6 +96,31 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
     if (localStorage.getItem("GUARANTEE_DATA")) {
       // @ts-ignore
       this.guaranteeData = JSON.parse(localStorage.getItem("GUARANTEE_DATA"));
+
+      if (this.guaranteeData.deficiencyDeadlineUnit) {
+        this.periodList.push(this.guaranteeData.deficiencyDeadlineUnit.name);
+      }
+
+      if (this.guaranteeData.zone) {
+        this.zoneList.push(this.guaranteeData.zone.name);
+      }
+
+      if (this.guaranteeData.discountApplicable) {
+        this.yesOrNoList.push("Oui");
+      } else {
+        this.yesOrNoList.push("Non");
+      }
+
+      if (this.guaranteeData.partners && this.guaranteeData.partners.length > 0) {
+        this.guaranteeData.partners.forEach((p: any) => {
+          this.partnerList.push(p.name);
+        });
+      }
+
+      if (this.guaranteeData.items) {
+        this.guaranteeItemsData = this.guaranteeData.items;
+      }
+
     } else {
       this._router.navigateByUrl("/account/guarantees/list")
     }
@@ -83,7 +129,7 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Guarantees";
+    this.headerTitle = "Configuration des produits";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
     this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
@@ -288,16 +334,13 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
   openClauseEditorDialog() {
     const dialogRef = this._dialog.open(GuaranteeClauseEditorDialogComponent, {
       hasBackdrop: false,
-      data: {guaranteeClauses: this.guaranteeClauses},
+      data: {guaranteeClauses: this.guaranteeData.clauses, isView: true},
       width: '900px',
       height: '900'
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
-      if (result && result.length > 0) {
-        this.guaranteeClauses = result;
-      }
     });
   }
 

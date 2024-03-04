@@ -277,3 +277,24 @@ table th {
 .example-margin {
   margin: 0 10px;
 }
+
+.example-table-con {
+  position: relative;
+  max-height: 180px;
+  overflow: auto;
+}
+
+.gi-table {
+  border: 1px solid #2960A3!important;
+}
+
+
+.gi-table th {
+  background-color: #2960A3!important;
+  color: white!important;
+  font-size: 11px!important;
+}
+
+.gi-table td {
+  color: #2960A3!important;
+}

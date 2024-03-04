@@ -128,7 +128,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Configuration Produit";
+    this.headerTitle = "Configuration des produits";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
     this.items = [{ label: 'Configuration Produits' }, { label: 'Garanties' }];

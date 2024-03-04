@@ -1,61 +1,74 @@
-<div class="gna-main-content">
+<div class="gna-bc">
+  <span>Gestion des listes / Partenaires / Voir</span>
+</div>
 
-  <div class="gna-content-header">
-    <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
-  </div>
+<div class="gna-main-content">
 
   <div class="container-fluid gna-main-div-card">
     <mat-card class="gna-card">
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-title">
-          Partenaire
-        </div>
-        <div class="gna-card-header-btn">
-          <div class="gna-card-header-btn-1">
-
-            <button mat-stroked-button color="primary"
-                    class="gna-btn-default"
+        <div class="gna-card-header-btn row">
+          <div class="col-12 col-sm-6">
+            <button mat-raised-button
+                    class="gna-btn-default" color="primary"
                     (click)="onBack()">Retour</button>
           </div>
-          <div class="gna-card-header-btn-2">
-            <button mat-stroked-button color="primary"
-                    class="gna-btn-default"
-                    (click)="onGoToEdit()">Modifier</button>
-          </div>
+
         </div>
       </mat-card-header>
       <mat-card-content>
-        <div class="mt-4">
-          <div class="card">
-            <div class="card-body gna-card-body">
-            <div class="row">
-              <div class="col-3">
-                <span class="gna-view-label">Code : </span>
-                <span class="gna-view-value">{{ partnerData.code }}</span>
+        <div class="container-fluid">
+            <div class="row pb-2 gna-form">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">Nom Partenaire</label>
+                <input pInputText
+                       type="text" id="name" aria-describedby="name-help" placeholder="Nom Partenaire *" class="gna-form-input"
+                [value]="partnerData.name" [disabled]="isDisable"/>
               </div>
-              <div class="col-3">
-                <span class="gna-view-label">Nom : </span>
-                <span class="gna-view-value">{{ partnerData.name }}</span>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                  <label>Type Partenaire</label>
+                @if (partnerData.type) {
+                  <p-dropdown [disabled]="isDisable"
+                              [options]="typeList"
+                              class="gna-form-dropdown"></p-dropdown>
+                } @else {
+                  <p-dropdown [disabled]="isDisable"
+                              [options]="typeList" placeholder="Type Partenaire"
+                              class="gna-form-dropdown"></p-dropdown>
+                }
               </div>
-              <div class="col-3">
-                <span class="gna-view-label">Adresse : </span>
-                <span class="gna-view-value">{{ partnerData.address }}</span>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                  <label>Groupe Partenaire</label>
+                @if (partnerData.group) {
+                  <p-dropdown [disabled]="isDisable"
+                              [options]="groupList"
+                              class="gna-form-dropdown"></p-dropdown>
+                } @else {
+                  <p-dropdown [disabled]="isDisable"
+                              [options]="groupList" placeholder="Groupe Partenaire"
+                              class="gna-form-dropdown"></p-dropdown>
+                }
               </div>
-              <div class="col-3">
-                <span class="gna-view-label">Téléphone : </span>
-                <span class="gna-view-value">{{ partnerData.phone }}</span>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="address">Adresse</label>
+                <input pInputText
+                       type="text" id="address" aria-describedby="name-help" placeholder="Adresse" class="gna-form-input"
+                       [value]="partnerData.address" [disabled]="isDisable"/>
               </div>
-              <div class="col-3">
-                <span class="gna-view-label">Email : </span>
-                <span class="gna-view-value">{{ partnerData.email }}</span>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="address">Téléphone</label>
+                <input pInputText pKeyFilter="num"
+                       type="text" id="phone" aria-describedby="name-help" placeholder="Téléphone" class="gna-form-input"
+                       [value]="partnerData.phone" [disabled]="isDisable"/>
               </div>
-              <div class="col-3">
-                <span class="gna-view-label">Type Partenaire : </span>
-                <span class="gna-view-value">{{ partnerData.type.name }}</span>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="email">Email</label>
+                <input pInputText
+                       type="email" id="email" aria-describedby="name-help" placeholder="Email" class="gna-form-input"
+                       [value]="partnerData.email" [disabled]="isDisable"/>
               </div>
             </div>
-            </div>
-            </div>
+
         </div>
       </mat-card-content>
     </mat-card>

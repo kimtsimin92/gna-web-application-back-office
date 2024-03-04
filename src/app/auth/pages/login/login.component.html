@@ -59,16 +59,16 @@
               {{ getErrorMessagePassword() }}</small>
           </div>
           </div>
-            <div class="mt-3">
+            <div class="mt-3 small">
               <a routerLink="/login">Mot de passe oublié</a>
             </div>
           <div class="mt-5">
             @if (form.valid && !auth.isError) {
               <button mat-raised-button color="primary" (click)="onAuth()"
-                      [disabled]="auth.loading || auth.isError">   Connexion
+                      [disabled]="auth.loading || auth.isError || accountService.pageLoading">Se connecter
               </button>
             } @else {
-              <button mat-raised-button color="primary">   Connexion
+              <button mat-raised-button color="primary" class="gna-disable">Se connecter
               </button>
             }
           </div>

@@ -1,32 +1,30 @@
-<div class="gna-main-content">
+<div class="gna-bc">
+  <span>Configuration des produits / Garanties / Modification</span>
+</div>
 
-  <div class="gna-content-header">
-    <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
-  </div>
+
+<div class="gna-main-content">
 
   <div class="container-fluid gna-main-div-card">
     <mat-card class="gna-card">
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-title">
-          <span>Garantie</span>
-        </div>
-        <div class="gna-card-header-btn">
-          <div class="gna-card-header-btn-1">
+        <div class="gna-card-header-btn row">
+          <div class="col-12 col-sm-6">
             <button mat-raised-button
                     class="gna-btn-default gna-btn-cancel"
                     (click)="onBack()"
                     [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
           </div>
-          <div class="gna-card-header-btn-2">
+          <div class="col-12 col-sm-6">
             @if (!formData.valid) {
               <button mat-raised-button
                       class="gna-btn-default gna-btn-save"
-                      (click)="onGetNotBlankAlert()">Enregistrer</button>
+                      (click)="onGetNotBlankAlert()">Modifier</button>
             } @else {
               <button mat-raised-button
                       class="gna-btn-default gna-btn-save"
-                      [disabled]="!formData.valid || isSave || accountService.pageLoading || accountService.isSave"
-                      (click)="onConfirm()">Enregistrer</button>
+                      [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                      (click)="onConfirm()">Modifier</button>
             }
           </div>
 
@@ -34,249 +32,173 @@
       </mat-card-header>
       <mat-card-content>
         <mat-tab-group>
-          <mat-tab label="Informations Garantie" [disabled]="isSave || accountService.pageLoading || accountService.isSave">
-            <div class="container-fluid mt-5">
+          <mat-tab label="Informations Garantie" [disabled]="isSave">
+            <div class="container-fluid">
               <form
                 [formGroup]="formData">
-                <div class="row pb-2">
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Code</mat-label>
-                      <input matInput
-                             readonly
-                             formControlName="code">
-                    </mat-form-field>
+                <div class="row pb-2 gna-form">
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="name">Nom Garantie</label>
+                    <input pInputText
+                           type="text" id="name" aria-describedby="name-help" placeholder="Nom Garantie *" class="gna-form-input"
+                           required
+                           formControlName="name"/>
                   </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Nom</mat-label>
-                      <input matInput
-                             required
-                             formControlName="name"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="name">Taux de taxe</label>
+                    <input pInputText pKeyFilter="money"
+                           id="taxRate" aria-describedby="name-help" placeholder="Taux de taxe *" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           min="1"
+                           required
+                           formControlName="taxRate"/>
                   </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Taux de taxe</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+(\.\d+)?$"
-                             required
-                             formControlName="taxRate"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="name">Taux franchise</label>
+                    <input pInputText pKeyFilter="money"
+                           id="franchiseRate" aria-describedby="name-help" placeholder="Taux franchise" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           formControlName="franchiseRate"/>
                   </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Taux franchise</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+$"
-                             min="1"
-                             formControlName="franchiseRate"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="franchiseMinimum">Franchise minimum</label>
+                    <input pInputText pKeyFilter="money"
+                           id="franchiseMinimum" aria-describedby="accessory-amount-company-help" placeholder="Franchise minimum" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           formControlName="franchiseMinimum"
+                           max="{{franchiseMaximum.value}}"
+                           #franchiseMinimum
+                           [readonly]="isSave || accountService.pageLoading"/>
                   </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Franchise minimum</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+$"
-                             min="1"
-                             max="{{franchiseMaximum.value}}"
-                             #franchiseMinimum
-                             formControlName="franchiseMinimum"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="franchiseMinimum">Franchise maximum</label>
+                    <input pInputText pKeyFilter="money"
+                           id="franchiseMaximum" aria-describedby="accessory-amount-company-help" placeholder="Franchise maximum" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           formControlName="franchiseMaximum"
+                           #franchiseMaximum
+                           [readonly]="isSave || accountService.pageLoading"/>
                   </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Franchise maximum</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+$"
-                             min="{{franchiseMinimum.value}}"
-                             #franchiseMaximum
-                             formControlName="franchiseMaximum"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
-                  </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Durée minimum souscription</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+$"
-                             min="1"
-                             max="{{subscriptionMaximumPeriod.value}}"
-                             required
-                             #subscriptionMinimumPeriod
-                             formControlName="subscriptionMinimumPeriod"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
-                  </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Durée maximum souscription</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+$"
-                             min="{{subscriptionMinimumPeriod.value}}"
-                             required
-                             #subscriptionMaximumPeriod
-                             formControlName="subscriptionMaximumPeriod"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
-                  </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Délai de carence</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+$"
-                             min="1"
-                             #deficiencyDeadline
-                             formControlName="deficiencyDeadline"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
-                  </div>
-                  <div class="col-3">
-                    @if (periodList && periodList.length > 0) {
-                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                        <mat-label>Unité délai de carence</mat-label>
-                        <mat-select formControlName="deficiencyDeadlineUnit"
-                                    [required]="deficiencyDeadline && deficiencyDeadline.value.length > 0">
-                          <mat-option>Aucun</mat-option>
-                          @for (period of periodList; track period) {
-                            <mat-option [value]="period.id"
-                                        [disabled]="deficiencyDeadline && deficiencyDeadline.value.length <= 0 || isSave || accountService.pageLoading">{{period.name}}</mat-option>
-                          }
-                        </mat-select>
-                      </mat-form-field>
-                    } @else {
-                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                        <mat-label>Unité délai de carence</mat-label>
-                        <mat-select disabled>
-                          <mat-option>Accune données disponible</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    }
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="subscriptionMinimumPeriod">Durée minimum souscription</label>
+                    <input pInputText pKeyFilter="int"
+                           id="subscriptionMinimumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée minimum souscription *" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           min="1"
+                           max="{{subscriptionMaximumPeriod.value}}"
+                           required
+                           #subscriptionMinimumPeriod
+                           formControlName="subscriptionMinimumPeriod"
+                           [readonly]="isSave || accountService.pageLoading"/>
                   </div>
 
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Plancher de garantie</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+$"
-                             min="1"
-                             formControlName="guaranteeFloor"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="subscriptionMaximumPeriod">Durée maximum souscription</label>
+                    <input pInputText pKeyFilter="int"
+                           id="subscriptionMaximumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée maximum souscription *" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           min="{{subscriptionMinimumPeriod.value}}"
+                           required
+                           #subscriptionMaximumPeriod
+                           formControlName="subscriptionMaximumPeriod"
+                           [readonly]="isSave || accountService.pageLoading"/>
                   </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Plafond de garantie</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+$"
-                             min="1"
-                             formControlName="guaranteeCeiling"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="premiumMinimum">Prime minimum</label>
+                    <input pInputText pKeyFilter="money"
+                           id="premiumMinimum" aria-describedby="accessory-amount-company-help" placeholder="Prime minimum *" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           min="1"
+                           required
+                           formControlName="premiumMinimum"
+                           [readonly]="isSave || accountService.pageLoading"/>
                   </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Prime minimum</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+$"
-                             min="1"
-                             required
-                             formControlName="premiumMinimum"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Délai de carence</label>
+                    <input pInputText pKeyFilter="int"
+                           id="deficiencyDeadline" aria-describedby="accessory-amount-company-help" placeholder="Délai de carence" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           #deficiencyDeadline
+                           formControlName="deficiencyDeadline"
+                           [readonly]="isSave || accountService.pageLoading"/>
                   </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Réduction applicable</mat-label>
-                      <mat-select
-                        required
-                        formControlName="discountApplicable">
-                        <mat-option [disabled]="isSave" value="true">Oui</mat-option>
-                        <mat-option [disabled]="isSave" value="false">Non</mat-option>
-                      </mat-select>
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Unité délai de carence</label>
+                    <p-dropdown formControlName="deficiencyDeadlineUnit" [options]="periodList" optionLabel="name" optionValue="name"
+                                placeholder="Unité délai de carence"
+                                class="gna-form-dropdown"
+                                [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                   </div>
-                  <div class="col-3">
-                    @if (zoneList && zoneList.length > 0) {
-                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                        <mat-label>Territoire</mat-label>
-                        <mat-select formControlName="zone"
-                                    required>
-                          @for (zone of zoneList; track zone) {
-                            <mat-option [value]="zone.id"
-                                        [disabled]="isSave || accountService.pageLoading">{{zone.name}}</mat-option>
-                          }
-                        </mat-select>
-                      </mat-form-field>
-                    } @else {
-                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                        <mat-label>Territoire</mat-label>
-                        <mat-select disabled>
-                          <mat-option>Accune données disponible</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    }
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="guaranteeFloor">Plancher de garantie</label>
+
+                    <input pInputText pKeyFilter="money"
+                           id="guaranteeFloor" aria-describedby="accessory-amount-company-help" placeholder="Plancher de garantie" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           formControlName="guaranteeFloor"
+                           [readonly]="isSave || accountService.pageLoading"/>
                   </div>
-                  <div class="col-3">
-                    @if (zoneList && zoneList.length > 0) {
-                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                        <mat-label>Partenaires techniques</mat-label>
-                        <mat-select formControlName="partners" multiple
-                                    required>
-                          @for (partner of partnerList; track partner) {
-                            <mat-option [value]="partner.id"
-                                        [disabled]="isSave || accountService.pageLoading">{{partner.name}}</mat-option>
-                          }
-                        </mat-select>
-                      </mat-form-field>
-                    } @else {
-                      <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                        <mat-label>Partenaires techniques</mat-label>
-                        <mat-select disabled>
-                          <mat-option>Accune données disponible</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    }
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="guaranteeCeiling">Plafond de garantie</label>
+                    <input pInputText pKeyFilter="money"
+                           id="guaranteeCeiling" aria-describedby="accessory-amount-company-help" placeholder="Plafond de garantie" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           formControlName="guaranteeCeiling"
+                           [readonly]="isSave || accountService.pageLoading"/>
                   </div>
-                  <div class="col-6">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mfft">
-                      <mat-label>Description</mat-label>
-                      <textarea matInput
-                                formControlName="description"></textarea>
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Réduction applicable</label>
+                    <p-dropdown formControlName="discountApplicable" [options]="yesOrNoList" optionLabel="name" optionValue="name"
+                                placeholder="Réduction applicable *"
+                                class="gna-form-dropdown"
+                                [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                   </div>
-                  <div class="col-3">
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Territoire</label>
+                    <br>
+                    <p-dropdown formControlName="zone" [options]="zoneList" optionLabel="name"
+                                optionValue="name"
+                                placeholder="Territoire *"
+                                class="gna-form-dropdown"
+                                [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Partenaires techniques</label>
+                    <p-multiSelect [options]="partnerList"
+                                   optionLabel="name"  optionValue="name"
+                                   placeholder="Partenaires techniques"
+                                   class="gna-form-multiselect"
+                                   formControlName="partners"
+                                   [filter]="false"
+                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                      <ng-template let-partner pTemplate="item">
+                        <div class="flex align-items-center gap-2">
+                          <div>{{ partner.name }}</div>
+                        </div>
+                      </ng-template>
+                    </p-multiSelect>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Clauses</label>
                     <button
                       type="button"
-                      mat-stroked-button color="primary" class="example-full-width"
-                      (click)="openClauseEditorDialog()">Clauses</button>
+                      mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
+                      (click)="openClauseEditorDialog()">Ajouter</button>
                   </div>
-                  <div class="col-3">
-                    <section>
-                      <label class="example-margin">Statut:</label>
-                      <mat-radio-group formControlName="enabled">
-                        <mat-radio-button color="primary"
-                                          [disabled]="isSave || accountService.pageLoading"
-                                          value="true">Activé</mat-radio-button>
-                        <mat-radio-button color="primary"
-                                          [disabled]="isSave || accountService.pageLoading"
-                                          value="false">Désactivé</mat-radio-button>
-                      </mat-radio-group>
-                    </section>
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <label>Description</label>
+                    <textarea rows="2" pInputTextarea formControlName="description"
+                              class="gna-form-input"></textarea>
                   </div>
                 </div>
 
@@ -284,101 +206,69 @@
             </div>
           </mat-tab>
           <mat-tab label="Sous Garanties" [disabled]="isSave || accountService.pageLoading || accountService.isSave">
-            <div class="container-fluid mt-5">
+            <div class="container-fluid">
               <form
                 [formGroup]="formDataItem">
-                <div class="row pb-2">
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Code</mat-label>
-                      <input matInput
-                             readonly
-                             formControlName="code">
-                    </mat-form-field>
+                <div class="row pb-2 gna-form">
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Nom Sous garantie</label>
+                    <input pInputText
+                           type="text" aria-describedby="name-help" placeholder="Nom sous garantie *" class="gna-form-input"
+                           required
+                           formControlName="name"
+                           [readonly]="isSave || accountService.pageLoading"/>
                   </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Nom</mat-label>
-                      <input matInput
-                             required
-                             formControlName="name"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Taux franchise</label>
+                    <input pInputText pKeyFilter="money"
+                           aria-describedby="name-help" placeholder="Taux franchise" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           formControlName="franchiseRate"/>
                   </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Capital</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+$"
-                             min="1"
-                             formControlName="capital"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="franchiseMinimum">Franchise minimum</label>
+                    <input pInputText pKeyFilter="money"
+                            aria-describedby="accessory-amount-company-help" placeholder="Franchise minimum" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           formControlName="franchiseMinimum"
+                           max="{{franchiseMaximum.value}}"
+                           #franchiseMinimum
+                           [readonly]="isSave || accountService.pageLoading"/>
                   </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Taux franchise</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+(\.\d+)?$"
-                             formControlName="franchiseRate"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="franchiseMinimum">Franchise maximum</label>
+                    <input pInputText pKeyFilter="money"
+                            aria-describedby="accessory-amount-company-help" placeholder="Franchise maximum" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           formControlName="franchiseMaximum"
+                           #franchiseMaximum
+                           [readonly]="isSave || accountService.pageLoading"/>
                   </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Franchise minimum</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+$"
-                             min="0"
-                             max="{{franchiseMaximumItem.value}}"
-                             #franchiseMinimumItem
-                             formControlName="franchiseMinimum"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
-                  </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                      <mat-label>Franchise maximum</mat-label>
-                      <input matInput
-                             type="number"
-                             pattern="^\d+$"
-                             min="{{franchiseMinimumItem.value}}"
-                             #franchiseMaximumItem
-                             formControlName="franchiseMaximum"
-                             [readonly]="isSave || accountService.pageLoading">
-                    </mat-form-field>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Capital</label>
+                    <input pInputText pKeyFilter="money"
+                           aria-describedby="accessory-amount-company-help" placeholder="Capital *" class="gna-form-input"
+                           type="number"
+                           pattern="^\d+$"
+                           min="1"
+                           formControlName="capital"
+                           required
+                           [readonly]="isSave || accountService.pageLoading"/>
                   </div>
               <div class="col-12 btn-new mb-3">
-                @if (guaranteeItem) {
-                  <button mat-stroked-button
-                          color="primary"
-                          class="gna-btn-default gi-ml"
-                          (click)="onAddNew()">Nouveau</button>
                   @if (!formDataItem.valid) {
                     <button mat-raised-button
-                            class="gna-btn-default gna-btn-save"
+                            class="gna-btn-default-2 gna-btn-save"
                             (click)="onGetNotBlankAlert()">Ajouter</button>
                   } @else {
                     <button mat-raised-button
-                            class="gna-btn-default gna-btn-save"
+                            class="gna-btn-default-2 gna-btn-add"
                             [disabled]="!formDataItem.valid || isSave || accountService.pageLoading"
                             (click)="onConfirmItem()">Ajouter</button>
                   }
-                } @else {
-                  @if (!formDataItem.valid) {
-                    <button mat-raised-button
-                            class="gna-btn-default gna-btn-save"
-                            (click)="onGetNotBlankAlert()">Ajouter</button>
-                  } @else {
-                    <button mat-raised-button
-                            class="gna-btn-default gna-btn-save"
-                            [disabled]="!formDataItem.valid || isSave || accountService.pageLoading"
-                            (click)="onConfirmItem()">Ajouter</button>
-                  }
-                }
               </div>
               </div>
               </form>
@@ -425,38 +315,25 @@
                         <td>
                        <span class="gna-action-span-div">
                       <span class="gna-action-span">
-                        @if (guarantee.removable && item.removable) {
-                          <p-button icon="pi pi-trash" [rounded]="true"
-                                    pTooltip="Supprimer"
-                                    tooltipPosition="bottom"
-                                    class="gna-btn-delete"
-                                    [disabled]="isSave"
-                          (click)="onConfirmRemove(item)"></p-button>
-                        } @else {
-                          <p-button icon="pi pi-trash" [rounded]="true"
-                                    pTooltip="Supprimer"
-                                    tooltipPosition="bottom"
-                                    class="gna-btn-delete"
-                                    [disabled]="isDisable"></p-button>
-                        }
 
+                        @if (isSave || accountService.pageLoading || accountService.isSave) {
+                          <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn">
+                        } @else {
+                          <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn"
+                               (click)="onEditItem(item)">
+                        }
                   </span>
                   <span>
-                    <p-button icon="pi pi-pencil" class="gna-btn-edit"
-                              pTooltip="Modifier"
-                              tooltipPosition="bottom"
-                              [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                    (click)="onEditItem(item)"></p-button>
+                           @if (isSave || accountService.pageLoading || accountService.isSave) {
+                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2">
+                           } @else {
+                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2"
+                                  (click)="onConfirmRemove(item)">
+                           }
+
                   </span>
                   </span>
                         </td>
-                      </tr>
-                    } @empty {
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td>Il n'y a aucunes garanties selectionnées.</td>
-                        <td></td>
                       </tr>
                     }
                   </tbody>

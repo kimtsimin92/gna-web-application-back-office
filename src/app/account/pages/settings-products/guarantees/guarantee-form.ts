@@ -9,17 +9,17 @@ export class GuaranteeForm {
     Validators.required]);
 
   franchiseMinimum = new FormControl(null,
-    [Validators.min(1),
+    [
       Validators.pattern(/^\d+$/)]);
   franchiseMaximum = new FormControl(null,
-    [Validators.min(1),
+    [
       Validators.pattern(/^\d+$/)]);
   franchiseRate = new FormControl(null, [
     Validators.pattern(/^\d+(\.\d+)?$/)]);
 
   deficiencyDeadlineUnit = new FormControl(null);
   deficiencyDeadline = new FormControl(null,
-    [Validators.min(1),
+    [
     Validators.pattern(/^\d+$/)]);
 
   subscriptionMinimumPeriod = new FormControl(null,
@@ -33,10 +33,10 @@ export class GuaranteeForm {
       Validators.pattern(/^\d+$/)]);
 
   guaranteeFloor = new FormControl(null,
-    [Validators.min(1),
+    [
       Validators.pattern(/^\d+$/)]);
   guaranteeCeiling = new FormControl(null,
-    [Validators.min(1),
+    [
       Validators.pattern(/^\d+$/)]);
 
   premiumMinimum = new FormControl(null,
@@ -56,7 +56,6 @@ export class GuaranteeForm {
 
  partners = new FormControl(null);
  description = new FormControl(null);
-  enabled = new FormControl(null, [Validators.required]);
   clauses = new FormControl(null);
 
 }

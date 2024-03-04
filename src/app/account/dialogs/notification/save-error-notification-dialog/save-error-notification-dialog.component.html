@@ -11,25 +11,29 @@
   <div
        *ngIf="!httpError && dialogMessage || httpError && httpError.error && !httpError.error.message && dialogMessage"
   class="text-center">
-    <span class="gna-text-secondary">
+    <h5 class="gna-text-secondary">
        {{ dialogMessage }}
-    </span>
+    </h5>
   </div>
 
     <div
       *ngIf="httpError && httpError.error && !httpError.error.error && httpError.error.message"
     class="text-center">
-    <span class="gna-text-secondary">
-      @if (httpError.status !== 500) {
+    <h5 class="gna-text-secondary">
+      @if (httpError.status !== 500 && httpError.error) {
+        <span>
+        {{ httpError.error.message }}
+      </span>
+      } @else if (httpError.status === 500 && httpError.error && httpError.error.message) {
         <span>
         {{ httpError.error.message }}
       </span>
       } @else {
-        <span>
+      <span>
         {{ httpError.error.status }}
       </span>
-      }
-    </span>
+    }
+    </h5>
     </div>
   <div class="gna-dialog-bar">
   </div>

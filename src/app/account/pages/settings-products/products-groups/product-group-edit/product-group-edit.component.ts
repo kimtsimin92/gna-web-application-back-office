@@ -32,26 +32,28 @@ import {PaginatorModule} from "primeng/paginator";
 import {
   ConfirmationEditDialogComponent
 } from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 @Component({
   selector: 'app-product-group-edit',
   standalone: true,
-  imports: [
-    CheckboxModule,
-    DropdownModule,
-    InputTextModule,
-    KeyFilterModule,
-    KeyValuePipe,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatDivider,
-    MultiSelectModule,
-    PaginatorModule,
-    ReactiveFormsModule,
-    SharedModule
-  ],
+    imports: [
+        CheckboxModule,
+        DropdownModule,
+        InputTextModule,
+        KeyFilterModule,
+        KeyValuePipe,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatDivider,
+        MultiSelectModule,
+        PaginatorModule,
+        ReactiveFormsModule,
+        SharedModule,
+        InputTextareaModule
+    ],
   templateUrl: './product-group-edit.component.html',
   styleUrl: './product-group-edit.component.css'
 })

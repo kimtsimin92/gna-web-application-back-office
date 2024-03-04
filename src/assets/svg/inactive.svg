@@ -1,0 +1,10 @@
+<svg id="Toggle_1" data-name="Toggle 1" xmlns="http://www.w3.org/2000/svg" width="45" height="20" viewBox="0 0 45 20">
+  <g id="Rectangle_602" data-name="Rectangle 602" fill="rgba(235,236,236,0.4)" stroke="#163357" stroke-width="0.1">
+    <rect width="45" height="20" rx="2" stroke="none"/>
+    <rect x="0.05" y="0.05" width="44.9" height="19.9" rx="1.95" fill="none"/>
+  </g>
+  <g id="Rectangle_603" data-name="Rectangle 603" transform="translate(4 4)" fill="#fff" stroke="#163357" stroke-width="0.1">
+    <rect width="13" height="13" rx="2" stroke="none"/>
+    <rect x="0.05" y="0.05" width="12.9" height="12.9" rx="1.95" fill="none"/>
+  </g>
+</svg>

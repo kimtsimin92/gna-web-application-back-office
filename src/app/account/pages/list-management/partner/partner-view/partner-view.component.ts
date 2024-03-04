@@ -12,25 +12,31 @@ import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {AccountService} from "../../../../account.service";
 import {FieldsetModule} from "primeng/fieldset";
+import {DropdownModule} from "primeng/dropdown";
+import {InputTextModule} from "primeng/inputtext";
+import {KeyFilterModule} from "primeng/keyfilter";
 
 @Component({
   selector: 'app-partner-view',
   standalone: true,
-  imports: [
-    BreadcrumbModule,
-    FormsModule,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatOption,
-    MatSelect,
-    ReactiveFormsModule,
-    FieldsetModule
-  ],
+    imports: [
+        BreadcrumbModule,
+        FormsModule,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatOption,
+        MatSelect,
+        ReactiveFormsModule,
+        FieldsetModule,
+        DropdownModule,
+        InputTextModule,
+        KeyFilterModule
+    ],
   templateUrl: './partner-view.component.html',
   styleUrl: './partner-view.component.css'
 })
@@ -44,6 +50,9 @@ export class PartnerViewComponent implements OnInit, OnDestroy {
 
   partnerData: any = null;
   loadingPage: boolean = true;
+  groupList: any[] = [];
+  typeList: any[] = [];
+  isDisable: boolean = true;
 
   constructor(
     public _dialog: MatDialog,
@@ -57,6 +66,16 @@ export class PartnerViewComponent implements OnInit, OnDestroy {
     if (localStorage.getItem("PARTNER_DATA")) {
       // @ts-ignore
       this.partnerData = JSON.parse(localStorage.getItem("PARTNER_DATA"));
+
+      if (this.partnerData.type) {
+        this.typeList.push(this.partnerData.type.name);
+      }
+
+      if (this.partnerData.group) {
+        this.groupList.push(this.partnerData.group.name);
+      }
+
+
     } else {
       this._router.navigateByUrl("/account/partners/list")
     }
@@ -65,12 +84,8 @@ export class PartnerViewComponent implements OnInit, OnDestroy {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Partenaires";
+    this.headerTitle = "Gestion des listes";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
-
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
-
-    this.items = [{ label: 'Gestion Listes' }, { label: 'Partenaires'}];
 
   }
 

@@ -2,7 +2,8 @@
   LES CLAUSES DE LA GARANTIE
 </h1>
 <mat-dialog-content class="mat-typography">
-  <p-editor [(ngModel)]="guaranteeClauses" [style]="{ height: '300px' }">
+  <p-editor [(ngModel)]="guaranteeClauses" [style]="{ height: '300px' }"
+  [readonly]="isView">
     <ng-template pTemplate="header">
         <span class="ql-formats">
           <select class="ql-size">
@@ -69,5 +70,5 @@
 <mat-dialog-actions align="end">
   <button mat-stroked-button color="primary" mat-dialog-close>Fermer</button>
   <button mat-raised-button color="primary" [mat-dialog-close]="guaranteeClauses"
-  *ngIf="guaranteeClauses">Ajouter</button>
+  *ngIf="guaranteeClauses && !isView">Valider</button>
 </mat-dialog-actions>

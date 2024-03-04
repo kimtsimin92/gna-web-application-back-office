@@ -1,11 +1,15 @@
-
-
 <div class="gna-dialog-logo">
   <img src="assets/gna/images/gna-logo.png">
 </div>
 <div mat-dialog-content>
   <h5 class="gna-text-secondary text-center mb-5">
-    Voulez-vous éffectuer une modification <span *ngIf="dialogMessage">{{ dialogMessage }}</span> ?
+    Voulez-vous
+    @if (!isToggle) {
+      activer
+    } @else {
+      désactiver
+    }
+    <span *ngIf="dialogMessage">{{ dialogMessage }}</span> ?
     <div class="gna-dialog-bar">
     </div>
   </h5>
@@ -17,3 +21,4 @@
   <button mat-raised-button [mat-dialog-close]="false" class="gna-btn-cancel">Non</button>
   <button mat-raised-button [mat-dialog-close]="true" class="gna-btn-save">Oui</button>
 </div>
+

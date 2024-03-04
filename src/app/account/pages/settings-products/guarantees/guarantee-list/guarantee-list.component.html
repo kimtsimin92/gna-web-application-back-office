@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Configuration Produit / Garantie</span>
+  <span>Configuration des produits / Garanties</span>
 </div>
 
 <div class="container-fluid">
@@ -53,7 +53,7 @@
             <tr>
               <th>Code</th>
               <th>Nom de la garantie</th>
-              <th>Franchise minimum</th>
+              <th>Taux de taxe</th>
               <th>Date de création</th>
               <th>Statut</th>
               <th></th>
@@ -69,8 +69,8 @@
                     {{ element.name }}
                   </td>
                   <td>
-                    @if (element.franchiseMinimum) {
-                      {{ element.franchiseMinimum | number : "2.0"}}
+                    @if (element.taxRate) {
+                      {{ element.taxRate | number : "2.0"}}%
                     } @else {
                       0
                     }
@@ -91,12 +91,11 @@
                   </td>
                   <td>
                      <span class="gna-action-span-div">
-                      <span class="gna-action-span">
+                     <!-- <span class="gna-action-span">
                         @if (element.removable) {
-                          <img src="assets/images/table-trash.svg" alt="" class="gna-table-btn"
-                               (click)="onConfirm(element)">
+                          <img src="assets/images/table-trash.svg" alt="" class="gna-table-btn">
                         }
-                  </span>
+                  </span>-->
                       <span class="gna-action-span">
                         <img src="assets/images/table-eye.svg" alt="" class="gna-table-btn"
                              (click)="onView(element)">

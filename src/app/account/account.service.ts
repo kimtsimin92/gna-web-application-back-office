@@ -146,10 +146,15 @@ export class AccountService {
       .get<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/partners/types', {observe: 'response'});
   }
 
-  getPartnerListData(sort: string, order: string, page: number, size: number) {
+  getPartnerGroupList() {
     return this._http
-      .get<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/partners?sort='
-          +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/partners/groups', {observe: 'response'});
+  }
+
+
+  getPartnerListData(page: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/partners?page='+page, {observe: 'response'});
   }
 
   savePartnerAdd(requestData: any) {
@@ -165,6 +170,11 @@ export class AccountService {
   savePartnerRemove(id: number) {
     return this._http
       .delete<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/partners/'+id, {observe: 'response'});
+  }
+
+  savePartnerToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/partners/enabled/'+id, {observe: 'response'});
   }
 
   getBranchesListData(sort: string, order: string, page: number, size: number) {

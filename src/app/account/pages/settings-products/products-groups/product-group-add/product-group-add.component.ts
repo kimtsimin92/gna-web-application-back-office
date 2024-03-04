@@ -37,6 +37,7 @@ import {KeyFilterModule} from "primeng/keyfilter";
 import {CheckboxModule} from "primeng/checkbox";
 import {MatDivider} from "@angular/material/divider";
 import {MultiSelectModule} from "primeng/multiselect";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 @Component({
   selector: 'app-product-group-add',
@@ -68,7 +69,8 @@ import {MultiSelectModule} from "primeng/multiselect";
     MatDivider,
     NgIf,
     NgClass,
-    MultiSelectModule
+    MultiSelectModule,
+    InputTextareaModule
   ],
   templateUrl: './product-group-add.component.html',
   styleUrl: './product-group-add.component.css'

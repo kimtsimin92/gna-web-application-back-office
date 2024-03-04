@@ -129,7 +129,7 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Groupes Produits";
+    this.headerTitle = "Configuration des produits";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
     this.items = [{ label: 'Configuration Produits' }, { label: 'Groupes Produits' }];

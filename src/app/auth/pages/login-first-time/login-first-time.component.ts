@@ -27,28 +27,30 @@ import {AuthSuccessDialogComponent} from "../../auth-dialog/auth-success-dialog/
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {GnaLoadingComponent} from "../../../account/transitions/gna-loading/gna-loading.component";
+import {InputTextModule} from "primeng/inputtext";
 
 @Component({
   selector: 'app-login-first-time',
   standalone: true,
-  imports: [
-    MatButton,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatStep,
-    MatStepLabel,
-    MatStepper,
-    PaginatorModule,
-    ReactiveFormsModule,
-    RouterLink,
-    MatIcon,
-    MatSuffix,
-    MatError,
-    NgIf,
-    MatProgressSpinner,
-    GnaLoadingComponent
-  ],
+    imports: [
+        MatButton,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatStep,
+        MatStepLabel,
+        MatStepper,
+        PaginatorModule,
+        ReactiveFormsModule,
+        RouterLink,
+        MatIcon,
+        MatSuffix,
+        MatError,
+        NgIf,
+        MatProgressSpinner,
+        GnaLoadingComponent,
+        InputTextModule
+    ],
   templateUrl: './login-first-time.component.html',
   styleUrl: './login-first-time.component.css'
 })
@@ -135,7 +137,7 @@ export class LoginFirstTimeComponent implements OnInit {
 
     console.log(requestData);
 
-  this.accountService.userFirstTimeChangePassword(requestData)
+ this.accountService.userFirstTimeChangePassword(requestData)
       .subscribe((responseData) => {
         console.log(responseData);
         this.closeDialog();
@@ -163,6 +165,7 @@ export class LoginFirstTimeComponent implements OnInit {
 
     const dialogRef = this._dialog.open(LoginFirstTimeLoadingDialogComponent, {
       hasBackdrop: false,
+      position: {right:'90px', top:'270px'},
       width: '320px',
     });
 
@@ -229,5 +232,6 @@ export class LoginFirstTimeComponent implements OnInit {
     });
     window.location.reload();
   }
+
 
 }

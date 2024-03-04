@@ -1,13 +1,214 @@
-/* Show it is fixed to the top */
+
+main {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.gna-login-page-icon {
+  display: initial!important;
+}
+
+.gna-login-page-icon > i:last-of-type {
+  color: #2960A3!important;
+}
+
+.gna-login-page-input {
+  width: 70%!important;
+}
+
+.gna-login-page {
+
+}
+
+.login-btn {
+  width: 100%!important;
+}
+
+.gna-login-page-banner {
+  margin: 0;
+  padding: 0;
+  background-image: url("/../../assets/gna/images/Groupe de masques 2.png");
+  background-size: cover;
+  background-position: initial;
+  height: 100vh;
+  width: 122vh;
+}
+
+.gna-login-page-banner-text {
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
+.gna-login-page-banner-logo {
+  margin-top: 20px;
+  margin-left: 50px;
+  background-color: #F4F5F6;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}
+
+.gna-login-page-banner-logo img {
+  width: 50px;
+  margin-top: 15px;
+  margin-left: 5px;
+}
+
+.gna-login-page-form {
+  margin-top: 80px;
+  margin-left: auto;
+  width: 30%;
+}
+
+.gna-login-page-form-title {
+  margin-bottom: 50px;
+}
+
+.gna-login-page-form-title-logo {
+  margin-left: 15%;
+  margin-bottom: 20px;
+}
+
+.gna-login-page-form-title-logo img {
+  width: 130px;
+  opacity: 40%;
+}
+
+.gna-login-page-form-title-text {
+  margin-left: 12%;
+  color: #f6993f;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.gna-login-page-form label {
+  color: #2960A3;
+}
+
+.gna-login-page-form .p-inputtext {
+  border-color: #2960A3!important;
+}
+
+
+.gna-login-page-form .p-inputtext.ng-dirty.ng-invalid {
+  border-color: #e24c4c!important;
+}
+
+
+.gna-login-page-form button {
+  width: 70%!important;
+}
+
+.gna-login-page-footer {
+  background-color: #EFEFEF!important;
+  width: 100%;
+  height: 35px;
+}
+
+.gna-login-page-footer-text span {
+  font-size: 10px;
+  padding: 10px;
+  color: #616161!important;
+}
+
+
+/*
+!* Show it is fixed to the top *!
 body {
-  /*min-height: 75rem;*/
-  padding-top: 3.5rem;
 }
 
 .gna-footer {
   width: 100%;
   height: 60px;
 }
+
+
+.card-header {
+  padding: 0!important;
+}
+
+
+
+.login-image {
+  width: 100%;
+}
+
+.login-button {
+  text-align: end;
+}
+
+
+.input-group-text {
+  color:  #fff!important;
+  background-color: #2960A3!important;
+  border: 1px solid #2960A3!important;
+}
+
+.login-text-footer {
+  color: white;
+}
+
+.login-text-footer a {
+  color: white;
+}
+
+!*.form-control {*!
+!*  border: 1px solid #2960A3!important;*!
+!*  border-radius: 0;*!
+!*}*!
+
+.form-control::-webkit-input-placeholder {
+  color: #2960A3;
+}
+
+.form-control.is-invalid, .was-validated .form-control:invalid {
+  border-color: #dc3545!important;
+}
+
+!*MATERIAL*!
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+.login-card-title {
+  padding: 20px;
+  background-color: #2960A3;
+}
+
+.mat-input-element {
+  caret-color: #2960A3!important;
+}
+
+!*****!
+.mat-mdc-form-field {
+  width: 90%!important;
+  margin-bottom: 20px;
+}
+
+.btn-new {
+  text-align: end;
+  margin-right: 30px;
+  margin-bottom: 10px;
+}
+
+
+.gna-footer {
+  width: 100%;
+  height: 50px;
+}
+
 
 
 .card-header {
@@ -24,113 +225,10 @@ body {
   width: 100%;
 }
 
-
-.login-button {
-  text-align: end;
-}
-
-
-.input-group-text {
-  color:  #fff!important;
-  background-color: #1C3694!important;
-  border: 1px solid #1C3694!important;
-}
-
-.login-text-footer {
-  color: white;
-}
-
-.login-text-footer a {
-  color: white;
-}
-/*.form-control {*/
-/*  border: 1px solid #1C3694!important;*/
-/*  border-radius: 0;*/
-/*}*/
-
-.form-control::-webkit-input-placeholder {
-  color: #1C3694;
-}
-
-.form-control.is-invalid, .was-validated .form-control:invalid {
-  border-color: #dc3545!important;
-}
-
-/*MATERIAL*/
-.example-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.example-container > * {
-  width: 90%;
-  margin-left: 20px;
-}
-
-.example-right-align {
-  text-align: right;
-}
-
-input.example-right-align::-webkit-outer-spin-button,
-input.example-right-align::-webkit-inner-spin-button {
-  display: none;
-}
-
-input.example-right-align {
-  -moz-appearance: textfield;
-}
-
-.login-card-title {
-  padding: 20px;
-  background-color: #1C3694;
-}
-
-.mat-input-element {
-  caret-color: #1C3694!important;
-}
-
-/*****/
-.mat-mdc-form-field {
-  width: 90%!important;
-}
-
-.btn-new {
-  text-align: end;
-  margin-right: 30px;
-  margin-bottom: 10px;
-}
-
-
-/**/
-/* Show it is fixed to the top */
-body {
-  /*min-height: 75rem;*/
-  padding-top: 3.5rem;
-}
-
-.gna-footer {
-  width: 100%;
-  height: 50px;
-}
-
-
-main > .container {
-  /*padding: 60px 15px 0;*/
-}
-
-.card-header {
-  padding: 0!important;
-}
-
-
-.login-image {
-  width: 100%;
-}
-
 .login-form {
+  margin-top: 2%;
   align-self: center;
-  margin-top: 8%;
-  width: 100%;
+  width: 500px;
 }
 
 .login-button {
@@ -140,18 +238,18 @@ main > .container {
 
 .input-group-text {
   color:  #fff!important;
-  background-color: #1C3694!important;
-  border: 1px solid #1C3694!important;
+  background-color: #2960A3!important;
+  border: 1px solid #2960A3!important;
 }
 
 
-/*.form-control {*/
-/*  border: 1px solid #1C3694!important;*/
-/*  border-radius: 0;*/
-/*}*/
+!*.form-control {*!
+!*  border: 1px solid #2960A3!important;*!
+!*  border-radius: 0;*!
+!*}*!
 
 .form-control::-webkit-input-placeholder {
-  color: #1C3694;
+  color: #2960A3;
 }
 
 .form-control.is-invalid, .was-validated .form-control:invalid {
@@ -162,11 +260,7 @@ main > .container {
   margin-top: 10%;
 }
 
-/*MATERIAL*/
-.example-container {
-  display: flex;
-  flex-direction: column;
-}
+!*MATERIAL*!
 
 .example-container > * {
   width: 100%;
@@ -188,11 +282,11 @@ input.example-right-align {
 
 .login-card-title {
   padding: 20px;
-  background-color: #1C3694;
+  background-color: #2960A3;
 }
 
 .mat-input-element {
-  caret-color: #1C3694!important;
+  caret-color: #2960A3!important;
 }
 
 .login-fp {
@@ -202,8 +296,7 @@ input.example-right-align {
 }
 
 .login-fp a {
-  color: #1C3694!important;
-  font-size: 14px;
+  color: #2960A3!important;
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
@@ -216,32 +309,4 @@ input.example-right-align {
 .login-btn {
   width: 95%!important;
 }
-
-.mat-stepper-horizontal {
-  margin-top: 8px;
-}
-
-.mat-mdc-form-field {
-  margin-top: 16px;
-}
-
-.gna-otp-div mat-form-field {
-  padding-left: 5px;
-}
-
-.gna-otp-input {
-  width: 10%!important;
-}
-
-.gna-otp-input input::-webkit-inner-spin-button,
-.gna-otp-input input::-webkit-outer-spin-button {
-  display: none;
-}
-
-
-.gna-page-loading {
-  position: absolute;
-  z-index: 1;
-  margin-top: 20%;
-  margin-left: 45%;
-}
+*/

@@ -1,177 +1,278 @@
-<div class="gna-main-content">
+<div class="gna-bc">
+  <span>Configuration des produits / Garanties / Voir / En Attente</span>
+</div>
 
-  <div class="gna-content-header">
-    <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
-  </div>
+
+<div class="gna-main-content">
 
   <div class="container-fluid gna-main-div-card">
     <mat-card class="gna-card">
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-title">
-          Garantie
-        </div>
-        <div class="gna-card-header-btn">
-          <div class="gna-card-header-btn-1">
+        <div class="gna-card-header-btn row">
+          <div class="col-12 col-sm-6">
+            <button mat-raised-button
+                    class="gna-btn-default gna-btn-cancel"
+                    (click)="onBack()"
+                    [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
+          </div>
+          <div class="col-12 col-sm-6">
 
-            <button mat-stroked-button color="primary"
-                    class="gna-btn-default"
-                    (click)="onBack()">Retour</button>
-          </div>
-          <div class="gna-card-header-btn-2">
-            <button mat-stroked-button color="primary"
-                    class="gna-btn-default"
-                    (click)="onGoToEdit()">Modifier</button>
-          </div>
-            <div class="gna-card-header-btn-2">
               <button mat-raised-button
-                      class="gna-btn-default gna-btn-save">Soumettre</button>
-            </div>
+                      class="gna-btn-default gna-btn-save"
+                      [disabled]="isSave || accountService.pageLoading || accountService.isSave">Soumettre</button>
+          </div>
+
         </div>
       </mat-card-header>
       <mat-card-content>
-        <div class="mt-4">
-          <div class="card">
-            <div class="card-body gna-card-body">
-              <div class="row">
-                <div class="col-3">
-                  <span class="gna-view-label">Code : </span>
-                  <span class="gna-view-value">{{ guaranteeData.code }}</span>
-                </div>
-                <div class="col-3">
-                  <span class="gna-view-label">Nom : </span>
-                  <span class="gna-view-value">{{ guaranteeData.name }}</span>
-                </div>
-                <div class="col-3">
-                  <span class="gna-view-label">Taux de taxe : </span>
-                  <span class="gna-view-value">{{ guaranteeData.taxRate | number : "2.0" }}%</span>
-                </div>
-                <div class="col-3">
-                  <span class="gna-view-label">Taux franchise : </span>
-                  <span class="gna-view-value">{{ guaranteeData.franchiseRate | number : "2.0" }}%</span>
-                </div>
-                <div class="col-3">
-                  <span class="gna-view-label">Franchise minimum : </span>
-                  <span class="gna-view-value">{{ guaranteeData.franchiseMinimum | number : "2.0" }}</span>
-                </div>
-                <div class="col-3">
-                  <span class="gna-view-label">Franchise maximum : </span>
-                  <span class="gna-view-value">{{ guaranteeData.franchiseMaximum | number : "2.0" }}</span>
-                </div>
-                <div class="col-3">
-                  <span class="gna-view-label">Durée minimum souscription : </span>
-                  <span class="gna-view-value">{{ guaranteeData.subscriptionMinimumPeriod | number : "2.0" }}</span>
-                </div>
-                <div class="col-3">
-                  <span class="gna-view-label">Durée maximum souscription : </span>
-                  <span class="gna-view-value">{{ guaranteeData.subscriptionMaximumPeriod | number : "2.0" }}</span>
-                </div>
-                <div class="col-3">
-                  <span class="gna-view-label">Délai de carence : </span>
-                  <span class="gna-view-value"
-                        *ngIf="guaranteeData.deficiencyDeadline && guaranteeData.deficiencyDeadlineUnit">
-                    {{ guaranteeData.deficiencyDeadline | number : "2.0" }} {{ guaranteeData.deficiencyDeadlineUnit.name }}
-                  </span>
-                </div>
-                <div class="col-3">
-                  <span class="gna-view-label">Plancher de garantie : </span>
-                  <span class="gna-view-value">{{ guaranteeData.guaranteeFloor | number : "2.0" }}</span>
-                </div>
-                <div class="col-3">
-                  <span class="gna-view-label">Plafond de garantie : </span>
-                  <span class="gna-view-value">{{ guaranteeData.guaranteeCeiling | number : "2.0" }}</span>
-                </div>
-                <div class="col-3">
-                  <span class="gna-view-label">Prime minimum : </span>
-                  <span class="gna-view-value">{{ guaranteeData.premiumMinimum | number : "2.0" }}</span>
-                </div>
-                <div class="col-3 mt-3">
-                  <span class="gna-view-label">Réduction applicable : </span>
-                  @if (guaranteeData.discountApplicable) {
-                    <span class="gna-view-value">Oui</span>
-                  } @else {
-                    <span class="gna-view-value">Non</span>
-                  }
-                </div>
-                <div class="col-3 mt-3">
-                  <span class="gna-view-label">Territoire : </span>
-                  @if (guaranteeData.zone) {
-                    <span class="gna-view-value">{{ guaranteeData.zone.name }}</span>
-                  }
-                </div>
-                <div class="col-6">
-                  <div class="row">
-                    <div class="col-4 mt-3">
-                      <span class="gna-view-label">Partenaires techniques : </span>
-                    </div>
-                    <div class="col-8">
-                      <mat-chip-listbox aria-label="Partners">
-                        @for (partner of guaranteeData.partners; track partner.id; let isLast = $last) {
-                          <mat-chip-option>{{ partner.name }}</mat-chip-option>
-                        }
-                      </mat-chip-listbox>
-                    </div>
+        <mat-tab-group>
+          <mat-tab label="Informations Garantie" [disabled]="isSave">
+            <div class="container-fluid">
+                <div class="row pb-2 gna-form">
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="name">Nom Garantie</label>
+                    <input pInputText
+                           type="text" id="name" aria-describedby="name-help" placeholder="Nom Garantie *" class="gna-form-input"
+                           [disabled]="isDisable"
+                           [value]="guaranteeData.name"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="name">Taux de taxe</label>
+                    <input pInputText pKeyFilter="money"
+                           id="taxRate" aria-describedby="name-help" placeholder="Taux de taxe *" class="gna-form-input"
+                           [disabled]="isDisable"
+                           [value]="guaranteeData.taxRate"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="name">Taux franchise</label>
+                    <input pInputText pKeyFilter="money"
+                           id="franchiseRate" aria-describedby="name-help" placeholder="Taux franchise" class="gna-form-input"
+                           [disabled]="isDisable"
+                           [value]="guaranteeData.franchiseRate"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="franchiseMinimum">Franchise minimum</label>
+                    <input pInputText pKeyFilter="money"
+                           id="franchiseMinimum" aria-describedby="accessory-amount-company-help" placeholder="Franchise minimum" class="gna-form-input"
+                           [disabled]="isDisable"
+                           [value]="guaranteeData.franchiseMinimum"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="franchiseMinimum">Franchise maximum</label>
+                    <input pInputText pKeyFilter="money"
+                           id="franchiseMaximum" aria-describedby="accessory-amount-company-help" placeholder="Franchise maximum" class="gna-form-input"
+                           [disabled]="isDisable"
+                           [value]="guaranteeData.franchiseMaximum"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="subscriptionMinimumPeriod">Durée minimum souscription</label>
+                    <input pInputText pKeyFilter="int"
+                           id="subscriptionMinimumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée minimum souscription *" class="gna-form-input"
+                           [disabled]="isDisable"
+                           [value]="guaranteeData.subscriptionMinimumPeriod"/>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="subscriptionMaximumPeriod">Durée maximum souscription</label>
+                    <input pInputText pKeyFilter="int"
+                           id="subscriptionMaximumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée maximum souscription *" class="gna-form-input"
+                           [disabled]="isDisable"
+                           [value]="guaranteeData.subscriptionMaximumPeriod"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="premiumMinimum">Prime minimum</label>
+                    <input pInputText pKeyFilter="money"
+                           id="premiumMinimum" aria-describedby="accessory-amount-company-help" placeholder="Prime minimum *" class="gna-form-input"
+                           [disabled]="isDisable"
+                           [value]="guaranteeData.premiumMinimum"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Délai de carence</label>
+                    <input pInputText pKeyFilter="int"
+                           id="deficiencyDeadline" aria-describedby="accessory-amount-company-help" placeholder="Délai de carence" class="gna-form-input"
+                           [disabled]="isDisable"
+                           [value]="guaranteeData.deficiencyDeadline"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Unité délai de carence</label>
+                            @if (guaranteeData.deficiencyDeadlineUnit) {
+                      <p-dropdown [disabled]="isDisable"
+                                  [options]="periodList"
+                                  class="gna-form-dropdown"></p-dropdown>
+                    } @else {
+                      <p-dropdown [disabled]="isDisable"
+                                  [options]="periodList" placeholder="Unité délai de carence"
+                                  class="gna-form-dropdown"></p-dropdown>
+                    }
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="guaranteeFloor">Plancher de garantie</label>
+
+                    <input pInputText pKeyFilter="money"
+                           id="guaranteeFloor" aria-describedby="accessory-amount-company-help" placeholder="Plancher de garantie" class="gna-form-input"
+                           [disabled]="isDisable"
+                           [value]="guaranteeData.guaranteeFloor"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="guaranteeCeiling">Plafond de garantie</label>
+                    <input pInputText pKeyFilter="money"
+                           id="guaranteeCeiling" aria-describedby="accessory-amount-company-help" placeholder="Plafond de garantie" class="gna-form-input"
+                           [disabled]="isDisable"
+                           [value]="guaranteeData.guaranteeCeiling"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Réduction applicable</label>
+                    @if (guaranteeData.discountApplicable) {
+                      <p-dropdown [disabled]="isDisable"
+                                  [options]="yesOrNoList"
+                                  class="gna-form-dropdown"></p-dropdown>
+                    } @else {
+                      <p-dropdown [disabled]="isDisable"
+                                  [options]="yesOrNoList" placeholder="Réduction applicable"
+                                  class="gna-form-dropdown"></p-dropdown>
+                    }
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Territoire</label>
+
+                    @if (guaranteeData.zone) {
+                      <p-dropdown [disabled]="isDisable"
+                                  [options]="zoneList"
+                                  class="gna-form-dropdown"></p-dropdown>
+                    } @else {
+                      <p-dropdown [disabled]="isDisable"
+                                  [options]="zoneList" placeholder="Territoire"
+                                  class="gna-form-dropdown"></p-dropdown>
+                    }
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Partenaires techniques</label>
+                    <p-multiSelect [options]="partnerList"
+                                   class="gna-form-multiselect"
+                                   [disabled]="isDisable"
+                                   [(ngModel)]="partnerList" name="partners"
+                                   [showClear]="false">
+                      <ng-template let-api pTemplate="api">
+                        <div class="flex align-items-center gap-2">
+                          <div>{{ api }}</div>
+                        </div>
+                      </ng-template>
+                    </p-multiSelect>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Clauses</label>
+                    <button
+                      type="button"
+                      mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
+                      (click)="openClauseEditorDialog()">Voir</button>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <label>Description</label>
+                    <textarea rows="2" pInputTextarea   [disabled]="isDisable"
+                              [value]="guaranteeData.description"
+                              class="gna-form-input"></textarea>
                   </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  <span class="gna-view-label">Description : </span>
-                  <span class="gna-view-value" *ngIf="guaranteeData.description">{{ guaranteeData.description }}
+            </div>
+          </mat-tab>
+          <mat-tab label="Sous Garanties" [disabled]="isSave || accountService.pageLoading || accountService.isSave">
+            <div class="container-fluid">
+                <div class="row pb-2 gna-form">
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Nom Sous garantie</label>
+                    <input pInputText
+                           type="text" aria-describedby="name-help" placeholder="Nom sous garantie *" class="gna-form-input"
+                    [disabled]="isDisable">
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Taux franchise</label>
+                    <input pInputText pKeyFilter="money"
+                           aria-describedby="name-help" placeholder="Taux franchise" class="gna-form-input"
+                           [disabled]="isDisable"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="franchiseMinimum">Franchise minimum</label>
+                    <input pInputText pKeyFilter="money"
+                           aria-describedby="accessory-amount-company-help" placeholder="Franchise minimum" class="gna-form-input"
+                           [disabled]="isDisable"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label for="franchiseMinimum">Franchise maximum</label>
+                    <input pInputText pKeyFilter="money"
+                           aria-describedby="accessory-amount-company-help" placeholder="Franchise maximum" class="gna-form-input"
+                           [disabled]="isDisable"/>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <label>Capital</label>
+                    <input pInputText pKeyFilter="money"
+                           aria-describedby="accessory-amount-company-help" placeholder="Capital *" class="gna-form-input"
+                           [disabled]="isDisable"/>
+                  </div>
+                  <div class="col-12 btn-new mb-3">
+                      <button mat-raised-button
+                              class="gna-btn-default-2 gna-btn-add gna-disable">Ajouter</button>
+                  </div>
+                </div>
+              <div class="example-table-con">
+                <table class="table table-borderless gi-table">
+                  <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Nom</th>
+                    <th>Capital</th>
+                    <th>Taux franchise</th>
+                    <th>Franchise minimum</th>
+                    <th>Franchise maximum</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody class="gna-disable">
+                    @for (item of guaranteeItemsData; track item) {
+                      <tr>
+                        <td>{{ item.code }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.capital | number : "2.0" }}</td>
+                        <td>
+                          @if (item.franchiseRate) {
+                            {{ item.franchiseRate | number : "2.0" }}%
+                          } @else {
+                            0%
+                          }
+                        </td>
+                        <td>
+                          @if (item.franchiseMinimum) {
+                            {{ item.franchiseMinimum | number : "2.0" }}
+                          } @else {
+                            0
+                          }
+                        </td>
+                        <td>
+                          @if (item.franchiseMaximum) {
+                            {{ item.franchiseMaximum | number : "2.0" }}
+                          } @else {
+                            0
+                          }
+                        </td>
+                        <td>
+                       <span class="gna-action-span-div">
+                      <span class="gna-action-span">
+
+                          <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn">
                   </span>
-                </div>
-              </div>
-              <div class="row mt-2">
-                <div class="col">
-                  <span class="gna-view-label">Clauses : </span>
-                  <br>
-                  <span class="gna-view-value" [innerHTML]="guaranteeData.clauses"></span>
-                </div>
-              </div>
-              <div class="row mt-2">
-                <span class="gna-view-label">Sous Garanties : </span>
-                <br>
-                <ng-container *ngIf="guaranteeData && guaranteeData.items">
+                  <span>
+                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2">
 
-                  @for (item of guaranteeData.items; track item) {
-                    <div class="row gna-text-primary">
-                      <div class="col">
-                        <span>Code : {{ item.code }}</span>
-                      </div>
-                      <div class="col">
-                        <span>Nom : {{ item.name }}</span>
-                      </div>
-                      <div class="col">
-                        <span>Capital : {{ item.capital | number : "2.0" }}</span>
-                      </div>
-                      <div class="col">
-                        <span>Taux franchise : {{ item.franchiseRate | number : "2.0" }}%</span>
-                      </div>
-                      <div class="col">
-                        <span>Franchise minimum : {{ item.franchiseMinimum | number : "2.0" }}</span>
-                      </div>
-                      <div class="col">
-                        <span>Franchise maximum : {{ item.franchiseMaximum | number : "2.0" }}</span>
-                      </div>
-                    </div>
-                  }
-
-                </ng-container>
-              </div>
-              <div class="row mt-2">
-                <div class="col-3">
-                  <span class="gna-view-label">Statut : </span>
-                  <span class="gna-view-value">
-                 @if (guaranteeData.enabled) {
-                   <p-chip label="Activé" class="gna-chip-g"></p-chip>
-                 } @else {
-                   <p-chip label="Désactivé" class="gna-chip-r"></p-chip>
-                 }
-              </span>
-                </div>
+                  </span>
+                  </span>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div>
-        </div>
+          </mat-tab>
+        </mat-tab-group>
       </mat-card-content>
     </mat-card>
   </div>

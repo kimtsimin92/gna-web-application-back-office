@@ -47,31 +47,41 @@ import {
 import {
   RemoveLoadingDialogComponent
 } from "../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
+import {DropdownModule} from "primeng/dropdown";
+import {InputTextModule} from "primeng/inputtext";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {KeyFilterModule} from "primeng/keyfilter";
+import {MultiSelectModule} from "primeng/multiselect";
 
 @Component({
   selector: 'app-guarantee-edit',
   standalone: true,
-  imports: [
-    BreadcrumbModule,
-    FormsModule,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatOption,
-    MatRadioButton,
-    MatRadioGroup,
-    MatSelect,
-    MatTab,
-    MatTabGroup,
-    ReactiveFormsModule,
-    ButtonModule,
-    DecimalPipe,
-    NgIf
-  ],
+    imports: [
+        BreadcrumbModule,
+        FormsModule,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatOption,
+        MatRadioButton,
+        MatRadioGroup,
+        MatSelect,
+        MatTab,
+        MatTabGroup,
+        ReactiveFormsModule,
+        ButtonModule,
+        DecimalPipe,
+        NgIf,
+        DropdownModule,
+        InputTextModule,
+        InputTextareaModule,
+        KeyFilterModule,
+        MultiSelectModule
+    ],
   templateUrl: './guarantee-edit.component.html',
   styleUrl: './guarantee-edit.component.css'
 })
@@ -101,6 +111,17 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
   isDisable: boolean = true;
 
+  yesOrNoList: any[] = [
+    {
+      value: true,
+      name: "Oui",
+    },
+    {
+      value: false,
+      name: "Non",
+    },
+  ];
+
   constructor(
     private _fb: FormBuilder,
     public _dialog: MatDialog,
@@ -121,7 +142,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Garanties";
+    this.headerTitle = "Configuration des produits";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
     this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
@@ -146,30 +167,38 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
       this.dataForm.subscriptionMinimumPeriod.setValue(this.guarantee.subscriptionMinimumPeriod);
       this.dataForm.subscriptionMaximumPeriod.setValue(this.guarantee.subscriptionMaximumPeriod);
       this.dataForm.deficiencyDeadline.setValue(this.guarantee.deficiencyDeadline);
+
       if (this.guarantee.deficiencyDeadlineUnit) {
-        this.dataForm.deficiencyDeadlineUnit.setValue(this.guarantee.deficiencyDeadlineUnit.code);
+        this.dataForm.deficiencyDeadlineUnit.setValue(this.guarantee.deficiencyDeadlineUnit.name);
       }
+
       this.dataForm.guaranteeFloor.setValue(this.guarantee.guaranteeFloor);
       this.dataForm.guaranteeCeiling.setValue(this.guarantee.guaranteeCeiling);
       this.dataForm.premiumMinimum.setValue(this.guarantee.premiumMinimum);
-      // @ts-ignore
-      this.dataForm.discountApplicable.setValue(""+this.guarantee.discountApplicable);
-      if (this.guarantee.zone) {
-        this.dataForm.zone.setValue(this.guarantee.zone.id);
+
+      if (this.guarantee.discountApplicable) {
+        // @ts-ignore
+        this.dataForm.discountApplicable.setValue("Oui");
+      } else {
+        // @ts-ignore
+        this.dataForm.discountApplicable.setValue("Nom");
       }
+
+      if (this.guarantee.zone) {
+        this.dataForm.zone.setValue(this.guarantee.zone.name);
+      }
+
       if (this.guarantee.partners) {
         if (this.guarantee.partners.length > 0) {
           let partnerIds: any[] = [];
           this.guarantee.partners.forEach((p: any) => {
-            partnerIds.push(p.id);
+            partnerIds.push(p.name);
           });
           // @ts-ignore
           this.dataForm.partners.setValue(partnerIds);
         }
       }
       this.dataForm.description.setValue(this.guarantee.description);
-      // @ts-ignore
-      this.dataForm.enabled.setValue(""+this.guarantee.enabled);
       this.dataForm.clauses.setValue(this.guarantee.clauses);
       this.guaranteeClauses = this.guarantee.clauses;
 
@@ -215,12 +244,47 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
       guaranteeFloor: this.formData.value.guaranteeFloor,
       guaranteeCeiling: this.formData.value.guaranteeCeiling,
       premiumMinimum: this.formData.value.premiumMinimum,
-      discountApplicable: this.formData.value.discountApplicable,
-      zoneId: this.formData.value.zone,
-      partnerIds: this.formData.value.partners,
+      discountApplicable: null,
+      zoneId: null,
+      partnerIds: [],
       description: this.formData.value.description,
-      clauses: this.guaranteeClauses,
-      enabled: this.formData.value.enabled
+      clauses: this.guaranteeClauses
+    }
+
+    if (this.formData.value.discountApplicable && this.formData.value.discountApplicable == "Oui") {
+      // @ts-ignore
+      requestData.discountApplicable = true;
+    } else {
+      // @ts-ignore
+      requestData.discountApplicable = false;
+    }
+
+    if (this.formData.value.partners) {
+      let partners = this.formData.value.partners;
+      if (partners.length > 0) {
+        partners.forEach((p: any) => {
+          if (this.partnerList.length > 0) {
+            this.partnerList.forEach((pl: any) => {
+              if (p === pl.name) {
+                // @ts-ignore
+                requestData.partnerIds.push(pl.id);
+              }
+            });
+          }
+        });
+      }
+    }
+
+    if (this.formData.value.zone) {
+      let zone = this.formData.value.zone;
+          if (this.zoneList.length > 0) {
+            this.zoneList.forEach((zl: any) => {
+              if (zone === zl.name) {
+                // @ts-ignore
+                requestData.zoneId = zl.id;
+              }
+        });
+      }
     }
 
     let id = this.guarantee.id;
@@ -233,42 +297,6 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
         this.guarantee = responseData["body"];
         // @ts-ignore
         localStorage.setItem("GUARANTEE_DATA", JSON.stringify(this.guarantee));
-        // @ts-ignore
-        this.dataForm.code.setValue(this.guarantee.code);
-        this.dataForm.name.setValue(this.guarantee.name);
-        this.dataForm.taxRate.setValue(this.guarantee.taxRate);
-        this.dataForm.franchiseRate.setValue(this.guarantee.franchiseRate);
-        this.dataForm.franchiseMinimum.setValue(this.guarantee.franchiseMinimum);
-        this.dataForm.franchiseMaximum.setValue(this.guarantee.franchiseMaximum);
-        this.dataForm.subscriptionMinimumPeriod.setValue(this.guarantee.subscriptionMinimumPeriod);
-        this.dataForm.subscriptionMaximumPeriod.setValue(this.guarantee.subscriptionMaximumPeriod);
-        this.dataForm.deficiencyDeadline.setValue(this.guarantee.deficiencyDeadline);
-        if (this.guarantee.deficiencyDeadlineUnit) {
-          this.dataForm.deficiencyDeadlineUnit.setValue(this.guarantee.deficiencyDeadlineUnit.code);
-        }
-        this.dataForm.guaranteeFloor.setValue(this.guarantee.guaranteeFloor);
-        this.dataForm.guaranteeCeiling.setValue(this.guarantee.guaranteeCeiling);
-        this.dataForm.premiumMinimum.setValue(this.guarantee.premiumMinimum);
-        // @ts-ignore
-        this.dataForm.discountApplicable.setValue(""+this.guarantee.discountApplicable);
-        if (this.guarantee.zone) {
-          this.dataForm.zone.setValue(this.guarantee.zone.id);
-        }
-        if (this.guarantee.partners) {
-          if (this.guarantee.partners.length > 0) {
-            let partnerIds: any[] = [];
-            this.guarantee.partners.forEach((p: any) => {
-              partnerIds.push(p.id);
-            });
-            // @ts-ignore
-            this.dataForm.partners.setValue(partnerIds);
-          }
-        }
-        this.dataForm.description.setValue(this.guarantee.description);
-        // @ts-ignore
-        this.dataForm.enabled.setValue(""+this.guarantee.enabled);
-        this.dataForm.clauses.setValue(this.guarantee.clauses);
-        this.guaranteeClauses = this.guarantee.clauses;
         this.closeDialog();
         this.onSaveNotificationDialog();
       }, (errorData: HttpErrorResponse) => {
@@ -297,7 +325,8 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(RemoveLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
+      height: '340px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -310,7 +339,8 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
+      height: '340px',
       data: {
         dialogMessage: "La modification de la garantie a réussi."
       },
@@ -323,6 +353,11 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
+      this._router.navigateByUrl("/account/guarantees/list")
+        .then(() => {
+      this.guarantee = null;
+        });
+
     });
 
   }
@@ -331,7 +366,8 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
+      height: '340px',
       data: {
         httpError: error,
         dialogMessage: "La modification de la garantie a échoué."
@@ -360,8 +396,8 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
-      width: '380px',
-      height: '200px',
+      width: '400px',
+      height: '340px',
       data: {
         dialogMessage: "de cette garantie"
       },
@@ -383,7 +419,8 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
   onGetNotBlankAlert() {
     const dialogRef = this._dialog.open(NotBlankDialogComponent, {
-      width: '440px',
+      width: '400px',
+      height: '340px',
     });
 
     dialogRef.afterClosed().subscribe(result => {});
@@ -503,8 +540,8 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
-      width: '380px',
-      height: '200px',
+      width: '400px',
+      height: '340px',
       data: {
         dialogMessage: "de cette sous garantie"
       },
@@ -566,7 +603,8 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
+      height: '340px',
       data: {
         httpError: error,
         dialogMessage: "L'enregistrement de la sous garantie a échoué."
@@ -610,8 +648,8 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationRemoveDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
-      height: '250px',
+      width: '400px',
+      height: '340px',
       data: {
         dialogMessage: "de la sous garantie " + data.name
       },
@@ -661,7 +699,8 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
+      height: '340px',
       data: {
         dialogMessage: "La suppression de la sous garantie a réussi."
       },
@@ -687,7 +726,8 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
+      height: '340px',
       data: {
         httpError: error,
         dialogMessage: "La suppression de la sous garantie a échoué."

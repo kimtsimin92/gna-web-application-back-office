@@ -15,6 +15,7 @@ export class PartnerSaveForm {
     Validators.pattern(/^\d{10}$/)]);
   email = new FormControl(null, Validators.email);
 
-  partnerType = new FormControl(null,[Validators.required]);
+  typeId = new FormControl(null,[Validators.required]);
+  groupId = new FormControl(null);
 
 }

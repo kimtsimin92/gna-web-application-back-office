@@ -58,29 +58,30 @@ export class SidenavComponent implements OnInit {
       link: '/account/home',
       class: null
     },
-   /* {
-      name: 'Gestion Listes',
+    {
+      name: 'Gestion des listes',
       icon: 'list',
       children: [{name: 'Partenaires', link: '/account/partners/list', class: null},
         {name: 'Branches', link: '/account/branches/list', class: null},
         {name: 'Territoires', link: '/account/zones/list', class: null},
-        {name: 'Segments', link: '/account/segments/list', class: null},
-        {name: 'APIs', link: '/account/home', class: null}],
-    },*/
+        {name: 'Segments', link: '/account/segments/list', class: null}
+        ]
+
+    },
     {
       name: 'Configuration des produits',
-      icon: 'manage_accounts',
+      icon: 'room_preferences',
       children: [
         {name: 'Garanties', link: '/account/guarantees/list', class: null},
         {name: 'Groupes Produits', link: '/account/products-groups/list', class: null}
       ],
     },
-    /*    {
+      {
           name: 'Marketing',
           icon: 'sell',
-          children: [{name: 'Produits'}, {name: 'Comptes clients'}, {name: 'Segmentation'}, {name: 'Fidélité'}],
+          children: [{name: 'Produits'}],
         },
-        {
+/*        {
           name: 'Souscriptions',
           icon: 'draw',
         },
