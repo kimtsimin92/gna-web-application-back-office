@@ -177,10 +177,9 @@ export class AccountService {
       .patch<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/partners/enabled/'+id, {observe: 'response'});
   }
 
-  getBranchesListData(sort: string, order: string, page: number, size: number) {
+  getBranchesListData(page: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/branches?sort='
-        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/branches?page='+page, {observe: 'response'});
   }
 
 
@@ -199,12 +198,16 @@ export class AccountService {
       .delete<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/branches/'+id, {observe: 'response'});
   }
 
+  saveBranchToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/branches/enabled/'+id, {observe: 'response'});
+  }
+
   //
 
-  getZoneListData(sort: string, order: string, page: number, size: number) {
+  getZoneListData(page: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/zones?sort='
-        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/zones?page='+page, {observe: 'response'});
   }
 
 
@@ -223,12 +226,22 @@ export class AccountService {
       .delete<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/zones/'+id, {observe: 'response'});
   }
 
+  saveZoneToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/zones/enabled/'+id, {observe: 'response'});
+  }
+
+
   //
 
-  getSegmentListData(sort: string, order: string, page: number, size: number) {
+  getSegmentListData(page: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/segments?sort='
-        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/segments?page='+page, {observe: 'response'});
+  }
+
+  saveSegmentToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.apiGateway+'/api/v1/products/segments/enabled/'+id, {observe: 'response'});
   }
 
 

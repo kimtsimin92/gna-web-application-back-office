@@ -185,11 +185,6 @@ th.mat-sort-header-sorted {
   color: black;
 }
 
-tr:hover {
-  cursor: pointer;
-  font-weight: bold;
-}
-
 td:hover {
   color: #1C3694;
 }
@@ -259,9 +254,6 @@ table th {
 
 }
 
-.btn-new {
-  text-align: end!important;
-}
 
 .example-h2 {
   margin: 10px;
@@ -278,3 +270,35 @@ table th {
   margin: 0 10px;
 }
 
+.example-table-con {
+  position: relative;
+  max-height: 110px;
+  overflow: auto;
+}
+
+.gi-table {
+  border: 1px solid #2960A3!important;
+}
+
+
+.gi-table th {
+  background-color: #2960A3!important;
+  color: white!important;
+  font-size: 11px!important;
+}
+
+.gi-table td {
+  color: #2960A3!important;
+}
+
+
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.example-margin {
+  margin: 0 10px;
+}

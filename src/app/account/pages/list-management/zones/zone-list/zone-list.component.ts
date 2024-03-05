@@ -26,7 +26,7 @@ import {
 import {
   RemoveLoadingDialogComponent
 } from "../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {
   SaveNotificationDialogComponent
 } from "../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component";
@@ -37,39 +37,46 @@ import {BreadcrumbModule} from "primeng/breadcrumb";
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {MatButton} from "@angular/material/button";
-import {MatCard} from "@angular/material/card";
+import {MatCard, MatCardHeader} from "@angular/material/card";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatTooltip} from "@angular/material/tooltip";
 import {TooltipModule} from "primeng/tooltip";
+import {DatePipe, NgIf} from "@angular/common";
+import {
+  ConfirmationToggleEnableDialogComponent
+} from "../../../../dialogs/confirmation/confirmation-toggle-enable-dialog/confirmation-toggle-enable-dialog.component";
 
 @Component({
   selector: 'app-zone-list',
   standalone: true,
-  imports: [
-    BreadcrumbModule,
-    ButtonModule,
-    InputTextModule,
-    MatButton,
-    MatCard,
-    MatCell,
-    MatCellDef,
-    MatCheckbox,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatPaginator,
-    MatProgressSpinner,
-    MatRow,
-    MatRowDef,
-    MatSort,
-    MatSortHeader,
-    MatTable,
-    MatTooltip,
-    TooltipModule,
-    MatHeaderCellDef
-  ],
+    imports: [
+        BreadcrumbModule,
+        ButtonModule,
+        InputTextModule,
+        MatButton,
+        MatCard,
+        MatCell,
+        MatCellDef,
+        MatCheckbox,
+        MatColumnDef,
+        MatHeaderCell,
+        MatHeaderRow,
+        MatHeaderRowDef,
+        MatPaginator,
+        MatProgressSpinner,
+        MatRow,
+        MatRowDef,
+        MatSort,
+        MatSortHeader,
+        MatTable,
+        MatTooltip,
+        TooltipModule,
+        MatHeaderCellDef,
+        DatePipe,
+        MatCardHeader,
+        NgIf
+    ],
   templateUrl: './zone-list.component.html',
   styleUrl: './zone-list.component.css'
 })
@@ -92,7 +99,6 @@ export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
   selection = new SelectionModel<any>(true, []);
 
   resultsLength = 0;
-  pageSize: number = 0;
   isLoadingResults = false;
   isRateLimitReached = false;
 
@@ -102,7 +108,15 @@ export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   @Output() newEvent = new EventEmitter<boolean>();
-  private isSave: boolean = false;
+  isSave: boolean = false;
+
+  pageSize: number = 6;
+  totalPages: number = 0;
+  currentPage: number = 0;
+
+  isDisable: boolean = true;
+
+  filteredList: any[] = [];
 
   constructor(
     public _dialog: MatDialog,
@@ -118,17 +132,14 @@ export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Territoires";
+    this.headerTitle = "Gestion des listes";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
     this.items = [{ label: 'Gestion Listes' }, { label: 'Territoires' }];
 
     this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
 
-    setTimeout(() => {
       this.onGetDataList();
-    }, 10);
-
 
   }
 
@@ -184,7 +195,8 @@ export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
   onGetNotificationErrorDialog(): void {
 
     const dialogRef = this._dialog.open(ErrorNotificationDialogComponent, {
-      width: '440px',
+      width: '400px',
+      height: '340px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -229,60 +241,30 @@ export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onGetDataList() {
 
-    // If the user changes the sort order, reset back to the first page.
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    let page = 0;
 
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.accountService.getZoneListData(
-            this.sort.active,
-            this.sort.direction,
-            this.paginator.pageIndex,
-            this.paginator.pageSize,
-          ).pipe(catchError(() => observableOf(null)));
-        }),
-        map(data => {
+    if (this.currentPage > 0) {
+      page = this.currentPage - 1;
+    } else {
+      page = this.currentPage;
+    }
 
-          console.log(data);
-
-          if (data) {
-
-            if (data["body"]) {
-              // Flip flag to show that loading has finished.
-              // @ts-ignore
-              this.dataPaginationResponse =  data["body"];
-
-              // @ts-ignore
-              this.isRateLimitReached = this.dataPaginationResponse === null;
-
-              if (this.dataPaginationResponse === null) {
-                return [];
-              }
-
-              // Only refresh the result length if there is new data. In case of rate
-              // limit errors, we do not want to reset the paginator to zero, as that
-              // would prevent users from re-triggering requests.
-              this.resultsLength = this.dataPaginationResponse.totalElements;
-              this.dataSource = new MatTableDataSource<any>(this.dataPaginationResponse.zones);
-              this.isLoadingResults = false;
-            } else {
-              this.isLoadingResults = false;
-            }
-          } else {
-            this.isLoadingResults = false;
-            this.onGetNotificationErrorDialog();
+    this.accountService.getZoneListData(page)
+      .subscribe((responseData: HttpResponse<any>) => {
+        console.log(responseData);
+        this.dataPaginationResponse =  responseData["body"];
+        if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
+          this.filteredList = this.dataPaginationResponse.zones;
+          if (this.currentPage <= 0) {
+            this.currentPage++;
           }
-          console.log(this.dataPaginationResponse);
-          return this.dataSource;
-        })
-      )// @ts-ignore
-      .subscribe(data => (this.dataPaginationResponse = data));
+        }
 
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+      }, (errorData: HttpErrorResponse) => {
+        console.log(errorData);
+        this.onGetNotificationErrorDialog();
+      });
+
   }
 
   applyFilter(event: Event) {
@@ -301,8 +283,8 @@ export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(ConfirmationRemoveDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
-      height: '250px',
+      width: '400px',
+      height: '340px',
       data: {
         dialogMessage: "du territoire " + data.name
       },
@@ -346,6 +328,7 @@ export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((responseData) => {
         this.isSave = false;
         this.closeDialog();
+        this.filteredList = [];
         this.onGetDataList();
         this.openSaveNotificationDialog();
       }, (error: HttpErrorResponse) => {
@@ -410,5 +393,128 @@ export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
     location.reload();
   }
 
+
+  openSaveToggleEnableNotificationDialog(): void {
+
+    const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+      data: {
+        dialogMessage: "L'opération a réussi."
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+
+  openSaveToggleEnableErrorNotificationDialog(error: HttpErrorResponse): void {
+
+    const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '440px',
+      data: {
+        httpError: error,
+        dialogMessage: "L'opération a échoué."
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+
+  onConfirmToggleEnabled(data: any, isToggle: boolean): void {
+
+    this.isSave = true;
+    this.accountService.isSave = this.isSave;
+
+    const dialogRef = this._dialog.open(ConfirmationToggleEnableDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+      data: {
+        dialogMessage: "le territoire " + data.name,
+        isToggle: isToggle
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.onSaveToggleEnable(data);
+      } else {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+  private onSaveToggleEnable(data: any) {
+
+    this.isSave = true;
+
+    this.openSaveLoadingDialog();
+
+    this.accountService.saveZoneToggleEnable(data.id)
+      .subscribe((responseData) => {
+        this.isSave = false;
+        this.closeDialog();
+        this.onGetDataList();
+        this.openSaveToggleEnableNotificationDialog();
+      }, (error: HttpErrorResponse) => {
+        this.isSave = false;
+        console.log(error);
+        this.closeDialog();
+        this.openSaveToggleEnableErrorNotificationDialog(error);
+      });
+
+  }
+
+  onGoToPrevious() {
+    this.currentPage--;
+    this.onGetDataList();
+  }
+
+  onGoToNext() {
+    this.currentPage++;
+    this.onGetDataList();
+  }
+
+  filterResults(text: string) {
+    if (!text) {
+      this.filteredList = this.dataPaginationResponse.zones;
+      return;
+    }
+
+    console.log(text);
+
+    if (this.dataPaginationResponse && this.dataPaginationResponse.zones) {
+      this.filteredList = this.dataPaginationResponse.zones.filter(
+        // @ts-ignore
+        data => data?.name.toLowerCase().includes(text.toLowerCase())
+      );
+    }
+
+  }
 
 }

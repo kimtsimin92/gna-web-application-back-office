@@ -55,6 +55,7 @@ export class SidenavComponent implements OnInit {
   menuData: any[] = [
     {
       name: 'Accueil',
+      icon: 'home',
       link: '/account/home',
       class: null
     },
@@ -119,15 +120,15 @@ export class SidenavComponent implements OnInit {
             {name: 'Gestion utilisateurs', link: '#'}
           ],
         },*/
-   /* {
+    {
       name: 'Paramètres',
       icon: 'manage_accounts',
       children: [
-        {name: 'Profil BO', link: '/account/settings/profiles', class: null},
-        {name: 'Lier Profil BO', link: '/account/settings/users', class: null},
-        {name: "Piste d'audite", link: '/account/home', class: null}
+       {name: 'Gestion Profils', link: '/account/settings/profiles', class: null},
+        {name: 'Gestion Utilisateurs', link: '/account/settings/users', class: null},
+       // {name: "Pistes d'audites", link: '/account/home', class: null}
       ],
-    },*/
+    },
   ];
 
   currentNode: any;

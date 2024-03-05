@@ -20,10 +20,16 @@
         <div class="container-fluid">
             <div class="row pb-2 gna-form">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="code">Code Partenaire</label>
+                <input pInputText
+                       type="text" id="code" aria-describedby="name-help" placeholder="Code Partenaire *" class="gna-form-input"
+                [value]="partnerData.code" [disabled]="isDisable"/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <label for="name">Nom Partenaire</label>
                 <input pInputText
                        type="text" id="name" aria-describedby="name-help" placeholder="Nom Partenaire *" class="gna-form-input"
-                [value]="partnerData.name" [disabled]="isDisable"/>
+                       [value]="partnerData.name" [disabled]="isDisable"/>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                   <label>Type Partenaire</label>

@@ -37,7 +37,7 @@
                   <mat-label>Nom</mat-label>
                   <input matInput
                          required
-                         formControlName="firstName"
+                         formControlName="lastName"
                          [readonly]="isSave">
                   <mat-error *ngIf="profileForm.firstName.invalid">{{getErrorMessageFirstNane()}}</mat-error>
                 </mat-form-field>
@@ -47,7 +47,7 @@
                   <mat-label>Prénom</mat-label>
                   <input matInput
                          required
-                         formControlName="lastName"
+                         formControlName="firstName"
                          [readonly]="isSave">
                   <mat-error *ngIf="profileForm.lastName.invalid">{{getErrorMessageLastNane()}}</mat-error>
                 </mat-form-field>

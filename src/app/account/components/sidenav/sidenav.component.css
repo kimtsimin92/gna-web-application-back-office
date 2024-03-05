@@ -1,6 +1,7 @@
 mat-tree {
   padding-top: 60px;
-  background-color: #f6993f;
+  background: transparent linear-gradient(180deg, #F6993FE6 0%, #F08217 69%, #915C27 100%) 0 0 no-repeat padding-box;
+  height: 100% !important
 }
 
 .mat-tree-node {
@@ -27,16 +28,25 @@ mat-icon {
   padding-left: 30px;
 }
 
-.mtn-selected {
-  position: relative;
-  z-index: 1;
-  background-color: white!important;
-  opacity: 20% !important;
-  color: #2960A3!important;
-  font-weight: bold;
+
+.mtn-selected .mat-tree-node {
+  position: relative!important;
+  background-color: #F8F7F7!important;
+  opacity: 0.35 !important;
+}
+
+.mtn-selected mat-icon {
+  z-index: 1!important;
+  font-weight: bold!important;
+  color: white!important;
+}
+
+.mtn-selected span {
+  z-index: 2!important;
+  font-weight: bold!important;
+  color: white!important;
 }
 
 .gna-tree-node {
   cursor: pointer;
-  z-index: 2;
 }

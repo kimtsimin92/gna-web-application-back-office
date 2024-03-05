@@ -24,6 +24,7 @@ import {
 } from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
 import {SegmentForm} from "../segment-form";
+import {InputTextModule} from "primeng/inputtext";
 
 @Component({
   selector: 'app-segment-add',
@@ -38,7 +39,8 @@ import {SegmentForm} from "../segment-form";
         MatFormField,
         MatInput,
         MatLabel,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        InputTextModule
     ],
   templateUrl: './segment-add.component.html',
   styleUrl: './segment-add.component.css'
@@ -104,8 +106,8 @@ export class SegmentAddComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
-      width: '370px',
-      height: '200px',
+      width: '380px',
+      height: '350px',
       data: {
         dialogMessage: "de ce segment"
       },
@@ -153,7 +155,6 @@ export class SegmentAddComponent implements OnInit, OnDestroy {
       .subscribe((responseData) => {
         this.isSave = false;
         console.log(responseData);
-        this.segmentData = responseData["body"];
         this.closeDialog();
         this.onSaveNotificationDialog();
 
@@ -183,11 +184,8 @@ export class SegmentAddComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/segments/edit")
+      this._router.navigateByUrl("/account/segments/list")
         .then(() => {
-          // @ts-ignore
-          localStorage.setItem("SEGMENT_DATA", JSON.stringify(this.segmentData));
-          this.loadingPage = false;
         });
 
     });

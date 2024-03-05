@@ -1,130 +1,131 @@
-<div class="container-fluid">
+<div class="gna-bc">
+  <span>Gestion des listes / Segments</span>
+</div>
 
-  <div class="gna-content-header">
-    <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
-  </div>
+<div class="container-fluid">
 
   <div>
     <mat-card class="gna-card">
-      @if (isLoadingResults || isRateLimitReached) {
-        <div class="example-loading-shade">
-          @if (isLoadingResults) {
-            <mat-spinner></mat-spinner>
-          }
-          @if (isRateLimitReached) {
-            <div class="example-rate-limit-reached">
-              GNA API rate limit has been reached. It will be reset in one minute.
+
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+          <div class="gna-list-header">
+            <div class="gna-list-header-1">
+          <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (keyup)="filterResults(filter.value)" placeholder="Recherche..."
+                           class="example-full-width gna-list-ir"
+                           #filter/>
+                      </span>
             </div>
-          }
+            <div class="gna-list-header-2">
+              <button mat-raised-button color="primary"
+                      class="gna-btn-default"
+                      (click)="onGoToSave()">Créer Segment</button>
+            </div>
+          </div>
         </div>
-      }
+      </mat-card-header>
 
       <div class="container-fluid">
 
-        <div class="gna-list-header">
-          <div class="gna-list-header-1">
-            <button mat-stroked-button color="primary"
-                    (click)="onReload()"
-                    matTooltip="Actualiser la page">
-              <i class="pi pi-refresh"></i>
-            </button>
-          </div>
-          <div class="gna-list-header-2">
-          <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (keyup)="applyFilter($event)" placeholder="Rechercher"
-                           class="example-full-width"  pTooltip="Filtrer le tableau"/>
-                      </span>
-          </div>
-          <div class="gna-list-header-3">
-            <button mat-raised-button color="primary"
-                    class="gna-btn-default"
-                    (click)="onGoToSave()">Créer Segment</button>
-          </div>
-        </div>
-        <div class="example-table-container">
-          <table
-            class="demo-table"
-            mat-table [dataSource]="dataSource"
-            matSort matSortActive="createdAt"
-            matSortDisableClear
-            matSortDirection="desc"
-            (matSortChange)="announceSortChange($event)">
-            <ng-container matColumnDef="select">
-              <th mat-header-cell *matHeaderCellDef>
-                <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                              [checked]="selection.hasValue() && isAllSelected()"
-                              [indeterminate]="selection.hasValue() && !isAllSelected()"
-                              [aria-label]="checkboxLabel()"
-                              color="primary" class="gna-table-header-checkbox">
-                </mat-checkbox>
-              </th>
-              <td mat-cell *matCellDef="let row">
-                <mat-checkbox (click)="$event.stopPropagation()"
-                              (change)="$event ? selection.toggle(row) : null"
-                              [checked]="selection.isSelected(row)"
-                              [aria-label]="checkboxLabel(row)"
-                              color="primary">
-                </mat-checkbox>
-              </td>
-            </ng-container>
-            <!-- Position Column -->
-            <ng-container matColumnDef="code">
-              <th mat-header-cell *matHeaderCellDef
-                  mat-sort-header
-              >Code</th>
-              <td mat-cell *matCellDef="let element"
-                  class="app-clickable">{{ element.code }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef
-                  mat-sort-header>Nom</th>
-              <td mat-cell *matCellDef="let element"
-                  class="app-clickable">{{ element.name }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef>
-              </th>
-              <td mat-cell *matCellDef="let element"
-                  class="app-clickable">
-                  <span class="gna-action-span-div">
+        <div class="example-table-container mt-4">
+          <table class="gna-table">
+            <thead>
+            <tr>
+              <th>Code</th>
+              <th>Nom du segment</th>
+              <th>Date de création</th>
+              <th>Statut</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody *ngIf="dataPaginationResponse && filteredList.length > 0">
+              @for (element of filteredList; track element) {
+                <tr>
+                  <td>
+                    {{ element.code }}
+                  </td>
+                  <td>
+                    {{ element.name }}
+                  </td>
+                  <td>
+                    {{ element.createdAt | date: 'dd-MM-YYYY'}}
+                  </td>
+                  <td>
+                    @if (element.enabled) {
+                      <span class="gna-list-status-green">Activé</span>
+                    } @else {
+                      <span class="gna-list-status-red">Désactivé</span>
+                    }
+                  </td>
+                  <td>
+                    <span class="gna-action-span-div">
                       <span class="gna-action-span">
-                            <p-button icon="pi pi-trash" [rounded]="true"
-                                      pTooltip="Supprimer"
-                                      tooltipPosition="bottom"
-                                      class="gna-btn-delete"
-                                      (click)="onConfirm(element)"></p-button>
+                        @if (element.enabled) {
+                          <img src="assets/svg/active.svg" class="gna-table-btn-enable"
+                               (click)="onConfirmToggleEnabled(element, true)">
+                        } @else {
+                          <img src="assets/svg/inactive.svg" class="gna-table-btn-enable"
+                               (click)="onConfirmToggleEnabled(element, false)">
+                        }
                   </span>
                       <span class="gna-action-span">
-                    <p-button icon="pi pi-eye" [rounded]="true" class="gna-btn-eye"
-                              pTooltip="Afficher"
-                              tooltipPosition="bottom"
-                              (click)="onView(element)"></p-button>
+                        @if (element.removable) {
+                          <img src="assets/images/table-trash.svg" alt="" class="gna-table-btn"
+                               (click)="onConfirm(element)">
+                        } @else {
+                          <img src="assets/images/table-trash.svg" alt="" class="gna-table-btn gna-disable">
+                        }
+                  </span>
+                      <span class="gna-action-span">
+                        <img src="assets/images/table-eye.svg" alt="" class="gna-table-btn"
+                             (click)="onView(element)">
                   </span>
                   <span class="gna-action-span">
-                    <p-button icon="pi pi-pencil" class="gna-btn-edit"
-                              pTooltip="Modifier"
-                              tooltipPosition="bottom"
-                              (click)="onViewEdit(element)"></p-button>
+                      <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn"
+                           (click)="onViewEdit(element)">
                   </span>
                   </span>
-
-              </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </td>
+                </tr>
+              }
+            </tbody>
           </table>
         </div>
-        <mat-paginator
-          [length]="resultsLength"
-          [pageSize]="pageSize"
-          [pageSizeOptions]="[5, 10, 50, 100]"
-          showFirstLastButtons
-        >
-        </mat-paginator>
+        <div class="gna-pagination">
+          @if (dataPaginationResponse) {
+            @if (currentPage > 1) {
+              <span class="gna-pagination-previous"
+                    (click)="onGoToPrevious()">
+              <i class="pi pi-arrow-left"></i>
+            </span>
+            } @else {
+              <span class="gna-pagination-previous gna-pagination-disabled">
+              <i class="pi pi-arrow-left"></i>
+            </span>
+            }
+            @if (dataPaginationResponse.pageSize > 0) {
+              <span class="gna-pagination-page">{{ currentPage }}</span>
+            } @else {
+              <span class="gna-pagination-page gna-pagination-disabled">0</span>
+            }
+            @if (currentPage < dataPaginationResponse.totalPages) {
+              <span class="gna-pagination-next"
+                    (click)="onGoToNext()">
+             <i class="pi pi-arrow-right"></i>
+          </span>
+            } @else {
+              <span class="gna-pagination-next gna-pagination-disabled">
+             <i class="pi pi-arrow-right"></i>
+          </span>
+            }
+          } @else {
+            <span class="gna-pagination-previous gna-pagination-disabled"><i class="pi pi-arrow-left"></i></span>
+            <span class="gna-pagination-page gna-pagination-disabled">0</span>
+            <span class="gna-pagination-next gna-pagination-disabled"><i class="pi pi-arrow-right"></i></span>
+          }
+        </div>
       </div>
     </mat-card>
   </div>

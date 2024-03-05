@@ -1,45 +1,38 @@
-<div class="gna-main-content">
+<div class="gna-bc">
+  <span>Gestion des listes / Branches / Voir</span>
+</div>
 
-  <div class="gna-content-header">
-    <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
-  </div>
+
+<div class="gna-main-content">
 
   <div class="container-fluid gna-main-div-card">
     <mat-card class="gna-card">
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-title">
-          Branche
-        </div>
-        <div class="gna-card-header-btn">
-          <div class="gna-card-header-btn-1">
-
-            <button mat-stroked-button color="primary"
-                    class="gna-btn-default"
+        <div class="gna-card-header-btn row">
+          <div class="col-12 col-sm-6">
+            <button mat-raised-button
+                    class="gna-btn-default" color="primary"
                     (click)="onBack()">Retour</button>
-          </div>
-          <div class="gna-card-header-btn-2">
-            <button mat-stroked-button color="primary"
-                    class="gna-btn-default"
-                    (click)="onGoToEdit()">Modifier</button>
           </div>
         </div>
       </mat-card-header>
       <mat-card-content>
-        <div class="mt-4">
-          <div class="card">
-            <div class="card-body gna-card-body">
-              <div class="row">
-                <div class="col-3">
-                  <span class="gna-view-label">Code : </span>
-                  <span class="gna-view-value">{{ branchData.code }}</span>
-                </div>
-                <div class="col-3">
-                  <span class="gna-view-label">Nom : </span>
-                  <span class="gna-view-value">{{ branchData.name }}</span>
-                </div>
+        <div class="container-fluid">
+            <div class="row pb-2 gna-form">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">Code Branche</label>
+                <input pInputText
+                       type="text" id="code" aria-describedby="name-help" placeholder="Code Branche" class="gna-form-input"
+                        [value]="branchData.code" [disabled]="isDisable" />
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">Nom Branche</label>
+                <input pInputText
+                       type="text" id="name" aria-describedby="name-help" placeholder="Nom Branche" class="gna-form-input"
+                       [value]="branchData.name" [disabled]="isDisable" />
               </div>
             </div>
-          </div>
+
         </div>
       </mat-card-content>
     </mat-card>

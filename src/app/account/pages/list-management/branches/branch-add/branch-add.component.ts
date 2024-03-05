@@ -26,24 +26,30 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect} from "@angular/material/select";
+import {DropdownModule} from "primeng/dropdown";
+import {InputTextModule} from "primeng/inputtext";
+import {KeyFilterModule} from "primeng/keyfilter";
 
 @Component({
   selector: 'app-branch-add',
   standalone: true,
-  imports: [
-    BreadcrumbModule,
-    FormsModule,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatOption,
-    MatSelect,
-    ReactiveFormsModule
-  ],
+    imports: [
+        BreadcrumbModule,
+        FormsModule,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatOption,
+        MatSelect,
+        ReactiveFormsModule,
+        DropdownModule,
+        InputTextModule,
+        KeyFilterModule
+    ],
   templateUrl: './branch-add.component.html',
   styleUrl: './branch-add.component.css'
 })
@@ -109,8 +115,8 @@ export class BranchAddComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
-      width: '370px',
-      height: '200px',
+      width: '380px',
+      height: '350px',
       data: {
         dialogMessage: "de cette branche"
       },
@@ -190,7 +196,7 @@ export class BranchAddComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/branches/edit")
+      this._router.navigateByUrl("/account/branches/list")
         .then(() => {
           // @ts-ignore
           localStorage.setItem("BRANCH_DATA", JSON.stringify(this.branchData));

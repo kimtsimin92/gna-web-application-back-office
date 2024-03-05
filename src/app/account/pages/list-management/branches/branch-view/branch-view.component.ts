@@ -6,6 +6,8 @@ import {MenuItem} from "primeng/api";
 import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {AccountService} from "../../../../account.service";
+import {InputTextModule} from "primeng/inputtext";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-branch-view',
@@ -15,7 +17,9 @@ import {AccountService} from "../../../../account.service";
         MatButton,
         MatCard,
         MatCardContent,
-        MatCardHeader
+        MatCardHeader,
+        InputTextModule,
+        ReactiveFormsModule
     ],
   templateUrl: './branch-view.component.html',
   styleUrl: './branch-view.component.css'
@@ -30,6 +34,7 @@ export class BranchViewComponent implements OnInit, OnDestroy {
 
   branchData: any = null;
   loadingPage: boolean = true;
+  isDisable: boolean = true;
 
   constructor(
     public _dialog: MatDialog,
@@ -51,7 +56,7 @@ export class BranchViewComponent implements OnInit, OnDestroy {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Branches";
+    this.headerTitle = "Gestion des listes";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
     this.home = { icon: 'pi pi-home', routerLink: '/account/home' };

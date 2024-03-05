@@ -149,7 +149,7 @@ export class PartnerListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   @Output() newEvent = new EventEmitter<boolean>();
-  private isSave: boolean = false;
+  isSave: boolean = false;
 
   dataPaginationResponse: any;
   pageSize: number = 6;
@@ -429,6 +429,7 @@ export class PartnerListComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((responseData) => {
         this.isSave = false;
         this.closeDialog();
+        this.filteredList = [];
         this.onGetDataList();
         this.openSaveNotificationDialog();
       }, (error: HttpErrorResponse) => {

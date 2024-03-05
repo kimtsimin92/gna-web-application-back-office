@@ -24,6 +24,7 @@ import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
+import {InputTextModule} from "primeng/inputtext";
 
 @Component({
   selector: 'app-zone-add',
@@ -38,7 +39,8 @@ import {MatInput} from "@angular/material/input";
     MatFormField,
     MatInput,
     MatLabel,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InputTextModule
   ],
   templateUrl: './zone-add.component.html',
   styleUrl: './zone-add.component.css'
@@ -73,7 +75,7 @@ export class ZoneAddComponent implements OnInit, OnDestroy {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Territores";
+    this.headerTitle = "Gestion des listes";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
 
@@ -105,8 +107,8 @@ export class ZoneAddComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
-      width: '370px',
-      height: '200px',
+      width: '380px',
+      height: '350px',
       data: {
         dialogMessage: "de ce territoire"
       },
@@ -184,11 +186,8 @@ export class ZoneAddComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/zones/edit")
+      this._router.navigateByUrl("/account/zones/list")
         .then(() => {
-          // @ts-ignore
-          localStorage.setItem("ZONE_DATA", JSON.stringify(this.zoneData));
-          this.loadingPage = false;
         });
 
     });

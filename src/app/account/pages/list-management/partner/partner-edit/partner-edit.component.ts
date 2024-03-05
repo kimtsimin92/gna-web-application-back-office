@@ -297,8 +297,8 @@ export class PartnerEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
-      width: '400px',
-      height: '340px',
+      width: '380px',
+      height: '350px',
       data: {
         dialogMessage: "de ce partenaire"
       },

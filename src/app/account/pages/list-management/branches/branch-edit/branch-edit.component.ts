@@ -25,24 +25,27 @@ import {MatInput} from "@angular/material/input";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect} from "@angular/material/select";
 import {BranchForm} from "../branch-form";
+import {InputTextModule} from "primeng/inputtext";
+import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
 
 @Component({
   selector: 'app-branch-edit',
   standalone: true,
-  imports: [
-    BreadcrumbModule,
-    FormsModule,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatOption,
-    MatSelect,
-    ReactiveFormsModule
-  ],
+    imports: [
+        BreadcrumbModule,
+        FormsModule,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatOption,
+        MatSelect,
+        ReactiveFormsModule,
+        InputTextModule
+    ],
   templateUrl: './branch-edit.component.html',
   styleUrl: './branch-edit.component.css'
 })
@@ -80,12 +83,8 @@ export class BranchEditComponent implements OnInit, OnDestroy {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Branches";
+    this.headerTitle = "Gestion des listes";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
-
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
-
-    this.items = [{ label: 'Gestion Listes' }, { label: 'Branches'}, {label: "Modification"}];
 
     if (localStorage.getItem("BRANCH_DATA")) {
       // @ts-ignore
@@ -175,6 +174,10 @@ export class BranchEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
+      this._router.navigateByUrl("/account/branches/list")
+        .then(() => {
+        });
+
     });
 
   }
@@ -212,8 +215,8 @@ export class BranchEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
-      width: '370px',
-      height: '200px',
+      width: '380px',
+      height: '350px',
       data: {
         dialogMessage: "de cette branche"
       },
@@ -231,6 +234,14 @@ export class BranchEditComponent implements OnInit, OnDestroy {
 
     });
 
+  }
+
+  onGetNotBlankAlert() {
+    const dialogRef = this._dialog.open(NotBlankDialogComponent, {
+      width: '440px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
 }

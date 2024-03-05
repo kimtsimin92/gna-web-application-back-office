@@ -23,6 +23,8 @@ import {
   ConfirmationEditDialogComponent
 } from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
 import {ZoneForm} from "../zone-form";
+import {InputTextModule} from "primeng/inputtext";
+import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
 
 @Component({
   selector: 'app-zone-edit',
@@ -37,7 +39,8 @@ import {ZoneForm} from "../zone-form";
         MatFormField,
         MatInput,
         MatLabel,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        InputTextModule
     ],
   templateUrl: './zone-edit.component.html',
   styleUrl: './zone-edit.component.css'
@@ -126,10 +129,6 @@ export class ZoneEditComponent implements OnInit, OnDestroy {
     this.accountService.saveZoneEdit(requestData, id)
       .subscribe((responseData) => {
         this.isSave = false;
-        this.branchData = responseData["body"];
-        // @ts-ignore
-        localStorage.setItem("ZONE_DATA", JSON.stringify(this.branchData));
-        this.dataForm.code.setValue(this.branchData.code);
         this.closeDialog();
         this.onSaveNotificationDialog();
       }, (error: HttpErrorResponse) => {
@@ -171,6 +170,10 @@ export class ZoneEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
+      this._router.navigateByUrl("/account/zones/list")
+        .then(() => {
+        });
+
     });
 
   }
@@ -208,8 +211,8 @@ export class ZoneEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
-      width: '370px',
-      height: '200px',
+      width: '380px',
+      height: '350px',
       data: {
         dialogMessage: "de ce territoire"
       },
@@ -227,6 +230,14 @@ export class ZoneEditComponent implements OnInit, OnDestroy {
 
     });
 
+  }
+
+  onGetNotBlankAlert() {
+    const dialogRef = this._dialog.open(NotBlankDialogComponent, {
+      width: '440px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
 

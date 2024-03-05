@@ -23,6 +23,8 @@ import {
   ConfirmationEditDialogComponent
 } from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
 import {SegmentForm} from "../segment-form";
+import {InputTextModule} from "primeng/inputtext";
+import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
 
 @Component({
   selector: 'app-segment-edit',
@@ -37,7 +39,8 @@ import {SegmentForm} from "../segment-form";
         MatFormField,
         MatInput,
         MatLabel,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        InputTextModule
     ],
   templateUrl: './segment-edit.component.html',
   styleUrl: './segment-edit.component.css'
@@ -126,10 +129,6 @@ export class SegmentEditComponent implements OnInit, OnDestroy {
     this.accountService.saveSegmentEdit(requestData, id)
       .subscribe((responseData) => {
         this.isSave = false;
-        this.segmentData = responseData["body"];
-        // @ts-ignore
-        localStorage.setItem("SEGMENT_DATA", JSON.stringify(this.segmentData));
-        this.dataForm.code.setValue(this.segmentData.code);
         this.closeDialog();
         this.onSaveNotificationDialog();
       }, (error: HttpErrorResponse) => {
@@ -171,6 +170,10 @@ export class SegmentEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
+      this._router.navigateByUrl("/account/segments/list")
+        .then(() => {
+        });
+
     });
 
   }
@@ -208,8 +211,8 @@ export class SegmentEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
-      width: '370px',
-      height: '200px',
+      width: '380px',
+      height: '350px',
       data: {
         dialogMessage: "de ce segment"
       },
@@ -227,6 +230,14 @@ export class SegmentEditComponent implements OnInit, OnDestroy {
 
     });
 
+  }
+
+  onGetNotBlankAlert() {
+    const dialogRef = this._dialog.open(NotBlankDialogComponent, {
+      width: '440px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
 }

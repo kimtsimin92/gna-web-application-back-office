@@ -6,6 +6,8 @@ import {MenuItem} from "primeng/api";
 import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {AccountService} from "../../../../account.service";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {InputTextModule} from "primeng/inputtext";
 
 @Component({
   selector: 'app-segment-view',
@@ -15,7 +17,10 @@ import {AccountService} from "../../../../account.service";
         MatButton,
         MatCard,
         MatCardContent,
-        MatCardHeader
+        MatCardHeader,
+        FormsModule,
+        InputTextModule,
+        ReactiveFormsModule
     ],
   templateUrl: './segment-view.component.html',
   styleUrl: './segment-view.component.css'
@@ -30,6 +35,7 @@ export class SegmentViewComponent implements OnInit, OnDestroy {
 
   segmentData: any = null;
   loadingPage: boolean = true;
+  isDisable: boolean = true;
 
   constructor(
     public _dialog: MatDialog,
