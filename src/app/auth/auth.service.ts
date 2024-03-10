@@ -162,7 +162,7 @@ export class AuthService {
 
     this.openLoadingDialog();
 
-    this._http.post<HttpResponse<any>>(environment.apiGateway + '/api/v1/users/auth/login/web', data, {observe: 'response'})
+    this._http.post<HttpResponse<any>>(environment.usersService + '/api/v1/users/auth/login/web', data, {observe: 'response'})
       .subscribe(response => {
 
 
@@ -217,18 +217,18 @@ export class AuthService {
   }
 
   loadingPasswordForgotEmail(data: any) {
-    return this._http.post<HttpResponse<any>>(environment.apiGateway + '/api/v1/users/auth/login/password/forgot/email',
+    return this._http.post<HttpResponse<any>>(environment.usersService + '/api/v1/users/auth/login/password/forgot/email',
       data, {observe: 'response'});
   }
 
   loadingPasswordForgotOtp(data: any) {
-    return this._http.post<HttpResponse<any>>(environment.apiGateway + '/api/v1/users/auth/login/password/forgot/otp',
+    return this._http.post<HttpResponse<any>>(environment.usersService + '/api/v1/users/auth/login/password/forgot/otp',
       data, {observe: 'response'});
 
   }
 
   loadingPasswordForgotChange(data: any) {
-    return this._http.post<HttpResponse<any>>(environment.apiGateway + '/api/v1/users/auth/login/password/forgot/change',
+    return this._http.post<HttpResponse<any>>(environment.usersService + '/api/v1/users/auth/login/password/forgot/change',
       data, {observe: 'response'});
 
   }

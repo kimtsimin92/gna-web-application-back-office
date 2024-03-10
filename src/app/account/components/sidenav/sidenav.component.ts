@@ -65,7 +65,8 @@ export class SidenavComponent implements OnInit {
       children: [{name: 'Partenaires', link: '/account/partners/list', class: null},
         {name: 'Branches', link: '/account/branches/list', class: null},
         {name: 'Territoires', link: '/account/zones/list', class: null},
-        {name: 'Segments', link: '/account/segments/list', class: null}
+        {name: 'Segments', link: '/account/segments/list', class: null},
+        {name: 'Incentives', link: '/account/incentives/list', class: null}
         ]
 
     },
@@ -80,7 +81,7 @@ export class SidenavComponent implements OnInit {
       {
           name: 'Marketing',
           icon: 'sell',
-          children: [{name: 'Produits'}],
+          children: [{name: 'Produits', link: '/account/products/list', class: null}],
         },
 /*        {
           name: 'Souscriptions',

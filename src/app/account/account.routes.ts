@@ -57,6 +57,8 @@ import {
 import {
   ProductGroupViewComponent
 } from "./pages/settings-products/products-groups/product-group-view/product-group-view.component";
+import {ProductListComponent} from "./pages/marketing/products/product-list/product-list.component";
+import {ProductAddComponent} from "./pages/marketing/products/product-add/product-add.component";
 
 export const routes: Routes = [
   {
@@ -164,6 +166,14 @@ export const routes: Routes = [
       {
         path: 'products-groups/view', component: ProductGroupViewComponent,
         title: 'Groupe Produit | GNA',
+      },
+      {
+        path: 'products/list', component: ProductListComponent,
+        title: 'Produit - Lister | GNA',
+      },
+      {
+        path: 'products/add', component: ProductAddComponent,
+        title: 'Produit - Créer | GNA',
       },
       {
         path: 'profile', component: ProfileComponent,

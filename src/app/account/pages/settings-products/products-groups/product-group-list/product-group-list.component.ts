@@ -101,7 +101,7 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
   resultsLength = 0;
   isLoadingResults = false;
   isRateLimitReached = false;
-  pageSize: number = 6;
+  pageSize: number = 10;
   totalPages: number = 0;
   currentPage: number = 0;
 

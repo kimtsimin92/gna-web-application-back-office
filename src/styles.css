@@ -205,22 +205,6 @@ a {
 
 /*** BOOTSTRAP ***/
 
-.nav {
-  --bs-nav-link-color: black;
-  --bs-nav-link-hover-color: black;
-}
-
-.nav-tabs {
-  --bs-nav-tabs-border-width: 2px;
-  --bs-nav-tabs-border-color: #F4F5F6;
-  --bs-nav-tabs-border-radius: 0;
-  --bs-nav-tabs-link-hover-border-color: #F4F5F6;
-  --bs-nav-tabs-link-active-color: #1C3694;
-  --bs-nav-tabs-link-active-bg: var(--bs-body-bg);
-  --bs-nav-tabs-link-active-border-color: #F4F5F6;
-  border-bottom: var(--bs-nav-tabs-border-width) solid var(--bs-nav-tabs-border-color);
-}
-
 .overlay {
   position: fixed;
   top: 0;
@@ -490,9 +474,9 @@ a {
 
 .gna-card {
   position: relative;
-  margin: 20px;
-  min-height: 500px!important;
-  max-height: 500px!important;
+  margin: 2vh!important;
+  min-height: 75vh!important;
+  max-height: 75vh!important;
   overflow: auto;
 }
 
@@ -601,7 +585,7 @@ a {
 }
 
 table {
-  width: 100%;
+  width: 100% !important;
 }
 
 
@@ -632,6 +616,12 @@ tr:hover {
 .gna-action-span-div {
   display: flex;
   justify-content: flex-end;
+}
+
+.gna-action-span-div-s {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 2vh!important;
 }
 
 .gna-action-span {
@@ -691,9 +681,8 @@ tr:hover {
 
 .example-table-container {
   position: relative;
-  min-height: 210px;
-  max-height: 210px;
-  margin-left: 5px;
+  min-height: 50vh!important;
+  max-height: 50vh!important;
   overflow: auto;
 }
 
@@ -943,6 +932,11 @@ th, td {
   font-weight: bold;
 }
 
+.gna-form-file-label {
+  margin-top: 0!important;
+  font-weight: initial!important;
+}
+
 .gna-form ul {
   margin: 0!important;
 }
@@ -950,7 +944,7 @@ th, td {
 .gna-form-input {
   width: 100%!important;
   border: 1px solid rgba(29, 53, 146, 0.5) !important;
-  border-radius: 2px!important;
+  border-radius: 3px!important;
 }
 
 .gna-form .p-inputtext.ng-dirty.ng-invalid {
@@ -962,13 +956,13 @@ th, td {
   margin-top: 5px;
   width: 100%!important;
   border: 1px solid rgba(29, 53, 146, 0.5);
-  border-radius: 2px!important;
+  border-radius: 3px!important;
 }
 
 .gna-form-multiselect .p-multiselect {
   width: 100%!important;
   border: 1px solid rgba(29, 53, 146, 0.5);
-  border-radius: 2px!important;
+  border-radius: 3px!important;
 }
 
 .gna-form-multiselect .p-multiselect-trigger {
@@ -1025,7 +1019,7 @@ th, td {
 .gna-form-dropdown .p-dropdown {
   width: 100%!important;
   border: 1px solid rgba(29, 53, 146, 0.5);
-  border-radius: 2px!important;
+  border-radius: 3px!important;
 }
 
 .gna-form-dropdown .p-dropdown-trigger {
@@ -1118,7 +1112,7 @@ th, td {
 
 .gna-dialog-bar {
   margin-left: 32% !important;
-  margin-top: 15px;
+  margin-top: 30px;
   margin-bottom: 40px;
   height: 3px!important;
   width: 35%!important;
@@ -1131,5 +1125,21 @@ th, td {
 
 .gna-btn-clauses {
   border: 1px solid rgba(29, 53, 146, 0.5)!important;
-  height: 32px!important;
+  height: 34px!important;
+}
+
+/** **/
+
+.gna-card-tab {
+
+}
+
+.gna-card-tab-item {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #D3D0D0;
+}
+
+.gna-nav-tabs-2 {
+  text-align: center!important;
 }

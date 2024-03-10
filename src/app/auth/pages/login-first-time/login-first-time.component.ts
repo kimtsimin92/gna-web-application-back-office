@@ -194,7 +194,7 @@ export class LoginFirstTimeComponent implements OnInit {
       if (result) {
         this._router.navigateByUrl("/account/home").then(() => {
           this.isSave = false;
-          this.openSnackBar();
+          //this.openSnackBar();
         });
       }
 
