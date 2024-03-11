@@ -68,54 +68,58 @@ export class AccountService {
 
   getProfileList() {
       return this._http
-        .get<HttpResponse<any>>(environment.productsService+'/api/v1/users/profiles/getList', {observe: 'response'});
+        .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles/getList', {observe: 'response'});
   }
 
 
-  getProfiles(sort: string, order: string, page: number, size: number) {
+  getProfiles(page: number) {
       return this._http
-        .get<HttpResponse<any>>(environment.productsService+'/api/v1/users/profiles?sort='
-          +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
+        .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles?page='+page, {observe: 'response'});
   }
 
   userProfileSave(requestData: any) {
       return this._http
-        .post<HttpResponse<any>>(environment.productsService+'/api/v1/users/profiles/save', requestData, {observe: 'response'});
+        .post<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles/save', requestData, {observe: 'response'});
   }
 
   userProfileEdit(requestData: any, id: number) {
       return this._http
-        .patch<HttpResponse<any>>(environment.productsService+'/api/v1/users/profiles/save/edit/'+id, requestData, {observe: 'response'});
+        .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles/save/edit/'+id, requestData, {observe: 'response'});
   }
 
   getUserProfile(requestData: any) {
       return this._http
-        .post<HttpResponse<any>>(environment.productsService+'/api/v1/users/profiles', requestData, {observe: 'response'});
+        .post<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles', requestData, {observe: 'response'});
   }
 
   editUserProfile(requestData: any) {
       return this._http
-        .patch<HttpResponse<any>>(environment.productsService+'/api/v1/users/profiles/'+requestData.id, requestData, {observe: 'response'});
+        .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles/'+requestData.id, requestData, {observe: 'response'});
   }
 
   editUserProfilePassword(requestData: any) {
       return this._http
-        .patch<HttpResponse<any>>(environment.productsService+'/api/v1/users/profiles/'+requestData.id+'/password', requestData, {observe: 'response'});
+        .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles/'+requestData.id+'/password', requestData, {observe: 'response'});
   }
 
   userFirstTimeChangePassword(requestData: any) {
     return this._http
-      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/users/login/first-time/'+requestData.id+'/password', requestData, {observe: 'response'});
+      .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/login/first-time/'+requestData.id+'/password', requestData, {observe: 'response'});
   }
 
   managerAddUserAccount(requestData: any) {
       return this._http
-        .post<HttpResponse<any>>(environment.productsService+'/api/v1/users/managers/accounts/users/save', requestData, {observe: 'response'});
+        .post<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users/save', requestData, {observe: 'response'});
   }
 
   managerEditUserAccount(requestData: any) {
       return this._http
-        .patch<HttpResponse<any>>(environment.productsService+'/api/v1/users/managers/accounts/users/save/'+requestData.id, requestData, {observe: 'response'});
+        .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users/save/'+requestData.id, requestData, {observe: 'response'});
+  }
+
+  managerProfileToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users/profiles/enabled/'+id, {observe: 'response'});
   }
 
 /*  getUsersListData(sort: string, order: string, page: number, size: number) {
@@ -135,7 +139,7 @@ export class AccountService {
   getUsersListData(sort: string, order: string, page: number, size: number) {
     let requestData = {};
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/users/managers/accounts/users?sort='
+      .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users?sort='
         +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
   }
 
@@ -328,6 +332,12 @@ export class AccountService {
     return this._http
       .post<HttpResponse<any>>(environment.productsService+'/api/v1/products', requestData, {observe: 'response'});
   }
+
+  editProduct(id: number, requestData: any) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/'+id, requestData, {observe: 'response'});
+  }
+
 
   saveProductImage(id: number, requestData: FormData) {
     return this._http

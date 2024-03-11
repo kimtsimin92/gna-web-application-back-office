@@ -5,7 +5,7 @@ import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} f
 import {InputTextModule} from "primeng/inputtext";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {KeyFilterModule} from "primeng/keyfilter";
-import {KeyValuePipe} from "@angular/common";
+import {DecimalPipe, KeyValuePipe, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
@@ -57,7 +57,9 @@ import {ImageModule} from "primeng/image";
     ReactiveFormsModule,
     SharedModule,
     TabViewModule,
-    ImageModule
+    ImageModule,
+    NgIf,
+    DecimalPipe
   ],
   templateUrl: './product-add.component.html',
   styleUrl: './product-add.component.css'
@@ -82,7 +84,6 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
   productGroupList: any[] = [];
   segmentList: any[] = [];
-
 
 
   productClauses: any;
@@ -179,6 +180,12 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
   advertisementObjectFile: File = null;
   productData: any = null;
 
+  // @ts-ignore
+  imageErrorMessage: string = null;
+
+  // @ts-ignore
+  objectFileErrorMessage: string = null;
+
   constructor(
     private _fb: FormBuilder,
     public _dialog: MatDialog,
@@ -266,29 +273,28 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isSave = true;
     console.log(this.formData.value);
 
-  this.onSaveLoadingDialog();
+    this.onSaveLoadingDialog();
 
-  let requestData = {
-    image: null,
-    name: this.formData.value.name,
-    description: this.formData.value.description,
-    groupId: null,
-    segmentId: null,
-    crossSellingProductCode: this.formData.value.crossSellingProductCode,
-    crossSellingDiscountRate: this.formData.value.crossSellingDiscountRate,
-    incentives: [],
-    cashBackRate: this.formData.value.cashBackRate,
-    commercialDiscountRate: this.formData.value.commercialDiscountRate,
-    premiumIncreaseRate: this.formData.value.premiumIncreaseRate,
-    loyaltyPoint: this.formData.value.loyaltyPoint,
-    renewable: null,
-    tacitAgreement: null,
-    advertisementObject: null,
-    advertisementObjectFile: null,
-    backOfficeValidation: this.formData.value.backOfficeValidation,
-    clauses: this.productClauses,
-    partners: [],
-  }
+    let requestData = {
+      name: this.formData.value.name,
+      description: this.formData.value.description,
+      groupId: null,
+      segmentId: null,
+      crossSellingProductCode: this.formData.value.crossSellingProductCode,
+      crossSellingDiscountRate: this.formData.value.crossSellingDiscountRate,
+      incentives: [],
+      cashBackRate: this.formData.value.cashBackRate,
+      commercialDiscountRate: this.formData.value.commercialDiscountRate,
+      premiumIncreaseRate: this.formData.value.premiumIncreaseRate,
+      loyaltyPoint: this.formData.value.loyaltyPoint,
+      renewable: null,
+      tacitAgreement: null,
+      advertisementObject: null,
+      advertisementObjectFile: null,
+      backOfficeValidation: this.formData.value.backOfficeValidation,
+      clauses: this.productClauses,
+      partners: [],
+    }
 
     if (this.formData.value.group) {
       requestData.groupId = this.formData.value.group.id;
@@ -312,62 +318,63 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     if (this.selectPartnerList && this.selectPartnerList.length > 0) {
-    // @ts-ignore
-    this.dataForm.partners.setValue(new FormControl(this.selectPartnerList));
-  }
-
-    if (this.formData.value.partners.value) {
-      requestData.partners = this.formData.value.partners.value;
+      // @ts-ignore
+      this.dataForm.partners.setValue(new FormControl(this.selectPartnerList));
     }
 
-  if (this.formData.value.incentives) {
-    let incentives = this.formData.value.incentives;
-    if (incentives.length > 0) {
-      incentives.forEach((incentive: any) => {
-        // @ts-ignore
-        requestData.incentives.push(incentive.id);
-      });
+    if (this.formData.value.incentives) {
+      let incentives = this.formData.value.incentives;
+      if (incentives.length > 0) {
+        incentives.forEach((incentive: any) => {
+          // @ts-ignore
+          requestData.incentives.push(incentive.id);
+        });
+      }
     }
-  }
 
-  console.log(requestData);
+    if (this.selectPartnerList && this.selectPartnerList.length > 0) {
+      // @ts-ignore
+      requestData.partners = this.selectPartnerList;
+    }
 
-  this.accountService.addProduct(requestData)
-    .subscribe((responseData: HttpResponse<any>) => {
+    console.log(requestData);
 
-      console.log(responseData);
-      this.productData = responseData["body"];
+    this.accountService.addProduct(requestData)
+      .subscribe((responseData: HttpResponse<any>) => {
 
-      if (this.productData) {
+        console.log(responseData);
+        this.productData = responseData["body"];
 
-        let productId = this.productData.id;
+        if (this.productData) {
 
-        if (this.productImageFile) {
+          let productId = this.productData.id;
+
+          if (this.productImageFile) {
             let requestProductImage = new FormData();
             requestProductImage.append("file", this.productImageFile);
             this.onSaveProductImage(productId, requestProductImage);
-        } else if (this.productData.advertisementObject && this.advertisementObjectFile) {
-          let requestProductAdvertisementObjectFile = new FormData();
-          requestProductAdvertisementObjectFile.append("file", this.advertisementObjectFile);
-          this.onSaveProductAdvertisementObjectFile(productId, requestProductAdvertisementObjectFile);
+          } else if (this.productData.advertisementObject && this.advertisementObjectFile) {
+            let requestProductAdvertisementObjectFile = new FormData();
+            requestProductAdvertisementObjectFile.append("file", this.advertisementObjectFile);
+            this.onSaveProductAdvertisementObjectFile(productId, requestProductAdvertisementObjectFile);
+          } else {
+            this.isSave = false;
+            this.closeDialog();
+            this.onSaveNotificationDialog();
+          }
+
         } else {
           this.isSave = false;
           this.closeDialog();
           this.onSaveNotificationDialog();
         }
 
-      } else {
+      }, (errorData: HttpErrorResponse) => {
         this.isSave = false;
+        console.log(errorData);
         this.closeDialog();
-        this.onSaveNotificationDialog();
-      }
-
-    }, (errorData: HttpErrorResponse) => {
-      this.isSave = false;
-      console.log(errorData);
-      this.closeDialog();
-      this.onSaveErrorNotificationDialog(errorData);
-    });
+        this.onSaveErrorNotificationDialog(errorData);
+      });
 
   }
 
@@ -375,18 +382,18 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.isSave = true;
 
-  this.accountService.onSaveProductAdvertisementObjectFile(productId, requestData)
-    .subscribe((responseData: HttpResponse<any>) => {
-      this.isSave = false;
-      console.log(responseData);
+    this.accountService.onSaveProductAdvertisementObjectFile(productId, requestData)
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.isSave = false;
+        console.log(responseData);
         this.closeDialog();
         this.onSaveNotificationDialog();
-    }, (errorData: HttpErrorResponse) => {
-      this.isSave = false;
-      console.log(errorData);
-      this.closeDialog();
-      this.onSaveErrorNotificationDialog(errorData);
-    });
+      }, (errorData: HttpErrorResponse) => {
+        this.isSave = false;
+        console.log(errorData);
+        this.closeDialog();
+        this.onSaveErrorNotificationDialog(errorData);
+      });
 
   }
 
@@ -535,14 +542,44 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     } */
 
-  onAddGuaranteeToTable() {
-    if (!this.selectPartnerList[this.guaranteeCode.id]) {
-      this.guaranteeCode.mandatory = false;
-      this.selectPartnerList[this.guaranteeCode.id] = this.guaranteeCode;
-      // @ts-ignore
-      this.dataForm.products.setValue(new FormControl(this.selectPartnerList));
+  onAddPartnerToTable() {
+    console.log(this.formProductPartner.value);
+
+    if (this.formProductPartner.value && this.formProductPartner.value.partnerId) {
+
+      if (this.partnerList && this.partnerList.length > 0) {
+        this.partnerList.forEach((p: any) => {
+          if (p.name === this.formProductPartner.value.partnerId) {
+
+            let partner = {
+              partnerId: p.id,
+              code: p.code,
+              name: p.name,
+              accessoryAmount: this.formProductPartner.value.partnerAccessoryAmount,
+              commissionRate: this.formProductPartner.value.partnerCommissionRate,
+              sponsorshipCode: this.formProductPartner.value.sponsorshipCode,
+            };
+
+            console.log(partner);
+
+              this.selectPartnerList[partner.partnerId] = partner;
+              this.productPartnerForm = new ProductPartnerForm();
+              this.formProductPartner = this._fb.group(this.productPartnerForm);
+
+          }
+        });
+      }
+
     }
 
+
+  }
+
+  onEditItem(item: any) {
+    this.productPartnerForm.partnerId.setValue(item.name);
+    this.productPartnerForm.partnerAccessoryAmount.setValue(item.accessoryAmount);
+    this.productPartnerForm.partnerCommissionRate.setValue(item.commissionRate);
+    this.productPartnerForm.sponsorshipCode.setValue(item.sponsorshipCode);
   }
 
   onSelectGuarantee(guarantee: any) {
@@ -550,16 +587,16 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     this.guaranteeCode = guarantee;
   }
 
-  onRemoveGuaranteeFromList(selectGuarantee: any) {
-    if (this.selectPartnerList[selectGuarantee.id]) {
-      delete this.selectPartnerList[selectGuarantee.id];
+  onRemoveGuaranteeFromList(item: any) {
+    if (this.selectPartnerList[item.partnerId]) {
+      delete this.selectPartnerList[item.partnerId];
     }
   }
 
   openClauseEditorDialog() {
     const dialogRef = this._dialog.open(GuaranteeClauseEditorDialogComponent, {
       hasBackdrop: false,
-      data: {productClauses: this.productClauses},
+      data: {clauses: this.productClauses},
       width: '900px',
       height: '900'
     });
@@ -587,6 +624,9 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getProductImageFile() {
 
+    // @ts-ignore
+    this.imageErrorMessage = null;
+
     const input = document.getElementById('productImageFile')
 
     // @ts-ignore
@@ -603,7 +643,20 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
       if (file) {
 
+        const mimeType = file.type;
         let maxSize = 2 * 1024 * 1024; // 2 Mo en octets
+
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+          // @ts-ignore
+          input.value = null;
+          // @ts-ignore
+          this.productImageFile = null;
+          this.productImageUrl = null;
+          this.imageErrorMessage = "jpg, jpeg ou png type *"
+          return false;
+        }
 
         if (file.size > maxSize) {
           // @ts-ignore
@@ -611,33 +664,20 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
           // @ts-ignore
           this.productImageFile = null;
           this.productImageUrl = null;
+          this.imageErrorMessage = "2 Mo taille maximum *"
           return false;
-        } else {
-          const mimeType = file.type;
-
-          const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-
-          if (!allowedExtensions.exec(filePath)) {
-            // @ts-ignore
-            input.value = null;
-            // @ts-ignore
-            this.productImageFile = null;
-            this.productImageUrl = null;
-            return false;
-          } else {
-
-            this.productImageFile = file;
-
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (_event) => {
-              this.productImageUrl = reader.result;
-            }
-
-            return true;
-          }
-
         }
+
+        this.productImageFile = file;
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (_event) => {
+          this.productImageUrl = reader.result;
+        }
+
+        // @ts-ignore
+        this.imageErrorMessage = null;
 
       } else {
         // @ts-ignore
@@ -645,12 +685,17 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
         // @ts-ignore
         this.productImageFile = null;
         this.productImageUrl = null;
+        // @ts-ignore
+        this.imageErrorMessage = null;
       }
 
     });
   }
 
   getAdvertisementObjectFile() {
+
+    // @ts-ignore
+    this.objectFileErrorMessage = null;
 
     const input = document.getElementById('advertisementObjectFile')
 
@@ -668,34 +713,33 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
       if (file) {
 
-        let maxSize = 2 * 1024 * 1024; // 2 Mo en octets
+        const mimeType = file.type;
+        let maxSize = 5 * 1024 * 1024; // 5 Mo en octets
+
+        const allowedExtensions = ['image/jpeg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+
+        if (!allowedExtensions.includes(mimeType)) {
+          // @ts-ignore
+          input.value = null;
+          // @ts-ignore
+          this.advertisementObjectFile = null;
+          this.objectFileErrorMessage = "jpg, jpeg, png, word, excel ou pdf type  *"
+          return false;
+        }
 
         if (file.size > maxSize) {
           // @ts-ignore
           input.value = null;
           // @ts-ignore
           this.advertisementObjectFile = null;
+          this.objectFileErrorMessage = "5 Mo taille maximum *"
           return false;
-        } else {
-          const mimeType = file.type;
-
-          const allowedExtensions = ['image/jpeg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
-
-          if (!allowedExtensions.includes(mimeType)) {
-            // @ts-ignore
-            input.value = null;
-            // @ts-ignore
-            this.advertisementObjectFile = null;
-            return false;
-          } else {
-
-            this.advertisementObjectFile = file;
-
-            return true;
-          }
-
         }
+
+        this.advertisementObjectFile = file;
+        // @ts-ignore
+        this.objectFileErrorMessage = null;
 
       } else {
         // @ts-ignore
@@ -703,6 +747,8 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
         // @ts-ignore
         this.productImageFile = null;
         this.productImageUrl = null;
+        // @ts-ignore
+        this.objectFileErrorMessage = null;
       }
 
     });

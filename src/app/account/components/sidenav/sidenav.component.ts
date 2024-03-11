@@ -66,7 +66,7 @@ export class SidenavComponent implements OnInit {
         {name: 'Branches', link: '/account/branches/list', class: null},
         {name: 'Territoires', link: '/account/zones/list', class: null},
         {name: 'Segments', link: '/account/segments/list', class: null},
-        {name: 'Incentives', link: '/account/incentives/list', class: null}
+       // {name: 'Incentives', link: '/account/incentives/list', class: null}
         ]
 
     },

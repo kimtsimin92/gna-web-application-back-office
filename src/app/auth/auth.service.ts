@@ -313,7 +313,6 @@ export class AuthService {
 
     const dialogRef = this._dialog.open(AuthLoginDialogComponent, {
       hasBackdrop: false,
-      position: {right:'90px', top:'270px'},
       width: '320px',
     });
 

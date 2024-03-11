@@ -31,13 +31,13 @@ import {NgIf} from "@angular/common";
 })
 export class GuaranteeClauseEditorDialogComponent implements OnInit {
 
-  guaranteeClauses: any;
+  clauses: any;
   isView: boolean = false;
 
   constructor(public _dialogRef: MatDialogRef<GuaranteeClauseEditorDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
-    if (this.data && data.guaranteeClauses) {
-      this.guaranteeClauses = data.guaranteeClauses;
+    if (this.data && data.clauses) {
+      this.clauses = data.clauses;
     }
     if (this.data && data.isView) {
       this.isView = data.isView;
@@ -45,7 +45,6 @@ export class GuaranteeClauseEditorDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.info(this.guaranteeClauses);
   }
 
 }

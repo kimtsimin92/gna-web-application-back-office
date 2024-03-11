@@ -2,7 +2,7 @@
   REDACTION DES CLAUSES
 </h1>
 <mat-dialog-content class="mat-typography">
-  <p-editor [(ngModel)]="guaranteeClauses" [style]="{ height: '300px' }"
+  <p-editor [(ngModel)]="clauses" [style]="{ height: '300px' }"
   [readonly]="isView">
     <ng-template pTemplate="header">
         <span class="ql-formats">
@@ -62,13 +62,13 @@
             <button type="button" class="ql-link" aria-label="link"></button>
           </span>
     </ng-template>
-    @if (guaranteeClauses) {
-      {{ guaranteeClauses }}
+    @if (clauses) {
+      {{ clauses }}
     }
   </p-editor>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-stroked-button color="primary" mat-dialog-close>Fermer</button>
-  <button mat-raised-button color="primary" [mat-dialog-close]="guaranteeClauses"
-  *ngIf="guaranteeClauses && !isView">Valider</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="clauses"
+  *ngIf="clauses && !isView">Confirmer</button>
 </mat-dialog-actions>

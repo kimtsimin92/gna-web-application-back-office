@@ -74,13 +74,16 @@
                         <input type="file" accept="image/*" class="form-control"
                                id="productImageFile">
                       </div>
+                      <small class="gna-text-red"
+                             *ngIf="imageErrorMessage">{{ imageErrorMessage }}</small>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label for="name">Nom produit</label>
                       <input pInputText
                              type="text" id="name" aria-describedby="name-help" placeholder="Nom Produit *" class="gna-form-input"
                              required
-                             formControlName="name"/>
+                             formControlName="name"
+                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                         <label>Groupe produit</label>
@@ -162,7 +165,8 @@
                       <label for="name">Code produit cross selling</label>
                       <input pInputText
                              type="text" id="crossSellingProductCode" aria-describedby="name-help" placeholder="Code produit cross selling" class="gna-form-input"
-                             formControlName="crossSellingProductCode"/>
+                             formControlName="crossSellingProductCode"
+                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label for="cashBackRate">Taux de réduction cross selling %</label>
@@ -219,6 +223,8 @@
                                id="advertisementObjectFile"
                                class="form-control" [disabled]="!advertisementObject.value || advertisementObject.value && advertisementObject.value.value !== true">
                       </div>
+                      <small class="gna-text-red"
+                             *ngIf="objectFileErrorMessage">{{ objectFileErrorMessage }}</small>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label>Clauses</label>
@@ -229,7 +235,7 @@
                     </div>
                     <div class="col-12 col-sm-9 col-md-9 col-lg-9 col-xl-9">
                       <label>Description</label>
-                      <textarea rows="2" pInputTextarea formControlName="description"
+                      <textarea rows="1" pInputTextarea formControlName="description"
                                 class="gna-form-input"></textarea>
                     </div>
                     <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
@@ -256,7 +262,7 @@
                       <label>Partnaire commercial</label>
 
                       <p-dropdown [options]="partnerList"
-                                  optionLabel="name" placeholder="Partnaire commercial"
+                                  optionLabel="name" optionValue="name" placeholder="Partnaire commercial"
                                   class="gna-form-dropdown"
                                   formControlName="partnerId"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave">
@@ -284,7 +290,6 @@
                              id="partnerCommissionRate" aria-describedby="name-help" placeholder="Taux de commission partenaire" class="gna-form-input"
                              type="number"
                              pattern="^\d+$"
-                             required
                              formControlName="partnerCommissionRate"/>
                     </div>
 
@@ -296,24 +301,25 @@
                     </div>
 
                   </div>
-                </form>
+
 
                 <div class="row gna-form mb-3">
 
 
                   <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-5 btn-new">
-                    @if (!partnerId || partnerList && partnerList.length <= 0) {
+                    @if (!formProductPartner.valid || partnerList && partnerList.length <= 0) {
                       <button mat-raised-button
                               class="gna-btn-default gna-btn-add gna-disable">Ajouter</button>
                     } @else {
                       <button mat-raised-button
                               class="gna-btn-default gna-btn-add"
-                              (click)="onAddGuaranteeToTable()"
+                              (click)="onAddPartnerToTable()"
                               [disabled]="isSave || accountService.pageLoading || accountService.isSave">Ajouter</button>
                     }
                   </div>
 
                 </div>
+                </form>
                 <div class="example-table-con ">
                   <table class="table table-borderless gi-table">
                     <thead>
@@ -322,6 +328,7 @@
                       <th>Nom partnaire</th>
                       <th>Montant forfaitaire</th>
                       <th>Taux commission</th>
+                      <th>Code parainage</th>
                       <th></th>
                     </tr>
                     </thead>
@@ -331,11 +338,25 @@
                           <td>{{ selectPartner.value.code }}</td>
                           <td>{{ selectPartner.value.name }}</td>
                           <td>
+                            <span *ngIf="selectPartner.value.accessoryAmount">
+                              {{ selectPartner.value.accessoryAmount | number : "2.0" }}
+                            </span>
+                          </td>
+                          <td>
+                           <span *ngIf="selectPartner.value.commissionRate">
+                             {{ selectPartner.value.commissionRate | number : "2.0" }}%
+                           </span>
+                          </td>
+                          <td>{{ selectPartner.value.sponsorshipCode }}</td>
+                          <td>
                               <span class="gna-action-span-div">
                       <span class="gna-action-span">
-                          <p-checkbox  [binary]="true" [(ngModel)]="selectPartner.value.mandatory"
-                                       [readonly]="isSave || accountService.pageLoading || accountService.isSave"
-                                       class="gna-table-checkbox"></p-checkbox>
+                      @if (isSave || accountService.pageLoading || accountService.isSave) {
+                        <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn">
+                      } @else {
+                        <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn"
+                             (click)="onEditItem(selectPartner.value)">
+                      }
                       </span>
                                         <span class="gna-action-span">
                                     @if (isSave || accountService.pageLoading || accountService.isSave) {

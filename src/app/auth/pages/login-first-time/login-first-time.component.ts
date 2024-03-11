@@ -28,6 +28,7 @@ import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition}
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {GnaLoadingComponent} from "../../../account/transitions/gna-loading/gna-loading.component";
 import {InputTextModule} from "primeng/inputtext";
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'app-login-first-time',

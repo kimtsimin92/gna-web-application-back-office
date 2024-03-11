@@ -158,7 +158,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
 
     if (localStorage.getItem("PRODUCT_GROUP_DATA")) {
       // @ts-ignore
-      this.productGroup = JSON.parse(localStorage.getItem("PRODUCT_GROUP_DATA_DATA"));
+      this.productGroup = JSON.parse(localStorage.getItem("PRODUCT_GROUP_DATA"));
     } else {
       this._router.navigateByUrl("/account/products-groups/list")
     }

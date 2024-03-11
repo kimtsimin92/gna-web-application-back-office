@@ -181,7 +181,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
         this.dataForm.discountApplicable.setValue("Oui");
       } else {
         // @ts-ignore
-        this.dataForm.discountApplicable.setValue("Nom");
+        this.dataForm.discountApplicable.setValue("Non");
       }
 
       if (this.guarantee.zone) {
@@ -468,7 +468,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
   openClauseEditorDialog() {
     const dialogRef = this._dialog.open(GuaranteeClauseEditorDialogComponent, {
       hasBackdrop: false,
-      data: {guaranteeClauses: this.guaranteeClauses},
+      data: {clauses: this.guaranteeClauses},
       width: '900px',
       height: '900'
     });

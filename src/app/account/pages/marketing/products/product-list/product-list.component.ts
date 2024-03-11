@@ -54,7 +54,8 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
   isReadonly: boolean = true;
   isDisable: boolean = true;
 
-  fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}];
+  fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}];
+  loadingPage: boolean = false;
 
   constructor(
     private _router: Router,
@@ -66,6 +67,10 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
       localStorage.removeItem("APP_HEADER_TITLE");
+    }
+
+    if (localStorage.getItem("PRODUCT_DATA")) {
+      localStorage.removeItem("PRODUCT_DATA");
     }
 
     this.headerTitle = "Marketing";
@@ -100,17 +105,44 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
     this._router.navigateByUrl("/account/products/add");
   }
 
-  onEdit(element: any) {
+  onEdit(item: any) {
+
+    this.loadingPage = true;
+
+    // @ts-ignore
+    localStorage.setItem("PRODUCT_DATA", JSON.stringify(item));
+
+    this._router.navigateByUrl("/account/products/edit")
+      .then(() => {
+        this.loadingPage = false;
+      });
+
   }
 
-  onView(element: any) {
+  onView(item: any) {
+
+    this.loadingPage = true;
+
+    // @ts-ignore
+    localStorage.setItem("PRODUCT_DATA", JSON.stringify(item));
+
+    this._router.navigateByUrl("/account/products/view")
+      .then(() => {
+        this.loadingPage = false;
+      });
+
   }
 
   onGoToPrevious() {
+    this.currentPage--;
+    this.onGetDataList();
   }
 
   onGoToNext() {
+    this.currentPage++;
+    this.onGetDataList();
   }
+
 
   onGetDataList() {
 

@@ -1,3 +1,4 @@
+/*
 
 main {
   padding: 0;
@@ -54,9 +55,9 @@ main {
 }
 
 .gna-login-page-form {
-  margin-top: 45px;
+  margin-top: 7vh!important;
   margin-left: auto;
-  width: 30%;
+  width: 60vh!important;
 }
 
 .gna-login-page-form-title {
@@ -110,9 +111,9 @@ main {
   color: #616161!important;
 }
 
+*/
 
-/*
-!* Show it is fixed to the top *!
+/* Show it is fixed to the top */
 body {
 }
 
@@ -139,8 +140,8 @@ body {
 
 .input-group-text {
   color:  #fff!important;
-  background-color: #2960A3!important;
-  border: 1px solid #2960A3!important;
+  background-color: #1C3694!important;
+  border: 1px solid #1C3694!important;
 }
 
 .login-text-footer {
@@ -151,20 +152,20 @@ body {
   color: white;
 }
 
-!*.form-control {*!
-!*  border: 1px solid #2960A3!important;*!
-!*  border-radius: 0;*!
-!*}*!
+/*.form-control {*/
+/*  border: 1px solid #1C3694!important;*/
+/*  border-radius: 0;*/
+/*}*/
 
 .form-control::-webkit-input-placeholder {
-  color: #2960A3;
+  color: #1C3694;
 }
 
 .form-control.is-invalid, .was-validated .form-control:invalid {
   border-color: #dc3545!important;
 }
 
-!*MATERIAL*!
+/*MATERIAL*/
 .example-container {
   display: flex;
   flex-direction: column;
@@ -182,14 +183,14 @@ input.example-right-align {
 
 .login-card-title {
   padding: 20px;
-  background-color: #2960A3;
+  background-color: #1C3694;
 }
 
 .mat-input-element {
-  caret-color: #2960A3!important;
+  caret-color: #1C3694!important;
 }
 
-!*****!
+/*****/
 .mat-mdc-form-field {
   width: 90%!important;
   margin-bottom: 20px;
@@ -236,18 +237,18 @@ input.example-right-align {
 
 .input-group-text {
   color:  #fff!important;
-  background-color: #2960A3!important;
-  border: 1px solid #2960A3!important;
+  background-color: #1C3694!important;
+  border: 1px solid #1C3694!important;
 }
 
 
-!*.form-control {*!
-!*  border: 1px solid #2960A3!important;*!
-!*  border-radius: 0;*!
-!*}*!
+/*.form-control {*/
+/*  border: 1px solid #1C3694!important;*/
+/*  border-radius: 0;*/
+/*}*/
 
 .form-control::-webkit-input-placeholder {
-  color: #2960A3;
+  color: #1C3694;
 }
 
 .form-control.is-invalid, .was-validated .form-control:invalid {
@@ -258,7 +259,7 @@ input.example-right-align {
   margin-top: 10%;
 }
 
-!*MATERIAL*!
+/*MATERIAL*/
 
 .example-container > * {
   width: 100%;
@@ -280,11 +281,11 @@ input.example-right-align {
 
 .login-card-title {
   padding: 20px;
-  background-color: #2960A3;
+  background-color: #1C3694;
 }
 
 .mat-input-element {
-  caret-color: #2960A3!important;
+  caret-color: #1C3694!important;
 }
 
 .login-fp {
@@ -294,7 +295,7 @@ input.example-right-align {
 }
 
 .login-fp a {
-  color: #2960A3!important;
+  color: #1C3694!important;
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
@@ -307,4 +308,4 @@ input.example-right-align {
 .login-btn {
   width: 95%!important;
 }
-*/
+

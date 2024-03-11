@@ -59,6 +59,8 @@ import {
 } from "./pages/settings-products/products-groups/product-group-view/product-group-view.component";
 import {ProductListComponent} from "./pages/marketing/products/product-list/product-list.component";
 import {ProductAddComponent} from "./pages/marketing/products/product-add/product-add.component";
+import {ProductEditComponent} from "./pages/marketing/products/product-edit/product-edit.component";
+import {ProductViewComponent} from "./pages/marketing/products/product-view/product-view.component";
 
 export const routes: Routes = [
   {
@@ -174,6 +176,14 @@ export const routes: Routes = [
       {
         path: 'products/add', component: ProductAddComponent,
         title: 'Produit - Créer | GNA',
+      },
+      {
+        path: 'products/edit', component: ProductEditComponent,
+        title: 'Produit - Modifier | GNA',
+      },
+      {
+        path: 'products/view', component: ProductViewComponent,
+        title: 'Produit | GNA',
       },
       {
         path: 'profile', component: ProfileComponent,

@@ -1,19 +1,19 @@
-<!--<header *ngIf="!accountService.loadingPage">
+<header *ngIf="!accountService.loadingPage">
 
   <nav class="navbar navbar-expand-lg navbar-dark gna-navbar fixed-top">
 
     <div class="container-fluid gna-footer">
 
-      &lt;!&ndash;<a class="navbar-brand app-clickable">
+      <!--<a class="navbar-brand app-clickable">
         <img src="assets/gna/images/logo_logo_29600_logo_logo_1639742942.png" alt="gna WMS"
              alt="" width="80" class="d-inline-block">
-      </a>&ndash;&gt;
+      </a>-->
 
-      &lt;!&ndash;  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <!--  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 
           <span class="navbar-toggler-icon"></span>
 
-        </button>&ndash;&gt;
+        </button>-->
 
     </div>
 
@@ -22,15 +22,15 @@
 </header>
 <main *ngIf="!accountService.loadingPage">
 
-  &lt;!&ndash;<div class="gna-page-loading">
+  <!--<div class="gna-page-loading">
     <mat-spinner *ngIf="accountService.pageLoading"></mat-spinner>
-  </div>&ndash;&gt;
+  </div>-->
   <div class="container login-container">
     <div class="login-form">
 
-      &lt;!&ndash;  <div class="auth-loading">
+      <!--  <div class="auth-loading">
           <mat-spinner></mat-spinner>
-        </div>&ndash;&gt;
+        </div>-->
 
       <div class="text-center">
         <img src="assets/gna/images/gna-logo.png" alt="" width="150">
@@ -69,7 +69,7 @@
                                [type]="hideNew? 'password' : 'text'"
                                (keyup)="onPasswordCompare()"
                         [readonly]="accountService.pageLoading || isSave">
-                        <mat-icon matSuffix (click)="hideNew = !hideNew" color="primary">{{hideNew ? 'visibility' : 'visibility_off'}}</mat-icon>
+                        <mat-icon matSuffix (click)="hideNew = !hideNew" color="primary">{{hideNew ? 'visibility_off' : 'visibility'}}</mat-icon>
                       </mat-form-field>
                     </div>
                     <div class="row">
@@ -79,7 +79,7 @@
                                [type]="hideConfirm? 'password' : 'text'"
                                (keyup)="onPasswordCompare()"
                                [readonly]="accountService.pageLoading || isSave">
-                        <mat-icon matSuffix (click)="hideConfirm = !hideConfirm" color="primary">{{hideConfirm ? 'visibility' : 'visibility_off'}}</mat-icon>
+                        <mat-icon matSuffix (click)="hideConfirm = !hideConfirm" color="primary">{{hideConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
                       </mat-form-field>
                     </div>
                     <div>
@@ -123,120 +123,5 @@
   </nav>
 
 </footer>
-<app-gna-loading *ngIf="accountService.loadingPage"></app-gna-loading>-->
+<app-gna-loading *ngIf="accountService.loadingPage"></app-gna-loading>
 
-<main>
-
-  <div class="container-fluid">
-    <div class="row">
-
-      <div class="col-8 gna-login-page-banner">
-        <div class="gna-login-page-banner-logo">
-          <img src="assets/gna/images/gna-logo.png">
-        </div>
-        <div class="gna-login-page-banner-text">
-          <h2 class="gna-text-secondary gna-text-bold mb-2">Connectez-vous</h2>
-          <span class="text-light" style="font-size: 8px">C'est votre première connexion, veuillez procéder au changement de votre mot de passe.</span>
-        </div>
-      </div>
-
-
-      <div class="col-4 gna-login-page-form">
-
-        <div class="gna-login-page-form-title">
-          <div class="gna-login-page-form-title-logo">
-            <img src="assets/gna/images/gna-logo.png">
-          </div>
-
-          <div class="gna-login-page-form-title-text">
-            <span>Votre mot de passe</span>
-          </div>
-        </div>
-
-        <form
-          [formGroup]="formProfilePwd">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-12">
-                <label for="passwordNew">Nouveau mot de passe</label>
-                <br>
-                <span class="p-input-icon-right gna-login-page-icon">
-                    <i (click)="hideNew = !hideNew"
-                       class="{{hideNew ? 'pi pi-eye-slash gna-clickable' : 'pi pi-eye gna-clickable'}}"></i>
-                <input pInputText type="password" id="passwordNew" aria-describedby="password-new-help"
-                       formControlName="passwordNew"
-                       required
-                       class="gna-login-page-input"
-                       [type]="hideNew? 'password' : 'text'"
-                       (keyup)="onPasswordCompare()"
-                       [readonly]="accountService.pageLoading || isSave" />
-                </span>
-                <small id="username-help" class="gna-text-red"
-                       *ngIf="profileFormPwd.passwordNew.invalid && (profileFormPwd.passwordNew.dirty || profileFormPwd.passwordNew.touched)">
-                  <br>{{ getErrorMessagePasswordNew() }}</small>
-              </div>
-              <div class="col-12 mt-3">
-                <label for="password">Confirmer nouveau mot de passe</label>
-                <br>
-                <span class="p-input-icon-right gna-login-page-icon">
-                    <i (click)="hideConfirm = !hideConfirm"
-                       class="{{hideConfirm ? 'pi pi-eye-slash gna-clickable' : 'pi pi-eye gna-clickable'}}"></i>
-              <input pInputText id="password" aria-describedby="password-help" formControlName="passwordConfirm"
-                     required
-                     class="gna-login-page-input"
-                     [type]="hideConfirm? 'password' : 'text'"
-                     (keyup)="onPasswordCompare()"
-                     [readonly]="accountService.pageLoading || isSave"/>
-                  </span>
-                <small id="password-help" class="gna-text-red"
-                       *ngIf="profileFormPwd.passwordConfirm.invalid && (profileFormPwd.passwordConfirm.dirty || profileFormPwd.passwordConfirm.touched)">
-                  <br>
-                  {{ getErrorMessagePasswordConfirm() }}</small>
-              </div>
-            </div>
-            <div class="mt-5">
-              @if (formProfilePwd.valid && !auth.isError) {
-                <button mat-raised-button color="primary" (click)="openChangePassword()"
-                        [disabled]="auth.loading || auth.isError || accountService.pageLoading || isSave">   Changer
-                </button>
-              } @else {
-                <button mat-raised-button color="primary" class="gna-disable">Changer
-                </button>
-              }
-            </div>
-          </div>
-        </form>
-
-      </div>
-
-    </div>
-  </div>
-
-</main>
-
-<footer>
-
-  <nav class="navbar navbar-expand-lg navbar-dark gna-login-page-footer fixed-bottom">
-
-    <div class="container-fluid">
-      <div class="container text-center">
-        <div class="gna-login-page-footer-text">
-         <span>
-           Mentions légales
-         </span>
-          <span>
-           CGU
-         </span>
-          <span>
-           Cookies
-         </span>
-          <span>
-           Politique de confidentialité
-         </span>
-        </div>
-      </div>
-    </div>
-
-  </nav>
-
-</footer>

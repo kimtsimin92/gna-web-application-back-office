@@ -33,6 +33,9 @@ import {AccountService} from "../../../account/account.service";
 import {
   LoginFirstTimeLoadingDialogComponent
 } from "../../auth-dialog/login-first-time-loading-dialog/login-first-time-loading-dialog.component";
+import {InputTextModule} from "primeng/inputtext";
+import {StepsModule} from "primeng/steps";
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'app-password-forgot',
@@ -57,6 +60,8 @@ import {
     MatStepperPrevious,
     NgForOf,
     RouterLink,
+    InputTextModule,
+    StepsModule,
   ],
   templateUrl: './password-forgot.component.html',
   styleUrl: './password-forgot.component.css'
@@ -102,6 +107,10 @@ export class PasswordForgotComponent implements OnInit {
   hideNew = true;
   hideConfirm = true;
 
+  //
+  items: MenuItem[] | undefined;
+  activeIndex: number = 0;
+
   constructor(
     private _fb: FormBuilder,
     public auth: AuthService,
@@ -116,6 +125,22 @@ export class PasswordForgotComponent implements OnInit {
     if (this.auth.isAuth()) {
       this._router.navigateByUrl("/account/home");
     }
+
+    this.items = [
+      {
+        label: 'Vérification compte',
+        routerLink: 'personal'
+      },
+      {
+        label: 'Code OTP',
+        routerLink: 'seat'
+      },
+      {
+        label: 'Mot de passe',
+        routerLink: 'payment'
+      }
+    ];
+
 
     this.disableRipple = true;
 
@@ -154,6 +179,10 @@ export class PasswordForgotComponent implements OnInit {
       });
 
 
+  }
+
+  onActiveIndexChange(event: number) {
+    this.activeIndex = event;
   }
 
   onValidatedOtp() {

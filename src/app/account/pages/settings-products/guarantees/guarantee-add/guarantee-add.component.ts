@@ -370,7 +370,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
   openClauseEditorDialog() {
     const dialogRef = this._dialog.open(GuaranteeClauseEditorDialogComponent, {
       hasBackdrop: false,
-      data: {guaranteeClauses: this.guaranteeClauses},
+      data: {clauses: this.guaranteeClauses},
       width: '900px',
       height: '900'
     });

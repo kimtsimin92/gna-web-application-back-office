@@ -28,10 +28,28 @@ import {MatSort, MatSortHeader, Sort} from "@angular/material/sort";
 import {SelectionModel} from "@angular/cdk/collections";
 import {merge, of as observableOf} from "rxjs";
 import {catchError, map, startWith, switchMap} from "rxjs/operators";
-import {MatCard} from "@angular/material/card";
+import {MatCard, MatCardHeader} from "@angular/material/card";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
+import {ImageModule} from "primeng/image";
+import {SkeletonModule} from "primeng/skeleton";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {
+  ErrorNotificationDialogComponent
+} from "../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
+import {
+  ConfirmationToggleEnableDialogComponent
+} from "../../../dialogs/confirmation/confirmation-toggle-enable-dialog/confirmation-toggle-enable-dialog.component";
+import {
+  RemoveLoadingDialogComponent
+} from "../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
+import {
+  SaveNotificationDialogComponent
+} from "../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component";
+import {
+  SaveErrorNotificationDialogComponent
+} from "../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
 
 @Component({
   selector: 'app-user-profile-management',
@@ -63,7 +81,10 @@ import {LiveAnnouncer} from "@angular/cdk/a11y";
     MatHeaderCellDef,
     MatCard,
     MatTooltip,
-    MatCheckbox
+    MatCheckbox,
+    MatCardHeader,
+    ImageModule,
+    SkeletonModule
   ],
   templateUrl: './user-profile-management.component.html',
   styleUrl: './user-profile-management.component.css'
@@ -102,6 +123,19 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
 
   pageSize: number = 10;
 
+  totalPages: number = 0;
+  currentPage: number = 0;
+
+  filteredList: any[] = [];
+
+  isSave: boolean = false;
+
+  isLoading: boolean = false;
+
+  isReadonly: boolean = true;
+  isDisable: boolean = true;
+
+  fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}];
 
   constructor(
     public _dialog: MatDialog,
@@ -128,9 +162,10 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
       localStorage.removeItem("PROFILE_DATA")
     }
 
+    this.onGetDataList();
+
   }
   ngAfterViewInit(): void {
-    this.onGetDataList();
 
   }
 
@@ -181,58 +216,30 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
 
   onGetDataList() {
 
-    // If the user changes the sort order, reset back to the first page.
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    let page = 0;
 
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.accountService.getProfiles(
-            this.sort.active,
-            this.sort.direction,
-            this.paginator.pageIndex,
-            this.paginator.pageSize,
-          ).pipe(catchError(() => observableOf(null)));
-        }),
-        map(data => {
+    if (this.currentPage > 0) {
+      page = this.currentPage - 1;
+    } else {
+      page = this.currentPage;
+    }
 
-          console.log(data);
-
-          if (data) {
-
-            if (data["body"]) {
-          // Flip flag to show that loading has finished.
-          // @ts-ignore
-          this.dataPaginationResponse =  data["body"];
-          this.isLoadingResults = false;
-          // @ts-ignore
-          this.isRateLimitReached = this.dataPaginationResponse === null;
-
-          if (this.dataPaginationResponse === null) {
-            return [];
+    this.accountService.getProfiles(page)
+      .subscribe((responseData: HttpResponse<any>) => {
+        console.log(responseData);
+        this.dataPaginationResponse = responseData["body"];
+        if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
+          this.filteredList = this.dataPaginationResponse.profiles;
+          if (this.currentPage <= 0) {
+            this.currentPage++;
           }
+        }
+      }, (errorData: HttpErrorResponse) => {
+        console.log(errorData);
+        this.dataPaginationResponse = {};
+        this.onGetNotificationErrorDialog();
+      });
 
-          // Only refresh the result length if there is new data. In case of rate
-          // limit errors, we do not want to reset the paginator to zero, as that
-          // would prevent users from re-triggering requests.
-          this.resultsLength = this.dataPaginationResponse.totalElements;
-          // @ts-ignore
-          this.dataSource = new MatTableDataSource<any>(this.dataPaginationResponse.profiles);
-            } else {
-              this.isLoadingResults = false;
-            }
-          } else {
-            this.isLoadingResults = false;
-          }
-          return this.dataSource;
-        }),
-      )// @ts-ignore
-      .subscribe(data => (this.dataPaginationResponse = data));
-
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -244,7 +251,7 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
     }
   }
 
-  onViewAdd() {
+  onAdd() {
     this._router.navigateByUrl("/account/settings/profiles/add");
   }
 
@@ -259,7 +266,7 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
       });
   }
 
-  onViewEdit(element: any) {
+  onEdit(element: any) {
     this.loadingPage = true;
 
     this._router.navigateByUrl("/account/settings/profiles/edit")
@@ -274,4 +281,160 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
   onReload() {
     location.reload();
   }
+
+  filterResults(value: string) {
+
+    if (!value) {
+      this.filteredList = this.dataPaginationResponse.profiles;
+      return;
+    }
+
+    if (this.dataPaginationResponse && this.dataPaginationResponse.profiles) {
+      this.filteredList = this.dataPaginationResponse.profiles.filter(
+        (data: any) => data?.name.toLowerCase().includes(value.toLowerCase())
+      );
+    }
+
+  }
+
+  onGoToPrevious() {
+    this.currentPage--;
+    this.onGetDataList();
+  }
+
+  onGoToNext() {
+    this.currentPage++;
+    this.onGetDataList();
+  }
+
+  closeDialog() {
+    this._dialog.closeAll();
+  }
+
+
+  onGetNotificationErrorDialog(): void {
+
+    const dialogRef = this._dialog.open(ErrorNotificationDialogComponent, {
+      width: '400px',
+      height: '340px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.closeDialog();
+      }
+    });
+
+  }
+
+  onConfirmToggleEnabled(data: any, isToggle: boolean): void {
+
+    this.isSave = true;
+    this.accountService.isSave = this.isSave;
+
+    const dialogRef = this._dialog.open(ConfirmationToggleEnableDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+      data: {
+        dialogMessage: "le profil " + data.name,
+        isToggle: isToggle
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.onSaveToggleEnable(data);
+      } else {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+  private onSaveToggleEnable(data: any) {
+
+    this.isSave = true;
+
+    this.openSaveLoadingDialog();
+
+    this.accountService.managerProfileToggleEnable(data.id)
+      .subscribe((responseData) => {
+        this.isSave = false;
+        this.closeDialog();
+        this.onGetDataList();
+        this.openSaveToggleEnableNotificationDialog();
+      }, (error: HttpErrorResponse) => {
+        this.isSave = false;
+        console.log(error);
+        this.closeDialog();
+        this.openSaveToggleEnableErrorNotificationDialog(error);
+      });
+
+  }
+
+  openSaveLoadingDialog(): void {
+
+    const dialogRef = this._dialog.open(RemoveLoadingDialogComponent, {
+      hasBackdrop: false,
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+
+  }
+
+  openSaveToggleEnableNotificationDialog(): void {
+
+    const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+      data: {
+        dialogMessage: "L'opération a réussi."
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+
+  openSaveToggleEnableErrorNotificationDialog(error: HttpErrorResponse): void {
+
+    const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '440px',
+      data: {
+        httpError: error,
+        dialogMessage: "L'opération a échoué."
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+
 }
