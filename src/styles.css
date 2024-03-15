@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
@@ -29,7 +28,7 @@
 
 root {
   /* Colors: */
-  --unnamed-color-1c3694: #1C3694;
+  --unnamed-color-1c3694: #2960A3;
   --unnamed-color-f4f5f6: #F4F5F6;
   --unnamed-color-8db3e2: #8DB3E2;
   --unnamed-color-f5f7f7: #F5F7F7;
@@ -56,7 +55,7 @@ html, body {
 
 a {
   text-decoration: none;
-  color: #1C3694;
+  color: #2960A3;
 }
 
 .gna-clickable {
@@ -64,7 +63,11 @@ a {
 }
 
 .gna-text-bold {
-  font-weight: bold;
+  font-weight: bold!important;
+}
+
+.gna-mat-step-label .mat-step-text-label {
+  font-weight: bold!important;
 }
 
 .gna-text-primary {
@@ -84,14 +87,14 @@ a {
 }
 
 .card-header {
-  /*border-bottom: 0.5px solid #1C3694!important;*/
-  background-color: #1C3694!important;
+  /*border-bottom: 0.5px solid #2960A3!important;*/
+  background-color: #2960A3!important;
   color: white;
 }
 
 
 .gna-card-body {
-  border: 1px solid#1C3694!important;
+  border: 1px solid#2960A3!important;
 }
 
 /*.card-header {
@@ -103,7 +106,7 @@ a {
 }**/
 
 /*.input-group-text {
-    color: #1C3694!important;
+    color: #2960A3!important;
 }*/
 
 
@@ -127,7 +130,7 @@ a {
 }
 
 .gna-navbar {
-  background-color: #1C3694!important;
+  background-color: #2960A3!important;
 }
 
 .dropdown-toggle::after {
@@ -172,12 +175,16 @@ a {
   margin-right: 20px;
 }
 
+.label-mr {
+  margin-right: 10px;
+}
+
 .gna-color {
-  color: #1C3694;
+  color: #2960A3;
 }
 
 .gna-header-dialog {
-  color: #1C3694!important;
+  color: #2960A3!important;
   text-align: center;
   font-weight: bold!important;
 }
@@ -195,7 +202,7 @@ a {
 .gna-content-header {
   padding-top: 55px;
   font-size: 11px;
-  color: #1C3694;
+  color: #2960A3;
 }
 
 .gna-breadcrumb ol li {
@@ -249,6 +256,11 @@ a {
 }
 
 /**** *****/
+
+.gna-fb-btn {
+  width: 80px!important;
+  height: 30px!important;
+}
 
 .gna-btn-save {
   background-color: #32BEA6!important;
@@ -441,7 +453,7 @@ a {
 }
 
 .gna-chip-p .p-chip {
-  background-color: #1C3694!important;
+  background-color: #2960A3!important;
   color:white!important;
   width: 70px!important;
   text-align: center;
@@ -473,11 +485,55 @@ a {
 }
 
 .gna-card {
-  position: relative;
   margin: 2vh!important;
-  min-height: 75vh!important;
-  max-height: 75vh!important;
+  min-height: 77vh!important;
+  max-height: 77vh!important;
+}
+
+.gna-card-content {
+}
+
+.gna-container {
+  position: relative;
+  min-height: 50vh!important;
+  max-height: 50vh!important;
   overflow: auto;
+}
+
+/**** ***/
+
+.gna-mat-stepper-1 mat-step-header {
+  height: 1px!important;
+}
+
+.gna-mat-stepper-2 mat-step-header {
+  height: 40px!important;
+}
+
+.gna-mat-stepper .mat-step-text-label {
+  font-weight: bold!important;
+  color: #2960A3!important;
+}
+
+/*.gna-mat-stepper-2 .mat-horizontal-content-container {
+  height: 100px!important
+}*/
+
+.gna-mat-step-2 .mat-horizontal-content-container {
+  height: 500px!important;
+}
+
+.gna-mt-btn-1 {
+  margin-top: 20px!important;
+}
+
+.gna-mt-btn-2 {
+  margin-top: 18px!important;
+}
+
+.gna-mt-btn-3 {
+  margin-top: 18px!important;
+  height: 30px!important;
 }
 
 /*** IHM ***/
@@ -610,7 +666,7 @@ tr:hover {
 }
 
 .bc-card {
-  border: 1px solid #1C3694!important;
+  border: 1px solid #2960A3!important;
 }
 
 .gna-action-span-div {
@@ -633,7 +689,7 @@ tr:hover {
 }
 
 .gna-action-btn-span-v {
-  background-color: #1C3694!important;
+  background-color: #2960A3!important;
   width: 30px!important;
   height: 25px!important;
   display: block;
@@ -814,7 +870,7 @@ th, td {
   display: block;
   padding-top: 10px;
   padding-left: 20px;
-  color: #1C3694;
+  color: #2960A3;
   font-size: 12px;
 }
 
@@ -933,6 +989,11 @@ th, td {
 }
 
 .gna-form-file-label {
+  margin-top: 0!important;
+  font-weight: initial!important;
+}
+
+.gna-form-label {
   margin-top: 0!important;
   font-weight: initial!important;
 }
@@ -1078,6 +1139,11 @@ th, td {
   height: 13px!important;
 }
 
+.gna-table-btn-3 {
+  width: 10px!important;
+  height: 10px!important;
+}
+
 .gna-table-btn-enable {
   width: 25px!important;
   height: 25px!important;
@@ -1088,6 +1154,10 @@ th, td {
   width: 13px!important;
   height: 13px!important;
   margin-bottom: 5px!important;
+}
+
+.img-ml {
+  margin-left: 10px!important;
 }
 
 .gna-text-red {
@@ -1142,3 +1212,17 @@ th, td {
 .gna-nav-tabs-2 {
   text-align: center!important;
 }
+
+/** **/
+
+.form-builder-field-header {
+  height: 50px!important;
+  background-color: #2960A3!important;
+  padding: 5px!important;
+}
+
+.form-builder-field-header span {
+  color: #F4F5F6!important;
+  font-size: 12px!important;
+}
+

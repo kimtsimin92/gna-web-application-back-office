@@ -8,6 +8,4 @@ export class UserProfileManagementSaveForm {
 
   userType = new FormControl(null,  [Validators.required]);
 
-  enabled = new FormControl(null, [Validators.required]);
-
 }

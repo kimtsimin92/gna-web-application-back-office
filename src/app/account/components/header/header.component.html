@@ -34,11 +34,14 @@
         <mat-menu #menu="matMenu">
                     <button mat-menu-item
                       (click)="onGoToProfile('/account/profile')">
+                      <mat-icon>person</mat-icon>
                       <span class="gna-header-text">Profil</span>
                     </button>
           <button mat-menu-item
           (click)="auth.loadingLogout()">
-            <span class="gna-header-text">Déconnexion</span>
+            <mat-icon>logout</mat-icon>
+            <span class="gna-header-text">
+              Se déconnecter</span>
           </button>
         </mat-menu>
       </mat-toolbar>

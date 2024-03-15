@@ -1,0 +1,286 @@
+<div class="gna-bc">
+  <span>Configuration Produit / Formulaires Cotations / Créer</span>
+</div>
+
+<div class="gna-main-content">
+
+  <div class="container-fluid gna-main-div-card">
+    <mat-card class="gna-card">
+      <mat-card-header class="gna-card-header">
+        <div class="gna-card-header-btn row">
+          <div class="col-12 col-sm-6">
+            @if (isSave) {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-cancel">Annuler</button>
+            } @else {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-cancel"
+                      (click)="onBack()"
+                      [disabled]="isSave">Annuler</button>
+            }
+
+          </div>
+          <div class="col-12 col-sm-6">
+            @if (!formQuotation.valid) {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-save"
+                      (click)="onGetNotBlankAlert()">Enregistrer</button>
+            } @else {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-save"
+                      [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                      (click)="onConfirm()">Enregistrer</button>
+            }
+          </div>
+
+        </div>
+      </mat-card-header>
+      <mat-card-content class="gna-card-content">
+
+        <div class="container-fluid">
+
+          <h3 class="gna-text-primary gna-text-bold mt-2">Formulaire Cotation</h3>
+
+          <form
+            [formGroup]="formQuotation">
+            <div class="row pb-2 gna-form">
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">
+                  Nom formulaire
+                  <span class="gna-text-red gna-text-bold">*</span>
+                </label>
+                <input pInputText
+                       type="text" id="name" aria-describedby="name-help" placeholder="Entrer nom du formulaire" class="gna-form-input"
+                       required
+                       formControlName="name"
+                       [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">Description formulaire</label>
+                <input pInputText
+                       type="text" id="description" aria-describedby="name-help"
+                       placeholder="Entrer description du formulaire" class="gna-form-input"
+                       formControlName="description"
+                       [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label>Groupe produit
+                  <span class="gna-text-red gna-text-bold">*</span>
+                </label>
+
+                <p-dropdown [options]="productGroupList"
+                            optionLabel="name"
+                            emptyMessage="Aucun résultat trouvé"
+                            placeholder="Sélectionner groupe produit"
+                            class="gna-form-dropdown"
+                            formControlName="productGroup"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                  <ng-template let-group pTemplate="group">
+                    <div class="flex align-items-center gap-2">
+                      <div>{{ group.name }}</div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+
+            </div>
+          </form>
+
+          <div class="gna-container">
+
+              <mat-stepper orientation="vertical"
+              class="gna-mat-stepper-1 gna-mat-step-label">
+
+                  @for (fStep of formStepList; track fStep; let ifs = $index; let ffs = $first; let lfs = $last) {
+
+                    <mat-step label="Etape {{ ifs + 1 }}"
+                              #stepS>
+
+                      <form
+                        [formGroup]="fStep">
+                        <div class="row gna-form mb-2">
+
+                          <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                            <label for="name" class="gna-form-label">
+                              Titre Etape
+                              <span class="gna-text-red gna-text-bold">*</span>
+                            </label>
+                            <input pInputText
+                                   type="text" id="form-step-title"
+                                   placeholder="Entrer le titre de l'étape"
+                                   class="gna-form-input"
+                                   required
+                                   formControlName="title"
+                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                          </div>
+
+                          <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                            <label for="name" class="gna-form-label">
+                         Description Etape
+                            </label>
+                            <input pInputText
+                                   type="text" id="form-step-description"
+                                   placeholder="Entrer la description de l'étape"
+                                   class="gna-form-input"
+                                   formControlName="description"
+                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                          </div>
+
+                          <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+
+                            @if (productImageUrl) {
+                              <p-image src="{{ productImageUrl }}" alt="Product Image" width="50" height="30"></p-image>
+                            } @else {
+                              <label for="name" class="gna-form-label">Illustration Etape</label>
+                            }
+                            <div class="input-group form-step-illustration">
+                              <input type="file" accept="image/*" class="form-control"
+                                     id="productImageFile">
+                            </div>
+
+                          </div>
+
+                          <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                            <label></label>
+                            @if (fStep.value.title) {
+                              <button mat-raised-button
+                                      color="primary"
+                                      class="gna-btn-default gna-mt-btn-1"
+                                      (click)="onAddFormStep()">
+                                Ajouter Etape
+                              </button>
+                            } @else {
+                              <button mat-raised-button
+                                      color="primary"
+                                      class="gna-btn-default gna-mt-btn-1 gna-disable">
+                                Ajouter Etape
+                              </button>
+                            }
+                            <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-3 gna-clickable img-ml"
+                                 matTooltip="Supprimer l'étape">
+                          </div>
+
+                        </div>
+
+                        <div class="gna-step-q">
+                          <mat-stepper orientation="horizontal"
+                                       class="gna-mat-stepper-2 gna-mat-step-label">
+
+                            @for (fStepQuestion of fStep.value.questions;
+                              track fStepQuestion; let ifsq = $index;
+                              let ffsq = $first; let lfsq = $last) {
+
+                              <mat-step label="Question {{ ifsq + 1 }}" class="gna-mat-step-2"
+                                        #stepSQ>
+
+                                <form
+                                  [formGroup]="fStepQuestion">
+                                  <div class="row gna-form mb-2">
+
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                                      <label for="name" class="gna-form-label">
+                                        Titre Question
+                                        <span class="gna-text-red gna-text-bold">*</span>
+                                      </label>
+                                      <input pInputText
+                                             type="text" id="form-step-question-title"
+                                             placeholder="Entrer le titre de la question"
+                                             class="gna-form-input"
+                                             formControlName="title"
+                                             required
+                                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                                      <label class="gna-form-label">Champs Question
+                                        <span class="gna-text-red gna-text-bold">*</span>
+                                      </label>
+                                      @if (fStepQuestion.value.title && fStepQuestion.value.currentSelectedTag) {
+                                        <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable img-ml"
+                                             matTooltip="Paramétrer le champs"
+                                             (click)="onOpenSettingsField(fStepQuestion)">
+                                      }
+                                      <p-dropdown [options]="appFormBuilder"
+                                                  optionLabel="title"
+                                                  emptyMessage="Aucun résultat trouvé"
+                                                  placeholder="Sélectionner le champs de la question"
+                                                  class="gna-form-dropdown"
+                                                  formControlName="tag"
+                                                  [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                                        <ng-template let-item pTemplate="item">
+                                          <div class="flex align-items-center gap-2"
+                                               (click)="onGetFieldTag(fStepQuestion, item, stepSQ, stepS)">{{ item.title }}
+                                          </div>
+                                        </ng-template>
+                                      </p-dropdown>
+                                    </div>
+
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                      <label for="name" class="gna-form-label"></label>
+                                      @if (fStep.value.title && fStepQuestion.value.title && fStepQuestion.value.currentSelectedTag) {
+                                        <button mat-raised-button
+                                                color="primary"
+                                                class="gna-btn-default gna-mt-btn-2"
+                                                (click)="onAddFormStepQuestion(fStep)">
+                                          Ajouter Question
+                                        </button>
+                                      } @else {
+                                        <button mat-raised-button
+                                                color="primary"
+                                                class="gna-btn-default gna-mt-btn-2 gna-disable">
+                                          Ajouter Question
+                                        </button>
+                                      }
+                                      <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-3 gna-clickable img-ml"
+                                           matTooltip="Supprimer la question"
+                                           (click)="onRemoveStepQuestion(fStep, fStepQuestion)">
+                                    </div>
+
+                                  </div>
+                                </form>
+
+                                @if (fStep.value.questions.length > 1) {
+                                  <div>
+                                    @if (!ffsq) {
+                                      <button mat-button matStepperPrevious>Question précédente</button>
+                                    }
+                                    @if (!lfsq) {
+                                      <button mat-button matStepperNext>Question suivante</button>
+                                    }
+                                  </div>
+                                }
+                              </mat-step>
+
+                            }
+
+                          </mat-stepper>
+                        </div>
+
+                      </form>
+
+                      @if (formStepList.length > 1) {
+                        <div>
+                          @if (!ffs) {
+                            <button mat-button matStepperPrevious>Etape précédente</button>
+                          }
+                          @if (!lfs) {
+                            <button mat-button matStepperNext>Etape suivante</button>
+                          }
+                        </div>
+                      }
+                    </mat-step>
+
+                  }
+
+              </mat-stepper>
+
+            </div>
+
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>
+

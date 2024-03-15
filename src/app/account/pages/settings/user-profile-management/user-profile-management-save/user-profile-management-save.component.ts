@@ -36,6 +36,8 @@ import {
   SaveErrorNotificationDialogComponent
 } from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
+import {InputTextModule} from "primeng/inputtext";
+import {DropdownModule} from "primeng/dropdown";
 
 @Component({
   selector: 'app-user-profile-management-save',
@@ -65,7 +67,9 @@ import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-
     CheckboxModule,
     InputSwitchModule,
     MatIcon,
-    NgForOf
+    NgForOf,
+    InputTextModule,
+    DropdownModule
   ],
   templateUrl: './user-profile-management-save.component.html',
   styleUrl: './user-profile-management-save.component.css'
@@ -165,17 +169,63 @@ export class UserProfileManagementSaveComponent implements OnInit, OnDestroy, Af
         name: "GROUP_LIST",
         label: "Gestion Listes",
         icon: "tune",
-        roles: []
+        roles: [
+          {
+            id: 1,
+            name: "ROLE_PARTNER",
+            label: "Partenaires",
+            icon: null,
+            permissions: [
+              {
+                id: 1,
+                name: "PERMISSION_READ",
+                label: "Lister",
+                icon: null,
+              },
+              {
+                id: 2,
+                name: "PERMISSION_CREATE",
+                label: "Créer",
+                icon: null,
+              } ,
+              {
+                id: 3,
+                name: "PERMISSION_UPDATE",
+                label: "Modifier",
+                icon: null,
+              },
+              {
+                id: 4,
+                name: "PERMISSION_DELETE",
+                label: "Supprimer",
+                icon: null,
+              },
+              {
+                id: 5,
+                name: "PERMISSION_ENABLE",
+                label: "Activer/Désactiver",
+                icon: null,
+              }
+            ]
+          },
+        ]
       },
       {
         id: 2,
         name: "GROUP_PRODUCT",
         label: "Configuration Produits",
-        icon: "sell",
+        icon: "room_preferences",
         roles: []
       },
       {
         id: 3,
+        name: "MARKETING",
+        label: "Marketing",
+        icon: "sell",
+        roles: []
+      },
+      {
+        id: 4,
         name: "GROUP_SETTINGS",
         label: "Paramètres",
         icon: "settings",
@@ -540,10 +590,13 @@ export class UserProfileManagementSaveComponent implements OnInit, OnDestroy, Af
 
     let requestData = {
       name: this.formProfile.value.name,
-      userType: this.formProfile.value.userType,
-      enabled: this.formProfile.value.enabled,
+      userType: null,
       groups: groupsData
     };
+
+    if (this.formProfile.value.userType) {
+      requestData.userType = this.formProfile.value.userType.value;
+    }
 
     console.log("PROFILE DATA");
     console.info(requestData);
@@ -552,7 +605,6 @@ export class UserProfileManagementSaveComponent implements OnInit, OnDestroy, Af
       .subscribe((responseData) => {
         console.log(responseData);
         this.closeDialog();
-        this.profileData = responseData["body"];
         this.openSaveNotificationDialog();
       }, (errorData: HttpErrorResponse) => {
         console.log(errorData);
@@ -563,7 +615,7 @@ export class UserProfileManagementSaveComponent implements OnInit, OnDestroy, Af
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings/profiles");
+    this._router.navigateByUrl("/account/settings/profiles/list");
   }
 
   openConfirmAdd(): void {
@@ -573,8 +625,8 @@ export class UserProfileManagementSaveComponent implements OnInit, OnDestroy, Af
 
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
-      width: '360px',
-      height: '200px',
+      width: '400px',
+      height: '340px',
       data: {
         dialogMessage: "de ce profil"
       },
@@ -624,9 +676,7 @@ export class UserProfileManagementSaveComponent implements OnInit, OnDestroy, Af
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/settings/profiles/edit").then(() => {
-        // @ts-ignore
-        localStorage.setItem("PROFILE_DATA", JSON.stringify(this.profileData));
+      this._router.navigateByUrl("/account/settings/profiles/list").then(() => {
         this.loadingPage = false;
       });
 

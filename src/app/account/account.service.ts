@@ -119,7 +119,7 @@ export class AccountService {
 
   managerProfileToggleEnable(id: number) {
     return this._http
-      .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users/profiles/enabled/'+id, {observe: 'response'});
+      .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/profiles/enabled/'+id, {observe: 'response'});
   }
 
 /*  getUsersListData(sort: string, order: string, page: number, size: number) {

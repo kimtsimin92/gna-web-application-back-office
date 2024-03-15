@@ -161,11 +161,18 @@
                   </mat-form-field>
                 </div>
                 <div class="btn-new">
-                  <button mat-raised-button color="primary"
-                          [disabled]="!form.valid || auth.isError"
-                          class="login-btn">   Se connecter
-                    <mat-icon>login</mat-icon>
-                  </button>
+                  @if (!form.valid || auth.isError || auth.loading) {
+                    <button mat-raised-button color="primary"
+                            class="login-btn gna-disable">   Se connecter
+                      <mat-icon>login</mat-icon>
+                    </button>
+                  } @else {
+                    <button mat-raised-button color="primary"
+                            [disabled]="!form.valid || auth.isError"
+                            class="login-btn">   Se connecter
+                      <mat-icon>login</mat-icon>
+                    </button>
+                  }
                 </div>
               </form>
               <div class="login-fp">

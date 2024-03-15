@@ -26,7 +26,7 @@ import {MatError, MatFormField, MatHint, MatLabel} from "@angular/material/form-
 import {MatInput} from "@angular/material/input";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect} from "@angular/material/select";
-import {NgIf} from "@angular/common";
+import {DecimalPipe, NgIf} from "@angular/common";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {EditorModule} from "primeng/editor";
 import {
@@ -38,6 +38,14 @@ import {KeyFilterModule} from "primeng/keyfilter";
 import {DropdownModule} from "primeng/dropdown";
 import {MultiSelectModule} from "primeng/multiselect";
 import {InputTextareaModule} from "primeng/inputtextarea";
+import {GuaranteeItemForm} from "../guarantee-item-form";
+import {
+  ConfirmationRemoveDialogComponent
+} from "../../../../dialogs/confirmation/confirmation-remove-dialog/confirmation-remove-dialog.component";
+import {
+  RemoveLoadingDialogComponent
+} from "../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
+import {AddLoadingDialogComponent} from "../../../../dialogs/loading/add-loading-dialog/add-loading-dialog.component";
 
 @Component({
   selector: 'app-guarantee-add',
@@ -67,7 +75,8 @@ import {InputTextareaModule} from "primeng/inputtextarea";
     KeyFilterModule,
     DropdownModule,
     MultiSelectModule,
-    InputTextareaModule
+    InputTextareaModule,
+    DecimalPipe
   ],
   templateUrl: './guarantee-add.component.html',
   styleUrl: './guarantee-add.component.css'
@@ -78,6 +87,9 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
   formData: FormGroup = new FormGroup({}, undefined, undefined);
   dataForm: GuaranteeForm = new GuaranteeForm();
+
+  formDataItem: FormGroup = new FormGroup({}, undefined, undefined);
+  dataItemForm: GuaranteeItemForm = new GuaranteeItemForm();
 
   isSave: boolean = false;
 
@@ -111,6 +123,10 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
   isLoadingList: boolean = false;
   isDisable: boolean = true;
 
+  guarantee: any = null;
+  guaranteeItem: any = null;
+  guaranteeItemsData: any[] = [];
+
   constructor(
     private _fb: FormBuilder,
     public _dialog: MatDialog,
@@ -134,16 +150,17 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
       this.guaranteeData = JSON.parse(localStorage.getItem("GUARANTEE_DATA"));
     }
 
+    this.onGetPeriodList();
+    this.onGetZoneList();
+    this.onGetPartnerList();
+
     this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
 
     this.items = [{ label: 'Configuration Produits' }, { label: 'Garanties'}, {label: "Création"}];
 
 
     this.formData = this._fb.group(this.dataForm);
-
-    this.onGetPeriodList();
-    this.onGetZoneList();
-    this.onGetPartnerList();
+    this.formDataItem = this._fb.group(this.dataItemForm);
 
   }
 
@@ -280,7 +297,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/guarantees/list")
+      this._router.navigateByUrl("/account/guarantees/edit")
         .then(() => {
           // @ts-ignore
           localStorage.setItem("GUARANTEE_DATA", JSON.stringify(this.guaranteeData));
@@ -381,6 +398,275 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
         this.guaranteeClauses = result;
       }
     });
+  }
+
+  onEditItemSG(item: any) {
+    this.guaranteeItem = item;
+    this.dataItemForm.id.setValue(item.id);
+    this.dataItemForm.name.setValue(item.name);
+    this.dataItemForm.code.setValue(item.code);
+    this.dataItemForm.capital.setValue(item.capital);
+    this.dataItemForm.franchiseRate.setValue(item.franchiseRate);
+    this.dataItemForm.franchiseMinimum.setValue(item.franchiseMinimum);
+    this.dataItemForm.franchiseMaximum.setValue(item.franchiseMaximum);
+  }
+
+  onSaveRemoveLoadingDialog(): void {
+
+    const dialogRef = this._dialog.open(RemoveLoadingDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+
+  }
+
+  onConfirmRemove(data: any): void {
+
+    this.guaranteeItem = data;
+    this.isSave = true;
+    this.accountService.isSave = this.isSave;
+
+    const dialogRef = this._dialog.open(ConfirmationRemoveDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+      data: {
+        dialogMessage: "de la sous garantie " + data.name
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        if (this.guarantee.id && this.guaranteeItem.id) {
+          this.onSaveRemove();
+        } else {
+          this.guaranteeItem = null;
+          this.onGetNotBlankAlert();
+        }
+      } else {
+        this.guaranteeItem = null;
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+  private onSaveRemove() {
+
+    this.isSave = true;
+
+    this.onSaveRemoveLoadingDialog();
+
+    this.accountService.removeGuaranteeItem(this.guarantee.id, this.guaranteeItem.id)
+      .subscribe((responseData) => {
+        this.isSave = false;
+        this.closeDialog();
+        this.onSaveRemoveNotificationDialog();
+      }, (error: HttpErrorResponse) => {
+        this.isSave = false;
+        console.log(error);
+        this.closeDialog();
+        this.onSaveRemoveErrorNotificationDialog(error);
+      });
+
+  }
+
+  onSaveRemoveNotificationDialog(): void {
+
+    const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+      data: {
+        dialogMessage: "La suppression de la sous garantie a réussi."
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+        this.onGetItems();
+      } else {
+        this.onGetItems();
+      }
+
+    });
+
+
+  }
+
+
+  onSaveRemoveErrorNotificationDialog(error: HttpErrorResponse): void {
+
+    const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+      data: {
+        httpError: error,
+        dialogMessage: "La suppression de la sous garantie a échoué."
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+  onGetItems() {
+    this.accountService.pageLoading = true;
+    let guaranteeId = this.guarantee.id;
+    this.accountService.getGuaranteeItems(guaranteeId)
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.guaranteeItemsData = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
+  }
+
+  onConfirmItem(): void {
+
+    this.isSave = true;
+    this.accountService.isSave = this.isSave;
+
+    const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+      data: {
+        dialogMessage: "de cette sous garantie"
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.onSaveItem();
+      } else {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+
+  onSaveItemNotificationDialog(): void {
+
+    const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '440px',
+      data: {
+        dialogMessage: "L'enregistrement de la sous garantie a réussi."
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+        this.guaranteeItem = null;
+        this.dataItemForm = new GuaranteeItemForm();
+        this.formDataItem = this._fb.group(this.dataItemForm);
+        this.onGetItems();
+      }
+
+    });
+
+  }
+
+  onSaveItemErrorNotificationDialog(error: HttpErrorResponse): void {
+
+    const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+      data: {
+        httpError: error,
+        dialogMessage: "L'enregistrement de la sous garantie a échoué."
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+  onSaveItemLoadingDialog(): void {
+
+    const dialogRef = this._dialog.open(AddLoadingDialogComponent, {
+      hasBackdrop: false,
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+
+  }
+
+  onSaveItem() {
+    console.log(this.formDataItem.value);
+    this.isSave = true;
+    this.onSaveItemLoadingDialog();
+
+    let guaranteeId = this.guarantee.id;
+
+    let requestData = {
+      guaranteeCode: this.guarantee.code,
+      id: this.formDataItem.value.id,
+      code: this.formDataItem.value.code,
+      name: this.formDataItem.value.name,
+      capital: this.formDataItem.value.capital,
+      franchiseRate: this.formDataItem.value.franchiseRate,
+      franchiseMinimum: this.formDataItem.value.franchiseMinimum,
+      franchiseMaximum: this.formDataItem.value.franchiseMaximum
+    }
+
+    console.log(requestData);
+
+    this.accountService.addGuaranteeItem(requestData, guaranteeId)
+      .subscribe((responseData) => {
+        this.isSave = false;
+        console.log(responseData);
+        this.closeDialog();
+        this.onSaveItemNotificationDialog();
+      }, (errorData: HttpErrorResponse) => {
+        this.isSave = false;
+        console.log(errorData);
+        this.closeDialog();
+        this.onSaveItemErrorNotificationDialog(errorData);
+      });
+
   }
 
 }

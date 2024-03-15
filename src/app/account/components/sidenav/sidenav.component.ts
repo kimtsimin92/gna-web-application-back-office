@@ -14,6 +14,7 @@ import {MatIcon} from "@angular/material/icon";
 import {NgClass, NgIf} from "@angular/common";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AccountService} from "../../account.service";
+import {AuthService} from "../../../auth/auth.service";
 
 /** Flat node with expandable and level information */
 interface ExampleFlatNode {
@@ -52,14 +53,16 @@ export class SidenavComponent implements OnInit {
 
   showFiller = false;
 
-  menuData: any[] = [
+  /*menuData: any[] = [
     {
+      id: 1,
       name: 'Accueil',
       icon: 'home',
       link: '/account/home',
       class: null
     },
     {
+      id: 2,
       name: 'Gestion des listes',
       icon: 'list',
       children: [{name: 'Partenaires', link: '/account/partners/list', class: null},
@@ -71,19 +74,24 @@ export class SidenavComponent implements OnInit {
 
     },
     {
+      id: 3,
       name: 'Configuration des produits',
       icon: 'room_preferences',
       children: [
         {name: 'Garanties', link: '/account/guarantees/list', class: null},
-        {name: 'Groupes Produits', link: '/account/products-groups/list', class: null}
+        {name: 'Groupes Produits', link: '/account/products-groups/list', class: null},
+        {name: 'Formulaires Cotations', link: '/account/settings-products/forms/quotations/list', class: null},
+       /!* {name: 'Formulaires Souscriptions', link: '/account/settings-products/forms/subscriptions/list', class: null},
+        {name: 'Calculs Primes', link: '/account/settings-products/premium-calculations', class: null}*!/
       ],
     },
       {
+        id: 4,
           name: 'Marketing',
           icon: 'sell',
           children: [{name: 'Produits', link: '/account/products/list', class: null}],
         },
-/*        {
+/!*        {
           name: 'Souscriptions',
           icon: 'draw',
         },
@@ -112,28 +120,40 @@ export class SidenavComponent implements OnInit {
           name: 'Statistiques',
           icon: 'equalizer',
           children: [{name: 'Tableau de bord produits'}, {name: 'Tableau de bord clients'}],
-        },*/
-    /*    {
+        },*!/
+    /!*    {
           name: 'Paramètres',
           icon: 'settings',
           children: [
             {name: 'Gestion profils', link: '#'},
             {name: 'Gestion utilisateurs', link: '#'}
           ],
-        },*/
+        },*!/
     {
+      id: 5,
       name: 'Paramètres',
       icon: 'manage_accounts',
       children: [
-       {name: 'Gestion Profils', link: '/account/settings/profiles', class: null},
+       {name: 'Gestion Profils', link: '/account/settings/profiles/list', class: null},
         {name: 'Gestion Utilisateurs', link: '/account/settings/users', class: null},
        // {name: "Pistes d'audites", link: '/account/home', class: null}
       ],
+    },
+  ];*/
+
+  menuData: any[] = [
+    {
+      id: 1,
+      name: 'Accueil',
+      icon: 'home',
+      link: '/account/home',
+      class: null
     },
   ];
 
   currentNode: any;
   lastNodeSelected: any;
+
 
   private _transformer = (node: any, level: number) => {
     return {
@@ -159,11 +179,80 @@ export class SidenavComponent implements OnInit {
 
   constructor(
     private _router: Router,
+    public authService: AuthService,
     public accountService: AccountService
   ) {
   }
 
   ngOnInit(): void {
+
+      let groupSettingsProducts = {
+          id: 3,
+          name: 'Configuration des produits',
+          icon: 'room_preferences',
+          children: [
+            {name: 'Garanties', link: '/account/guarantees/list', class: null},
+            {name: 'Groupes Produits', link: '/account/products-groups/list', class: null},
+            {name: 'Formulaires Cotations', link: '/account/settings-products/forms/quotations/list', class: null},
+            {name: 'Formulaires Souscriptions', link: '/account/settings-products/forms/quotations/list', class: null},
+            {name: 'Calculs Primes', link: '/account/settings-products/forms/quotations/list', class: null},
+          ],
+        };
+
+        this.menuData.push(groupSettingsProducts);
+
+      let groupMarketing =  {
+        id: 4,
+        name: 'Marketing',
+        icon: 'sell',
+        children: [{name: 'Produits', link: '/account/products/list', class: null}],
+      };
+
+      this.menuData.push(groupMarketing);
+
+    let groupSettings =
+      {
+        id: 5,
+        name: 'Paramètres',
+        icon: 'manage_accounts',
+        children: [],
+      };
+
+    if (this.authService.getAuthGroups() && this.authService.getAuthGroups().length > 0 && this.authService.getAuthGroups().indexOf('GROUP_LIST') >= 0) {
+
+
+      if (this.authService.getAuthRoles() && this.authService.getAuthRoles().length > 0 && this.authService.getAuthRoles().indexOf('ROLE_PARTNER') >= 0) {
+
+        let rolePartner = {name: 'Gestion Partenaires', link: '/account/partners/list', class: null};
+        // @ts-ignore
+        groupSettings.children.push(rolePartner);
+
+      }
+
+      let roleBranch =  {name: 'Gestion Branches', link: '/account/branches/list', class: null};
+      // @ts-ignore
+      groupSettings.children.push(roleBranch);
+
+      let roleZone =   {name: 'Gestion Territoires', link: '/account/zones/list', class: null};
+      // @ts-ignore
+      groupSettings.children.push(roleZone);
+
+      let roleSegment =    {name: 'Gestion Segments', link: '/account/segments/list', class: null};
+      // @ts-ignore
+      groupSettings.children.push(roleSegment);
+
+    }
+
+    let roleManageProfiles =       {name: 'Gestion Profils', link: '/account/settings/profiles/list', class: null};
+    let roleManageUsers =        {name: 'Gestion Utilisateurs', link: '/account/settings/users', class: null};
+
+    // @ts-ignore
+    groupSettings.children.push(roleManageProfiles);
+    // @ts-ignore
+    groupSettings.children.push(roleManageUsers);
+
+    this.menuData.push(groupSettings);
+
     this.dataSource.data = this.menuData;
 
   }

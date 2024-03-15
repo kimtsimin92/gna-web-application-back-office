@@ -382,4 +382,21 @@ export class AuthService {
 
   }
 
+  //AUTHORIZATION
+
+  getAuthGroups(): any {
+    // @ts-ignore
+    return this.authJwt.groups;
+  }
+
+  getAuthRoles(): any {
+    // @ts-ignore
+    return this.authJwt.roles;
+  }
+
+  getAuthPermissions(): any {
+    // @ts-ignore
+    return this.authJwt.permissions;
+  }
+
 }

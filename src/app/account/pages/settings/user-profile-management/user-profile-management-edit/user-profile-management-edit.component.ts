@@ -141,7 +141,6 @@ export class UserProfileManagementEditComponent implements OnInit, OnDestroy, Af
       this.profileData = JSON.parse(localStorage.getItem("PROFILE_DATA"));
       this.profileForm.name.setValue(this.profileData.name);
       this.profileForm.userType.setValue(this.profileData.type.code);
-      this.profileForm.enabled.setValue(this.profileData.enabled);
     } else {
      this._router.navigateByUrl("/account/settings/profiles")
     }

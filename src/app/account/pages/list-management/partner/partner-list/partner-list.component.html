@@ -68,7 +68,8 @@
                   </td>
                   <td>
                     <span class="gna-action-span-div">
-                      <span class="gna-action-span">
+                        <span class="gna-action-span">
+                           @if (authService.getAuthPermissions().indexOf("PARTNER_PERMISSION_ENABLE") >= 0) {
                         @if (element.enabled) {
                           <img src="assets/svg/active.svg" class="gna-table-btn-enable"
                                (click)="onConfirmToggleEnabled(element, true)">
@@ -76,22 +77,30 @@
                           <img src="assets/svg/inactive.svg" class="gna-table-btn-enable"
                                (click)="onConfirmToggleEnabled(element, false)">
                         }
+                           }
                   </span>
+
                       <span class="gna-action-span">
+                            @if (authService.getAuthPermissions().indexOf("PARTNER_PERMISSION_DELETE") >= 0) {
                         @if (element.removable) {
                           <img src="assets/images/table-trash.svg" alt="" class="gna-table-btn"
                                (click)="onConfirm(element)">
                         } @else {
                           <img src="assets/images/table-trash.svg" alt="" class="gna-table-btn gna-disable">
                         }
+                        }
                   </span>
                       <span class="gna-action-span">
-                        <img src="assets/images/table-eye.svg" alt="" class="gna-table-btn"
-                             (click)="onView(element)">
+                         @if (authService.getAuthPermissions().indexOf("PARTNER_PERMISSION_READ") >= 0) {
+                           <img src="assets/images/table-eye.svg" alt="" class="gna-table-btn"
+                                (click)="onView(element)">
+                         }
                   </span>
                   <span class="gna-action-span">
-                      <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn"
-                           (click)="onViewEdit(element)">
+                       @if (authService.getAuthPermissions().indexOf("PARTNER_PERMISSION_UPDATE") >= 0) {
+                         <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn"
+                              (click)="onViewEdit(element)">
+                       }
                   </span>
                   </span>
                   </td>

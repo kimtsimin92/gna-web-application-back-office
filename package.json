@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0 --port 4200",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -26,7 +26,9 @@
     "@material-design-icons/svg": "^0.14.13",
     "bootstrap": "^5.3.2",
     "jquery": "^3.7.1",
+    "material-design-icons": "^3.0.1",
     "material-icons": "^1.13.12",
+    "material-icons-font": "^2.1.0",
     "material-symbols": "^0.14.5",
     "ng-lottie": "^0.3.2",
     "primeicons": "^6.0.1",

@@ -62,6 +62,7 @@ import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {
   ConfirmationToggleEnableDialogComponent
 } from "../../../../dialogs/confirmation/confirmation-toggle-enable-dialog/confirmation-toggle-enable-dialog.component";
+import {AuthService} from "../../../../../auth/auth.service";
 
 interface PageEvent {
   first: number;
@@ -164,6 +165,7 @@ export class PartnerListComponent implements OnInit, OnDestroy, AfterViewInit {
     public _dialog: MatDialog,
     private _router: Router,
     private _liveAnnouncer: LiveAnnouncer,
+    public authService: AuthService,
     public accountService: AccountService) {
 
   }

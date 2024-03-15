@@ -51,10 +51,10 @@ export class AccountComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    /*this.accountService.loadingPage = true;
+    this.accountService.loadingPage = true;
     setTimeout(() => {
       this.accountService.loadingPage = false;
-    }, 1000);*/
+    }, 1000);
 
   }
 

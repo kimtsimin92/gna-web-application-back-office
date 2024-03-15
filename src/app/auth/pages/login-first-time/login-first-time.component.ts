@@ -92,11 +92,11 @@ export class LoginFirstTimeComponent implements OnInit {
       this._router.navigateByUrl("/login")
     }
 
-   /* this.accountService.loadingPage = true;
+   this.accountService.loadingPage = true;
     setTimeout(() => {
       this.accountService.loadingPage = false;
-    }, 1000);
-*/
+    }, 1000)
+
     this.formProfilePwd = this._fb.group(this.profileFormPwd);
 
 
@@ -166,7 +166,6 @@ export class LoginFirstTimeComponent implements OnInit {
 
     const dialogRef = this._dialog.open(LoginFirstTimeLoadingDialogComponent, {
       hasBackdrop: false,
-      position: {right:'90px', top:'270px'},
       width: '320px',
     });
 

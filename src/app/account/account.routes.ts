@@ -61,6 +61,12 @@ import {ProductListComponent} from "./pages/marketing/products/product-list/prod
 import {ProductAddComponent} from "./pages/marketing/products/product-add/product-add.component";
 import {ProductEditComponent} from "./pages/marketing/products/product-edit/product-edit.component";
 import {ProductViewComponent} from "./pages/marketing/products/product-view/product-view.component";
+import {
+  FormQuotationListComponent
+} from "./pages/settings-products/form-quotation/form-quotation-list/form-quotation-list.component";
+import {
+  FormQuotationAddComponent
+} from "./pages/settings-products/form-quotation/form-quotation-add/form-quotation-add.component";
 
 export const routes: Routes = [
   {
@@ -138,6 +144,18 @@ export const routes: Routes = [
         title: 'Segments | GNA',
       },
       {
+        path: 'settings-products/forms/quotations/list', component: FormQuotationListComponent,
+        title: 'Formulaires Cotations - Lister | GNA',
+      },
+      {
+        path: 'settings-products/forms/quotations/add', component: FormQuotationAddComponent,
+        title: 'Formulaires Cotations - créer | GNA',
+      },
+      {
+        path: 'settings-products/forms/subscriptions', component: FormQuotationListComponent,
+        title: 'Formulaires Souscriptions - Lister | GNA',
+      },
+      {
         path: 'guarantees/list', component: GuaranteeListComponent,
         title: 'Garantie - Lister | GNA',
       },
@@ -190,7 +208,7 @@ export const routes: Routes = [
         title: 'Compte - Mon Profil | GNA',
       },
       {
-        path: 'settings/profiles', component: UserProfileManagementComponent,
+        path: 'settings/profiles/list', component: UserProfileManagementComponent,
         title: 'Gestion Profils | GNA',
       },
       {

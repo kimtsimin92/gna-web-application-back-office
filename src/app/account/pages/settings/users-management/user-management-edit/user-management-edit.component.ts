@@ -216,8 +216,8 @@ export class UserManagementEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
-      width: '360px',
-      height: '200px',
+      width: '380px',
+      height: '350px',
       data: {
         dialogMessage: "de ce compte utilisateur"
       },

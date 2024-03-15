@@ -1,0 +1,158 @@
+<div class="gna-bc">
+  <span>Configuration Produit / Formulaires Cotations</span>
+</div>
+
+<div class="container-fluid">
+
+  <div>
+    <mat-card class="gna-card">
+
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+          <div class="gna-list-header">
+            <div class="gna-list-header-1">
+          <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (keyup)="filterResults(filter.value)" placeholder="Recherche..."
+                           class="example-full-width gna-list-ir"
+                           #filter/>
+                      </span>
+            </div>
+            <div class="gna-list-header-2">
+              <button mat-raised-button color="primary"
+                      class="gna-btn-default"
+                      (click)="onAdd()">Créer Formulaire</button>
+            </div>
+          </div>
+        </div>
+      </mat-card-header>
+
+      <div class="container-fluid">
+
+        <div class="example-table-container mt-4">
+          <table class="gna-table">
+            <thead>
+            <tr>
+              <th>Code Formulaire</th>
+              <th>Nom Formulaire</th>
+              <th>Groupe Produit</th>
+              <th>Date de création</th>
+              <th>Statut</th>
+              <th></th>
+            </tr>
+            </thead>
+            @defer (when dataPaginationResponse) {
+              <tbody>
+                @for (element of filteredList; track element) {
+                  <tr>
+                    <td>
+                      {{ element.code }}
+                    </td>
+                    <td>
+                      {{ element.name }}
+                    </td>
+                    <td>
+                      @if (element.group) {
+                        {{ element.group.name }}
+                      } @else {
+                      }
+                    </td>
+                    <td>
+                      {{ element.createdAt | date: 'dd-MM-YYYY'}}
+                    </td>
+                    <td>
+                      @if (element.enabled) {
+                        @if (element.statusCode && element.statusCode === 1) {
+                          <span class="gna-list-status">En Attente</span>
+                        } @else {
+                          <span class="gna-list-status">Désactivé</span>
+                        }
+                      } @else {
+                        <span class="gna-list-status">Désactivé</span>
+                      }
+                    </td>
+                    <td>
+                    <span class="gna-action-span-div">
+                      <span class="gna-action-span">
+                        <img src="assets/images/table-eye.svg" alt="" class="gna-table-btn"
+                             (click)="onView(element)">
+                  </span>
+                  <span class="gna-action-span">
+                      <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn"
+                           (click)="onEdit(element)">
+                  </span>
+                  </span>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td>
+                      <span class="gna-text-primary">Aucun résultat trouvé</span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            } @placeholder {
+              <tbody>
+                @for (item of fakeItems; track item) {
+                  <tr>
+                    <td><p-skeleton width="5rem" styleClass="mb-2"></p-skeleton></td>
+                    <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
+                    <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
+                    <td><p-skeleton width="8rem" styleClass="mb-2"></p-skeleton></td>
+                    <td><p-skeleton width="8rem" styleClass="mb-2"></p-skeleton></td>
+                    <td>
+                          <span class="gna-action-span-div-s">
+                            <div class="row">
+                              <div class="col">
+                                <p-skeleton shape="circle" size="2rem"></p-skeleton>
+                              </div>
+                              <div class="col">
+                                <p-skeleton size="2rem"></p-skeleton>
+                              </div>
+                            </div>
+                          </span></td>
+                  </tr>
+                }
+              </tbody>
+            }
+          </table>
+        </div>
+        <div class="gna-pagination">
+          @if (dataPaginationResponse) {
+            @if (currentPage > 1) {
+              <span class="gna-pagination-previous"
+                    (click)="onGoToPrevious()">
+              <i class="pi pi-arrow-left"></i>
+            </span>
+            } @else {
+              <span class="gna-pagination-previous gna-pagination-disabled">
+              <i class="pi pi-arrow-left"></i>
+            </span>
+            }
+            @if (dataPaginationResponse.sizePages > 0) {
+              <span class="gna-pagination-page">{{ currentPage }}</span>
+            } @else {
+              <span class="gna-pagination-page gna-pagination-disabled">0</span>
+            }
+            @if (currentPage < dataPaginationResponse.totalPages) {
+              <span class="gna-pagination-next"
+                    (click)="onGoToNext()">
+             <i class="pi pi-arrow-right"></i>
+          </span>
+            } @else {
+              <span class="gna-pagination-next gna-pagination-disabled">
+             <i class="pi pi-arrow-right"></i>
+          </span>
+            }
+          } @else {
+            <span class="gna-pagination-previous gna-pagination-disabled"><i class="pi pi-arrow-left"></i></span>
+            <span class="gna-pagination-page gna-pagination-disabled">0</span>
+            <span class="gna-pagination-next gna-pagination-disabled"><i class="pi pi-arrow-right"></i></span>
+          }
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+</div>

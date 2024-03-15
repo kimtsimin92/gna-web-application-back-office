@@ -56,10 +56,10 @@ export class LoginComponent implements OnInit, DoCheck {
   ngOnInit(): void {
     this.auth.clearAll();
 
-/*    this.accountService.loadingPage = true;
+ this.accountService.loadingPage = true;
     setTimeout(() => {
       this.accountService.loadingPage = false;
-    }, 1000);*/
+    }, 1000);
 
     this.form = this._fb.group(this.authRequest);
   }
