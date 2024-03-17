@@ -101,22 +101,29 @@
                         [formGroup]="fStep">
                         <div class="row gna-form mb-2">
 
-                          <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                            <label for="name" class="gna-form-label">
-                              Titre Etape
-                              <span class="gna-text-red gna-text-bold">*</span>
-                            </label>
-                            <input pInputText
-                                   type="text" id="form-step-title"
-                                   placeholder="Entrer le titre de l'étape"
-                                   class="gna-form-input"
-                                   required
-                                   formControlName="title"
-                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                          <!-- <label for="name" class="gna-form-label">
+                             Titre Etape
+                             <span class="gna-text-red gna-text-bold">*</span>
+                           </label>
+                           <input pInputText
+                                  type="text" id="form-step-title"
+                                  placeholder="Entrer le titre de l'étape"
+                                  class="gna-form-input"
+                                  required
+                                  formControlName="name"
+                                  [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>-->
+                            <mat-form-field appearance="fill" class="gna-mff gna-mff-mt">
+                              <mat-label>Titre Etape</mat-label>
+                              <input matInput placeholder="Entrer le titre de l'étape"
+                                     required
+                                     formControlName="name"
+                                     [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                            </mat-form-field>
                           </div>
 
                           <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                            <label for="name" class="gna-form-label">
+             <!--               <label for="name" class="gna-form-label">
                          Description Etape
                             </label>
                             <input pInputText
@@ -124,7 +131,13 @@
                                    placeholder="Entrer la description de l'étape"
                                    class="gna-form-input"
                                    formControlName="description"
-                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>-->
+                            <mat-form-field appearance="fill" class="gna-mff gna-mff-mt">
+                              <mat-label>Description Etape</mat-label>
+                              <input matInput placeholder="Entrer la description de l'étape"
+                                     formControlName="description"
+                                     [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                            </mat-form-field>
                           </div>
 
                           <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -136,29 +149,47 @@
                             }
                             <div class="input-group form-step-illustration">
                               <input type="file" accept="image/*" class="form-control"
-                                     id="productImageFile">
+                                     id="productImageFile" disabled>
                             </div>
 
                           </div>
 
                           <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                             <label></label>
-                            @if (fStep.value.title) {
-                              <button mat-raised-button
-                                      color="primary"
-                                      class="gna-btn-default gna-mt-btn-1"
-                                      (click)="onAddFormStep()">
-                                Ajouter Etape
+                            @if (fStep.value.name && lfs) {
+                              <button
+                                type="button"
+                                mat-raised-button
+                                class="gna-btn-default-action gna-mt-btn-2 gna-btn-save"
+                                (click)="onAddFormStep()"
+                              matTooltip="Ajouter une étape">
+                               +
                               </button>
                             } @else {
-                              <button mat-raised-button
-                                      color="primary"
-                                      class="gna-btn-default gna-mt-btn-1 gna-disable">
-                                Ajouter Etape
+                              <button
+                                mat-raised-button
+                                class="gna-disable gna-btn-default-action gna-mt-btn-2 gna-btn-save">
+                               +
                               </button>
+                            <!--  <button mat-raised-button
+                                      color="primary"
+                                      class="gna-btn-default gna-mt-btn-2 gna-disable">
+                                Ajouter Etape
+                              </button>-->
                             }
-                            <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-3 gna-clickable img-ml"
-                                 matTooltip="Supprimer l'étape">
+                      <!--      <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-3 gna-clickable img-ml"
+                                 matTooltip="Supprimer l'étape"
+                            *ngIf="!ffs"
+                                 (click)="onRemoveStep(fStep)">-->
+                            <button
+                              type="button"
+                              mat-raised-button
+                              class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel"
+                              (click)="onRemoveStep(fStep)"
+                              matTooltip="Supprimer l'étape"
+                              *ngIf="!ffs">
+                              -
+                            </button>
                           </div>
 
                         </div>
@@ -176,10 +207,10 @@
 
                                 <form
                                   [formGroup]="fStepQuestion">
-                                  <div class="row gna-form mb-2">
+                                  <div class="row gna-form">
 
-                                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                                      <label for="name" class="gna-form-label">
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3 gna-mff-mr">
+                             <!--         <label for="name" class="gna-form-label">
                                         Titre Question
                                         <span class="gna-text-red gna-text-bold">*</span>
                                       </label>
@@ -187,53 +218,89 @@
                                              type="text" id="form-step-question-title"
                                              placeholder="Entrer le titre de la question"
                                              class="gna-form-input"
-                                             formControlName="title"
+                                             formControlName="name"
                                              required
-                                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>-->
+                                      <mat-form-field appearance="fill" class="gna-mff">
+                                        <mat-label>Titre Question</mat-label>
+                                        <input matInput placeholder="Entrer le titre de la question"
+                                               formControlName="name"
+                                               required
+                                               [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                                      </mat-form-field>
                                     </div>
                                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                                      <label class="gna-form-label">Champs Question
+                                      <!--<label class="gna-form-label">Champs Question
                                         <span class="gna-text-red gna-text-bold">*</span>
                                       </label>
-                                      @if (fStepQuestion.value.title && fStepQuestion.value.currentSelectedTag) {
+                                      @if (fStepQuestion.value.name && fStepQuestion.value.currentSelectedTag) {
                                         <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable img-ml"
                                              matTooltip="Paramétrer le champs"
                                              (click)="onOpenSettingsField(fStepQuestion)">
                                       }
                                       <p-dropdown [options]="appFormBuilder"
-                                                  optionLabel="title"
+                                                  optionLabel="name"
                                                   emptyMessage="Aucun résultat trouvé"
                                                   placeholder="Sélectionner le champs de la question"
                                                   class="gna-form-dropdown"
-                                                  formControlName="tag"
+                                                  formControlName="field"
                                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave">
                                         <ng-template let-item pTemplate="item">
                                           <div class="flex align-items-center gap-2"
-                                               (click)="onGetFieldTag(fStepQuestion, item, stepSQ, stepS)">{{ item.title }}
+                                               (click)="onGetFieldTag(fStepQuestion, item, stepSQ, stepS, ifs, ifsq, fStep)">{{ item.name }}
                                           </div>
                                         </ng-template>
-                                      </p-dropdown>
+                                      </p-dropdown>-->
+                                      <mat-form-field appearance="fill" class="gna-mff">
+                                        <mat-label>Sélectionner le champs de la question</mat-label>
+                                        <mat-select
+                                          formControlName="field">
+                                          @for (fb of appFormBuilder; track fb) {
+                                          <mat-option [value]="fb"
+                                                      (click)="onGetFieldTag(fStepQuestion, fb, stepSQ, stepS, ifs, ifsq, fStep)">{{ fb.name }}</mat-option>
+                                          }
+                                        </mat-select>
+                                      </mat-form-field>
                                     </div>
 
-                                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                      <label for="name" class="gna-form-label"></label>
-                                      @if (fStep.value.title && fStepQuestion.value.title && fStepQuestion.value.currentSelectedTag) {
-                                        <button mat-raised-button
-                                                color="primary"
-                                                class="gna-btn-default gna-mt-btn-2"
-                                                (click)="onAddFormStepQuestion(fStep)">
-                                          Ajouter Question
+                                    <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                      @if (fStepQuestion.value.name && fStepQuestion.value.currentSelectedTag) {
+                                        <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable"
+                                             matTooltip="Paramétrer le champs"
+                                             (click)="onOpenSettingsField(fStepQuestion)">
+                                      }
+                                    </div>
+
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                      @if (fStep.value.name && fStepQuestion.value.name && fStepQuestion.value.currentSelectedTag) {
+                                        <button
+                                          type="button"
+                                          mat-raised-button
+                                          class="gna-btn-default-action gna-mt-btn-2 gna-btn-save"
+                                          (click)="onAddFormStepQuestion(fStep)"
+                                          matTooltip="Ajouter une question">
+                                          +
                                         </button>
                                       } @else {
-                                        <button mat-raised-button
-                                                color="primary"
-                                                class="gna-btn-default gna-mt-btn-2 gna-disable">
-                                          Ajouter Question
+                                        <button
+                                          mat-raised-button
+                                          class="gna-disable gna-btn-default-action gna-mt-btn-2 gna-btn-save">
+                                          +
                                         </button>
                                       }
-                                      <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-3 gna-clickable img-ml"
+                                    <!--  <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-3 gna-clickable img-ml"
                                            matTooltip="Supprimer la question"
-                                           (click)="onRemoveStepQuestion(fStep, fStepQuestion)">
+                                           (click)="onRemoveStepQuestion(fStep, fStepQuestion)"
+                                      *ngIf="!ffsq">-->
+                                      <button
+                                        type="button"
+                                        mat-raised-button
+                                        class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel"
+                                        (click)="onRemoveStepQuestion(fStep, fStepQuestion)"
+                                        *ngIf="!ffsq"
+                                        matTooltip="Supprimer la question">
+                                        -
+                                      </button>
                                     </div>
 
                                   </div>

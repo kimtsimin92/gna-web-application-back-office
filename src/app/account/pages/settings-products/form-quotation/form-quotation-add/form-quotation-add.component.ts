@@ -26,6 +26,42 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {
   FormBuilderInputTextDialogComponent
 } from "../../../../form-builders/form-builder-input/form-builder-input-text-dialog/form-builder-input-text-dialog.component";
+import {
+  ConfirmationAddDialogComponent
+} from "../../../../dialogs/confirmation/confirmation-add-dialog/confirmation-add-dialog.component";
+import {
+  SaveLoadingDialogComponent
+} from "../../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatOption, MatSelect} from "@angular/material/select";
+import {MatInput} from "@angular/material/input";
+import {MatIcon} from "@angular/material/icon";
+import {
+  SaveNotificationDialogComponent
+} from "../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component";
+import {
+  SaveErrorNotificationDialogComponent
+} from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
+
+
+class QuotationFormData {
+  name: string | undefined;
+  description: string | undefined;
+  productGroupId: number | undefined;
+  steps: QuotationStepItem[] = [];
+}
+
+class QuotationStepItem {
+  name: any;
+  description: any;
+  illustration: any;
+  questions: QuotationStepQuestionItem[] = [];
+}
+
+class QuotationStepQuestionItem {
+  name: any;
+  field: any;
+}
 
 @Component({
   selector: 'app-form-quotation-add',
@@ -52,7 +88,13 @@ import {
     MatStepperNext,
     MatStepperPrevious,
     NgForOf,
-    MatTooltip
+    MatTooltip,
+    MatFormField,
+    MatSelect,
+    MatLabel,
+    MatOption,
+    MatInput,
+    MatIcon
   ],
   templateUrl: './form-quotation-add.component.html',
   styleUrl: './form-quotation-add.component.css'
@@ -67,45 +109,45 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
   appFormBuilder: any[] = [
     {
-      code: 3,
-      title: "Texte",
+      code: 1,
+      name: "Texte",
       tag: "input",
       type: "text"
     },
     {
-      code: 4,
-      title: "Numérique",
+      code: 2,
+      name: "Numérique",
       tag: "input",
       type: "number"
     },
     {
-      code: 5,
-      title: "Email",
-      tag: "input",
-      type: "email"
-    },
-    {
-      code: 6,
-      title: "Date",
+      code: 3,
+      name: "Date",
       tag: "input",
       type: "date"
     },
     {
-      code: 7,
-      title: "Case à Cocher",
+      code: 4,
+      name: "Case à Cocher",
       tag: "input",
       type: "checkbox"
     },
     {
-      code: 8,
-      title: "Liste Déroulante",
+      code: 5,
+      name: "Liste Déroulante",
       tag: "select"
     },
     {
-      code: 9,
-      title: "Zone de Texte",
+      code: 6,
+      name: "Zone de Texte",
       tag: "textarea"
-    }
+    },
+    {
+      code: 7,
+      name: "Email",
+      tag: "input",
+      type: "email"
+    },
   ];
 
   fieldsets: any[] = [];
@@ -128,12 +170,15 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
   formStepQuestionList: FormGroup[] = [];
   formStepQuestion: FormGroup = new FormGroup({}, undefined, undefined);
-  stepQuestionForm: StepQuestionForm= new StepQuestionForm();
+  stepQuestionForm: StepQuestionForm = new StepQuestionForm();
   stepQuestionDto: StepQuestionDto = new StepQuestionDto();
   stepQuestionDtoList: any[] = [];
   getFormStepQuestion: any = null;
 
   currentSelectedTag: any = null;
+
+  quotationFormData: QuotationFormData = new QuotationFormData();
+  private loadingPage: boolean = false;
 
   constructor(
     private _fb: FormBuilder,
@@ -196,36 +241,226 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
   onConfirm() {
 
-    console.log("QUOTATION DATA FORM");
+    this.isSave = true;
+    this.accountService.isSave = this.isSave;
 
+    const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+      data: {
+        dialogMessage: "de ce formulaire"
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.onSave();
+      } else {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+  onSaveLoadingDialog(): void {
+
+    const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
+      hasBackdrop: false,
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+
+  }
+
+  onSave() {
+
+    this.isSave = true;
+
+   this.onSaveLoadingDialog();
+
+    console.log("QUOTATION FORM DATA");
+
+    this.quotationFormData = new QuotationFormData();
+
+    this.quotationFormData.name = this.formQuotation.value.name;
+    this.quotationFormData.description = this.formQuotation.value.description;
+    this.quotationFormData.productGroupId = this.formQuotation.value.productGroup.id;
+
+    console.log(this.quotationFormData);
     console.log(this.formStepList);
 
     if (this.formStepList && this.formStepList.length > 0) {
 
-      // @ts-ignore
-      this.formStepList.forEach((formStep: FormGroup) => {
+      this.formStepList.forEach((fs: any) => {
 
-        console.log(formStep.value);
+        if (!fs.value.position || !fs.value.name) {
+          this.onGetNotBlankAlert();
+          return;
+        } else {
+
+          let step = {
+            position: fs.value.position,
+            name: fs.value.name,
+            description: fs.value.description,
+            illustration: fs.value.illustration,
+            questions: []
+          };
+
+          if (fs.value.questions && fs.value.questions.length > 0) {
+
+            fs.value.questions.forEach((fsq: any) => {
+
+              let position = null;
+
+              let field = {
+                code: null,
+                name: null,
+                tag: null,
+                type: null,
+                attributes: [],
+              };
+
+              let attributes = null;
+
+              if (fsq.value.currentSelectedTag) {
+                position = fsq.value.currentSelectedTag.questionIndex;
+              }
+
+              if (fsq.value.field) {
+                field.code = fsq.value.field.code;
+                field.name = fsq.value.field.name;
+                field.tag = fsq.value.field.tag;
+                field.type = fsq.value.field.type;
+              }
+
+              if (fsq.value.attributes) {
+                attributes = fsq.value.attributes;
+                field.attributes = attributes;
+              }
+
+              if (!position || !field || !attributes) {
+                this.onGetNotBlankAlert();
+                step.questions = [];
+                return;
+              } else {
+
+
+                let question = {
+                  position: position,
+                  name: fsq.value.name,
+                  fieldData: JSON.stringify(field)
+                }
+
+                // @ts-ignore
+                step.questions.push(question);
+
+              }
+
+            });
+
+          }
+
+          if (step && step.questions && step.questions.length > 0) {
+            this.quotationFormData.steps.push(step);
+            console.log(this.quotationFormData);
+          }
+
+        }
 
       });
+
+      this.accountService.addFormQuotation(this.quotationFormData)
+        .subscribe((responseData: HttpResponse<any>) => {
+
+          console.log(responseData);
+              this.isSave = false;
+              this.closeDialog();
+              this.onSaveNotificationDialog();
+
+        }, (errorData: HttpErrorResponse) => {
+          this.isSave = false;
+          console.log(errorData);
+          this.closeDialog();
+          this.onSaveErrorNotificationDialog(errorData);
+        });
+
+
 
     }
 
   }
 
-/*  onGetFormItem(tag: string) {
+  onSaveErrorNotificationDialog(error: HttpErrorResponse): void {
 
-    switch (tag) {
+    const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '350px',
+      data: {
+        httpError: error,
+        dialogMessage: "L'enregistrement de ce formulaire a échoué."
+      },
+    });
 
-      case "fieldset":
-        this.onGetFieldset();
-        break;
-      default:
-        this.onGetFieldset();
+    dialogRef.afterClosed().subscribe(result => {
 
-    }
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
 
-  }*/
+    });
+
+  }
+
+  onSaveNotificationDialog(): void {
+
+    const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '350px',
+      data: {
+        dialogMessage: "L'enregistrement de ce formulaire a réussi."
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    /*  this._router.navigateByUrl("/account/settings-products/forms/quotations/list")
+        .then(() => {
+          this.loadingPage = false;
+        });*/
+
+    });
+
+  }
+
+  /*  onGetFormItem(tag: string) {
+
+      switch (tag) {
+
+        case "fieldset":
+          this.onGetFieldset();
+          break;
+        default:
+          this.onGetFieldset();
+
+      }
+
+    }*/
 
   onGetFormItem() {
     this.onGetFieldset();
@@ -288,11 +523,15 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     if (lastItem.valid) {
 
       let formStepQuestion = this._fb.group(new StepQuestionForm());
+      let formStepQuestionList = [];
+      formStepQuestionList.push(formStepQuestion);
 
-      let formStep = this._fb.group(new StepForm());
-      formStep.value.questions = [];
-      formStep.value.questions.push(formStepQuestion)
+      let stepForm = new StepForm();
+      stepForm.questions.push(formStepQuestionList)
+      let formStep = this._fb.group(stepForm);
       this.formStepList.push(formStep);
+
+      console.log(this.formStepList);
 
     } else {
       console.log("Not valid.")
@@ -328,23 +567,30 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
 
-
   }
 
   onOpenSettingsField(formStepQuestion: FormGroup) {
 
-    this._dialog.open(FormBuilderInputTextDialogComponent, {
+    const dialogRef = this._dialog.open(FormBuilderInputTextDialogComponent, {
       hasBackdrop: false,
       width: '300px',
-      height: '400px',
+      height: '450px',
       data: {
         currentSelectedTag: formStepQuestion.value.currentSelectedTag
       }
     });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+      if (result) {
+        formStepQuestion.patchValue({attributes: result.value})
+      }
+    });
+
   }
 
-  onGetFieldTag(formStepQuestion: FormGroup, tag: any, q: MatStep, s: MatStep) {
+  onGetFieldTag(formStepQuestion: FormGroup, tag: any, q: MatStep, s: MatStep, stepIndex: number, stepQuestionIndex: number, formStep: FormGroup) {
 
     console.log("TAG");
     console.log(tag);
@@ -354,12 +600,41 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     console.log(s);
 
     let currentSelectedTag = {
+      stepIndex: stepIndex + 1,
       stepLabel: s.label,
+      questionIndex: stepQuestionIndex + 1,
       questionLabel: q.label,
       fieldTag: tag
     };
 
-    formStepQuestion.addControl("currentSelectedTag", new FormControl(currentSelectedTag));
+    let attributes = {
+      name: "field_"+currentSelectedTag.questionIndex
+    };
+
+    console.log(currentSelectedTag);
+
+    formStep.patchValue({position: currentSelectedTag.stepIndex});
+    formStepQuestion.patchValue({position: currentSelectedTag.questionIndex});
+    formStepQuestion.patchValue({attributes: attributes});
+    formStepQuestion.patchValue({currentSelectedTag: currentSelectedTag});
+
+  }
+
+  onRemoveStep(formStep: FormGroup) {
+
+    if (this.formStepList && this.formStepList.length > 0) {
+
+      let i = this.formStepList.lastIndexOf(formStep);
+      let s = i;
+      let e = i - 1;
+
+      if (e < 1) {
+        e = 1
+      }
+
+      this.formStepList.splice(s, e);
+
+    }
 
   }
 
@@ -369,7 +644,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
       let i = formStep.value.questions.lastIndexOf(f);
       let s = i;
-      let e = i -1;
+      let e = i - 1;
 
       if (e < 1) {
         e = 1

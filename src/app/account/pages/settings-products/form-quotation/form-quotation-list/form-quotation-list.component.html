@@ -52,8 +52,8 @@
                       {{ element.name }}
                     </td>
                     <td>
-                      @if (element.group) {
-                        {{ element.group.name }}
+                      @if (element.productGroup) {
+                        {{ element.productGroup.name }}
                       } @else {
                       }
                     </td>
@@ -62,17 +62,29 @@
                     </td>
                     <td>
                       @if (element.enabled) {
-                        @if (element.statusCode && element.statusCode === 1) {
-                          <span class="gna-list-status">En Attente</span>
-                        } @else {
-                          <span class="gna-list-status">Désactivé</span>
-                        }
+                        <span class="gna-list-status-green">Activé</span>
                       } @else {
-                        <span class="gna-list-status">Désactivé</span>
+                        <span class="gna-list-status-red">Désactivé</span>
                       }
                     </td>
                     <td>
                     <span class="gna-action-span-div">
+
+                        <span class="gna-action-span">
+                             @if (element.enabled) {
+                               <img src="assets/svg/active.svg" class="gna-table-btn-enable">
+                             } @else {
+                               <img src="assets/svg/inactive.svg" class="gna-table-btn-enable">
+                             }
+                  </span>
+
+                      <span class="gna-action-span">
+                              @if (element.removable) {
+                                <img src="assets/images/table-trash.svg" alt="" class="gna-table-btn">
+                              } @else {
+                                <img src="assets/images/table-trash.svg" alt="" class="gna-table-btn gna-disable">
+                              }
+                  </span>
                       <span class="gna-action-span">
                         <img src="assets/images/table-eye.svg" alt="" class="gna-table-btn"
                              (click)="onView(element)">

@@ -7,7 +7,7 @@
      {{ currentSelectedTag.stepLabel }} | {{ currentSelectedTag.questionLabel }}
    </span> <br>
     <span *ngIf="currentSelectedTag.fieldTag">
-      Paramétrage du champs : {{ currentSelectedTag.fieldTag.title }}
+      Paramétrage du champs : {{ currentSelectedTag.fieldTag.name }}
     </span>
   </div>
 
@@ -50,6 +50,14 @@
         </div>
 
         <div class="col-12 mt-2">
+          <label for="pattern">Pattern</label>
+          <input pInputText
+                 type="text" id="pattern" class="gna-form-input"
+                 required
+                 formControlName="pattern"/>
+        </div>
+
+        <div class="col-12 mt-2">
           <label for="required" class="label-mr">Required</label>
           <p-checkbox id="required" formControlName="required" [binary]="true"
                       class="gna-form-checkbox"></p-checkbox>
@@ -61,8 +69,9 @@
   </div>
 
   <div mat-dialog-actions>
-    <button mat-stroked-button [mat-dialog-close]="false" color="primary" class="gna-fb-btn">Fermer</button>
-    <button mat-raised-button [mat-dialog-close]="true" color="primary" class="gna-fb-btn">Enregistrer</button>
+    <button mat-stroked-button (click)="onNoClick()" color="primary" class="gna-fb-btn">Fermer</button>
+    <button mat-raised-button [mat-dialog-close]="this.inputForm" cdkFocusInitial
+            color="primary" class="gna-fb-btn">Valider</button>
   </div>
 
 

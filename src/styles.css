@@ -117,6 +117,7 @@ a {
   font-family: 'AvenirLTProBlack', sans-serif !important;
 }
 
+
 .gna-btn-default-2 {
   width: 120px!important;
   height: 30px!important;
@@ -342,23 +343,31 @@ a {
 
 /*** ANGULAR MATERIAL - MAT FORM FIELD ***/
 
+.gna-mff-mr {
+  margin-right: 5px!important;
+}
+
 .gna-mff .mat-mdc-text-field-wrapper {
-    height: 42px!important;
+    height: 50px!important;
 }
 
 .gna-mff .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
-  top: 22px!important;
+  top: 10px!important;
   left: 0!important;
   font-size: 11px!important;
 }
 
 .gna-mff .mat-mdc-form-field-icon-prefix> .mat-icon {
-  padding-top: 10px!important;
+  padding-top: -5px!important;
   font-size: 11px!important;
 }
 
+.gna-mff .mat-mdc-select-arrow-wrapper {
+  height: 20px!important;
+}
+
 .gna-mff .mat-mdc-form-field-icon-suffix> .mat-icon {
-  padding-top: 10px!important;
+  padding-top: 5px!important;
   font-size: 11px!important;
 }
 
@@ -371,6 +380,8 @@ a {
   top: -3px!important;
   position: relative!important;
 }
+
+/** **/
 
 .gna-btn-eye .p-button.p-button-icon-only {
   width: 20px!important;
@@ -485,18 +496,22 @@ a {
 }
 
 .gna-card {
-  margin: 2vh!important;
-  min-height: 77vh!important;
-  max-height: 77vh!important;
+  margin-top: 2vh!important;
+  margin-left: 1vh!important;
+  margin-right: 1vh!important;
+  min-height: 78vh!important;
+  max-height: 78vh!important;
 }
+
+
 
 .gna-card-content {
 }
 
 .gna-container {
   position: relative;
-  min-height: 50vh!important;
-  max-height: 50vh!important;
+  min-height: 52vh!important;
+  max-height: 52vh!important;
   overflow: auto;
 }
 
@@ -504,6 +519,7 @@ a {
 
 .gna-mat-stepper-1 mat-step-header {
   height: 1px!important;
+  margin-bottom: 10px!important;
 }
 
 .gna-mat-stepper-2 mat-step-header {
@@ -519,16 +535,17 @@ a {
   height: 100px!important
 }*/
 
-.gna-mat-step-2 .mat-horizontal-content-container {
-  height: 500px!important;
+.gna-mat-stepper-2 .mat-horizontal-content-container {
+
 }
+
 
 .gna-mt-btn-1 {
   margin-top: 20px!important;
 }
 
 .gna-mt-btn-2 {
-  margin-top: 18px!important;
+  margin-top: 10px!important;
 }
 
 .gna-mt-btn-3 {

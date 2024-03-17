@@ -1,5 +1,11 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent} from "@angular/material/dialog";
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef
+} from "@angular/material/dialog";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
 import {CheckboxModule} from "primeng/checkbox";
@@ -22,15 +28,16 @@ import {NgIf} from "@angular/common";
   templateUrl: './form-builder-input-text-dialog.component.html',
   styleUrl: './form-builder-input-text-dialog.component.css'
 })
-export class FormBuilderInputTextDialogComponent implements OnInit {
+export class FormBuilderInputTextDialogComponent implements OnInit, OnDestroy {
 
   formGroup: FormGroup = new FormGroup({}, undefined, undefined);
   inputForm = new FormGroup({
-    idAndName: new FormControl("field_1", [Validators.required]),
+    name: new FormControl("field_", [Validators.required]),
     label: new FormControl(null),
     placeholder: new FormControl(null),
     maxlength: new FormControl(null),
     minlength: new FormControl(null),
+    pattern: new FormControl(null),
     required: new FormControl(null)
   });
 
@@ -38,6 +45,7 @@ export class FormBuilderInputTextDialogComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
+    public dialogRef: MatDialogRef<FormBuilderInputTextDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     if (this.data && this.data.currentSelectedTag) {
@@ -47,7 +55,18 @@ export class FormBuilderInputTextDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.inputForm.setControl("name", new FormControl("field_"+this.currentSelectedTag.questionIndex))
     this.formGroup = this._fb.group(this.inputForm);
+
+  }
+
+  ngOnDestroy(): void {
+    this.currentSelectedTag = null;
+  }
+
+  onNoClick(): void {
+    this.currentSelectedTag = null;
+    this.dialogRef.close();
   }
 
 }

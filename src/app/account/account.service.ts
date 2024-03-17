@@ -349,8 +349,19 @@ export class AccountService {
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/'+id+'/files/advertisementObjects', requestData, {observe: 'response'});
   }
 
+  getFormQuotations(page: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations?page='+page, {observe: 'response'});
+  }
+
+  addFormQuotation(requestData: any) {
+    return this._http
+      .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations/add', requestData, {observe: 'response'});
+  }
+
 
   //
+
 
   getPeriodList() {
     return this._http

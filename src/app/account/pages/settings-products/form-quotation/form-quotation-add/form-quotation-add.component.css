@@ -342,3 +342,14 @@ table th {
   margin-top: 7px!important;
 }
 
+
+.mat-mdc-form-field {
+  width: 100%!important;
+}
+
+.gna-btn-default-action {
+  min-width: 30px!important;
+  max-width: 30px!important;
+  font-size: 15px!important;
+  height: 20px!important;
+}

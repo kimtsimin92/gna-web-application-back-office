@@ -9,6 +9,10 @@ import {MatCard, MatCardHeader} from "@angular/material/card";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {ImageModule} from "primeng/image";
 import {SkeletonModule} from "primeng/skeleton";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {
+  ErrorNotificationDialogComponent
+} from "../../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
 
 @Component({
   selector: 'app-form-quotation-list',
@@ -61,6 +65,8 @@ export class FormQuotationListComponent implements OnInit, OnDestroy, AfterViewI
     this.headerTitle = "Configuration des produits";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
+    this.onGetDataList();
+
   }
 
   ngAfterViewInit(): void {
@@ -105,8 +111,70 @@ export class FormQuotationListComponent implements OnInit, OnDestroy, AfterViewI
     this.onGetDataList();
   }
 
+  onGetDataList() {
 
-  private onGetDataList() {
+    let page = 0;
+
+    if (this.currentPage > 0) {
+      page = this.currentPage - 1;
+    } else {
+      page = this.currentPage;
+    }
+
+    this.accountService.getFormQuotations(page)
+      .subscribe((responseData: HttpResponse<any>) => {
+        console.log(responseData);
+        this.dataPaginationResponse = responseData["body"];
+        if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
+
+          if (this.dataPaginationResponse.quotationForms && this.dataPaginationResponse.quotationForms.length > 0) {
+            this.dataPaginationResponse.quotationForms.forEach((qf: any) => {
+              if (qf.steps && qf.steps.length > 0) {
+                qf.steps.forEach((s: any) => {
+                  if (s.questions && s.questions.length > 0) {
+                    s.questions.forEach((q: any) => {
+                      if (q.field) {
+                        q.field = JSON.parse(q.field);
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+
+          this.filteredList = this.dataPaginationResponse.quotationForms;
+          console.log(this.filteredList);
+          if (this.currentPage <= 0) {
+            this.currentPage++;
+          }
+        }
+      }, (errorData: HttpErrorResponse) => {
+        console.log(errorData);
+        this.dataPaginationResponse = {};
+        this.onGetNotificationErrorDialog();
+      });
   }
+
+  onGetNotificationErrorDialog(): void {
+
+    const dialogRef = this._dialog.open(ErrorNotificationDialogComponent, {
+      width: '400px',
+      height: '340px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.closeDialog();
+      }
+    });
+
+  }
+
+  closeDialog() {
+    this._dialog.closeAll();
+  }
+
 
 }
