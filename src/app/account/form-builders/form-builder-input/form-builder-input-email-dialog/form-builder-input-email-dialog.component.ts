@@ -1,4 +1,5 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -6,29 +7,29 @@ import {
   MatDialogContent,
   MatDialogRef
 } from "@angular/material/dialog";
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {InputTextModule} from "primeng/inputtext";
 import {CheckboxModule} from "primeng/checkbox";
+import {InputTextModule} from "primeng/inputtext";
 import {MatButton} from "@angular/material/button";
 import {NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-form-builder-input-text-dialog',
+  selector: 'app-form-builder-input-email-dialog',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    InputTextModule,
     CheckboxModule,
+    FormsModule,
+    InputTextModule,
     MatButton,
     MatDialogActions,
-    MatDialogClose,
     MatDialogContent,
-    NgIf
+    NgIf,
+    ReactiveFormsModule,
+    MatDialogClose
   ],
-  templateUrl: './form-builder-input-text-dialog.component.html',
-  styleUrl: './form-builder-input-text-dialog.component.css'
+  templateUrl: './form-builder-input-email-dialog.component.html',
+  styleUrl: './form-builder-input-email-dialog.component.css'
 })
-export class FormBuilderInputTextDialogComponent implements OnInit, OnDestroy {
+export class FormBuilderInputEmailDialogComponent implements OnInit, OnDestroy {
 
   formGroup: FormGroup = new FormGroup({}, undefined, undefined);
   inputForm = new FormGroup({
@@ -47,7 +48,7 @@ export class FormBuilderInputTextDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     private _fb: FormBuilder,
-    public dialogRef: MatDialogRef<FormBuilderInputTextDialogComponent>,
+    public dialogRef: MatDialogRef<FormBuilderInputEmailDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     if (this.data && this.data.currentSelectedTag) {

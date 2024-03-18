@@ -1,4 +1,9 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {CheckboxModule} from "primeng/checkbox";
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {InputTextModule} from "primeng/inputtext";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {MatButton} from "@angular/material/button";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -6,40 +11,37 @@ import {
   MatDialogContent,
   MatDialogRef
 } from "@angular/material/dialog";
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {InputTextModule} from "primeng/inputtext";
-import {CheckboxModule} from "primeng/checkbox";
-import {MatButton} from "@angular/material/button";
 import {NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-form-builder-input-text-dialog',
+  selector: 'app-form-builder-input-radio-dialog',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    InputTextModule,
     CheckboxModule,
+    FormsModule,
+    InputTextModule,
+    InputTextareaModule,
     MatButton,
     MatDialogActions,
-    MatDialogClose,
     MatDialogContent,
-    NgIf
+    NgIf,
+    ReactiveFormsModule,
+    MatDialogClose
   ],
-  templateUrl: './form-builder-input-text-dialog.component.html',
-  styleUrl: './form-builder-input-text-dialog.component.css'
+  templateUrl: './form-builder-input-radio-dialog.component.html',
+  styleUrl: './form-builder-input-radio-dialog.component.css'
 })
-export class FormBuilderInputTextDialogComponent implements OnInit, OnDestroy {
+export class FormBuilderInputRadioDialogComponent implements OnInit, OnDestroy {
+
+  optionsData = "Option 1\nOption 2";
+  valuesData = "1\n2";
 
   formGroup: FormGroup = new FormGroup({}, undefined, undefined);
   inputForm = new FormGroup({
     name: new FormControl(null),
     label: new FormControl(null),
-    placeholder: new FormControl(null),
-    maxlength: new FormControl(null, [
-      Validators.pattern(/^[0-9]*$/)]),
-    minlength: new FormControl(null, [
-      Validators.pattern(/^[0-9]*$/)]),
-    pattern: new FormControl(null),
+    options: new FormControl(this.optionsData),
+    values: new FormControl(this.valuesData),
     required: new FormControl(null)
   });
 
@@ -47,7 +49,7 @@ export class FormBuilderInputTextDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     private _fb: FormBuilder,
-    public dialogRef: MatDialogRef<FormBuilderInputTextDialogComponent>,
+    public dialogRef: MatDialogRef<FormBuilderInputRadioDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     if (this.data && this.data.currentSelectedTag) {
@@ -71,5 +73,6 @@ export class FormBuilderInputTextDialogComponent implements OnInit, OnDestroy {
     this.currentSelectedTag = null;
     this.dialogRef.close();
   }
+
 
 }

@@ -127,8 +127,8 @@ export class FormQuotationListComponent implements OnInit, OnDestroy, AfterViewI
         this.dataPaginationResponse = responseData["body"];
         if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
 
-          if (this.dataPaginationResponse.quotationForms && this.dataPaginationResponse.quotationForms.length > 0) {
-            this.dataPaginationResponse.quotationForms.forEach((qf: any) => {
+          if (this.dataPaginationResponse.data && this.dataPaginationResponse.data.length > 0) {
+            this.dataPaginationResponse.data.forEach((qf: any) => {
               if (qf.steps && qf.steps.length > 0) {
                 qf.steps.forEach((s: any) => {
                   if (s.questions && s.questions.length > 0) {
@@ -143,7 +143,7 @@ export class FormQuotationListComponent implements OnInit, OnDestroy, AfterViewI
             });
           }
 
-          this.filteredList = this.dataPaginationResponse.quotationForms;
+          this.filteredList = this.dataPaginationResponse.data;
           console.log(this.filteredList);
           if (this.currentPage <= 0) {
             this.currentPage++;

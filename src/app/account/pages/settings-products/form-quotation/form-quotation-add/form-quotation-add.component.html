@@ -265,9 +265,15 @@
 
                                     <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
                                       @if (fStepQuestion.value.name && fStepQuestion.value.currentSelectedTag) {
-                                        <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable"
-                                             matTooltip="Paramétrer le champs"
-                                             (click)="onOpenSettingsField(fStepQuestion)">
+
+                                        @if (viewDialog) {
+                                          <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable"
+                                               matTooltip="Paramétrer le champs"
+                                               (click)="onOpenSettingsField(fStepQuestion)">
+                                        } @else {
+                                          <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-disable">
+                                        }
+
                                       }
                                     </div>
 

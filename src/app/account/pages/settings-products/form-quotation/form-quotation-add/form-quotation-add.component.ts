@@ -42,6 +42,27 @@ import {
 import {
   SaveErrorNotificationDialogComponent
 } from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
+import {
+  FormBuilderInputNumberDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-number-dialog/form-builder-input-number-dialog.component";
+import {
+  FormBuilderInputDateDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-date-dialog/form-builder-input-date-dialog.component";
+import {
+  FormBuilderInputCheckboxDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-checkbox-dialog/form-builder-input-checkbox-dialog.component";
+import {
+  FormBuilderInputEmailDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-email-dialog/form-builder-input-email-dialog.component";
+import {
+  FormBuilderInputSelectDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-select-dialog/form-builder-input-select-dialog.component";
+import {
+  FormBuilderInputTextareaDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-textarea-dialog/form-builder-input-textarea-dialog.component";
+import {
+  FormBuilderInputRadioDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-radio-dialog/form-builder-input-radio-dialog.component";
 
 
 class QuotationFormData {
@@ -134,16 +155,22 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     },
     {
       code: 5,
+      name: "Bouton Radio",
+      tag: "input",
+      type: "radio"
+    },
+    {
+      code: 6,
       name: "Liste Déroulante",
       tag: "select"
     },
     {
-      code: 6,
+      code: 7,
       name: "Zone de Texte",
       tag: "textarea"
     },
     {
-      code: 7,
+      code: 8,
       name: "Email",
       tag: "input",
       type: "email"
@@ -179,6 +206,8 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
   quotationFormData: QuotationFormData = new QuotationFormData();
   private loadingPage: boolean = false;
+
+  viewDialog: any = null;
 
   constructor(
     private _fb: FormBuilder,
@@ -571,22 +600,62 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
   onOpenSettingsField(formStepQuestion: FormGroup) {
 
-    const dialogRef = this._dialog.open(FormBuilderInputTextDialogComponent, {
-      hasBackdrop: false,
-      width: '300px',
-      height: '450px',
-      data: {
-        currentSelectedTag: formStepQuestion.value.currentSelectedTag
-      }
-    });
+    this.viewDialog = null;
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-      if (result) {
-        formStepQuestion.patchValue({attributes: result.value})
+    if (formStepQuestion.value.currentSelectedTag && formStepQuestion.value.currentSelectedTag.fieldTag) {
+
+      switch (formStepQuestion.value.currentSelectedTag.fieldTag.code) {
+        case 1:
+          this.viewDialog = FormBuilderInputTextDialogComponent;
+          break;
+        case 2:
+          this.viewDialog = FormBuilderInputNumberDialogComponent;
+          break;
+        case 3:
+          this.viewDialog = FormBuilderInputDateDialogComponent;
+          break;
+        case 4:
+          this.viewDialog = FormBuilderInputCheckboxDialogComponent;
+          break;
+        case 5:
+          this.viewDialog = FormBuilderInputRadioDialogComponent;
+          break;
+        case 6:
+          this.viewDialog = FormBuilderInputSelectDialogComponent;
+          break;
+        case 7:
+          this.viewDialog = FormBuilderInputTextareaDialogComponent;
+          break;
+        case 8:
+          this.viewDialog = FormBuilderInputEmailDialogComponent
+          break;
+        default:
+          this.viewDialog = null;
       }
-    });
+
+    }
+
+    if (this.viewDialog) {
+
+      // @ts-ignore
+      const dialogRef = this._dialog.open(this.viewDialog, {
+        hasBackdrop: false,
+        width: '300px',
+        height: '450px',
+        data: {
+          currentSelectedTag: formStepQuestion.value.currentSelectedTag
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        console.log(result);
+        if (result) {
+          formStepQuestion.patchValue({attributes: result.value})
+        }
+      });
+
+    }
 
   }
 
@@ -608,7 +677,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     };
 
     let attributes = {
-      name: "field_"+currentSelectedTag.questionIndex
+      name: "step"+currentSelectedTag.stepIndex+"_field"+currentSelectedTag.questionIndex
     };
 
     console.log(currentSelectedTag);
@@ -617,6 +686,39 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     formStepQuestion.patchValue({position: currentSelectedTag.questionIndex});
     formStepQuestion.patchValue({attributes: attributes});
     formStepQuestion.patchValue({currentSelectedTag: currentSelectedTag});
+
+    if (formStepQuestion.value.currentSelectedTag && formStepQuestion.value.currentSelectedTag.fieldTag) {
+
+      switch (formStepQuestion.value.currentSelectedTag.fieldTag.code) {
+        case 1:
+          this.viewDialog = FormBuilderInputTextDialogComponent;
+          break;
+        case 2:
+          this.viewDialog = FormBuilderInputNumberDialogComponent;
+          break;
+        case 3:
+          this.viewDialog = FormBuilderInputDateDialogComponent;
+          break;
+        case 4:
+          this.viewDialog = FormBuilderInputCheckboxDialogComponent;
+          break;
+        case 5:
+          this.viewDialog = FormBuilderInputRadioDialogComponent;
+          break;
+        case 6:
+          this.viewDialog = FormBuilderInputSelectDialogComponent;
+          break;
+        case 7:
+          this.viewDialog = FormBuilderInputTextareaDialogComponent;
+          break;
+        case 8:
+          this.viewDialog = FormBuilderInputEmailDialogComponent
+          break;
+        default:
+          this.viewDialog = null;
+      }
+
+    }
 
   }
 

@@ -26,41 +26,37 @@
         </div>
 
         <div class="col-12 mt-2">
-          <label for="placeholder">
-            Placeholder
+          <label>
+            Options
           </label>
-          <input pInputText
-                 type="text" id="placeholder" class="gna-form-input"
-                 formControlName="placeholder"/>
+          <textarea pInputTextarea formControlName="options"
+                    class="gna-form-input">
+          </textarea>
         </div>
 
         <div class="col-12 mt-2">
-          <label for="maxlength">Maxlength</label>
-          <input pInputText
-                 type="text" id="maxlength" class="gna-form-input"
-                 pattern="[0-9]*"
-                 formControlName="maxlength"/>
+          <label>
+            Values
+          </label>
+          <textarea pInputTextarea formControlName="values"
+                    class="gna-form-input"></textarea>
         </div>
 
         <div class="col-12 mt-2">
-          <label for="minlength">Minlength</label>
-          <input pInputText
-                 type="text" id="minlength" class="gna-form-input"
-                 pattern="[0-9]*"
-                 formControlName="minlength"/>
-        </div>
 
-        <div class="col-12 mt-2">
-          <label for="pattern">Pattern</label>
-          <input pInputText
-                 type="text" id="pattern" class="gna-form-input"
-                 formControlName="pattern"/>
-        </div>
+          <div class="row">
+            <div class="col">
+              <label for="multiple" class="label-mr">Multiple</label>
+              <p-checkbox id="multiple" formControlName="multiple" [binary]="true"
+                          class="gna-form-checkbox"></p-checkbox>
+            </div>
+            <div class="col">
+              <label for="required" class="label-mr">Required</label>
+              <p-checkbox id="required" formControlName="required" [binary]="true"
+                          class="gna-form-checkbox"></p-checkbox>
+            </div>
+          </div>
 
-        <div class="col-12 mt-2">
-          <label for="required" class="label-mr">Required</label>
-          <p-checkbox id="required" formControlName="required" [binary]="true"
-                      class="gna-form-checkbox"></p-checkbox>
         </div>
 
       </div>
@@ -77,6 +73,7 @@
       <button mat-raised-button [mat-dialog-close]="this.inputForm" cdkFocusInitial
               color="primary" class="gna-fb-btn">Valider</button>
     }
+
   </div>
 
 

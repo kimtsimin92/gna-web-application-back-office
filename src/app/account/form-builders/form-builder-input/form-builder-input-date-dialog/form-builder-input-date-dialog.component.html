@@ -35,26 +35,19 @@
         </div>
 
         <div class="col-12 mt-2">
-          <label for="maxlength">Maxlength</label>
+          <label for="max">Max</label>
           <input pInputText
-                 type="text" id="maxlength" class="gna-form-input"
-                 pattern="[0-9]*"
-                 formControlName="maxlength"/>
+                 type="text" id="max" class="gna-form-input"
+                 pattern="[0-9\-]*"
+                 formControlName="max"/>
         </div>
 
         <div class="col-12 mt-2">
-          <label for="minlength">Minlength</label>
+          <label for="min">Min</label>
           <input pInputText
-                 type="text" id="minlength" class="gna-form-input"
-                 pattern="[0-9]*"
-                 formControlName="minlength"/>
-        </div>
-
-        <div class="col-12 mt-2">
-          <label for="pattern">Pattern</label>
-          <input pInputText
-                 type="text" id="pattern" class="gna-form-input"
-                 formControlName="pattern"/>
+                 type="text" id="min" class="gna-form-input"
+                 pattern="[0-9\-]*"
+                 formControlName="min"/>
         </div>
 
         <div class="col-12 mt-2">
@@ -77,6 +70,7 @@
       <button mat-raised-button [mat-dialog-close]="this.inputForm" cdkFocusInitial
               color="primary" class="gna-fb-btn">Valider</button>
     }
+
   </div>
 
 

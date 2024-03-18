@@ -1,4 +1,8 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {CheckboxModule} from "primeng/checkbox";
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {InputTextModule} from "primeng/inputtext";
+import {MatButton} from "@angular/material/button";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -6,29 +10,26 @@ import {
   MatDialogContent,
   MatDialogRef
 } from "@angular/material/dialog";
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {InputTextModule} from "primeng/inputtext";
-import {CheckboxModule} from "primeng/checkbox";
-import {MatButton} from "@angular/material/button";
 import {NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-form-builder-input-text-dialog',
+  selector: 'app-form-builder-input-textarea-dialog',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    InputTextModule,
     CheckboxModule,
+    FormsModule,
+    InputTextModule,
     MatButton,
     MatDialogActions,
-    MatDialogClose,
     MatDialogContent,
-    NgIf
+    NgIf,
+    ReactiveFormsModule,
+    MatDialogClose
   ],
-  templateUrl: './form-builder-input-text-dialog.component.html',
-  styleUrl: './form-builder-input-text-dialog.component.css'
+  templateUrl: './form-builder-input-textarea-dialog.component.html',
+  styleUrl: './form-builder-input-textarea-dialog.component.css'
 })
-export class FormBuilderInputTextDialogComponent implements OnInit, OnDestroy {
+export class FormBuilderInputTextareaDialogComponent implements OnInit, OnDestroy {
 
   formGroup: FormGroup = new FormGroup({}, undefined, undefined);
   inputForm = new FormGroup({
@@ -39,7 +40,6 @@ export class FormBuilderInputTextDialogComponent implements OnInit, OnDestroy {
       Validators.pattern(/^[0-9]*$/)]),
     minlength: new FormControl(null, [
       Validators.pattern(/^[0-9]*$/)]),
-    pattern: new FormControl(null),
     required: new FormControl(null)
   });
 
@@ -47,7 +47,7 @@ export class FormBuilderInputTextDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     private _fb: FormBuilder,
-    public dialogRef: MatDialogRef<FormBuilderInputTextDialogComponent>,
+    public dialogRef: MatDialogRef<FormBuilderInputTextareaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     if (this.data && this.data.currentSelectedTag) {
