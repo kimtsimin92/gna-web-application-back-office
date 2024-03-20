@@ -60,6 +60,31 @@ export class FormBuilderInputCheckboxDialogComponent implements OnInit, OnDestro
   }
 
   ngOnInit(): void {
+
+    if (this.data && this.data.formStepQuestion && this.data.formStepQuestion.value.attributes) {
+      if (this.data.formStepQuestion.value.attributes.label) {
+        this.inputForm.patchValue({label: this.data.formStepQuestion.value.attributes.label});
+      }
+      if (this.data.formStepQuestion.value.attributes.multiple) {
+        this.inputForm.patchValue({multiple: this.data.formStepQuestion.value.attributes.multiple});
+      }
+      if (this.data.formStepQuestion.value.attributes.options) {
+        let optionString1 = this.data.formStepQuestion.value.attributes.options;
+        let optionsString2 = optionString1.join(',');
+        let options = optionsString2.replace(/,/g, '\n');
+        this.inputForm.patchValue({options: options});
+      }
+      if (this.data.formStepQuestion.value.attributes.values) {
+        let valueString1 = this.data.formStepQuestion.value.attributes.values;
+        let valueString2 = valueString1.join(',');
+        let values = valueString2.replace(/,/g, '\n');
+        this.inputForm.patchValue({values: values});
+      }
+      if (this.data.formStepQuestion.value.attributes.required) {
+        this.inputForm.patchValue({required: this.data.formStepQuestion.value.attributes.required});
+      }
+    }
+
     // @ts-ignore
     this.inputForm.setControl("name", new FormControl("step"+this.currentSelectedTag.stepIndex+"_field"+this.currentSelectedTag.questionIndex))
     this.formGroup = this._fb.group(this.inputForm);

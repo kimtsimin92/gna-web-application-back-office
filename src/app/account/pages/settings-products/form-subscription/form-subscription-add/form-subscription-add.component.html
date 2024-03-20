@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Configuration Produit / Formulaires Cotations / Modifier</span>
+  <span>Configuration Produit / Formulaires Souscriptions / Créer</span>
 </div>
 
 <div class="gna-main-content">
@@ -11,7 +11,7 @@
           <div class="col-12 col-sm-6">
             @if (isSave) {
               <button mat-raised-button
-                      class="gna-btn-default gna-btn-cancel">Annuler</button>
+                      class="gna-btn-default gna-btn-cancel gna-disable">Annuler</button>
             } @else {
               <button mat-raised-button
                       class="gna-btn-default gna-btn-cancel"
@@ -24,12 +24,19 @@
             @if (!formQuotation.valid) {
               <button mat-raised-button
                       class="gna-btn-default gna-btn-save"
-                      (click)="onGetNotBlankAlert()">Modifier</button>
+                      (click)="onGetNotBlankAlert()">Enregistrer</button>
             } @else {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                      (click)="onConfirm()">Modifier</button>
+
+              @if (isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-disable">Enregistrer</button>
+              } @else {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                        (click)="onConfirm()">Enregistrer</button>
+              }
+
             }
           </div>
 
@@ -39,7 +46,7 @@
 
         <div class="container-fluid">
 
-          <h3 class="gna-text-primary gna-text-bold mt-2">Formulaire Cotation</h3>
+          <h3 class="gna-text-primary gna-text-bold mt-2">Formulaire Souscription</h3>
 
           <form
             [formGroup]="formQuotation">
@@ -65,20 +72,20 @@
                        [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label>Groupe Produit
+                <label>Formulaire Quotation
                   <span class="gna-text-red gna-text-bold">*</span>
                 </label>
 
                 <p-dropdown [options]="productGroupList"
-                            optionLabel="name" optionValue="name"
+                            optionLabel="name"
                             emptyMessage="Aucun résultat trouvé"
-                            placeholder="Sélectionner groupe produit"
+                            placeholder="Sélectionner formulaire quotation"
                             class="gna-form-dropdown"
-                            formControlName="productGroup"
+                            formControlName="formQuotation"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave">
-                  <ng-template let-group pTemplate="group">
+                  <ng-template let-item pTemplate="item">
                     <div class="flex align-items-center gap-2">
-                      <div>{{ group.name }}</div>
+                      <div>{{ item.name }}</div>
                     </div>
                   </ng-template>
                 </p-dropdown>
@@ -263,9 +270,9 @@
                                   <mat-form-field appearance="fill" class="gna-mff">
                                     <mat-label>Sélectionner le champs de la question</mat-label>
                                     <mat-select
-                                      formControlName="field">
+                                      formControlName="field" [disabled]="isSave">
                                       @for (fb of appFormBuilder; track fb) {
-                                        <mat-option [value]="fb.code"
+                                        <mat-option [value]="fb"
                                                     (click)="onGetFieldTag(fStepQuestion, fb, stepSQ, stepS, ifs, ifsq, fStep)">{{ fb.name }}</mat-option>
                                       }
                                     </mat-select>
@@ -276,9 +283,13 @@
                                   @if (fStepQuestion.value.name && fStepQuestion.value.currentSelectedTag) {
 
                                     @if (viewDialog) {
-                                      <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable"
-                                           matTooltip="Paramétrer le champs"
-                                           (click)="onOpenSettingsField(fStepQuestion)">
+                                      @if (isSave)  {
+                                        <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-disable">
+                                      } @else {
+                                        <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable"
+                                             matTooltip="Paramétrer le champs"
+                                             (click)="onOpenSettingsField(fStepQuestion)">
+                                      }
                                     } @else {
                                       <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-disable">
                                     }
@@ -288,14 +299,22 @@
 
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                                   @if (fStep.value.name && fStepQuestion.value.name && fStepQuestion.value.currentSelectedTag) {
-                                    <button
-                                      type="button"
-                                      mat-raised-button
-                                      class="gna-btn-default-action gna-mt-btn-2 gna-btn-save"
-                                      (click)="onAddFormStepQuestion(fStep)"
-                                      matTooltip="Ajouter une question">
-                                      +
-                                    </button>
+                                    @if (isSave) {
+                                      <button
+                                        mat-raised-button
+                                        class="gna-disable gna-btn-default-action gna-mt-btn-2 gna-btn-save">
+                                        +
+                                      </button>
+                                    } @else {
+                                      <button
+                                        type="button"
+                                        mat-raised-button
+                                        class="gna-btn-default-action gna-mt-btn-2 gna-btn-save"
+                                        (click)="onAddFormStepQuestion(fStep)"
+                                        matTooltip="Ajouter une question">
+                                        +
+                                      </button>
+                                    }
                                   } @else {
                                     <button
                                       mat-raised-button
@@ -371,3 +390,4 @@
   </div>
 
 </div>
+

@@ -1,47 +1,44 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {CheckboxModule} from "primeng/checkbox";
-import {DecimalPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {DropdownModule} from "primeng/dropdown";
 import {ImageModule} from "primeng/image";
 import {InputTextModule} from "primeng/inputtext";
-import {InputTextareaModule} from "primeng/inputtextarea";
-import {KeyFilterModule} from "primeng/keyfilter";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
-import {MultiSelectModule} from "primeng/multiselect";
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
+import {MatStep, MatStepper, MatStepperNext, MatStepperPrevious} from "@angular/material/stepper";
+import {MatTooltip} from "@angular/material/tooltip";
+import {NgIf} from "@angular/common";
+import {PaginatorModule} from "primeng/paginator";
+import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "primeng/api";
+import {QuotationForm} from "../../form-quotation/quotation-form";
+import {StepForm} from "../../form-quotation/step-form";
+import {StepDto} from "../../form-quotation/step-dto";
+import {StepQuestionForm} from "../../form-quotation/step-question-form";
+import {StepQuestionDto} from "../../form-quotation/step-question-dto";
 import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {AccountService} from "../../../../account.service";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
-import {MatStep, MatStepper, MatStepperNext, MatStepperPrevious} from "@angular/material/stepper";
-import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
-import {StepForm} from "../step-form";
-import {StepDto} from "../step-dto";
-import {StepQuestionForm} from "../step-question-form";
-import {StepQuestionDto} from "../step-question-dto";
-import {QuotationForm} from "../quotation-form";
-import {MatTooltip} from "@angular/material/tooltip";
-import {
-  FormBuilderInputTextDialogComponent
-} from "../../../../form-builders/form-builder-input/form-builder-input-text-dialog/form-builder-input-text-dialog.component";
 import {
   ConfirmationAddDialogComponent
 } from "../../../../dialogs/confirmation/confirmation-add-dialog/confirmation-add-dialog.component";
 import {
   SaveLoadingDialogComponent
 } from "../../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatOption, MatSelect} from "@angular/material/select";
-import {MatInput} from "@angular/material/input";
-import {MatIcon} from "@angular/material/icon";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {
+  SaveErrorNotificationDialogComponent
+} from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
 import {
   SaveNotificationDialogComponent
 } from "../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component";
 import {
-  SaveErrorNotificationDialogComponent
-} from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
+  FormBuilderInputTextDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-text-dialog/form-builder-input-text-dialog.component";
 import {
   FormBuilderInputNumberDialogComponent
 } from "../../../../form-builders/form-builder-input/form-builder-input-number-dialog/form-builder-input-number-dialog.component";
@@ -52,8 +49,8 @@ import {
   FormBuilderInputCheckboxDialogComponent
 } from "../../../../form-builders/form-builder-input/form-builder-input-checkbox-dialog/form-builder-input-checkbox-dialog.component";
 import {
-  FormBuilderInputEmailDialogComponent
-} from "../../../../form-builders/form-builder-input/form-builder-input-email-dialog/form-builder-input-email-dialog.component";
+  FormBuilderInputRadioDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-radio-dialog/form-builder-input-radio-dialog.component";
 import {
   FormBuilderInputSelectDialogComponent
 } from "../../../../form-builders/form-builder-input/form-builder-input-select-dialog/form-builder-input-select-dialog.component";
@@ -61,14 +58,14 @@ import {
   FormBuilderInputTextareaDialogComponent
 } from "../../../../form-builders/form-builder-input/form-builder-input-textarea-dialog/form-builder-input-textarea-dialog.component";
 import {
-  FormBuilderInputRadioDialogComponent
-} from "../../../../form-builders/form-builder-input/form-builder-input-radio-dialog/form-builder-input-radio-dialog.component";
-
+  FormBuilderInputEmailDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-email-dialog/form-builder-input-email-dialog.component";
+import {SubscriptionForm} from "../../subscription-form";
 
 class QuotationFormData {
   name: string | undefined;
   description: string | undefined;
-  productGroupId: number | undefined;
+  formQuotationId: number | undefined;
   steps: QuotationStepItem[] = [];
 }
 
@@ -85,42 +82,35 @@ class QuotationStepQuestionItem {
 }
 
 @Component({
-  selector: 'app-form-quotation-add',
+  selector: 'app-form-subscription-add',
   standalone: true,
-  imports: [
-    CheckboxModule,
-    DecimalPipe,
-    DropdownModule,
-    ImageModule,
-    InputTextModule,
-    InputTextareaModule,
-    KeyFilterModule,
-    KeyValuePipe,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MultiSelectModule,
-    NgIf,
-    ReactiveFormsModule,
-    SharedModule,
-    MatStep,
-    MatStepper,
-    MatStepperNext,
-    MatStepperPrevious,
-    NgForOf,
-    MatTooltip,
-    MatFormField,
-    MatSelect,
-    MatLabel,
-    MatOption,
-    MatInput,
-    MatIcon
-  ],
-  templateUrl: './form-quotation-add.component.html',
-  styleUrl: './form-quotation-add.component.css'
+    imports: [
+        DropdownModule,
+        ImageModule,
+        InputTextModule,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatOption,
+        MatSelect,
+        MatStep,
+        MatStepper,
+        MatStepperNext,
+        MatStepperPrevious,
+        MatTooltip,
+        NgIf,
+        PaginatorModule,
+        ReactiveFormsModule,
+        SharedModule
+    ],
+  templateUrl: './form-subscription-add.component.html',
+  styleUrl: './form-subscription-add.component.css'
 })
-export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewInit {
+export class FormSubscriptionAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
   headerTitle: string | undefined;
 
@@ -186,7 +176,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
   //
   formQuotation: FormGroup = new FormGroup({}, undefined, undefined);
-  quotationForm: QuotationForm = new QuotationForm();
+  quotationForm: SubscriptionForm = new SubscriptionForm();
 
   formStepList: FormGroup[] = [];
   formStep: FormGroup = new FormGroup({}, undefined, undefined);
@@ -247,7 +237,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings-products/forms/quotations/list");
+    this._router.navigateByUrl("/account/settings-products/forms/subscriptions/list");
   }
 
   closeDialog() {
@@ -313,7 +303,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
     this.isSave = true;
 
-   this.onSaveLoadingDialog();
+    this.onSaveLoadingDialog();
 
     console.log("QUOTATION FORM DATA");
 
@@ -321,7 +311,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
     this.quotationFormData.name = this.formQuotation.value.name;
     this.quotationFormData.description = this.formQuotation.value.description;
-    this.quotationFormData.productGroupId = this.formQuotation.value.productGroup.id;
+    this.quotationFormData.formQuotationId = this.formQuotation.value.formQuotation.id;
 
     console.log(this.quotationFormData);
     console.log(this.formStepList);
@@ -412,28 +402,28 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
       });
 
-      if (this.quotationFormData && this.quotationFormData.steps && this.quotationFormData.steps.length > 0) {
-        this.accountService.addFormQuotation(this.quotationFormData)
-          .subscribe((responseData: HttpResponse<any>) => {
+         if (this.quotationFormData && this.quotationFormData.steps && this.quotationFormData.steps.length > 0) {
+           this.accountService.addFormSubscription(this.quotationFormData)
+             .subscribe((responseData: HttpResponse<any>) => {
 
-            console.log(responseData);
-            this.isSave = false;
-            this.accountService.isSave = this.isSave;
-            this.closeDialog();
-            this.onSaveNotificationDialog();
-          }, (errorData: HttpErrorResponse) => {
-            this.isSave = false;
-            this.accountService.isSave = this.isSave;
-            console.log(errorData);
-            this.closeDialog();
-            this.onSaveErrorNotificationDialog(errorData);
-          });
-      } else {
-        this.isSave = false;
-        this.accountService.isSave = this.isSave;
-        this.closeDialog();
-        this.onGetNotBlankAlert();
-      }
+               console.log(responseData);
+               this.isSave = false;
+               this.accountService.isSave = this.isSave;
+               this.closeDialog();
+               this.onSaveNotificationDialog();
+             }, (errorData: HttpErrorResponse) => {
+               this.isSave = false;
+               this.accountService.isSave = this.isSave;
+               console.log(errorData);
+               this.closeDialog();
+               this.onSaveErrorNotificationDialog(errorData);
+             });
+         } else {
+           this.isSave = false;
+           this.accountService.isSave = this.isSave;
+           this.closeDialog();
+           this.onGetNotBlankAlert();
+         }
 
     }
 
@@ -480,7 +470,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
         this.accountService.isSave = this.isSave;
       }
 
-     this._router.navigateByUrl("/account/settings-products/forms/quotations/list")
+      this._router.navigateByUrl("/account/settings-products/forms/subscriptions/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -544,8 +534,9 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
   onGetProductGroupList() {
     this.accountService.pageLoading = true;
-    this.accountService.getProductGroupList()
+    this.accountService.getFormQuotationList()
       .subscribe((responseData: HttpResponse<any>) => {
+        console.log(responseData);
         this.accountService.pageLoading = false;
         this.productGroupList = responseData["body"];
       }, (errorData: HttpErrorResponse) => {

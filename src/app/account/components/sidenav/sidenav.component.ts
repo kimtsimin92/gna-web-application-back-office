@@ -194,8 +194,8 @@ export class SidenavComponent implements OnInit {
             {name: 'Garanties', link: '/account/guarantees/list', class: null},
             {name: 'Groupes Produits', link: '/account/products-groups/list', class: null},
             {name: 'Formulaires Cotations', link: '/account/settings-products/forms/quotations/list', class: null},
-           /* {name: 'Formulaires Souscriptions', link: '/account/settings-products/forms/quotations/list', class: null},
-            {name: 'Calculs Primes', link: '/account/settings-products/forms/quotations/list', class: null},*/
+           {name: 'Formulaires Souscriptions', link: '/account/settings-products/forms/subscriptions/list', class: null},
+           /* {name: 'Calculs Primes', link: '/account/settings-products/forms/quotations/list', class: null},*/
           ],
         };
 
@@ -205,7 +205,10 @@ export class SidenavComponent implements OnInit {
         id: 4,
         name: 'Marketing',
         icon: 'sell',
-        children: [{name: 'Produits', link: '/account/products/list', class: null}],
+        children: [
+          {name: 'Segmentation', link: '/account/segments/list', class: null},
+          {name: 'Produits', link: '/account/products/list', class: null}
+        ],
       };
 
       this.menuData.push(groupMarketing);
@@ -220,31 +223,32 @@ export class SidenavComponent implements OnInit {
 
     if (this.authService.getAuthGroups() && this.authService.getAuthGroups().length > 0 && this.authService.getAuthGroups().indexOf('GROUP_LIST') >= 0) {
 
+      let groupSettingsListManagement = {name: 'Gestion Listes', icon: "i", class: null, children: []};
 
       if (this.authService.getAuthRoles() && this.authService.getAuthRoles().length > 0 && this.authService.getAuthRoles().indexOf('ROLE_PARTNER') >= 0) {
 
         let rolePartner = {name: 'Gestion Partenaires', link: '/account/partners/list', class: null};
         // @ts-ignore
-        groupSettings.children.push(rolePartner);
+        groupSettingsListManagement.children.push(rolePartner);
 
       }
 
       let roleBranch =  {name: 'Gestion Branches', link: '/account/branches/list', class: null};
       // @ts-ignore
-      groupSettings.children.push(roleBranch);
+      groupSettingsListManagement.children.push(roleBranch);
 
       let roleZone =   {name: 'Gestion Territoires', link: '/account/zones/list', class: null};
       // @ts-ignore
-      groupSettings.children.push(roleZone);
+      groupSettingsListManagement.children.push(roleZone);
 
-      let roleSegment =    {name: 'Gestion Segments', link: '/account/segments/list', class: null};
       // @ts-ignore
-      groupSettings.children.push(roleSegment);
+      groupSettings.children.push(groupSettingsListManagement);
 
     }
 
     let roleManageProfiles =       {name: 'Gestion Profils', link: '/account/settings/profiles/list', class: null};
     let roleManageUsers =        {name: 'Gestion Utilisateurs', link: '/account/settings/users', class: null};
+
 
     // @ts-ignore
     groupSettings.children.push(roleManageProfiles);
@@ -291,9 +295,12 @@ export class SidenavComponent implements OnInit {
       }
 
       if (this.currentNode == node) {
-        this.treeControl.collapseAll();
-        this.treeControl.expand(node);
-        this.currentNode = null;
+        if (node.isExpandable && !node.expandable) {
+          this.treeControl.expand(this.currentNode);
+        } else {
+          this.treeControl.collapseAll();
+          this.currentNode = null;
+        }
       } else {
 
         if (!node.expandable) {
@@ -310,8 +317,15 @@ export class SidenavComponent implements OnInit {
           }
 
         } else {
-          this.treeControl.collapseAll();
-          this.treeControl.expand(node);
+
+          if (node.expandable && node.level > 0) {
+            this.treeControl.collapseAll();
+            this.treeControl.expand(this.currentNode);
+            this.treeControl.expand(node);
+          } else {
+            this.treeControl.collapseAll();
+            this.treeControl.expand(node);
+          }
         }
 
       }

@@ -79,7 +79,7 @@ export class SegmentEditComponent implements OnInit, OnDestroy {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Segments";
+    this.headerTitle = "Segmentation";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
     this.home = { icon: 'pi pi-home', routerLink: '/account/home' };

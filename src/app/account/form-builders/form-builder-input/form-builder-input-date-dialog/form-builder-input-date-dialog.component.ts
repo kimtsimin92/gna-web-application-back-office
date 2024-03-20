@@ -57,6 +57,16 @@ export class FormBuilderInputDateDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    if (this.data && this.data.formStepQuestion && this.data.formStepQuestion.value.attributes) {
+      console.log(this.data.formStepQuestion.value.attributes);
+      this.inputForm.patchValue({label: this.data.formStepQuestion.value.attributes.label});
+      this.inputForm.patchValue({placeholder: this.data.formStepQuestion.value.attributes.placeholder});
+      this.inputForm.patchValue({max: this.data.formStepQuestion.value.attributes.max});
+      this.inputForm.patchValue({min: this.data.formStepQuestion.value.attributes.min});
+      this.inputForm.patchValue({required: this.data.formStepQuestion.value.attributes.required});
+    }
+
     // @ts-ignore
     this.inputForm.setControl("name", new FormControl("step"+this.currentSelectedTag.stepIndex+"_field"+this.currentSelectedTag.questionIndex))
     this.formGroup = this._fb.group(this.inputForm);

@@ -57,6 +57,15 @@ export class FormBuilderInputTextareaDialogComponent implements OnInit, OnDestro
   }
 
   ngOnInit(): void {
+
+    if (this.data && this.data.formStepQuestion && this.data.formStepQuestion.value.attributes) {
+      this.inputForm.patchValue({label: this.data.formStepQuestion.value.attributes.label});
+      this.inputForm.patchValue({placeholder: this.data.formStepQuestion.value.attributes.placeholder});
+      this.inputForm.patchValue({maxlength: this.data.formStepQuestion.value.attributes.maxlength});
+      this.inputForm.patchValue({minlength: this.data.formStepQuestion.value.attributes.minlength});
+      this.inputForm.patchValue({required: this.data.formStepQuestion.value.attributes.required});
+    }
+
     // @ts-ignore
     this.inputForm.setControl("name", new FormControl("step"+this.currentSelectedTag.stepIndex+"_field"+this.currentSelectedTag.questionIndex))
     this.formGroup = this._fb.group(this.inputForm);

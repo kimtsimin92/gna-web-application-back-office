@@ -67,6 +67,24 @@ import {
 import {
   FormQuotationAddComponent
 } from "./pages/settings-products/form-quotation/form-quotation-add/form-quotation-add.component";
+import {
+  FormQuotationEditComponent
+} from "./pages/settings-products/form-quotation/form-quotation-edit/form-quotation-edit.component";
+import {
+  FormSubscriptionListComponent
+} from "./pages/settings-products/form-subscription/form-subscription-list/form-subscription-list.component";
+import {
+  FormSubscriptionViewComponent
+} from "./pages/settings-products/form-subscription/form-subscription-view/form-subscription-view.component";
+import {
+  FormSubscriptionEditComponent
+} from "./pages/settings-products/form-subscription/form-subscription-edit/form-subscription-edit.component";
+import {
+  FormSubscriptionAddComponent
+} from "./pages/settings-products/form-subscription/form-subscription-add/form-subscription-add.component";
+import {
+  FormQuotationViewComponent
+} from "./pages/settings-products/form-quotation/form-quotation-view/form-quotation-view.component";
 
 export const routes: Routes = [
   {
@@ -149,11 +167,31 @@ export const routes: Routes = [
       },
       {
         path: 'settings-products/forms/quotations/add', component: FormQuotationAddComponent,
-        title: 'Formulaires Cotations - créer | GNA',
+        title: 'Formulaires Cotations - Créer | GNA',
       },
       {
-        path: 'settings-products/forms/subscriptions', component: FormQuotationListComponent,
+        path: 'settings-products/forms/quotations/edit', component: FormQuotationEditComponent,
+        title: 'Formulaires Cotations - Modifier | GNA',
+      },
+      {
+        path: 'settings-products/forms/quotations/view', component: FormQuotationViewComponent,
+        title: 'Formulaires Cotations | GNA',
+      },
+      {
+        path: 'settings-products/forms/subscriptions/list', component: FormSubscriptionListComponent,
         title: 'Formulaires Souscriptions - Lister | GNA',
+      },
+      {
+        path: 'settings-products/forms/subscriptions/add', component: FormSubscriptionAddComponent,
+        title: 'Formulaires Souscriptions - Créer | GNA',
+      },
+      {
+        path: 'settings-products/forms/subscriptions/edit', component: FormSubscriptionEditComponent,
+        title: 'Formulaires Souscriptions - Modifier | GNA',
+      },
+      {
+        path: 'settings-products/forms/subscriptions/view', component: FormSubscriptionViewComponent,
+        title: 'Formulaires Souscriptions | GNA',
       },
       {
         path: 'guarantees/list', component: GuaranteeListComponent,

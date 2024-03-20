@@ -1,47 +1,44 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {CheckboxModule} from "primeng/checkbox";
-import {DecimalPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {DropdownModule} from "primeng/dropdown";
 import {ImageModule} from "primeng/image";
 import {InputTextModule} from "primeng/inputtext";
-import {InputTextareaModule} from "primeng/inputtextarea";
-import {KeyFilterModule} from "primeng/keyfilter";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
-import {MultiSelectModule} from "primeng/multiselect";
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
+import {MatStep, MatStepper, MatStepperNext, MatStepperPrevious} from "@angular/material/stepper";
+import {MatTooltip} from "@angular/material/tooltip";
+import {NgIf} from "@angular/common";
+import {PaginatorModule} from "primeng/paginator";
+import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "primeng/api";
+import {QuotationForm} from "../../form-quotation/quotation-form";
+import {StepForm} from "../../form-quotation/step-form";
+import {StepDto} from "../../form-quotation/step-dto";
+import {StepQuestionForm} from "../../form-quotation/step-question-form";
+import {StepQuestionDto} from "../../form-quotation/step-question-dto";
 import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {AccountService} from "../../../../account.service";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
-import {MatStep, MatStepper, MatStepperNext, MatStepperPrevious} from "@angular/material/stepper";
-import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
-import {StepForm} from "../step-form";
-import {StepDto} from "../step-dto";
-import {StepQuestionForm} from "../step-question-form";
-import {StepQuestionDto} from "../step-question-dto";
-import {QuotationForm} from "../quotation-form";
-import {MatTooltip} from "@angular/material/tooltip";
 import {
-  FormBuilderInputTextDialogComponent
-} from "../../../../form-builders/form-builder-input/form-builder-input-text-dialog/form-builder-input-text-dialog.component";
-import {
-  ConfirmationAddDialogComponent
-} from "../../../../dialogs/confirmation/confirmation-add-dialog/confirmation-add-dialog.component";
+  ConfirmationEditDialogComponent
+} from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
 import {
   SaveLoadingDialogComponent
 } from "../../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatOption, MatSelect} from "@angular/material/select";
-import {MatInput} from "@angular/material/input";
-import {MatIcon} from "@angular/material/icon";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {
+  SaveErrorNotificationDialogComponent
+} from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
 import {
   SaveNotificationDialogComponent
 } from "../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component";
 import {
-  SaveErrorNotificationDialogComponent
-} from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
+  FormBuilderInputTextDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-text-dialog/form-builder-input-text-dialog.component";
 import {
   FormBuilderInputNumberDialogComponent
 } from "../../../../form-builders/form-builder-input/form-builder-input-number-dialog/form-builder-input-number-dialog.component";
@@ -52,8 +49,8 @@ import {
   FormBuilderInputCheckboxDialogComponent
 } from "../../../../form-builders/form-builder-input/form-builder-input-checkbox-dialog/form-builder-input-checkbox-dialog.component";
 import {
-  FormBuilderInputEmailDialogComponent
-} from "../../../../form-builders/form-builder-input/form-builder-input-email-dialog/form-builder-input-email-dialog.component";
+  FormBuilderInputRadioDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-radio-dialog/form-builder-input-radio-dialog.component";
 import {
   FormBuilderInputSelectDialogComponent
 } from "../../../../form-builders/form-builder-input/form-builder-input-select-dialog/form-builder-input-select-dialog.component";
@@ -61,14 +58,14 @@ import {
   FormBuilderInputTextareaDialogComponent
 } from "../../../../form-builders/form-builder-input/form-builder-input-textarea-dialog/form-builder-input-textarea-dialog.component";
 import {
-  FormBuilderInputRadioDialogComponent
-} from "../../../../form-builders/form-builder-input/form-builder-input-radio-dialog/form-builder-input-radio-dialog.component";
-
+  FormBuilderInputEmailDialogComponent
+} from "../../../../form-builders/form-builder-input/form-builder-input-email-dialog/form-builder-input-email-dialog.component";
+import {SubscriptionForm} from "../../subscription-form";
 
 class QuotationFormData {
   name: string | undefined;
   description: string | undefined;
-  productGroupId: number | undefined;
+  formQuotationId: number | undefined;
   steps: QuotationStepItem[] = [];
 }
 
@@ -85,42 +82,35 @@ class QuotationStepQuestionItem {
 }
 
 @Component({
-  selector: 'app-form-quotation-add',
+  selector: 'app-form-subscription-edit',
   standalone: true,
-  imports: [
-    CheckboxModule,
-    DecimalPipe,
-    DropdownModule,
-    ImageModule,
-    InputTextModule,
-    InputTextareaModule,
-    KeyFilterModule,
-    KeyValuePipe,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MultiSelectModule,
-    NgIf,
-    ReactiveFormsModule,
-    SharedModule,
-    MatStep,
-    MatStepper,
-    MatStepperNext,
-    MatStepperPrevious,
-    NgForOf,
-    MatTooltip,
-    MatFormField,
-    MatSelect,
-    MatLabel,
-    MatOption,
-    MatInput,
-    MatIcon
-  ],
-  templateUrl: './form-quotation-add.component.html',
-  styleUrl: './form-quotation-add.component.css'
+    imports: [
+        DropdownModule,
+        ImageModule,
+        InputTextModule,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatOption,
+        MatSelect,
+        MatStep,
+        MatStepper,
+        MatStepperNext,
+        MatStepperPrevious,
+        MatTooltip,
+        NgIf,
+        PaginatorModule,
+        ReactiveFormsModule,
+        SharedModule
+    ],
+  templateUrl: './form-subscription-edit.component.html',
+  styleUrl: './form-subscription-edit.component.css'
 })
-export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewInit {
+export class FormSubscriptionEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
   headerTitle: string | undefined;
 
@@ -186,7 +176,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
   //
   formQuotation: FormGroup = new FormGroup({}, undefined, undefined);
-  quotationForm: QuotationForm = new QuotationForm();
+  quotationForm: SubscriptionForm = new SubscriptionForm();
 
   formStepList: FormGroup[] = [];
   formStep: FormGroup = new FormGroup({}, undefined, undefined);
@@ -209,6 +199,8 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
   viewDialog: any = null;
 
+  formQuotationData: any = null;
+
   constructor(
     private _fb: FormBuilder,
     public _dialog: MatDialog,
@@ -219,24 +211,97 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
   ngOnInit(): void {
 
-    if (localStorage.getItem("APP_HEADER_TITLE")) {
-      localStorage.removeItem("APP_HEADER_TITLE");
+    if (localStorage.getItem("FORM_SUBSCRIPTION_DATA")) {
+
+      if (localStorage.getItem("APP_HEADER_TITLE")) {
+        localStorage.removeItem("APP_HEADER_TITLE");
+      }
+
+      this.headerTitle = "Configuration Produit";
+      localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
+
+      this.onGetProductGroupList();
+
+      // @ts-ignore
+      this.formQuotationData = JSON.parse(localStorage.getItem("FORM_SUBSCRIPTION_DATA"));
+
+      if (this.formQuotationData) {
+
+        this.quotationForm.name.setValue(this.formQuotationData.name);
+        this.quotationForm.description.setValue(this.formQuotationData.description);
+
+        if (this.formQuotationData.formQuotation) {
+          this.quotationForm.formQuotation.setValue(this.formQuotationData.formQuotation.name);
+        }
+
+        if (this.formQuotationData.steps && this.formQuotationData.steps.length > 0) {
+
+          // @ts-ignore
+          this.formQuotationData.steps.forEach((step: any) => {
+
+            let s = new StepForm();
+            s.position.setValue(step.position);
+            s.name.setValue(step.name);
+            s.description.setValue(step.description);
+
+            if (step.questions && step.questions.length > 0) {
+
+              let questionList: any[] = [];
+
+              step.questions.forEach((question: any) => {
+
+                let q = new StepQuestionForm();
+                q.position.setValue(question.position);
+                q.name.setValue(question.name);
+                q.field.setValue(question.field.code);
+
+                this.onGetViewInput(question.field.code);
+
+                let fq = this._fb.group(q);
+                let currentSelectedTag = {
+                  stepIndex: step.position,
+                  stepLabel: step.name,
+                  questionIndex: question.position,
+                  questionLabel: question.name,
+                  fieldTag: question.field
+                };
+
+                // @ts-ignore
+                fq.patchValue({currentSelectedTag: currentSelectedTag});
+                if (question.field && question.field.attributes) {
+                  fq.patchValue({attributes: question.field.attributes});
+                }
+                questionList.push(fq);
+
+              });
+
+              s.questions.push(questionList);
+
+            }
+
+            let fs = this._fb.group(s);
+            this.formStepList.push(fs);
+
+          });
+
+        } else {
+
+          this.formStepQuestion = this._fb.group(this.stepQuestionForm);
+          this.formStepQuestionList.push(this.formStepQuestion);
+
+          this.stepForm.questions.push(this.formStepQuestionList);
+          this.formStep = this._fb.group(this.stepForm);
+          this.formStepList.push(this.formStep);
+
+        }
+
+        this.formQuotation = this._fb.group(this.quotationForm);
+
+      }
+
+    } else {
+      this._router.navigateByUrl("/account/settings-products/forms/subscriptions/list");
     }
-
-    this.headerTitle = "Configuration Produit";
-    localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
-
-    this.onGetProductGroupList();
-
-    this.formQuotation = this._fb.group(this.quotationForm);
-
-    this.formStepQuestion = this._fb.group(this.stepQuestionForm);
-    this.formStepQuestionList.push(this.formStepQuestion);
-
-    this.stepForm.questions.push(this.formStepQuestionList);
-    this.formStep = this._fb.group(this.stepForm);
-    this.formStepList.push(this.formStep);
-
 
   }
 
@@ -244,10 +309,13 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   ngOnDestroy(): void {
+    if (localStorage.getItem("FORM_SUBSCRIPTION_DATA")) {
+      localStorage.removeItem("FORM_SUBSCRIPTION_DATA");
+    }
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings-products/forms/quotations/list");
+    this._router.navigateByUrl("/account/settings-products/forms/subscriptions/list");
   }
 
   closeDialog() {
@@ -273,7 +341,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     this.isSave = true;
     this.accountService.isSave = this.isSave;
 
-    const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
+    const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
       width: '400px',
       height: '340px',
@@ -313,16 +381,26 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
     this.isSave = true;
 
-   this.onSaveLoadingDialog();
+    this.onSaveLoadingDialog();
 
-    console.log("QUOTATION FORM DATA");
+    console.log("SUBSCRIPTION FORM DATA");
 
     this.quotationFormData = new QuotationFormData();
 
     this.quotationFormData.name = this.formQuotation.value.name;
     this.quotationFormData.description = this.formQuotation.value.description;
-    this.quotationFormData.productGroupId = this.formQuotation.value.productGroup.id;
 
+    if (this.formQuotation.value.formQuotation) {
+      if (this.productGroupList && this.productGroupList.length > 0) {
+        this.productGroupList.forEach((g: any) => {
+          if (g.name === this.formQuotation.value.formQuotation) {
+            this.quotationFormData.formQuotationId = g.id;
+          }
+        });
+      }
+    }
+
+    console.log(this.formQuotation);
     console.log(this.quotationFormData);
     console.log(this.formStepList);
 
@@ -334,6 +412,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
           this.isSave = false;
           this.accountService.isSave = this.isSave;
           this.closeDialog();
+          console.log("Ici...");
           this.onGetNotBlankAlert();
           return;
         } else {
@@ -367,10 +446,16 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
               }
 
               if (fsq.value.field) {
-                field.code = fsq.value.field.code;
-                field.name = fsq.value.field.name;
-                field.tag = fsq.value.field.tag;
-                field.type = fsq.value.field.type;
+                if (this.appFormBuilder && this.appFormBuilder.length > 0) {
+                  this.appFormBuilder.forEach((f: any) => {
+                    if (f.code === fsq.value.field) {
+                      field.code = f.code;
+                      field.name = f.name;
+                      field.tag = f.tag;
+                      field.type = f.type;
+                    }
+                  });
+                }
               }
 
               if (fsq.value.attributes) {
@@ -382,6 +467,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
                 this.isSave = false;
                 this.accountService.isSave = this.isSave;
                 this.closeDialog();
+                console.log("Ici...");
                 this.onGetNotBlankAlert();
                 step.questions = [];
                 return;
@@ -413,7 +499,9 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
       });
 
       if (this.quotationFormData && this.quotationFormData.steps && this.quotationFormData.steps.length > 0) {
-        this.accountService.addFormQuotation(this.quotationFormData)
+
+        let id = this.formQuotationData.id;
+        this.accountService.editFormSubscription(id, this.quotationFormData)
           .subscribe((responseData: HttpResponse<any>) => {
 
             console.log(responseData);
@@ -447,7 +535,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
       height: '350px',
       data: {
         httpError: error,
-        dialogMessage: "L'enregistrement de ce formulaire a échoué."
+        dialogMessage: "La modification de ce formulaire a échoué."
       },
     });
 
@@ -469,7 +557,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
       width: '400px',
       height: '350px',
       data: {
-        dialogMessage: "L'enregistrement de ce formulaire a réussi."
+        dialogMessage: "La modification de ce formulaire a réussi."
       },
     });
 
@@ -480,7 +568,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
         this.accountService.isSave = this.isSave;
       }
 
-     this._router.navigateByUrl("/account/settings-products/forms/quotations/list")
+      this._router.navigateByUrl("/account/settings-products/forms/subscriptions/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -544,10 +632,11 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
   onGetProductGroupList() {
     this.accountService.pageLoading = true;
-    this.accountService.getProductGroupList()
+    this.accountService.getFormQuotationList()
       .subscribe((responseData: HttpResponse<any>) => {
         this.accountService.pageLoading = false;
         this.productGroupList = responseData["body"];
+        console.log(responseData);
       }, (errorData: HttpErrorResponse) => {
         this.accountService.pageLoading = false;
         console.log(errorData);
@@ -612,40 +701,10 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
   onOpenSettingsField(formStepQuestion: FormGroup) {
 
     this.viewDialog = null;
-    let code: any = null;
 
     if (formStepQuestion.value.currentSelectedTag && formStepQuestion.value.currentSelectedTag.fieldTag) {
 
-      code = formStepQuestion.value.currentSelectedTag.fieldTag.code;
-
-      switch (formStepQuestion.value.currentSelectedTag.fieldTag.code) {
-        case 1:
-          this.viewDialog = FormBuilderInputTextDialogComponent;
-          break;
-        case 2:
-          this.viewDialog = FormBuilderInputNumberDialogComponent;
-          break;
-        case 3:
-          this.viewDialog = FormBuilderInputDateDialogComponent;
-          break;
-        case 4:
-          this.viewDialog = FormBuilderInputCheckboxDialogComponent;
-          break;
-        case 5:
-          this.viewDialog = FormBuilderInputRadioDialogComponent;
-          break;
-        case 6:
-          this.viewDialog = FormBuilderInputSelectDialogComponent;
-          break;
-        case 7:
-          this.viewDialog = FormBuilderInputTextareaDialogComponent;
-          break;
-        case 8:
-          this.viewDialog = FormBuilderInputEmailDialogComponent
-          break;
-        default:
-          this.viewDialog = null;
-      }
+      this.onGetViewInput(formStepQuestion.value.currentSelectedTag.fieldTag.code);
 
     }
 
@@ -666,55 +725,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
         console.log('The dialog was closed');
         console.log(result);
         if (result) {
-
-          let attributes: any = null;
-
-          if (code) {
-
-            if (code > 3 && code < 7) {
-
-              if (code !== 5) {
-                attributes = {
-                  label: result.value.label,
-                  options: [],
-                  values: [],
-                  multiple: result.value.multiple,
-                  required: result.value.required,
-                }
-              } else {
-                attributes = {
-                  label: result.value.label,
-                  options: [],
-                  values: [],
-                  required: result.value.required,
-                }
-              }
-
-
-
-              if (result.value.options && result.value.values) {
-
-                let optionElements = result.value.options.split("\n");
-                let valueElements = result.value.values.split("\n");
-
-                if (optionElements && optionElements.length > 0 && valueElements && valueElements.length > 0) {
-                  optionElements.forEach((oe: any) => {
-                    attributes.options.push(oe);
-                  });
-                  valueElements.forEach((ve: any) => {
-                    attributes.values.push(ve);
-                  });
-                }
-              }
-
-
-            } else {
-              attributes = result.value;
-            }
-
-          }
-
-          formStepQuestion.patchValue({attributes: attributes})
+          formStepQuestion.patchValue({attributes: result.value})
         }
       });
 
@@ -752,34 +763,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
     if (formStepQuestion.value.currentSelectedTag && formStepQuestion.value.currentSelectedTag.fieldTag) {
 
-      switch (formStepQuestion.value.currentSelectedTag.fieldTag.code) {
-        case 1:
-          this.viewDialog = FormBuilderInputTextDialogComponent;
-          break;
-        case 2:
-          this.viewDialog = FormBuilderInputNumberDialogComponent;
-          break;
-        case 3:
-          this.viewDialog = FormBuilderInputDateDialogComponent;
-          break;
-        case 4:
-          this.viewDialog = FormBuilderInputCheckboxDialogComponent;
-          break;
-        case 5:
-          this.viewDialog = FormBuilderInputRadioDialogComponent;
-          break;
-        case 6:
-          this.viewDialog = FormBuilderInputSelectDialogComponent;
-          break;
-        case 7:
-          this.viewDialog = FormBuilderInputTextareaDialogComponent;
-          break;
-        case 8:
-          this.viewDialog = FormBuilderInputEmailDialogComponent
-          break;
-        default:
-          this.viewDialog = null;
-      }
+      this.onGetViewInput(formStepQuestion.value.currentSelectedTag.fieldTag.code);
 
     }
 
@@ -817,6 +801,39 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
       formStep.value.questions.splice(s, e);
 
+    }
+
+  }
+
+  onGetViewInput(code: number) {
+
+    switch (code) {
+      case 1:
+        this.viewDialog = FormBuilderInputTextDialogComponent;
+        break;
+      case 2:
+        this.viewDialog = FormBuilderInputNumberDialogComponent;
+        break;
+      case 3:
+        this.viewDialog = FormBuilderInputDateDialogComponent;
+        break;
+      case 4:
+        this.viewDialog = FormBuilderInputCheckboxDialogComponent;
+        break;
+      case 5:
+        this.viewDialog = FormBuilderInputRadioDialogComponent;
+        break;
+      case 6:
+        this.viewDialog = FormBuilderInputSelectDialogComponent;
+        break;
+      case 7:
+        this.viewDialog = FormBuilderInputTextareaDialogComponent;
+        break;
+      case 8:
+        this.viewDialog = FormBuilderInputEmailDialogComponent
+        break;
+      default:
+        this.viewDialog = null;
     }
 
   }

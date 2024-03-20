@@ -1,37 +1,32 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
-import {AccountService} from "../../../../account.service";
-import {DatePipe, NgIf} from "@angular/common";
+import {DatePipe} from "@angular/common";
 import {InputTextModule} from "primeng/inputtext";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardHeader} from "@angular/material/card";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {ImageModule} from "primeng/image";
 import {SkeletonModule} from "primeng/skeleton";
+import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {AccountService} from "../../../../account.service";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {
   ErrorNotificationDialogComponent
 } from "../../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
 
 @Component({
-  selector: 'app-form-quotation-list',
+  selector: 'app-form-subscription-list',
   standalone: true,
-  imports: [
-    DatePipe,
-    InputTextModule,
-    MatButton,
-    MatCard,
-    MatCardHeader,
-    MatProgressSpinner,
-    NgIf,
-    ImageModule,
-    SkeletonModule
-  ],
-  templateUrl: './form-quotation-list.component.html',
-  styleUrl: './form-quotation-list.component.css'
+    imports: [
+        DatePipe,
+        InputTextModule,
+        MatButton,
+        MatCard,
+        MatCardHeader,
+        SkeletonModule
+    ],
+  templateUrl: './form-subscription-list.component.html',
+  styleUrl: './form-subscription-list.component.css'
 })
-export class FormQuotationListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class FormSubscriptionListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   headerTitle: string | undefined;
 
@@ -58,8 +53,8 @@ export class FormQuotationListComponent implements OnInit, OnDestroy, AfterViewI
 
   ngOnInit(): void {
 
-    if (localStorage.getItem("FORM_QUOTATION_DATA")) {
-      localStorage.removeItem("FORM_QUOTATION_DATA");
+    if (localStorage.getItem("FORM_SUBSCRIPTION_DATA")) {
+      localStorage.removeItem("FORM_SUBSCRIPTION_DATA");
     }
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
@@ -96,7 +91,7 @@ export class FormQuotationListComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   onAdd() {
-    this._router.navigateByUrl("/account/settings-products/forms/quotations/add");
+    this._router.navigateByUrl("/account/settings-products/forms/subscriptions/add");
   }
 
   onView(element: any) {
@@ -122,7 +117,7 @@ export class FormQuotationListComponent implements OnInit, OnDestroy, AfterViewI
       page = this.currentPage;
     }
 
-    this.accountService.getFormQuotations(page)
+    this.accountService.getFormSubscriptions(page)
       .subscribe((responseData: HttpResponse<any>) => {
         console.log(responseData);
         this.dataPaginationResponse = responseData["body"];
@@ -182,14 +177,15 @@ export class FormQuotationListComponent implements OnInit, OnDestroy, AfterViewI
     this.loadingPage = true;
 
     // @ts-ignore
-    localStorage.setItem("FORM_QUOTATION_DATA", JSON.stringify(item));
+    localStorage.setItem("FORM_SUBSCRIPTION_DATA", JSON.stringify(item));
 
-    this._router.navigateByUrl("/account/settings-products/forms/quotations/edit")
+    this._router.navigateByUrl("/account/settings-products/forms/subscriptions/edit")
       .then(() => {
         this.loadingPage = false;
       });
 
   }
+
 
 
 }

@@ -65,20 +65,20 @@
                        [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label>Groupe Produit
+                <label>Formulaire Quotation
                   <span class="gna-text-red gna-text-bold">*</span>
                 </label>
 
                 <p-dropdown [options]="productGroupList"
                             optionLabel="name" optionValue="name"
                             emptyMessage="Aucun résultat trouvé"
-                            placeholder="Sélectionner groupe produit"
+                            placeholder="Sélectionner formulaire quotation"
                             class="gna-form-dropdown"
-                            formControlName="productGroup"
+                            formControlName="formQuotation"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave">
-                  <ng-template let-group pTemplate="group">
+                  <ng-template let-item pTemplate="item">
                     <div class="flex align-items-center gap-2">
-                      <div>{{ group.name }}</div>
+                      <div>{{ item.name }}</div>
                     </div>
                   </ng-template>
                 </p-dropdown>

@@ -122,6 +122,11 @@ export class AccountService {
       .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/profiles/enabled/'+id, {observe: 'response'});
   }
 
+  managerUsersToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users/enabled/'+id, {observe: 'response'});
+  }
+
 /*  getUsersListData(sort: string, order: string, page: number, size: number) {
     let requestData = {};
     return this._http
@@ -136,11 +141,10 @@ export class AccountService {
         +sort+'&order='+order+'&page='+page+'&size='+size, requestData, {observe: 'response'});
   }*/
 
-  getUsersListData(sort: string, order: string, page: number, size: number) {
+  getUsersListData(page: number) {
     let requestData = {};
     return this._http
-      .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users?sort='
-        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users?page='+page, {observe: 'response'});
   }
 
   /*** ***/
@@ -354,9 +358,34 @@ export class AccountService {
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations?page='+page, {observe: 'response'});
   }
 
+  getFormSubscriptions(page: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/subscriptions?page='+page, {observe: 'response'});
+  }
+
+  getFormQuotationList() {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations/list', {observe: 'response'});
+  }
+
   addFormQuotation(requestData: any) {
     return this._http
       .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations/add', requestData, {observe: 'response'});
+  }
+
+  addFormSubscription(requestData: any) {
+    return this._http
+      .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/subscriptions/add', requestData, {observe: 'response'});
+  }
+
+  editFormQuotation(id: number, requestData: any) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations/edit/'+id, requestData, {observe: 'response'});
+  }
+
+  editFormSubscription(id: number, requestData: any) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/subscriptions/edit/'+id, requestData, {observe: 'response'});
   }
 
 

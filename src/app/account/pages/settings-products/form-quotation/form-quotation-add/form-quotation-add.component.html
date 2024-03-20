@@ -11,7 +11,7 @@
           <div class="col-12 col-sm-6">
             @if (isSave) {
               <button mat-raised-button
-                      class="gna-btn-default gna-btn-cancel">Annuler</button>
+                      class="gna-btn-default gna-btn-cancel gna-disable">Annuler</button>
             } @else {
               <button mat-raised-button
                       class="gna-btn-default gna-btn-cancel"
@@ -26,10 +26,17 @@
                       class="gna-btn-default gna-btn-save"
                       (click)="onGetNotBlankAlert()">Enregistrer</button>
             } @else {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                      (click)="onConfirm()">Enregistrer</button>
+
+              @if (isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-disable">Enregistrer</button>
+              } @else {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                        (click)="onConfirm()">Enregistrer</button>
+              }
+
             }
           </div>
 
@@ -65,7 +72,7 @@
                        [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label>Groupe produit
+                <label>Groupe Produit
                   <span class="gna-text-red gna-text-bold">*</span>
                 </label>
 
@@ -157,39 +164,48 @@
                           <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                             <label></label>
                             @if (fStep.value.name && lfs) {
-                              <button
-                                type="button"
-                                mat-raised-button
-                                class="gna-btn-default-action gna-mt-btn-2 gna-btn-save"
-                                (click)="onAddFormStep()"
-                              matTooltip="Ajouter une étape">
-                               +
-                              </button>
+                              @if (isSave) {
+                                <button
+                                  mat-raised-button
+                                  class="gna-disable gna-btn-default-action gna-mt-btn-2 gna-btn-save">
+                                  +
+                                </button>
+                              } @else {
+                                <button
+                                  type="button"
+                                  mat-raised-button
+                                  class="gna-btn-default-action gna-mt-btn-2 gna-btn-save"
+                                  (click)="onAddFormStep()"
+                                  matTooltip="Ajouter une étape">
+                                  +
+                                </button>
+                              }
                             } @else {
                               <button
                                 mat-raised-button
                                 class="gna-disable gna-btn-default-action gna-mt-btn-2 gna-btn-save">
                                +
                               </button>
-                            <!--  <button mat-raised-button
-                                      color="primary"
-                                      class="gna-btn-default gna-mt-btn-2 gna-disable">
-                                Ajouter Etape
-                              </button>-->
                             }
-                      <!--      <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-3 gna-clickable img-ml"
-                                 matTooltip="Supprimer l'étape"
-                            *ngIf="!ffs"
-                                 (click)="onRemoveStep(fStep)">-->
-                            <button
-                              type="button"
-                              mat-raised-button
-                              class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel"
-                              (click)="onRemoveStep(fStep)"
-                              matTooltip="Supprimer l'étape"
-                              *ngIf="!ffs">
-                              -
-                            </button>
+                            @if (isSave) {
+                              <button
+                                type="button"
+                                mat-raised-button
+                                class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel gna-disable"
+                                *ngIf="!ffs">
+                                -
+                              </button>
+                            } @else {
+                              <button
+                                type="button"
+                                mat-raised-button
+                                class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel"
+                                (click)="onRemoveStep(fStep)"
+                                matTooltip="Supprimer l'étape"
+                                *ngIf="!ffs">
+                                -
+                              </button>
+                            }
                           </div>
 
                         </div>
@@ -254,7 +270,7 @@
                                       <mat-form-field appearance="fill" class="gna-mff">
                                         <mat-label>Sélectionner le champs de la question</mat-label>
                                         <mat-select
-                                          formControlName="field">
+                                          formControlName="field" [disabled]="isSave">
                                           @for (fb of appFormBuilder; track fb) {
                                           <mat-option [value]="fb"
                                                       (click)="onGetFieldTag(fStepQuestion, fb, stepSQ, stepS, ifs, ifsq, fStep)">{{ fb.name }}</mat-option>
@@ -267,9 +283,13 @@
                                       @if (fStepQuestion.value.name && fStepQuestion.value.currentSelectedTag) {
 
                                         @if (viewDialog) {
-                                          <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable"
-                                               matTooltip="Paramétrer le champs"
-                                               (click)="onOpenSettingsField(fStepQuestion)">
+                                          @if (isSave)  {
+                                            <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-disable">
+                                          } @else {
+                                            <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable"
+                                                 matTooltip="Paramétrer le champs"
+                                                 (click)="onOpenSettingsField(fStepQuestion)">
+                                          }
                                         } @else {
                                           <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-disable">
                                         }
@@ -279,14 +299,22 @@
 
                                     <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
                                       @if (fStep.value.name && fStepQuestion.value.name && fStepQuestion.value.currentSelectedTag) {
-                                        <button
-                                          type="button"
-                                          mat-raised-button
-                                          class="gna-btn-default-action gna-mt-btn-2 gna-btn-save"
-                                          (click)="onAddFormStepQuestion(fStep)"
-                                          matTooltip="Ajouter une question">
-                                          +
-                                        </button>
+                                        @if (isSave) {
+                                          <button
+                                            mat-raised-button
+                                            class="gna-disable gna-btn-default-action gna-mt-btn-2 gna-btn-save">
+                                            +
+                                          </button>
+                                        } @else {
+                                          <button
+                                            type="button"
+                                            mat-raised-button
+                                            class="gna-btn-default-action gna-mt-btn-2 gna-btn-save"
+                                            (click)="onAddFormStepQuestion(fStep)"
+                                            matTooltip="Ajouter une question">
+                                            +
+                                          </button>
+                                        }
                                       } @else {
                                         <button
                                           mat-raised-button
@@ -294,19 +322,25 @@
                                           +
                                         </button>
                                       }
-                                    <!--  <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-3 gna-clickable img-ml"
-                                           matTooltip="Supprimer la question"
-                                           (click)="onRemoveStepQuestion(fStep, fStepQuestion)"
-                                      *ngIf="!ffsq">-->
-                                      <button
-                                        type="button"
-                                        mat-raised-button
-                                        class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel"
-                                        (click)="onRemoveStepQuestion(fStep, fStepQuestion)"
-                                        *ngIf="!ffsq"
-                                        matTooltip="Supprimer la question">
-                                        -
-                                      </button>
+                                      @if (isSave) {
+                                        <button
+                                          type="button"
+                                          mat-raised-button
+                                          class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel gna-disable"
+                                          *ngIf="!ffsq">
+                                          -
+                                        </button>
+                                      } @else {
+                                        <button
+                                          type="button"
+                                          mat-raised-button
+                                          class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel"
+                                          (click)="onRemoveStepQuestion(fStep, fStepQuestion)"
+                                          *ngIf="!ffsq"
+                                          matTooltip="Supprimer la question">
+                                          -
+                                        </button>
+                                      }
                                     </div>
 
                                   </div>

@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Configuration Produit / Formulaires Cotations / Lister</span>
+  <span>Configuration Produit / Formulaires Souscriptions / Lister</span>
 </div>
 
 <div class="container-fluid">
@@ -35,7 +35,7 @@
             <tr>
               <th>Code Formulaire</th>
               <th>Nom Formulaire</th>
-              <th>Groupe Produit</th>
+              <th>Formulaire Quotation</th>
               <th>Date de création</th>
               <th>Date de modification</th>
               <th>Statut</th>
@@ -53,8 +53,8 @@
                       {{ element.name }}
                     </td>
                     <td>
-                      @if (element.productGroup) {
-                        {{ element.productGroup.name }}
+                      @if (element.formQuotation) {
+                        {{ element.formQuotation.name }}
                       } @else {
                       }
                     </td>

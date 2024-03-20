@@ -49,6 +49,19 @@ import {ProgressBarModule} from "primeng/progressbar";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {SkeletonModule} from "primeng/skeleton";
 import {MatTooltip} from "@angular/material/tooltip";
+import {
+  ConfirmationToggleEnableDialogComponent
+} from "../../../dialogs/confirmation/confirmation-toggle-enable-dialog/confirmation-toggle-enable-dialog.component";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {
+  RemoveLoadingDialogComponent
+} from "../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
+import {
+  SaveNotificationDialogComponent
+} from "../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component";
+import {
+  SaveErrorNotificationDialogComponent
+} from "../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
 
 interface PageEvent {
   first: number;
@@ -139,6 +152,8 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   cols!: Column[];
 
+  dataList: any[] = [];
+  dataPaginationResponse: any;
 
   displayedColumns: string[] = ['firstName', 'lastName', 'type', 'profile', 'status', 'action'];
   dataSource = new MatTableDataSource<any>(this.userListData);
@@ -155,7 +170,6 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Output() newEvent = new EventEmitter<boolean>();
 
-  pageSize: number = 10;
 
   loadingPage: boolean = false;
   isActivated: boolean = false;
@@ -163,16 +177,21 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
 
+  pageSize: number = 10;
 
-  first: number = 0;
+  totalPages: number = 0;
+  currentPage: number = 0;
 
-  rows: number = 10;
+  filteredList: any[] = [];
 
-  totalRecords: number = 0;
+  isSave: boolean = false;
 
-  fakeDataList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  isLoading: boolean = false;
 
-  dataPaginationResponse: any;
+  isDisable: boolean = true;
+
+  fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}];
+
 
   constructor(
     private _fb: FormBuilder,
@@ -206,12 +225,13 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
       { field: 'action', header: '' }
     ];
 
+    this.onGetDataList();
+
   }
   ngOnDestroy(): void {
   }
 
   ngAfterViewInit(): void {
-    this.onGetUserListData();
   }
 
   clear(table: Table) {
@@ -222,74 +242,61 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  exportExcel() {
 
-  }
+  onGetDataList() {
 
-  onPageChange(event: PageEvent) {
-    this.first = event.first;
-    this.rows = event.rows;
-  }
+    let page = 0;
 
+    if (this.currentPage > 0) {
+      page = this.currentPage - 1;
+    } else {
+      page = this.currentPage;
+    }
 
-
-  onGetUserListData() {
-
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-
-    // @ts-ignore
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-
-          this.isLoadingResults = true;
-          return this.accountService.getUsersListData(
-            this.sort.active,
-            this.sort.direction,
-            this.paginator.pageIndex,
-            this.paginator.pageSize,
-          ).pipe(catchError(() => observableOf(null)));
-        }),
-        map(data => {
-
-          console.log(data);
-
-          if (data) {
-
-            if (data["body"]) {
-          // Flip flag to show that loading has finished.
-          // @ts-ignore
-          this.dataPaginationResponse =  data["body"];
-          this.isLoadingResults = false;
-          // @ts-ignore
-          this.isRateLimitReached = this.dataPaginationResponse === null;
-
-          if (this.dataPaginationResponse === null) {
-            return [];
+    this.accountService.getUsersListData(page)
+      .subscribe((responseData: HttpResponse<any>) => {
+        console.log(responseData);
+        this.dataPaginationResponse = responseData["body"];
+        if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
+          this.filteredList = this.dataPaginationResponse.data;
+          if (this.currentPage <= 0) {
+            this.currentPage++;
           }
-
-          // Only refresh the result length if there is new data. In case of rate
-          // limit errors, we do not want to reset the paginator to zero, as that
-          // would prevent users from re-triggering requests.
-          this.resultsLength = this.dataPaginationResponse.totalElements;
-          // @ts-ignore
-          this.dataSource = new MatTableDataSource<any>(this.dataPaginationResponse.users);
-            } else {
-              this.isLoadingResults = false;
-            }
-          } else {
-            this.isLoadingResults = false;
-          }
-          return this.dataSource;
-        }),
-      )// @ts-ignore
-      .subscribe(data => (this.dataPaginationResponse = data));
-
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+        }
+      }, (errorData: HttpErrorResponse) => {
+        console.log(errorData);
+        this.dataPaginationResponse = {};
+        this.onGetNotificationErrorDialog();
+      });
 
   }
+
+  onGetNotificationErrorDialog(): void {
+
+    const dialogRef = this._dialog.open(ErrorNotificationDialogComponent, {
+      width: '400px',
+      height: '340px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.closeDialog();
+      }
+    });
+
+  }
+
+  onGoToPrevious() {
+    this.currentPage--;
+    this.onGetDataList();
+  }
+
+  onGoToNext() {
+    this.currentPage++;
+    this.onGetDataList();
+  }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -355,4 +362,130 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
   onReload() {
     location.reload();
   }
+
+  filterResults(value: string) {
+
+    if (!value) {
+      this.filteredList = this.dataPaginationResponse.data;
+      return;
+    }
+
+    if (this.dataPaginationResponse && this.dataPaginationResponse.data) {
+      this.filteredList = this.dataPaginationResponse.data.filter(
+        (data: any) => data?.firstName.toLowerCase().includes(value.toLowerCase())
+      );
+    }
+
+  }
+
+  onConfirmToggleEnabled(data: any, isToggle: boolean): void {
+
+    this.isSave = true;
+    this.accountService.isSave = this.isSave;
+
+    const dialogRef = this._dialog.open(ConfirmationToggleEnableDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+      data: {
+        dialogMessage: "cet utilisateur " + data.firstName + " " + data.lastName,
+        isToggle: isToggle
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.onSaveToggleEnable(data);
+      } else {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+  private onSaveToggleEnable(data: any) {
+
+    this.isSave = true;
+
+    this.openSaveLoadingDialog();
+
+    this.accountService.managerUsersToggleEnable(data.id)
+      .subscribe((responseData) => {
+        this.isSave = false;
+        this.closeDialog();
+        this.onGetDataList();
+        this.openSaveToggleEnableNotificationDialog();
+      }, (error: HttpErrorResponse) => {
+        this.isSave = false;
+        console.log(error);
+        this.closeDialog();
+        this.openSaveToggleEnableErrorNotificationDialog(error);
+      });
+
+  }
+
+  openSaveLoadingDialog(): void {
+
+    const dialogRef = this._dialog.open(RemoveLoadingDialogComponent, {
+      hasBackdrop: false,
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+
+  }
+
+
+  openSaveToggleEnableNotificationDialog(): void {
+
+    const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '340px',
+      data: {
+        dialogMessage: "L'opération a réussi."
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+
+  openSaveToggleEnableErrorNotificationDialog(error: HttpErrorResponse): void {
+
+    const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '440px',
+      data: {
+        httpError: error,
+        dialogMessage: "L'opération a échoué."
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+
+    });
+
+  }
+
+
 }
