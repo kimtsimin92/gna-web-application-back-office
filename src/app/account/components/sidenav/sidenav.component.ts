@@ -195,7 +195,7 @@ export class SidenavComponent implements OnInit {
             {name: 'Groupes Produits', link: '/account/products-groups/list', class: null},
             {name: 'Formulaires Cotations', link: '/account/settings-products/forms/quotations/list', class: null},
            {name: 'Formulaires Souscriptions', link: '/account/settings-products/forms/subscriptions/list', class: null},
-           /* {name: 'Calculs Primes', link: '/account/settings-products/forms/quotations/list', class: null},*/
+          // {name: 'Calculs Primes', link: '/account/settings-products/premium-calculation/list', class: null}
           ],
         };
 
@@ -227,17 +227,17 @@ export class SidenavComponent implements OnInit {
 
       if (this.authService.getAuthRoles() && this.authService.getAuthRoles().length > 0 && this.authService.getAuthRoles().indexOf('ROLE_PARTNER') >= 0) {
 
-        let rolePartner = {name: 'Gestion Partenaires', link: '/account/partners/list', class: null};
+        let rolePartner = {name: '- Partenaires', link: '/account/partners/list', class: null};
         // @ts-ignore
         groupSettingsListManagement.children.push(rolePartner);
 
       }
 
-      let roleBranch =  {name: 'Gestion Branches', link: '/account/branches/list', class: null};
+      let roleBranch =  {name: '- Branches', link: '/account/branches/list', class: null};
       // @ts-ignore
       groupSettingsListManagement.children.push(roleBranch);
 
-      let roleZone =   {name: 'Gestion Territoires', link: '/account/zones/list', class: null};
+      let roleZone =   {name: '- Territoires', link: '/account/zones/list', class: null};
       // @ts-ignore
       groupSettingsListManagement.children.push(roleZone);
 

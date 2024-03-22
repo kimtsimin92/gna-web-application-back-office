@@ -316,6 +316,11 @@ export class AccountService {
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/productGroups?page='+page, {observe: 'response'});
   }
 
+  getProductGroupsGuarantees() {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/productGroups/guarantees', {observe: 'response'});
+  }
+
   addProductGroup(requestData: any) {
     return this._http
       .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/productGroups', requestData, {observe: 'response'});

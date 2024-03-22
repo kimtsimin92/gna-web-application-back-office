@@ -129,7 +129,7 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Segmentation";
+    this.headerTitle = "Marketing";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
     this.items = [{ label: 'Gestion Listes' }, { label: 'Segments' }];

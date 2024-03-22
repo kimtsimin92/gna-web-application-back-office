@@ -1,0 +1,262 @@
+<div class="gna-bc">
+  <span>Configuration Produit / Calculs Primes / Créer</span>
+</div>
+
+
+<div class="gna-main-content">
+
+  <div class="container-fluid gna-main-div-card">
+    <mat-card class="gna-card">
+      <mat-progress-bar mode="query" *ngIf="loadingData"></mat-progress-bar>
+      <mat-card-header class="gna-card-header">
+        <div class="gna-card-header-btn row">
+          <div class="col-12 col-sm-6">
+            @if (isSave) {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-cancel gna-disable">Annuler</button>
+            } @else {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-cancel"
+                      (click)="onBack()"
+                      [disabled]="isSave || loadingData">Annuler</button>
+            }
+
+          </div>
+          <div class="col-12 col-sm-6">
+            @if (!formQuotation.valid) {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-save"
+                      (click)="onGetNotBlankAlert()">Enregistrer</button>
+            } @else {
+
+              @if (isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-disable">Enregistrer</button>
+              } @else {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave || loadingData"
+                        (click)="onConfirm()">Enregistrer</button>
+              }
+
+            }
+          </div>
+
+        </div>
+      </mat-card-header>
+      <mat-card-content class="gna-card-content">
+
+        <div class="container-fluid">
+
+          <h3 class="gna-text-primary gna-text-bold mt-2">Tarification | Prime Garantie</h3>
+
+          <form
+            [formGroup]="formQuotation">
+            <div class="row pb-2 gna-form">
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">
+                  Nom Prime
+                  <span class="gna-text-red gna-text-bold">*</span>
+                </label>
+                <input pInputText
+                       type="text" id="name" aria-describedby="name-help" placeholder="Entrer nom de la prime" class="gna-form-input"
+                       required
+                       formControlName="name"
+                       [readonly]="isSave || accountService.pageLoading || accountService.isSave || loadingData"/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">Description Prime</label>
+                <input pInputText
+                       type="text" id="description" aria-describedby="name-help"
+                       placeholder="Entrer description de la prime" class="gna-form-input"
+                       formControlName="description"
+                       [readonly]="isSave || accountService.pageLoading || accountService.isSave || loadingData"/>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label>Groupe Produit
+                  <span class="gna-text-red gna-text-bold">*</span>
+                </label>
+
+                <p-dropdown [options]="productGroupList"
+                            optionLabel="name"
+                            emptyMessage="Aucun résultat trouvé"
+                            placeholder="Sélectionner groupe produit"
+                            class="gna-form-dropdown"
+                            formControlName="productGroup"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave || loadingData">
+                  <ng-template let-item pTemplate="item">
+                    <div class="flex align-items-center gap-2"
+                         (click)="onGetGuaranteeByProductGroup(item)">
+                      <div>{{ item.name }}</div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label>Garantie
+                  <span class="gna-text-red gna-text-bold">*</span>
+                </label>
+
+                @if (guaranteesByProductGroup && guaranteesByProductGroup.length > 0) {
+
+                  <p-dropdown [options]="guaranteesByProductGroup"
+                              optionLabel="guaranteeName"
+                              emptyMessage="Aucun résultat trouvé"
+                              placeholder="Sélectionner une garantie"
+                              class="gna-form-dropdown"
+                              formControlName="guarantee"
+                              [readonly]="isSave || accountService.pageLoading || accountService.isSave || loadingData">
+                    <ng-template let-item pTemplate="item">
+                      <div class="flex align-items-center gap-2">
+                        <div>{{ item.guaranteeName }}</div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+
+                } @else {
+                  <p-dropdown [options]="guaranteesByProductGroup"
+                              optionLabel="guaranteeName"
+                              placeholder="Sélectionner une garantie"
+                              class="gna-form-dropdown"
+                              [disabled]="isDisable">
+                  </p-dropdown>
+                }
+
+              </div>
+
+            </div>
+          </form>
+
+          <div class="container-fluid">
+
+            @for (pf of pricingFormList; track pf; let ifs = $index; let ffs = $first; let lfs = $last) {
+
+              <form
+                [formGroup]="pf">
+
+                <div class="row mt-3">
+
+                  <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+
+                    <div class="row">
+                      <div class="col-1">
+                        <div class="gna-if">Si</div>
+                      </div>
+                      <div class="col-10">
+                        <mat-form-field class="gna-pc-column">
+                          <mat-label>Variable</mat-label>
+                          <mat-select [disabled]="!pf.value.variable"
+                                      formControlName="column">
+                            @for (variable of variableList; track variable) {
+                              <mat-option [value]="variable.position">{{variable.name}}</mat-option>
+                            }
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+
+                    <mat-form-field class="gna-pc-comparator">
+                      <mat-label>Condition</mat-label>
+                      <mat-select [disabled]="!pf.value.variable"
+                                  formControlName="operatorComparison">
+                        @for (operator of operatorList; track operator) {
+                          <mat-option [value]="operator.code">{{operator.name}}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+
+                    <mat-form-field class="gna-pc-value">
+                      <mat-label>Valeur</mat-label>
+                      <input matInput
+                             required
+                             formControlName="value">
+                    </mat-form-field>
+
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <div class="row">
+                      <div class="col-2">
+                        <div class="gna-if">Alors</div>
+                      </div>
+                      <div class="col-9">
+                        <mat-form-field class="gna-pc-output">
+                          <mat-label>Résultat</mat-label>
+                          <input matInput
+                                 required
+                                 formControlName="output">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                    <div class="col-12 col-sm-6 col-md-1 col-lg-1 col-xl-1">
+                      @if (pf.value.name && lfs) {
+                        @if (isSave) {
+                          <button
+                            mat-raised-button
+                            color="primary"
+                            class="gna-disable gna-btn-default-action gna-mt-btn-2">
+                            +
+                          </button>
+                        } @else {
+                          <button
+                            type="button"
+                            mat-raised-button
+                            color="primary"
+                            class="gna-btn-default-action gna-mt-btn-2"
+                            (click)="onAddFormStep()"
+                            matTooltip="Ajouter une étape">
+                            +
+                          </button>
+                        }
+                      } @else {
+                        <button
+                          mat-raised-button
+                          color="primary"
+                          class="gna-disable gna-btn-default-action gna-mt-btn-2">
+                          +
+                        </button>
+                      }
+                      @if (isSave) {
+                        <button
+                          type="button"
+                          mat-raised-button
+                          color="primary"
+                          class="gna-btn-default-action gna-mt-btn-2 img-ml gna-disable"
+                          *ngIf="!ffs">
+                          -
+                        </button>
+                      } @else {
+                        <button
+                          type="button"
+                          mat-raised-button
+                          class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel"
+                          (click)="onRemoveStep(pf)"
+                          matTooltip="Supprimer l'étape"
+                          *ngIf="!ffs">
+                          -
+                        </button>
+                      }
+                    </div>
+                    </div>
+
+              </form>
+
+            }
+
+          </div>
+
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

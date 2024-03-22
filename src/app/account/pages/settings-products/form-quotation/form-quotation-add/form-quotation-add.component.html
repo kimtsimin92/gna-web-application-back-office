@@ -167,14 +167,16 @@
                               @if (isSave) {
                                 <button
                                   mat-raised-button
-                                  class="gna-disable gna-btn-default-action gna-mt-btn-2 gna-btn-save">
+                                  color="primary"
+                                  class="gna-disable gna-btn-default-action gna-mt-btn-2">
                                   +
                                 </button>
                               } @else {
                                 <button
                                   type="button"
                                   mat-raised-button
-                                  class="gna-btn-default-action gna-mt-btn-2 gna-btn-save"
+                                  color="primary"
+                                  class="gna-btn-default-action gna-mt-btn-2"
                                   (click)="onAddFormStep()"
                                   matTooltip="Ajouter une étape">
                                   +
@@ -183,7 +185,8 @@
                             } @else {
                               <button
                                 mat-raised-button
-                                class="gna-disable gna-btn-default-action gna-mt-btn-2 gna-btn-save">
+                                color="primary"
+                                class="gna-disable gna-btn-default-action gna-mt-btn-2">
                                +
                               </button>
                             }
@@ -191,7 +194,8 @@
                               <button
                                 type="button"
                                 mat-raised-button
-                                class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel gna-disable"
+                                color="primary"
+                                class="gna-btn-default-action gna-mt-btn-2 img-ml gna-disable"
                                 *ngIf="!ffs">
                                 -
                               </button>
@@ -199,7 +203,8 @@
                               <button
                                 type="button"
                                 mat-raised-button
-                                class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel"
+                                color="primary"
+                                class="gna-btn-default-action gna-mt-btn-2 img-ml"
                                 (click)="onRemoveStep(fStep)"
                                 matTooltip="Supprimer l'étape"
                                 *ngIf="!ffs">
@@ -302,14 +307,16 @@
                                         @if (isSave) {
                                           <button
                                             mat-raised-button
-                                            class="gna-disable gna-btn-default-action gna-mt-btn-2 gna-btn-save">
+                                            color="primary"
+                                            class="gna-disable gna-btn-default-action gna-mt-btn-2">
                                             +
                                           </button>
                                         } @else {
                                           <button
                                             type="button"
                                             mat-raised-button
-                                            class="gna-btn-default-action gna-mt-btn-2 gna-btn-save"
+                                            color="primary"
+                                            class="gna-btn-default-action gna-mt-btn-2"
                                             (click)="onAddFormStepQuestion(fStep)"
                                             matTooltip="Ajouter une question">
                                             +
@@ -318,7 +325,8 @@
                                       } @else {
                                         <button
                                           mat-raised-button
-                                          class="gna-disable gna-btn-default-action gna-mt-btn-2 gna-btn-save">
+                                          color="primary"
+                                          class="gna-disable gna-btn-default-action gna-mt-btn-2">
                                           +
                                         </button>
                                       }
@@ -326,7 +334,8 @@
                                         <button
                                           type="button"
                                           mat-raised-button
-                                          class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel gna-disable"
+                                          color="primary"
+                                          class="gna-btn-default-action gna-mt-btn-2 img-ml gna-disable"
                                           *ngIf="!ffsq">
                                           -
                                         </button>
@@ -334,7 +343,8 @@
                                         <button
                                           type="button"
                                           mat-raised-button
-                                          class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel"
+                                          color="primary"
+                                          class="gna-btn-default-action gna-mt-btn-2 img-ml"
                                           (click)="onRemoveStepQuestion(fStep, fStepQuestion)"
                                           *ngIf="!ffsq"
                                           matTooltip="Supprimer la question">

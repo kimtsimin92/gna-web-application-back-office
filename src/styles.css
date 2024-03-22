@@ -503,7 +503,11 @@ a {
   max-height: 78vh!important;
 }
 
-
+.gna-if {
+  font-size: 11px!important;
+  margin-top: 15px!important;
+  color: rgba(0, 0, 0, 0.6)
+}
 
 .gna-card-content {
 }
@@ -516,6 +520,8 @@ a {
 }
 
 /**** ***/
+
+
 
 .gna-mat-stepper-1 mat-step-header {
   height: 1px!important;
@@ -1243,3 +1249,50 @@ th, td {
   font-size: 12px!important;
 }
 
+.gna-pc-column .mat-mdc-form-field-infix {
+  width: 110px!important;
+  min-height: 48px!important;
+  max-height: 48px!important;
+  padding-bottom: 0!important;
+}
+
+.gna-pc-column .mdc-line-ripple::after {
+}
+
+.gna-pc-comparator .mat-mdc-form-field-infix {
+  width: 125px!important;
+  min-height: 48px!important;
+  max-height: 48px!important;
+  padding-bottom: 0!important;
+}
+
+
+.gna-pc-comparator .mdc-line-ripple::before, .mdc-line-ripple::after {
+  bottom: 0!important;
+}
+
+.gna-pc-comparator .mdc-line-ripple::after, .mdc-line-ripple::before {
+  bottom: 0!important;
+}
+
+.gna-pc-value .mat-mdc-form-field-infix {
+  width: 125px!important;
+  min-height: 48px!important;
+  max-height: 48px!important;
+  padding-bottom: 0!important;
+}
+
+.gna-pc-value .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+
+}
+
+.gna-pc-output .mat-mdc-form-field-infix {
+  width: 100px!important;
+  min-height: 48px!important;
+  max-height: 48px!important;
+  padding-bottom: 0!important;
+}
+
+.gna-pc-output .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+
+}

@@ -85,6 +85,12 @@ import {
 import {
   FormQuotationViewComponent
 } from "./pages/settings-products/form-quotation/form-quotation-view/form-quotation-view.component";
+import {
+  PremiumCalculationListComponent
+} from "../@ui/account/products-settings/premium-calculation/premium-calculation-list/premium-calculation-list.component";
+import {
+  PremiumCalculationAddComponent
+} from "../@ui/account/products-settings/premium-calculation/premium-calculation-add/premium-calculation-add.component";
 
 export const routes: Routes = [
   {
@@ -192,6 +198,14 @@ export const routes: Routes = [
       {
         path: 'settings-products/forms/subscriptions/view', component: FormSubscriptionViewComponent,
         title: 'Formulaires Souscriptions | GNA',
+      },
+      {
+        path: 'settings-products/premium-calculation/list', component: PremiumCalculationListComponent,
+        title: 'Calculs de primes - Lister | GNA',
+      },
+      {
+        path: 'settings-products/premium-calculation/add', component: PremiumCalculationAddComponent,
+        title: 'Calculs de primes - Créer | GNA',
       },
       {
         path: 'guarantees/list', component: GuaranteeListComponent,

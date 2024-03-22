@@ -74,7 +74,7 @@ export class SegmentAddComponent implements OnInit, OnDestroy {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Segmentation";
+    this.headerTitle = "Marketing";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
 
