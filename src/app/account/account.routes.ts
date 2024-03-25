@@ -87,10 +87,11 @@ import {
 } from "./pages/settings-products/form-quotation/form-quotation-view/form-quotation-view.component";
 import {
   PremiumCalculationListComponent
-} from "../@ui/account/products-settings/premium-calculation/premium-calculation-list/premium-calculation-list.component";
+} from "./pages/settings-products/premium-calculation/premium-calculation-list/premium-calculation-list.component";
 import {
   PremiumCalculationAddComponent
-} from "../@ui/account/products-settings/premium-calculation/premium-calculation-add/premium-calculation-add.component";
+} from "./pages/settings-products/premium-calculation/premium-calculation-add/premium-calculation-add.component";
+
 
 export const routes: Routes = [
   {

@@ -36,31 +36,33 @@ import {
   GuaranteeClauseEditorDialogComponent
 } from "../../../settings-products/guarantees/guarantee-clause-editor-dialog/guarantee-clause-editor-dialog.component";
 import {ImageModule} from "primeng/image";
+import {MatInput} from "@angular/material/input";
 
 @Component({
   selector: 'app-product-add',
   standalone: true,
-  imports: [
-    CheckboxModule,
-    DropdownModule,
-    FormsModule,
-    InputTextModule,
-    InputTextareaModule,
-    KeyFilterModule,
-    KeyValuePipe,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatDivider,
-    MultiSelectModule,
-    ReactiveFormsModule,
-    SharedModule,
-    TabViewModule,
-    ImageModule,
-    NgIf,
-    DecimalPipe
-  ],
+    imports: [
+        CheckboxModule,
+        DropdownModule,
+        FormsModule,
+        InputTextModule,
+        InputTextareaModule,
+        KeyFilterModule,
+        KeyValuePipe,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatDivider,
+        MultiSelectModule,
+        ReactiveFormsModule,
+        SharedModule,
+        TabViewModule,
+        ImageModule,
+        NgIf,
+        DecimalPipe,
+        MatInput
+    ],
   templateUrl: './product-add.component.html',
   styleUrl: './product-add.component.css'
 })

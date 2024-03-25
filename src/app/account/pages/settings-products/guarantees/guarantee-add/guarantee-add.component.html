@@ -75,7 +75,7 @@
                       <input pInputText pKeyFilter="money"
                              id="taxRate" aria-describedby="name-help" placeholder="Taux de taxe *" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              required
                              formControlName="taxRate"/>
@@ -85,7 +85,7 @@
                       <input pInputText pKeyFilter="money"
                              id="franchiseRate" aria-describedby="name-help" placeholder="Taux franchise" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="franchiseRate"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -93,7 +93,7 @@
                       <input pInputText pKeyFilter="money"
                              id="franchiseMinimum" aria-describedby="accessory-amount-company-help" placeholder="Franchise minimum" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="franchiseMinimum"
                              max="{{franchiseMaximum.value}}"
                              #franchiseMinimum
@@ -104,7 +104,7 @@
                       <input pInputText pKeyFilter="money"
                              id="franchiseMaximum" aria-describedby="accessory-amount-company-help" placeholder="Franchise maximum" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              formControlName="franchiseMaximum"
                              max="{{franchiseMaximum.value}}"
@@ -116,7 +116,7 @@
                       <input pInputText pKeyFilter="int"
                              id="subscriptionMinimumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée minimum souscription *" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              max="{{subscriptionMaximumPeriod.value}}"
                              required
@@ -130,7 +130,7 @@
                       <input pInputText pKeyFilter="int"
                              id="subscriptionMaximumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée maximum souscription *" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="{{subscriptionMinimumPeriod.value}}"
                              required
                              #subscriptionMaximumPeriod
@@ -142,7 +142,7 @@
                       <input pInputText pKeyFilter="money"
                              id="premiumMinimum" aria-describedby="accessory-amount-company-help" placeholder="Prime minimum *" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              required
                              formControlName="premiumMinimum"
@@ -153,7 +153,7 @@
                       <input pInputText pKeyFilter="int"
                              id="deficiencyDeadline" aria-describedby="accessory-amount-company-help" placeholder="Délai de carence" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              #deficiencyDeadline
                              formControlName="deficiencyDeadline"
@@ -171,7 +171,7 @@
                       <input pInputText pKeyFilter="money"
                              id="guaranteeFloor" aria-describedby="accessory-amount-company-help" placeholder="Plancher de garantie" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              formControlName="guaranteeFloor"
                              [readonly]="isSave || accountService.pageLoading"/>
@@ -181,7 +181,7 @@
                       <input pInputText pKeyFilter="money"
                              id="guaranteeCeiling" aria-describedby="accessory-amount-company-help" placeholder="Plafond de garantie" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              formControlName="guaranteeCeiling"
                              [readonly]="isSave || accountService.pageLoading"/>
@@ -256,7 +256,7 @@
                       <input pInputText pKeyFilter="money"
                              id="taxRate" aria-describedby="name-help" placeholder="Taux de taxe *" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              required
                              formControlName="taxRate"/>
@@ -266,7 +266,7 @@
                       <input pInputText pKeyFilter="money"
                              id="franchiseRate" aria-describedby="name-help" placeholder="Taux franchise" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="franchiseRate"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -274,7 +274,7 @@
                       <input pInputText pKeyFilter="money"
                              id="franchiseMinimum" aria-describedby="accessory-amount-company-help" placeholder="Franchise minimum" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="franchiseMinimum"
                              max="{{franchiseMaximum.value}}"
                              #franchiseMinimum
@@ -285,7 +285,7 @@
                       <input pInputText pKeyFilter="money"
                              id="franchiseMaximum" aria-describedby="accessory-amount-company-help" placeholder="Franchise maximum" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              formControlName="franchiseMaximum"
                              max="{{franchiseMaximum.value}}"
@@ -297,7 +297,7 @@
                     <input pInputText pKeyFilter="int"
                            id="subscriptionMinimumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée minimum souscription *" class="gna-form-input"
                            type="number"
-                           pattern="^\d+$"
+                           pattern="^[0-9]+(\.[0-9]+)?$"
                            min="1"
                            max="{{subscriptionMaximumPeriod.value}}"
                            required
@@ -311,7 +311,7 @@
                       <input pInputText pKeyFilter="int"
                              id="subscriptionMaximumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée maximum souscription *" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="{{subscriptionMinimumPeriod.value}}"
                              required
                              #subscriptionMaximumPeriod
@@ -323,7 +323,7 @@
                       <input pInputText pKeyFilter="money"
                              id="premiumMinimum" aria-describedby="accessory-amount-company-help" placeholder="Prime minimum *" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              required
                              formControlName="premiumMinimum"
@@ -334,7 +334,7 @@
                       <input pInputText pKeyFilter="int"
                              id="deficiencyDeadline" aria-describedby="accessory-amount-company-help" placeholder="Délai de carence" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              #deficiencyDeadline
                              formControlName="deficiencyDeadline"
@@ -352,7 +352,7 @@
                       <input pInputText pKeyFilter="money"
                              id="guaranteeFloor" aria-describedby="accessory-amount-company-help" placeholder="Plancher de garantie" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              formControlName="guaranteeFloor"
                              [readonly]="isSave || accountService.pageLoading"/>
@@ -362,7 +362,7 @@
                       <input pInputText pKeyFilter="money"
                              id="guaranteeCeiling" aria-describedby="accessory-amount-company-help" placeholder="Plafond de garantie" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
                              formControlName="guaranteeCeiling"
                              [readonly]="isSave || accountService.pageLoading"/>

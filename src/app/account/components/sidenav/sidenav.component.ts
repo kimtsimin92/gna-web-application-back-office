@@ -195,7 +195,7 @@ export class SidenavComponent implements OnInit {
             {name: 'Groupes Produits', link: '/account/products-groups/list', class: null},
             {name: 'Formulaires Cotations', link: '/account/settings-products/forms/quotations/list', class: null},
            {name: 'Formulaires Souscriptions', link: '/account/settings-products/forms/subscriptions/list', class: null},
-          // {name: 'Calculs Primes', link: '/account/settings-products/premium-calculation/list', class: null}
+           {name: 'Calculs Primes', link: '/account/settings-products/premium-calculation/list', class: null}
           ],
         };
 

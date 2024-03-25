@@ -1,0 +1,165 @@
+
+<ng-container>
+
+
+  <div class="form-builder-field-header-2 text-center">
+    <span>
+     MONTANT PRIME NETTE
+    </span>
+  </div>
+
+
+  <div mat-dialog-content class="form-builder-field-body">
+    <form [formGroup]="inputForm">
+
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field appearance="outline" class="gna-pc-dialog">
+            <mat-label>Modalité de calcul</mat-label>
+            <mat-select
+              formControlName="modality"
+              placeholder="Sélectionner une modalité">
+              @for (modality of modalityList; track modality) {
+                <mat-option [value]="modality.code">{{modality.name}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 mt-3">
+          <mat-form-field appearance="outline" class="gna-pc-dialog">
+            <mat-label>Valeur Fixe</mat-label>
+            <input matInput
+                   type="number"
+                   pattern="^[0-9]+(\.[0-9]+)?$"
+                   min="1"
+                   required
+                   formControlName="amount"
+                   placeholder="Entrer une valeur">
+          </mat-form-field>
+        </div>
+
+        @if (inputForm.value.modality && inputForm.value.modality == 2) {
+          <div class="col-12">
+            <div class="gna-clickable gna-text-primary gna-text-bold text-center">
+              @if (symbolParameterCode== 1) {
+                <div class="gna-clickable"
+                     [matMenuTriggerFor]="menu"> <mat-icon>add</mat-icon></div>
+              } @else {
+                <div class="gna-clickable"
+                     [matMenuTriggerFor]="menu"> <mat-icon>close</mat-icon></div>
+              }
+              <mat-menu #menu="matMenu" yPosition="below">
+                <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold"
+                        (click)="onGetParameterAction(1)">
+                  <mat-icon>add</mat-icon>
+                </button>
+                <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold"
+                        (click)="onGetParameterAction(2)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+          <div class="col-12">
+            <mat-form-field appearance="outline" class="gna-pc-dialog">
+              <mat-label>Paramètre</mat-label>
+              <input matInput
+                     type="number"
+                     pattern="^[0-9]+(\.[0-9]+)?$"
+                     min="1"
+                     required
+                     formControlName="parameter"
+                     placeholder="Entrer une valeur">
+            </mat-form-field>
+          </div>
+        }
+
+        @if (inputForm.value.modality && inputForm.value.modality == 3) {
+          <div class="col-12">
+            <div class="gna-clickable gna-text-primary gna-text-bold text-center"
+                 [matMenuTriggerFor]="menu">
+              @if (symbolParameterCode== 1) {
+                <div class="gna-clickable"
+                     [matMenuTriggerFor]="menu"> <mat-icon>add</mat-icon></div>
+              } @else {
+                <div class="gna-clickable"
+                     [matMenuTriggerFor]="menu"> <mat-icon>close</mat-icon></div>
+              }
+              <mat-menu #menu="matMenu" yPosition="below">
+                <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold"
+                        (click)="onGetParameterAction(1)">
+                  <mat-icon>add</mat-icon>
+                </button>
+                <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold"
+                        (click)="onGetParameterAction(2)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+          <div class="col-12">
+            <mat-form-field appearance="outline" class="gna-pc-dialog">
+              <mat-label>Paramètre</mat-label>
+              <input matInput
+                     type="number"
+                     pattern="^[0-9]+(\.[0-9]+)?$"
+                     min="1"
+                     required
+                     formControlName="parameter"
+                     placeholder="Entrer une valeur">
+            </mat-form-field>
+          </div>
+          <div class="col-12">
+            <div class="gna-text-primary gna-text-bold text-center">
+              @if (symbolVariableCode == 1) {
+                <div class="gna-clickable"
+                     [matMenuTriggerFor]="menuV"> <mat-icon>add</mat-icon></div>
+              } @else {
+                <div class="gna-clickable"
+                     [matMenuTriggerFor]="menuV"> <mat-icon>close</mat-icon></div>
+              }
+              <mat-menu #menuV="matMenu" yPosition="below">
+                <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold"
+                        (click)="onGetVariableAction(1)">
+                  <mat-icon>add</mat-icon>
+                </button>
+                <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold"
+                        (click)="onGetVariableAction(2)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+          <div class="col-12">
+            <mat-form-field appearance="outline" class="gna-pc-dialog">
+              <mat-label>Variable</mat-label>
+              <mat-select
+                formControlName="variable"
+                required>
+                @for (variable of variableList; track variable) {
+                  <mat-option [value]="variable.position">{{variable.name}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        }
+
+      </div>
+
+    </form>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-stroked-button (click)="onNoClick()" color="primary" class="gna-fb-btn">Fermer</button>
+    @if (!inputForm.valid) {
+      <button mat-raised-button
+              color="primary" class="gna-fb-btn gna-disable">Valider</button>
+    } @else {
+      <button mat-raised-button [mat-dialog-close]="this.inputForm" cdkFocusInitial
+              color="primary" class="gna-fb-btn">Valider</button>
+    }
+  </div>
+
+
+</ng-container>

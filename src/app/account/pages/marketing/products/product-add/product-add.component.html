@@ -139,7 +139,7 @@
                       <input pInputText pKeyFilter="money"
                              id="cashBackRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux de cash-back" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="cashBackRate"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
@@ -148,7 +148,7 @@
                       <input pInputText pKeyFilter="money"
                              id="commercialDiscountRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux de réduction commerciale" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="commercialDiscountRate"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
@@ -157,7 +157,7 @@
                       <input pInputText pKeyFilter="money"
                              id="premiumIncreaseRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux de majoration de la prime" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="premiumIncreaseRate"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
@@ -173,7 +173,7 @@
                       <input pInputText pKeyFilter="money"
                              id="crossSellingDiscountRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux de réduction cross selling" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="crossSellingDiscountRate"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
@@ -183,7 +183,7 @@
                              id="loyaltyPoint" aria-describedby="accessory-amount-intermediate-help"
                              placeholder="Point de fidélité" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="loyaltyPoint"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
@@ -279,7 +279,7 @@
                       <input pInputText pKeyFilter="money"
                              id="partnerAccessoryAmount" aria-describedby="accessory-amount-company-help" placeholder="Montant forfaitaire des accessoires partenaire" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="partnerAccessoryAmount"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
@@ -289,7 +289,7 @@
                       <input pInputText pKeyFilter="money"
                              id="partnerCommissionRate" aria-describedby="name-help" placeholder="Taux de commission partenaire" class="gna-form-input"
                              type="number"
-                             pattern="^\d+$"
+                             pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="partnerCommissionRate"/>
                     </div>
 

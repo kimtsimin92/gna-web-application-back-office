@@ -348,3 +348,19 @@ table th {
   font-size: 15px!important;
   height: 20px!important;
 }
+
+.mat-mdc-form-field  {
+  width: 99%!important;
+}
+
+
+.pc-mode {
+  min-width: 50px!important;
+  max-width: 50px!important;
+  margin-top: 8px!important;
+}
+
+.pc-mode-item {
+  min-height: 30px!important;
+}
+

@@ -52,7 +52,7 @@ import {
 import {DropdownModule} from "primeng/dropdown";
 import {InputTextModule} from "primeng/inputtext";
 import {SharedModule} from "primeng/api";
-import {PremiumCalculationForm} from "../../../../../@core/forms/premium-calculation-form";
+import {PremiumCalculationForm} from "../../../../../account/pages/settings-products/premium-calculation/forms/premium-calculation-form";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {NgIf} from "@angular/common";
@@ -60,6 +60,11 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatSelect} from "@angular/material/select";
 import {MatTooltip} from "@angular/material/tooltip";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {MatIcon} from "@angular/material/icon";
+import {
+  PremiumCalculationModalityDialogComponent
+} from "../premium-calculation-modality-dialog/premium-calculation-modality-dialog.component";
 
 class QuotationFormData {
   name: string | undefined;
@@ -100,7 +105,11 @@ class QuotationStepQuestionItem {
     MatInput,
     MatLabel,
     MatSelect,
-    MatTooltip
+    MatTooltip,
+    MatMenu,
+    MatMenuTrigger,
+    MatMenuItem,
+    MatIcon
   ],
   templateUrl: './premium-calculation-add.component.html',
   styleUrl: './premium-calculation-add.component.css'
@@ -220,47 +229,22 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
   variableList: any[] = [];
 
-  operatorList: any[] = [
-    {
-      code: 1,
-      symbol: "=",
-      name: "égal"
-    },
-    {
-      code: 2,
-      symbol: "<>",
-      name: "non égal"
-    },
-    {
-      code: 3,
-      symbol: ">",
-      name: "supérieur à"
-    },
-    {
-      code: 4,
-      symbol: ">=",
-      name: "supérieur ou égal à"
-    },
-    {
-      code: 5,
-      symbol: "<",
-      name: "inférieur à"
-    },
-    {
-      code: 6,
-      symbol: "<",
-      name: "inférieur ou égal à"
-    }
-  ];
+  operatorList: any[] = [];
 
   pricingForm: FormGroup = new FormGroup({
-    column: new FormControl(null, [Validators.required]),
-    operatorComparison: new FormControl(null, [Validators.required]),
-    value: new FormControl(null, [Validators.required]),
-    operatorLogic: new FormControl(null, [Validators.required]),
+    variableOne: new FormControl(null, [Validators.required]),
+    operatorComparisonOne: new FormControl(null, [Validators.required]),
+    valueOne: new FormControl(null, [Validators.required]),
+    operatorLogic: new FormControl(null),
+    variableTwo: new FormControl(null),
+    operatorComparisonTwo: new FormControl(null),
+    valueTwo: new FormControl(null),
     output: new FormControl(null, [Validators.required]),
   });
 
+  modeValue: number = 1;
+  modeOutput: number = 1;
+  modeOutputLabel: string = "Alors";
 
   constructor(
     private _fb: FormBuilder,
@@ -904,6 +888,8 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
     console.log(this.currentSelectData);
 
+    this.variableList = [];
+
     if (this.currentSelectData.quotationForm) {
 
       if (this.currentSelectData.quotationForm.steps && this.currentSelectData.quotationForm.steps.length > 0) {
@@ -919,11 +905,17 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
               console.log(JSON.parse((question.field)));
 
+              let field = JSON.parse(question.field);
+
               let variable = {
                 position: question.position,
-                name: question.name
+                name: question.name,
+                code: null
               }
 
+              if (field && field.type) {
+                variable.code = field.code;
+              }
               this.variableList.push(variable);
 
             });
@@ -938,5 +930,114 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
   }
 
+
+  onGetModeValue(pf: FormGroup, mode: number) {
+    this.modeValue = mode;
+  }
+
+  onGetModeOutput(pf: FormGroup, mode: number) {
+    this.modeOutput = mode;
+    if (mode == 2) {
+      this.modeOutputLabel = "et";
+      pf.patchValue({operatorLogic: "&&"});
+    } else {
+      this.modeOutputLabel = "Alors";
+      pf.patchValue({operatorLogic: null});
+    }
+  }
+
+  onGetVariableType(variable: any) {
+
+    console.log(variable);
+
+    let operatorList = [];
+
+    if (variable.code) {
+
+      switch (variable.code) {
+        case 2 || 3:
+          operatorList = [
+            {
+              code: 1,
+              symbol: "==",
+              name: "égal"
+            },
+            {
+              code: 2,
+              symbol: "!=",
+              name: "non égal"
+            },
+            {
+              code: 3,
+              symbol: ">",
+              name: "supérieur à"
+            },
+            {
+              code: 4,
+              symbol: ">=",
+              name: "supérieur ou égal à"
+            },
+            {
+              code: 5,
+              symbol: "<",
+              name: "inférieur à"
+            },
+            {
+              code: 6,
+              symbol: "<=",
+              name: "inférieur ou égal à"
+            }
+          ];
+          this.operatorList = operatorList;
+          break;
+        default:
+          operatorList = [
+            {
+              code: 1,
+              symbol: "==",
+              name: "égal"
+            },
+            {
+              code: 2,
+              symbol: "!=",
+              name: "non égal"
+            },
+          ];
+          this.operatorList = operatorList;
+          break
+
+      }
+
+    } else {
+      operatorList = [
+        {
+          code: 1,
+          symbol: "==",
+          name: "égal"
+        },
+        {
+          code: 2,
+          symbol: "!=",
+          name: "non égal"
+        },
+      ];
+      this.operatorList = operatorList;
+    }
+
+  }
+
+  onGetModalitySetting() {
+
+    // @ts-ignore
+    const dialogRef = this._dialog.open(PremiumCalculationModalityDialogComponent, {
+      hasBackdrop: false,
+      width: '300px',
+      height: '460px',
+      data: {
+        outputData: null,
+        variableList: this.variableList
+      }
+    });
+  }
 
 }

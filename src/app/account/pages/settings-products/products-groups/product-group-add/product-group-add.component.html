@@ -71,7 +71,7 @@
                     <input pInputText pKeyFilter="money"
                             id="accessoryAmountCompany" aria-describedby="accessory-amount-company-help" placeholder="Montant accessoires Compagnie *" class="gna-form-input"
                            type="number"
-                           pattern="^\d+$"
+                           pattern="^[0-9]+(\.[0-9]+)?$"
                            min="1"
                            formControlName="accessoryAmountCompany"
                            [readonly]="isSave || accountService.pageLoading"/>
@@ -82,7 +82,7 @@
                     <input pInputText pKeyFilter="money"
                            id="accessoryAmountIntermediate" aria-describedby="accessory-amount-intermediate-help" placeholder="Montant accessoires Intermédiaire *" class="gna-form-input"
                            type="number"
-                           pattern="^\d+$"
+                           pattern="^[0-9]+(\.[0-9]+)?$"
                            min="1"
                            formControlName="accessoryAmountIntermediate"
                            [readonly]="isSave || accountService.pageLoading"/>
@@ -93,7 +93,7 @@
                     <input pInputText pKeyFilter="money"
                            id="accessoryTaxRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux taxe accessoires *" class="gna-form-input"
                            type="number"
-                           pattern="^\d+$"
+                           pattern="^[0-9]+(\.[0-9]+)?$"
                            min="1"
                            formControlName="accessoryTaxRate"
                            [readonly]="isSave || accountService.pageLoading"/>
