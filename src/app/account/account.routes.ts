@@ -91,6 +91,12 @@ import {
 import {
   PremiumCalculationAddComponent
 } from "./pages/settings-products/premium-calculation/premium-calculation-add/premium-calculation-add.component";
+import {
+  PremiumCalculationEditComponent
+} from "./pages/settings-products/premium-calculation/premium-calculation-edit/premium-calculation-edit.component";
+import {
+  PremiumCalculationDetailComponent
+} from "./pages/settings-products/premium-calculation/premium-calculation-detail/premium-calculation-detail.component";
 
 
 export const routes: Routes = [
@@ -207,6 +213,14 @@ export const routes: Routes = [
       {
         path: 'settings-products/premium-calculation/add', component: PremiumCalculationAddComponent,
         title: 'Calculs de primes - Créer | GNA',
+      },
+      {
+        path: 'settings-products/premium-calculation/edit', component: PremiumCalculationEditComponent,
+        title: 'Calculs de primes - Modifier | GNA',
+      },
+      {
+        path: 'settings-products/premium-calculation/view', component: PremiumCalculationDetailComponent,
+        title: 'Calculs de primes - Voir | GNA',
       },
       {
         path: 'guarantees/list', component: GuaranteeListComponent,

@@ -140,7 +140,7 @@
                         </mat-form-field>
                       </div>
 
-                      <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+             <!--         <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
 
                         @if (productImageUrl) {
                           <p-image src="{{ productImageUrl }}" alt="Product Image" width="50" height="30"></p-image>
@@ -153,7 +153,7 @@
                         </div>
 
                       </div>
-
+-->
                       <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                         <label></label>
                         @if (fStep.value.name && lfs) {
@@ -167,7 +167,8 @@
                             <button
                               type="button"
                               mat-raised-button
-                              class="gna-btn-default-action gna-mt-btn-2 gna-btn-save"
+                              color="primary"
+                              class="gna-btn-default-action gna-mt-btn-2"
                               (click)="onAddFormStep()"
                               matTooltip="Ajouter une étape">
                               +
@@ -176,7 +177,8 @@
                         } @else {
                           <button
                             mat-raised-button
-                            class="gna-disable gna-btn-default-action gna-mt-btn-2 gna-btn-save">
+                            color="primary"
+                            class="gna-disable gna-btn-default-action gna-mt-btn-2">
                             +
                           </button>
                         }
@@ -184,7 +186,8 @@
                           <button
                             type="button"
                             mat-raised-button
-                            class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel gna-disable"
+                            color="primary"
+                            class="gna-btn-default-action gna-mt-btn-2 img-ml gna-disable"
                             *ngIf="!ffs">
                             -
                           </button>
@@ -192,7 +195,8 @@
                           <button
                             type="button"
                             mat-raised-button
-                            class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel"
+                            color="primary"
+                            class="gna-btn-default-action gna-mt-btn-2 img-ml"
                             (click)="onRemoveStep(fStep)"
                             matTooltip="Supprimer l'étape"
                             *ngIf="!ffs">
@@ -291,7 +295,8 @@
                                     <button
                                       type="button"
                                       mat-raised-button
-                                      class="gna-btn-default-action gna-mt-btn-2 gna-btn-save"
+                                      color="primary"
+                                      class="gna-btn-default-action gna-mt-btn-2"
                                       (click)="onAddFormStepQuestion(fStep)"
                                       matTooltip="Ajouter une question">
                                       +
@@ -299,7 +304,8 @@
                                   } @else {
                                     <button
                                       mat-raised-button
-                                      class="gna-disable gna-btn-default-action gna-mt-btn-2 gna-btn-save">
+                                      color="primary"
+                                      class="gna-disable gna-btn-default-action gna-mt-btn-2">
                                       +
                                     </button>
                                   }
@@ -307,7 +313,8 @@
                                     <button
                                       type="button"
                                       mat-raised-button
-                                      class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel gna-disable"
+                                      color="primary"
+                                      class="gna-btn-default-action gna-mt-btn-2 img-ml  gna-disable"
                                       *ngIf="!ffsq">
                                       -
                                     </button>
@@ -315,7 +322,8 @@
                                     <button
                                       type="button"
                                       mat-raised-button
-                                      class="gna-btn-default-action gna-mt-btn-2 img-ml gna-btn-cancel"
+                                      color="primary"
+                                      class="gna-btn-default-action gna-mt-btn-2 img-ml"
                                       (click)="onRemoveStepQuestion(fStep, fStepQuestion)"
                                       *ngIf="!ffsq"
                                       matTooltip="Supprimer la question">

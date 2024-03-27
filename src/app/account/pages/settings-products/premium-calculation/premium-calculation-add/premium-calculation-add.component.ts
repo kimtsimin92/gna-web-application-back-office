@@ -52,7 +52,9 @@ import {
 import {DropdownModule} from "primeng/dropdown";
 import {InputTextModule} from "primeng/inputtext";
 import {SharedModule} from "primeng/api";
-import {PremiumCalculationForm} from "../../../../../account/pages/settings-products/premium-calculation/forms/premium-calculation-form";
+import {
+  PremiumCalculationForm
+} from "../../../../../account/pages/settings-products/premium-calculation/forms/premium-calculation-form";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {NgIf} from "@angular/common";
@@ -186,7 +188,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
   //
   formQuotation: FormGroup = new FormGroup({}, undefined, undefined);
-  quotationForm: QuotationForm = new PremiumCalculationForm();
+  quotationForm: PremiumCalculationForm = new PremiumCalculationForm();
 
   formStepList: FormGroup[] = [];
   formStep: FormGroup = new FormGroup({}, undefined, undefined);
@@ -272,6 +274,10 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
+    if (localStorage.getItem("PRICING_DATA")) {
+      localStorage.removeItem("PRICING_DATA");
+    }
+
     this.headerTitle = "Configuration Produit";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
@@ -287,7 +293,6 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
     this.stepForm.questions.push(this.formStepQuestionList);
     this.formStep = this._fb.group(this.stepForm);
     this.formStepList.push(this.formStep);
-
 
 
   }
@@ -338,7 +343,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
       console.log(`Dialog result: ${result}`);
 
       if (result) {
-       this.onSave();
+        this.onSave();
       } else {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
@@ -372,10 +377,13 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
     let requestData = {
       productGroupId: null,
       guaranteeId: null,
+      quotationFormId: null,
       name: null,
       description: null,
-      clauses: []
+      clauses: null
     };
+
+    let clauses: any[] = [];
 
     console.log(this.formQuotation);
 
@@ -387,6 +395,10 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
       if (this.formQuotation.value.guarantee) {
         requestData.guaranteeId = this.formQuotation.value.guarantee.guaranteeId;
+
+        if (this.formQuotation.value.quotationForm) {
+          requestData.quotationFormId = this.formQuotation.value.quotationForm;
+        }
 
         if (this.formQuotation.value.name) {
           requestData.name = this.formQuotation.value.name;
@@ -452,19 +464,26 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
                 variableTwo: variableTwo,
                 operatorTwo: operatorTwo,
                 valueTwo: valueTwo,
-                output: null
+                output: null,
+                result: null
               };
 
               let output = null;
+              let result = null;
 
               if (pf.value.output) {
                 output = pf.value.output;
               }
 
+              if (pf.value.result) {
+                result = pf.value.result;
+              }
+
               clause.output = output;
+              clause.result = result;
 
               // @ts-ignore
-              requestData.clauses.push(clause);
+              clauses.push(clause);
 
             } else {
 
@@ -472,23 +491,32 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
                 variableOne: variableOne,
                 operatorOne: operatorOne,
                 valueOne: valueOne,
-                output: null
+                output: null,
+                result: null
               };
 
               let output = null;
+              let result = null;
 
               if (pf.value.output) {
                 output = pf.value.output;
               }
 
+
+              if (pf.value.result) {
+                result = pf.value.result;
+              }
+
               clause.output = output;
+              clause.result = result;
 
               // @ts-ignore
-              requestData.clauses.push(clause);
+              clauses.push(clause);
 
             }
 
-
+            // @ts-ignore
+            requestData.clauses = JSON.stringify(clauses);
           });
         }
 
@@ -497,125 +525,29 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
     }
 
     console.log(requestData);
-    /*this.quotationFormData = new QuotationFormData();
 
-    this.quotationFormData.name = this.formQuotation.value.name;
-    this.quotationFormData.description = this.formQuotation.value.description;
-    this.quotationFormData.productGroupId = this.formQuotation.value.productGroup.id;
+    if (this.pricingFormList && this.pricingFormList.length > 0) {
 
-    console.log(this.quotationFormData);
-    console.log(this.formStepList);
-
-    if (this.formStepList && this.formStepList.length > 0) {
-
-      this.formStepList.forEach((fs: any) => {
-
-        if (!fs.value.position || !fs.value.name) {
+      this.accountService.addPricing(requestData)
+        .subscribe((responseData: HttpResponse<any>) => {
+          console.log(responseData);
           this.isSave = false;
           this.accountService.isSave = this.isSave;
           this.closeDialog();
-          this.onGetNotBlankAlert();
-          return;
-        } else {
-
-          let step = {
-            position: fs.value.position,
-            name: fs.value.name,
-            description: fs.value.description,
-            illustration: fs.value.illustration,
-            questions: []
-          };
-
-          if (fs.value.questions && fs.value.questions.length > 0) {
-
-            fs.value.questions.forEach((fsq: any) => {
-
-              let position = null;
-
-              let field = {
-                code: null,
-                name: null,
-                tag: null,
-                type: null,
-                attributes: [],
-              };
-
-              let attributes = null;
-
-              if (fsq.value.currentSelectedTag) {
-                position = fsq.value.currentSelectedTag.questionIndex;
-              }
-
-              if (fsq.value.field) {
-                field.code = fsq.value.field.code;
-                field.name = fsq.value.field.name;
-                field.tag = fsq.value.field.tag;
-                field.type = fsq.value.field.type;
-              }
-
-              if (fsq.value.attributes) {
-                attributes = fsq.value.attributes;
-                field.attributes = attributes;
-              }
-
-              if (!position || !field || !attributes) {
-                this.isSave = false;
-                this.accountService.isSave = this.isSave;
-                this.closeDialog();
-                this.onGetNotBlankAlert();
-                step.questions = [];
-                return;
-              } else {
-
-
-                let question = {
-                  position: position,
-                  name: fsq.value.name,
-                  fieldData: JSON.stringify(field)
-                }
-
-                // @ts-ignore
-                step.questions.push(question);
-
-              }
-
-            });
-
-          }
-
-          if (step && step.questions && step.questions.length > 0) {
-            this.quotationFormData.steps.push(step);
-            console.log(this.quotationFormData);
-          }
-
-        }
-
-      });*/
-
-     /* if (this.quotationFormData && this.quotationFormData.steps && this.quotationFormData.steps.length > 0) {
-        this.accountService.addFormQuotation(this.quotationFormData)
-          .subscribe((responseData: HttpResponse<any>) => {
-
-            console.log(responseData);
-            this.isSave = false;
-            this.accountService.isSave = this.isSave;
-            this.closeDialog();
-            this.onSaveNotificationDialog();
-          }, (errorData: HttpErrorResponse) => {
-            this.isSave = false;
-            this.accountService.isSave = this.isSave;
-            console.log(errorData);
-            this.closeDialog();
-            this.onSaveErrorNotificationDialog(errorData);
-          });
-      } else {
-        this.isSave = false;
-        this.accountService.isSave = this.isSave;
-        this.closeDialog();
-        this.onGetNotBlankAlert();
-      }*/
-
-  /*  }*/
+          this.onSaveNotificationDialog();
+        }, (errorData: HttpErrorResponse) => {
+          this.isSave = false;
+          this.accountService.isSave = this.isSave;
+          console.log(errorData);
+          this.closeDialog();
+          this.onSaveErrorNotificationDialog(errorData);
+        });
+    } else {
+      this.isSave = false;
+      this.accountService.isSave = this.isSave;
+      this.closeDialog();
+      this.onGetNotBlankAlert();
+    }
 
   }
 
@@ -884,7 +816,6 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
               }
 
 
-
               if (result.value.options && result.value.values) {
 
                 let optionElements = result.value.options.split("\n");
@@ -933,7 +864,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
     };
 
     let attributes = {
-      name: "step"+currentSelectedTag.stepIndex+"_field"+currentSelectedTag.questionIndex
+      name: "step" + currentSelectedTag.stepIndex + "_field" + currentSelectedTag.questionIndex
     };
 
     console.log(currentSelectedTag);
@@ -1026,7 +957,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
       this.guaranteesByProductGroup = [];
 
       pg.guarantees.forEach((item: any) => {
-          this.guaranteesByProductGroup.push(item);
+        this.guaranteesByProductGroup.push(item);
       });
 
     }
@@ -1040,6 +971,8 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
     this.variableList = [];
 
     if (this.currentSelectData.quotationForm) {
+
+      this.formQuotation.patchValue({"quotationForm": this.currentSelectData.quotationForm.id})
 
       if (this.currentSelectData.quotationForm.steps && this.currentSelectData.quotationForm.steps.length > 0) {
 
@@ -1059,7 +992,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
                 let name = null;
                 let label = null;
 
-               if (field.attributes.name) {
+                if (field.attributes.name) {
                   name = field.attributes.name;
                 }
 
@@ -1391,7 +1324,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
             // @ts-ignore
             pf.patchValue({"parameter": result.value.parameter});
             // @ts-ignore
-            let resultData = output.amount+' '+output.operatorParameter.typeValue+' '+output.parameter;
+            let resultData = output.amount + ' ' + output.operatorParameter.typeValue + ' ' + output.parameter;
             // @ts-ignore
             pf.patchValue({"result": resultData});
             // @ts-ignore
@@ -1416,12 +1349,12 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
             // @ts-ignore
             pf.patchValue({"variable": result.value.variable});
             // @ts-ignore
-            let resultData = output.amount+' '+output.operatorParameter.typeValue+' '+output.parameter+' '+output.operatorVariable.typeValue+' '+output.variable.label;
+            let resultData = output.amount + ' ' + output.operatorParameter.typeValue + ' ' + output.parameter + ' ' + output.operatorVariable.typeValue + ' ' + output.variable.label;
             // @ts-ignore
             pf.patchValue({"result": resultData});
             // @ts-ignore
             pf.patchValue({"output": output});
-        }
+          }
 
           console.log(output);
 

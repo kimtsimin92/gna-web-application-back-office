@@ -363,6 +363,18 @@ export class AccountService {
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations?page='+page, {observe: 'response'});
   }
 
+  getPricingList(page: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/pricing/primes?page='+page, {observe: 'response'});
+  }
+
+
+  addPricing(requestData: any) {
+    return this._http
+      .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/pricing/primes/add', requestData, {observe: 'response'});
+  }
+
+
   getFormSubscriptions(page: number) {
     return this._http
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/subscriptions?page='+page, {observe: 'response'});

@@ -19,6 +19,8 @@ import {
   ErrorNotificationDialogComponent
 } from "../../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
 import {ImageModule} from "primeng/image";
+import {OverlayPanelModule} from "primeng/overlaypanel";
+import {ButtonModule} from "primeng/button";
 
 @Component({
   selector: 'app-product-list',
@@ -33,7 +35,9 @@ import {ImageModule} from "primeng/image";
     NgIf,
     SkeletonModule,
     NgOptimizedImage,
-    ImageModule
+    ImageModule,
+    OverlayPanelModule,
+    ButtonModule
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'

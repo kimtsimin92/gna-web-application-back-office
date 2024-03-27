@@ -221,17 +221,17 @@ export class SidenavComponent implements OnInit {
         children: [],
       };
 
-    if (this.authService.getAuthGroups() && this.authService.getAuthGroups().length > 0 && this.authService.getAuthGroups().indexOf('GROUP_LIST') >= 0) {
+  //  if (this.authService.getAuthGroups() && this.authService.getAuthGroups().length > 0 && this.authService.getAuthGroups().indexOf('GROUP_LIST') >= 0) {
 
       let groupSettingsListManagement = {name: 'Gestion Listes', icon: "i", class: null, children: []};
 
-      if (this.authService.getAuthRoles() && this.authService.getAuthRoles().length > 0 && this.authService.getAuthRoles().indexOf('ROLE_PARTNER') >= 0) {
+    //  if (this.authService.getAuthRoles() && this.authService.getAuthRoles().length > 0 && this.authService.getAuthRoles().indexOf('ROLE_PARTNER') >= 0) {
 
         let rolePartner = {name: '- Partenaires', link: '/account/partners/list', class: null};
         // @ts-ignore
         groupSettingsListManagement.children.push(rolePartner);
 
-      }
+     // }
 
       let roleBranch =  {name: '- Branches', link: '/account/branches/list', class: null};
       // @ts-ignore
@@ -244,7 +244,7 @@ export class SidenavComponent implements OnInit {
       // @ts-ignore
       groupSettings.children.push(groupSettingsListManagement);
 
-    }
+  //  }
 
     let roleManageProfiles =       {name: 'Gestion Profils', link: '/account/settings/profiles/list', class: null};
     let roleManageUsers =        {name: 'Gestion Utilisateurs', link: '/account/settings/users', class: null};
