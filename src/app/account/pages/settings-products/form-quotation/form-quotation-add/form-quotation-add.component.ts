@@ -175,6 +175,12 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
       tag: "input",
       type: "email"
     },
+    {
+      code: 9,
+      name: "Téléphone",
+      tag: "input",
+      type: "tel"
+    }
   ];
 
   fieldsets: any[] = [];
@@ -313,7 +319,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
     this.isSave = true;
 
-   this.onSaveLoadingDialog();
+    this.onSaveLoadingDialog();
 
     console.log("QUOTATION FORM DATA");
 
@@ -480,7 +486,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
         this.accountService.isSave = this.isSave;
       }
 
-     this._router.navigateByUrl("/account/settings-products/forms/quotations/list")
+      this._router.navigateByUrl("/account/settings-products/forms/quotations/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -643,6 +649,9 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
         case 8:
           this.viewDialog = FormBuilderInputEmailDialogComponent
           break;
+        case 9:
+          this.viewDialog = FormBuilderInputTextDialogComponent
+          break;
         default:
           this.viewDialog = null;
       }
@@ -689,7 +698,6 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
                   required: result.value.required,
                 }
               }
-
 
 
               if (result.value.options && result.value.values) {
@@ -740,7 +748,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     };
 
     let attributes = {
-      name: "step"+currentSelectedTag.stepIndex+"_field"+currentSelectedTag.questionIndex
+      name: "step" + currentSelectedTag.stepIndex + "_field" + currentSelectedTag.questionIndex
     };
 
     console.log(currentSelectedTag);
@@ -776,6 +784,9 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
           break;
         case 8:
           this.viewDialog = FormBuilderInputEmailDialogComponent
+          break;
+        case 9:
+          this.viewDialog = FormBuilderInputTextDialogComponent
           break;
         default:
           this.viewDialog = null;

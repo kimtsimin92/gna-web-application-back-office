@@ -125,12 +125,6 @@
   position: relative;
 }
 
-.example-table-container {
-  position: relative;
-  max-height: 440px;
-  overflow: auto;
-}
-
 
 .example-loading-shade {
   position: absolute;
@@ -362,5 +356,6 @@ table th {
 
 .pc-mode-item {
   min-height: 30px!important;
+  font-size: 11px!important;
 }
 

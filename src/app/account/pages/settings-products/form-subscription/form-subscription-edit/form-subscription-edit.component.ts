@@ -165,6 +165,12 @@ export class FormSubscriptionEditComponent implements OnInit, OnDestroy, AfterVi
       tag: "input",
       type: "email"
     },
+    {
+      code: 9,
+      name: "Téléphone",
+      tag: "input",
+      type: "tel"
+    }
   ];
 
   fieldsets: any[] = [];
@@ -831,6 +837,9 @@ export class FormSubscriptionEditComponent implements OnInit, OnDestroy, AfterVi
         break;
       case 8:
         this.viewDialog = FormBuilderInputEmailDialogComponent
+        break;
+      case 9:
+        this.viewDialog = FormBuilderInputTextDialogComponent
         break;
       default:
         this.viewDialog = null;

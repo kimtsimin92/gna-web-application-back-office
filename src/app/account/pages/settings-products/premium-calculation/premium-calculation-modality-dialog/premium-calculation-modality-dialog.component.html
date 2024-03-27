@@ -20,7 +20,8 @@
               formControlName="modality"
               placeholder="Sélectionner une modalité">
               @for (modality of modalityList; track modality) {
-                <mat-option [value]="modality.code">{{modality.name}}</mat-option>
+                <mat-option [value]="modality.code"
+                (click)="onSelectModality()">{{modality.name}}</mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -42,7 +43,7 @@
         @if (inputForm.value.modality && inputForm.value.modality == 2) {
           <div class="col-12">
             <div class="gna-clickable gna-text-primary gna-text-bold text-center">
-              @if (symbolParameterCode== 1) {
+              @if (symbolParameterCode == 7) {
                 <div class="gna-clickable"
                      [matMenuTriggerFor]="menu"> <mat-icon>add</mat-icon></div>
               } @else {
@@ -51,11 +52,11 @@
               }
               <mat-menu #menu="matMenu" yPosition="below">
                 <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold"
-                        (click)="onGetParameterAction(1)">
+                        (click)="onGetParameterAction(7, '+')">
                   <mat-icon>add</mat-icon>
                 </button>
                 <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold"
-                        (click)="onGetParameterAction(2)">
+                        (click)="onGetParameterAction(8, '*')">
                   <mat-icon>close</mat-icon>
                 </button>
               </mat-menu>
@@ -79,7 +80,7 @@
           <div class="col-12">
             <div class="gna-clickable gna-text-primary gna-text-bold text-center"
                  [matMenuTriggerFor]="menu">
-              @if (symbolParameterCode== 1) {
+              @if (symbolParameterCode== 7) {
                 <div class="gna-clickable"
                      [matMenuTriggerFor]="menu"> <mat-icon>add</mat-icon></div>
               } @else {
@@ -88,11 +89,11 @@
               }
               <mat-menu #menu="matMenu" yPosition="below">
                 <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold"
-                        (click)="onGetParameterAction(1)">
+                        (click)="onGetParameterAction(7, '+')">
                   <mat-icon>add</mat-icon>
                 </button>
                 <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold"
-                        (click)="onGetParameterAction(2)">
+                        (click)="onGetParameterAction(8, '*')">
                   <mat-icon>close</mat-icon>
                 </button>
               </mat-menu>
@@ -112,7 +113,7 @@
           </div>
           <div class="col-12">
             <div class="gna-text-primary gna-text-bold text-center">
-              @if (symbolVariableCode == 1) {
+              @if (symbolVariableCode == 7) {
                 <div class="gna-clickable"
                      [matMenuTriggerFor]="menuV"> <mat-icon>add</mat-icon></div>
               } @else {
@@ -121,11 +122,11 @@
               }
               <mat-menu #menuV="matMenu" yPosition="below">
                 <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold"
-                        (click)="onGetVariableAction(1)">
+                        (click)="onGetVariableAction(7, '*')">
                   <mat-icon>add</mat-icon>
                 </button>
                 <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold"
-                        (click)="onGetVariableAction(2)">
+                        (click)="onGetVariableAction(8, '*')">
                   <mat-icon>close</mat-icon>
                 </button>
               </mat-menu>
@@ -138,7 +139,7 @@
                 formControlName="variable"
                 required>
                 @for (variable of variableList; track variable) {
-                  <mat-option [value]="variable.position">{{variable.name}}</mat-option>
+                  <mat-option [value]="variable">{{variable.label}}</mat-option>
                 }
               </mat-select>
             </mat-form-field>

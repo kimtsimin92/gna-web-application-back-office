@@ -169,6 +169,12 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
       tag: "input",
       type: "email"
     },
+    {
+      code: 9,
+      name: "Téléphone",
+      tag: "input",
+      type: "tel"
+    },
   ];
 
   fieldsets: any[] = [];
@@ -230,16 +236,22 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
   variableList: any[] = [];
 
   operatorList: any[] = [];
+  operatorListTwo: any[] = [];
 
   pricingForm: FormGroup = new FormGroup({
+    modality: new FormControl(1, [Validators.required]),
     variableOne: new FormControl(null, [Validators.required]),
-    operatorComparisonOne: new FormControl(null, [Validators.required]),
+    operatorOne: new FormControl(null, [Validators.required]),
     valueOne: new FormControl(null, [Validators.required]),
     operatorLogic: new FormControl(null),
     variableTwo: new FormControl(null),
-    operatorComparisonTwo: new FormControl(null),
+    operatorTwo: new FormControl(null),
     valueTwo: new FormControl(null),
+    result: new FormControl(null, [Validators.required]),
     output: new FormControl(null, [Validators.required]),
+    modeOutputLabel: new FormControl("Alors"),
+    operatorList: new FormControl([]),
+    operatorListTwo: new FormControl([])
   });
 
   modeValue: number = 1;
@@ -326,7 +338,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
       console.log(`Dialog result: ${result}`);
 
       if (result) {
-       // this.onSave();
+       this.onSave();
       } else {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
@@ -355,9 +367,137 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
     this.onSaveLoadingDialog();
 
-    console.log("QUOTATION FORM DATA");
+    console.log("PREMIUM CALCULATION DATA");
 
-    this.quotationFormData = new QuotationFormData();
+    let requestData = {
+      productGroupId: null,
+      guaranteeId: null,
+      name: null,
+      description: null,
+      clauses: []
+    };
+
+    console.log(this.formQuotation);
+
+    console.log(this.pricingFormList);
+
+    if (this.formQuotation.value.productGroup) {
+
+      requestData.productGroupId = this.formQuotation.value.productGroup.id;
+
+      if (this.formQuotation.value.guarantee) {
+        requestData.guaranteeId = this.formQuotation.value.guarantee.guaranteeId;
+
+        if (this.formQuotation.value.name) {
+          requestData.name = this.formQuotation.value.name;
+        }
+
+        if (this.formQuotation.value.description) {
+          requestData.description = this.formQuotation.value.description;
+        }
+
+        if (this.pricingFormList && this.pricingFormList.length > 0) {
+
+          this.pricingFormList.forEach((pf: any) => {
+
+            let modality = null;
+
+            let variableOne = null;
+            let variableTwo = null;
+
+            let operatorOne = null;
+            let operatorTwo = null;
+
+            let valueOne = null;
+            let valueTwo = null;
+
+            if (pf.value.modality) {
+              modality = pf.value.modality;
+            }
+
+            if (pf.value.variableOne) {
+              variableOne = pf.value.variableOne;
+            }
+
+            if (pf.value.operatorOne) {
+              operatorOne = pf.value.operatorOne;
+            }
+
+            if (pf.value.valueOne) {
+              valueOne = pf.value.valueOne;
+            }
+
+            if (pf.value.variableTwo) {
+              variableTwo = pf.value.variableTwo;
+            }
+
+            if (pf.value.operatorTwo) {
+              operatorTwo = pf.value.operatorTwo;
+            }
+
+            if (pf.value.valueTwo) {
+              valueTwo = pf.value.valueTwo;
+            }
+
+            let operatorLogic = pf.value.operatorLogic;
+
+            if (operatorLogic) {
+
+              let clause: any = {
+                modality: modality,
+                variableOne: variableOne,
+                operatorOne: operatorOne,
+                valueOne: valueOne,
+                operatorLogic: operatorLogic,
+                variableTwo: variableTwo,
+                operatorTwo: operatorTwo,
+                valueTwo: valueTwo,
+                output: null
+              };
+
+              let output = null;
+
+              if (pf.value.output) {
+                output = pf.value.output;
+              }
+
+              clause.output = output;
+
+              // @ts-ignore
+              requestData.clauses.push(clause);
+
+            } else {
+
+              let clause: any = {
+                variableOne: variableOne,
+                operatorOne: operatorOne,
+                valueOne: valueOne,
+                output: null
+              };
+
+              let output = null;
+
+              if (pf.value.output) {
+                output = pf.value.output;
+              }
+
+              clause.output = output;
+
+              // @ts-ignore
+              requestData.clauses.push(clause);
+
+            }
+
+
+          });
+        }
+
+      }
+
+    }
+
+    console.log(requestData);
+    /*this.quotationFormData = new QuotationFormData();
 
     this.quotationFormData.name = this.formQuotation.value.name;
     this.quotationFormData.description = this.formQuotation.value.description;
@@ -450,9 +590,9 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
         }
 
-      });
+      });*/
 
-      if (this.quotationFormData && this.quotationFormData.steps && this.quotationFormData.steps.length > 0) {
+     /* if (this.quotationFormData && this.quotationFormData.steps && this.quotationFormData.steps.length > 0) {
         this.accountService.addFormQuotation(this.quotationFormData)
           .subscribe((responseData: HttpResponse<any>) => {
 
@@ -473,9 +613,9 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
         this.accountService.isSave = this.isSave;
         this.closeDialog();
         this.onGetNotBlankAlert();
-      }
+      }*/
 
-    }
+  /*  }*/
 
   }
 
@@ -600,22 +740,31 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
   onAddFormStep() {
 
-    const lastItem = this.formStepList[this.formStepList.length - 1];
+    const lastItem = this.pricingFormList[this.pricingFormList.length - 1];
 
     console.log(lastItem);
 
     if (lastItem.valid) {
 
-      let formStepQuestion = this._fb.group(new StepQuestionForm());
-      let formStepQuestionList = [];
-      formStepQuestionList.push(formStepQuestion);
+      let pricingForm: FormGroup = new FormGroup({
+        modality: new FormControl(1, [Validators.required]),
+        variableOne: new FormControl(null, [Validators.required]),
+        operatorOne: new FormControl(null, [Validators.required]),
+        valueOne: new FormControl(null, [Validators.required]),
+        operatorLogic: new FormControl(null),
+        variableTwo: new FormControl(null),
+        operatorTwo: new FormControl(null),
+        valueTwo: new FormControl(null),
+        result: new FormControl(null, [Validators.required]),
+        output: new FormControl(null, [Validators.required]),
+        modeOutputLabel: new FormControl("Alors"),
+        operatorList: new FormControl([]),
+        operatorListTwo: new FormControl([])
+      });
 
-      let stepForm = new StepForm();
-      stepForm.questions.push(formStepQuestionList)
-      let formStep = this._fb.group(stepForm);
-      this.formStepList.push(formStep);
+      this.pricingFormList.push(pricingForm);
 
-      console.log(this.formStepList);
+      console.log(this.pricingFormList);
 
     } else {
       console.log("Not valid.")
@@ -831,9 +980,9 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
   onRemoveStep(formStep: FormGroup) {
 
-    if (this.formStepList && this.formStepList.length > 0) {
+    if (this.pricingFormList && this.pricingFormList.length > 0) {
 
-      let i = this.formStepList.lastIndexOf(formStep);
+      let i = this.pricingFormList.lastIndexOf(formStep);
       let s = i;
       let e = i - 1;
 
@@ -841,7 +990,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
         e = 1
       }
 
-      this.formStepList.splice(s, e);
+      this.pricingFormList.splice(s, e);
 
     }
 
@@ -899,24 +1048,39 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
           if (step.questions && step.questions.length > 0) {
 
-            let variables: any[] = [];
-
             step.questions.forEach((question: any) => {
 
               console.log(JSON.parse((question.field)));
 
               let field = JSON.parse(question.field);
 
-              let variable = {
-                position: question.position,
-                name: question.name,
-                code: null
-              }
+              if (field && field.tag) {
 
-              if (field && field.type) {
-                variable.code = field.code;
+                let name = null;
+                let label = null;
+
+               if (field.attributes.name) {
+                  name = field.attributes.name;
+                }
+
+                if (field.attributes.label) {
+                  label = field.attributes.label;
+                } else if (name) {
+                  label = name;
+                }
+
+                let variable = {
+                  step: step.position,
+                  field: question.position,
+                  typeCode: field.code,
+                  typeValue: field.type,
+                  name: name,
+                  label: label
+                }
+
+                this.variableList.push(variable);
+
               }
-              this.variableList.push(variable);
 
             });
 
@@ -931,79 +1095,114 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
   }
 
 
-  onGetModeValue(pf: FormGroup, mode: number) {
-    this.modeValue = mode;
-  }
-
   onGetModeOutput(pf: FormGroup, mode: number) {
-    this.modeOutput = mode;
     if (mode == 2) {
-      this.modeOutputLabel = "et";
-      pf.patchValue({operatorLogic: "&&"});
+      pf.patchValue({modeOutputLabel: "et"});
+      let operatorLogic = {
+        typeCode: 9,
+        typeValue: "&&",
+        label: "et"
+      }
+      pf.patchValue({operatorLogic: operatorLogic});
     } else {
-      this.modeOutputLabel = "Alors";
+      pf.patchValue({modeOutputLabel: "Alors"});
       pf.patchValue({operatorLogic: null});
     }
   }
 
-  onGetVariableType(variable: any) {
+  onGetVariableType(pf: FormGroup, variable: any) {
 
     console.log(variable);
 
     let operatorList = [];
 
-    if (variable.code) {
+    if (variable.typeCode) {
 
-      switch (variable.code) {
-        case 2 || 3:
+      switch (variable.typeCode) {
+        case 2:
           operatorList = [
             {
-              code: 1,
-              symbol: "==",
-              name: "égal"
+              typeCode: 1,
+              typeValue: "==",
+              label: "égal"
             },
             {
-              code: 2,
-              symbol: "!=",
-              name: "non égal"
+              typeCode: 2,
+              typeValue: "!=",
+              label: "non égal"
             },
             {
-              code: 3,
-              symbol: ">",
-              name: "supérieur à"
+              typeCode: 3,
+              typeValue: ">",
+              label: "supérieur à"
             },
             {
-              code: 4,
-              symbol: ">=",
-              name: "supérieur ou égal à"
+              typeCode: 4,
+              typeValue: ">=",
+              label: "supérieur ou égal à"
             },
             {
-              code: 5,
-              symbol: "<",
-              name: "inférieur à"
+              typeCode: 5,
+              typeValue: "<",
+              label: "inférieur à"
             },
             {
-              code: 6,
-              symbol: "<=",
-              name: "inférieur ou égal à"
+              typeCode: 6,
+              typeValue: "<=",
+              label: "inférieur ou égal à"
             }
           ];
-          this.operatorList = operatorList;
+          pf.patchValue({"operatorList": operatorList});
+          break;
+        case 3:
+          operatorList = [
+            {
+              typeCode: 1,
+              typeValue: "==",
+              label: "égal"
+            },
+            {
+              typeCode: 2,
+              typeValue: "!=",
+              label: "non égal"
+            },
+            {
+              typeCode: 3,
+              typeValue: ">",
+              label: "supérieur à"
+            },
+            {
+              typeCode: 4,
+              typeValue: ">=",
+              label: "supérieur ou égal à"
+            },
+            {
+              typeCode: 5,
+              typeValue: "<",
+              label: "inférieur à"
+            },
+            {
+              typeCode: 6,
+              typeValue: "<=",
+              label: "inférieur ou égal à"
+            }
+          ];
+          pf.patchValue({"operatorList": operatorList});
           break;
         default:
           operatorList = [
             {
-              code: 1,
-              symbol: "==",
-              name: "égal"
+              typeCode: 1,
+              typeValue: "==",
+              label: "égal"
             },
             {
-              code: 2,
-              symbol: "!=",
-              name: "non égal"
+              typeCode: 2,
+              typeValue: "!=",
+              label: "non égal"
             },
           ];
-          this.operatorList = operatorList;
+          pf.patchValue({"operatorList": operatorList});
           break
 
       }
@@ -1011,22 +1210,137 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
     } else {
       operatorList = [
         {
-          code: 1,
-          symbol: "==",
-          name: "égal"
+          typeCode: 1,
+          typeValue: "==",
+          label: "égal"
         },
         {
-          code: 2,
-          symbol: "!=",
-          name: "non égal"
+          typeCode: 2,
+          typeValue: "!=",
+          label: "non égal"
         },
       ];
-      this.operatorList = operatorList;
+      pf.patchValue({"operatorList": operatorList});
     }
 
   }
 
-  onGetModalitySetting() {
+  onGetVariableTypeTwo(pf: FormGroup, variable: any) {
+
+    console.log(variable);
+
+    let operatorList = [];
+
+    if (variable.typeCode) {
+
+      switch (variable.typeCode) {
+        case 2:
+          operatorList = [
+            {
+              typeCode: 1,
+              typeValue: "==",
+              label: "égal"
+            },
+            {
+              typeCode: 2,
+              typeValue: "!=",
+              label: "non égal"
+            },
+            {
+              typeCode: 3,
+              typeValue: ">",
+              label: "supérieur à"
+            },
+            {
+              typeCode: 4,
+              typeValue: ">=",
+              label: "supérieur ou égal à"
+            },
+            {
+              typeCode: 5,
+              typeValue: "<",
+              label: "inférieur à"
+            },
+            {
+              typeCode: 6,
+              typeValue: "<=",
+              label: "inférieur ou égal à"
+            }
+          ];
+          pf.patchValue({"operatorListTwo": operatorList});
+          break;
+        case 3:
+          operatorList = [
+            {
+              typeCode: 1,
+              typeValue: "==",
+              label: "égal"
+            },
+            {
+              typeCode: 2,
+              typeValue: "!=",
+              label: "non égal"
+            },
+            {
+              typeCode: 3,
+              typeValue: ">",
+              label: "supérieur à"
+            },
+            {
+              typeCode: 4,
+              typeValue: ">=",
+              label: "supérieur ou égal à"
+            },
+            {
+              typeCode: 5,
+              typeValue: "<",
+              label: "inférieur à"
+            },
+            {
+              typeCode: 6,
+              typeValue: "<=",
+              label: "inférieur ou égal à"
+            }
+          ];
+          pf.patchValue({"operatorListTwo": operatorList});
+          break;
+        default:
+          operatorList = [
+            {
+              typeCode: 1,
+              typeValue: "==",
+              label: "égal"
+            },
+            {
+              typeCode: 2,
+              typeValue: "!=",
+              label: "non égal"
+            },
+          ];
+          pf.patchValue({"operatorListTwo": operatorList});
+          break
+
+      }
+
+    } else {
+      operatorList = [
+        {
+          typeCode: 1,
+          typeValue: "==",
+          label: "égal"
+        },
+        {
+          typeCode: 2,
+          typeValue: "!=",
+          label: "non égal"
+        },
+      ];
+      pf.patchValue({"operatorListTwo": operatorList});
+    }
+
+  }
+
+  onGetModalitySetting(pf: FormGroup) {
 
     // @ts-ignore
     const dialogRef = this._dialog.open(PremiumCalculationModalityDialogComponent, {
@@ -1034,10 +1348,88 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
       width: '300px',
       height: '460px',
       data: {
-        outputData: null,
+        outputData: pf.value.output,
         variableList: this.variableList
       }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result) {
+
+        if (result.value && result.value.modality) {
+
+          let output = {
+            modality: null,
+            amount: null,
+            operatorParameter: null,
+            parameter: null,
+            operatorVariable: null,
+            variable: null
+          }
+
+          if (result.value.modality == 1) {
+            output.modality = result.value.modality;
+            // @ts-ignore
+            pf.patchValue({"modality": result.value.modality});
+            output.amount = result.value.amount;
+            // @ts-ignore
+            pf.patchValue({"result": output.amount});
+            // @ts-ignore
+            pf.patchValue({"output": output});
+          } else if (result.value.modality == 2) {
+            output.modality = result.value.modality;
+            // @ts-ignore
+            pf.patchValue({"modality": result.value.modality});
+            output.amount = result.value.amount;
+            // @ts-ignore
+            pf.patchValue({"amount": result.value.amount});
+            output.operatorParameter = result.value.operatorParameter;
+            // @ts-ignore
+            pf.patchValue({"operatorParameter": result.value.operatorParameter});
+            output.parameter = result.value.parameter;
+            // @ts-ignore
+            pf.patchValue({"parameter": result.value.parameter});
+            // @ts-ignore
+            let resultData = output.amount+' '+output.operatorParameter.typeValue+' '+output.parameter;
+            // @ts-ignore
+            pf.patchValue({"result": resultData});
+            // @ts-ignore
+            pf.patchValue({"output": output});
+          } else if (result.value.modality == 3) {
+            output.modality = result.value.modality;
+            // @ts-ignore
+            pf.patchValue({"modality": result.value.modality});
+            output.amount = result.value.amount;
+            // @ts-ignore
+            pf.patchValue({"amount": result.value.amount});
+            output.operatorParameter = result.value.operatorParameter;
+            // @ts-ignore
+            pf.patchValue({"operatorParameter": result.value.operatorParameter});
+            output.parameter = result.value.parameter;
+            // @ts-ignore
+            pf.patchValue({"parameter": result.value.parameter});
+            output.operatorVariable = result.value.operatorVariable;
+            // @ts-ignore
+            pf.patchValue({"operatorVariable": result.value.operatorVariable});
+            output.variable = result.value.variable;
+            // @ts-ignore
+            pf.patchValue({"variable": result.value.variable});
+            // @ts-ignore
+            let resultData = output.amount+' '+output.operatorParameter.typeValue+' '+output.parameter+' '+output.operatorVariable.typeValue+' '+output.variable.label;
+            // @ts-ignore
+            pf.patchValue({"result": resultData});
+            // @ts-ignore
+            pf.patchValue({"output": output});
+        }
+
+          console.log(output);
+
+        }
+
+      }
+    });
+
   }
 
 }

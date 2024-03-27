@@ -165,6 +165,12 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
       tag: "input",
       type: "email"
     },
+    {
+      code: 9,
+      name: "Téléphone",
+      tag: "input",
+      type: "tel"
+    }
   ];
 
   fieldsets: any[] = [];
@@ -830,6 +836,9 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
         break;
       case 8:
         this.viewDialog = FormBuilderInputEmailDialogComponent
+        break;
+      case 9:
+        this.viewDialog = FormBuilderInputTextDialogComponent
         break;
       default:
         this.viewDialog = null;

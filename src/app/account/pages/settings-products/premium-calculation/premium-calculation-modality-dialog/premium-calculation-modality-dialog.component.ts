@@ -79,8 +79,8 @@ export class PremiumCalculationModalityDialogComponent implements OnInit, OnDest
 
   variableList: any[] = [];
 
-  symbolParameterCode: number = 1;
-  symbolVariableCode: number = 1;
+  symbolParameterCode: number = 7;
+  symbolVariableCode: number = 7;
   parameterAction: number = 1;
   variableAction: number = 1;
 
@@ -90,22 +90,44 @@ export class PremiumCalculationModalityDialogComponent implements OnInit, OnDest
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     if (this.data && this.data.outputData) {
+
       this.outputData = this.data.outputData;
-    }
 
-  }
+      if (this.outputData && this.outputData.modality) {
+        this.inputForm.patchValue({modality: this.outputData.modality});
+      }
 
-  ngOnInit(): void {
+      if (this.outputData && this.outputData.amount) {
+        this.inputForm.patchValue({amount: this.outputData.amount});
+      }
 
-    if (this.data && this.data.outputData) {
-        this.inputForm.patchValue({amount: this.data.outputData.amount});
+      if (this.outputData && this.outputData.operatorParameter) {
+        this.symbolParameterCode = this.outputData.operatorParameter.typeCode;
+        this.onGetParameterAction(this.outputData.operatorParameter.typeCode, this.outputData.operatorParameter.typeValue)
+      }
+
+      if (this.outputData && this.outputData.parameter) {
+        this.inputForm.patchValue({parameter: this.outputData.parameter});
+      }
+
+      if (this.outputData && this.outputData.operatorVariable) {
+        this.symbolVariableCode = this.outputData.operatorVariable.typeCode;
+        this.onGetVariableAction(this.outputData.operatorVariable.typeCode, this.outputData.operatorVariable.typeValue)
+      }
+
+      if (this.outputData && this.outputData.variable) {
+        this.inputForm.patchValue({variable: this.outputData.variable});
+      }
+
     }
 
     if (this.data && this.data.variableList) {
       this.variableList = this.data.variableList;
     }
 
+  }
 
+  ngOnInit(): void {
   }
 
   ngOnDestroy(): void {
@@ -118,12 +140,74 @@ export class PremiumCalculationModalityDialogComponent implements OnInit, OnDest
   }
 
 
-  onGetParameterAction(number: number) {
-    this.symbolParameterCode = number;
+  onGetParameterAction(code: number, value: string) {
+    this.symbolParameterCode = code;
+    let operatorParameter = {
+      typeCode: code,
+      typeValue: value,
+      label: null
+    }
+    // @ts-ignore
+    this.inputForm.setControl("operatorParameter", new FormControl(operatorParameter));
   }
 
-  onGetVariableAction(number: number) {
-    this.symbolVariableCode = number;
+  onGetVariableAction(code: number, value: string) {
+    this.symbolVariableCode = code;
+    let operatorVariable = {
+      typeCode: code,
+      typeValue: value,
+      label: null
+    }
+    // @ts-ignore
+    this.inputForm.setControl("operatorVariable", new FormControl(operatorVariable));
   }
 
+  onSelectModality() {
+
+    if (this.inputForm.value.modality && this.inputForm.value.modality == 2) {
+
+      let operatorParameter = {
+        typeCode: 7,
+        typeValue: '+',
+        label: null
+      }
+
+      if (this.outputData && this.outputData.operatorParameter) {
+        operatorParameter = this.outputData.operatorParameter
+      }
+
+      // @ts-ignore
+      this.inputForm.setControl("operatorParameter", new FormControl(operatorParameter));
+    }
+
+    if (this.inputForm.value.modality && this.inputForm.value.modality == 3) {
+
+      let operatorParameter = {
+        typeCode: 7,
+        typeValue: '+',
+        label: null
+      }
+
+      if (this.outputData && this.outputData.operatorParameter) {
+        operatorParameter = this.outputData.operatorParameter
+      }
+
+      // @ts-ignore
+      this.inputForm.setControl("operatorParameter", new FormControl(operatorParameter));
+
+      let operatorVariable = {
+        typeCode: 7,
+        typeValue: '+',
+        label: null
+      }
+
+      if (this.outputData && this.outputData.operatorVariable) {
+        operatorVariable = this.outputData.operatorVariable
+      }
+
+      // @ts-ignore
+      this.inputForm.setControl("operatorVariable", new FormControl(operatorVariable));
+    }
+
+  }
 }
