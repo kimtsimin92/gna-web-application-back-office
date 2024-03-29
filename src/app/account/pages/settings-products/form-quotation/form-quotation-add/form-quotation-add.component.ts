@@ -147,7 +147,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
       tag: "input",
       type: "date"
     },
-    {
+/*    {
       code: 4,
       name: "Case à Cocher",
       tag: "input",
@@ -158,17 +158,17 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
       name: "Bouton Radio",
       tag: "input",
       type: "radio"
-    },
+    },*/
     {
       code: 6,
       name: "Liste Déroulante",
       tag: "select"
     },
-    {
+    /*{
       code: 7,
       name: "Zone de Texte",
       tag: "textarea"
-    },
+    },*/
     {
       code: 8,
       name: "Email",
@@ -682,8 +682,9 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
             if (code > 3 && code < 7) {
 
-              if (code !== 5) {
+              if (code != 5) {
                 attributes = {
+                  name: result.value.name,
                   label: result.value.label,
                   options: [],
                   values: [],
@@ -692,6 +693,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
                 }
               } else {
                 attributes = {
+                  name: result.value.name,
                   label: result.value.label,
                   options: [],
                   values: [],

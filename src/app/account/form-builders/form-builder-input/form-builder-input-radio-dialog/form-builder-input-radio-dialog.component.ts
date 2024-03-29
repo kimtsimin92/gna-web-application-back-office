@@ -42,7 +42,7 @@ export class FormBuilderInputRadioDialogComponent implements OnInit, OnDestroy {
     label: new FormControl(null),
     options: new FormControl(this.optionsData),
     values: new FormControl(this.valuesData),
-    required: new FormControl(null)
+    required: new FormControl(false)
   });
 
   currentSelectedTag: any = null;

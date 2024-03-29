@@ -100,6 +100,16 @@ export class FormQuotationListComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   onView(element: any) {
+
+    this.loadingPage = true;
+
+    // @ts-ignore
+    localStorage.setItem("FORM_QUOTATION_DATA", JSON.stringify(element));
+
+    this._router.navigateByUrl("/account/simulation")
+      .then(() => {
+        this.loadingPage = false;
+      });
   }
 
   onGoToPrevious() {

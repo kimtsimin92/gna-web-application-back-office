@@ -137,28 +137,28 @@ export class FormSubscriptionEditComponent implements OnInit, OnDestroy, AfterVi
       tag: "input",
       type: "date"
     },
-    {
-      code: 4,
-      name: "Case à Cocher",
-      tag: "input",
-      type: "checkbox"
-    },
-    {
-      code: 5,
-      name: "Bouton Radio",
-      tag: "input",
-      type: "radio"
-    },
+    /*    {
+          code: 4,
+          name: "Case à Cocher",
+          tag: "input",
+          type: "checkbox"
+        },
+        {
+          code: 5,
+          name: "Bouton Radio",
+          tag: "input",
+          type: "radio"
+        },*/
     {
       code: 6,
       name: "Liste Déroulante",
       tag: "select"
     },
-    {
+    /*{
       code: 7,
       name: "Zone de Texte",
       tag: "textarea"
-    },
+    },*/
     {
       code: 8,
       name: "Email",

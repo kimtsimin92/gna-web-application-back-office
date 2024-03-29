@@ -35,12 +35,11 @@ export class FormBuilderInputDateDialogComponent implements OnInit, OnDestroy {
   inputForm = new FormGroup({
     name: new FormControl(null),
     label: new FormControl(null),
-    placeholder: new FormControl(null),
     max: new FormControl(null, [
       Validators.pattern(/^[0-9\-]*$/)]),
     min: new FormControl(null, [
       Validators.pattern(/^[0-9\-]*$/)]),
-    required: new FormControl(null)
+    required: new FormControl(false)
   });
 
   currentSelectedTag: any = null;
@@ -61,7 +60,6 @@ export class FormBuilderInputDateDialogComponent implements OnInit, OnDestroy {
     if (this.data && this.data.formStepQuestion && this.data.formStepQuestion.value.attributes) {
       console.log(this.data.formStepQuestion.value.attributes);
       this.inputForm.patchValue({label: this.data.formStepQuestion.value.attributes.label});
-      this.inputForm.patchValue({placeholder: this.data.formStepQuestion.value.attributes.placeholder});
       this.inputForm.patchValue({max: this.data.formStepQuestion.value.attributes.max});
       this.inputForm.patchValue({min: this.data.formStepQuestion.value.attributes.min});
       this.inputForm.patchValue({required: this.data.formStepQuestion.value.attributes.required});

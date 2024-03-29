@@ -1,0 +1,10 @@
+@if (field.attributes && field.attributes.name && field.attributes.options && field.attributes.values) {
+  @for (option of field.attributes.ots; track option; let io = $index; let fo = $first; let lo = $last) {
+    <div class="gna-simulation-radio" (click)="onActivateCheckbox(field.attributes.vs[io])">
+      <input type="radio" [id]="field.attributes.vs[io]"
+             [name]="field.attributes.name"
+             [value]="field.attributes.vs[io]"/>
+      <label [for]="field.attributes.vs[io]">{{ option }}</label>
+    </div>
+  }
+}

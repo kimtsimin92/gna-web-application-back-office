@@ -97,6 +97,8 @@ import {
 import {
   PremiumCalculationDetailComponent
 } from "./pages/settings-products/premium-calculation/premium-calculation-detail/premium-calculation-detail.component";
+import {SimulationComponent} from "./simulation/simulation.component";
+import {SimulationQuotationComponent} from "./simulation/simulation-quotation/simulation-quotation.component";
 
 
 export const routes: Routes = [
@@ -306,6 +308,18 @@ export const routes: Routes = [
         path: 'settings/users/view', component: UserManagementViewComponent,
         title: 'Gestion Utilisateurs | GNA',
       },
-    ]
+    ],
+  },
+  {
+    path: 'simulation',
+    component: SimulationComponent,
+    title: 'Simulation | GNA',
+    canActivate: [authGuard]
+  },
+  {
+    path: 'simulation/quotation',
+    component: SimulationQuotationComponent,
+    title: 'Simulation Cotation | GNA',
+    canActivate: [authGuard]
   }
 ];

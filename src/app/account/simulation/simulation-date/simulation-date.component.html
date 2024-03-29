@@ -1,0 +1,13 @@
+<div class="gna-simulation-text">
+  @if (field && field.attributes) {
+    <input
+      type="date"
+      [id]="field.attributes.name"
+      [name]="field.attributes.name"
+      [min]="field.attributes.min ? field.attributes.min : ''"
+      [max]="field.attributes.max ? field.attributes.max : ''"
+      [required]="field.attributes.required ? field.attributes.required : false"
+      [(ngModel)]="field.value"
+      class="form-control"/>
+  }
+</div>

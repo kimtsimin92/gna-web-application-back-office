@@ -40,10 +40,10 @@ export class FormBuilderInputSelectDialogComponent implements OnInit, OnDestroy 
   inputForm = new FormGroup({
     name: new FormControl(null),
     label: new FormControl(null),
-    multiple: new FormControl(null),
+   // multiple: new FormControl(false),
     options: new FormControl(this.optionsData),
     values: new FormControl(this.valuesData),
-    required: new FormControl(null)
+    required: new FormControl(false)
   });
 
   currentSelectedTag: any = null;
@@ -65,9 +65,9 @@ export class FormBuilderInputSelectDialogComponent implements OnInit, OnDestroy 
       if (this.data.formStepQuestion.value.attributes.label) {
         this.inputForm.patchValue({label: this.data.formStepQuestion.value.attributes.label});
       }
-      if (this.data.formStepQuestion.value.attributes.multiple) {
+    /*  if (this.data.formStepQuestion.value.attributes.multiple) {
         this.inputForm.patchValue({multiple: this.data.formStepQuestion.value.attributes.multiple});
-      }
+      }*/
       if (this.data.formStepQuestion.value.attributes.options) {
         let optionString1 = this.data.formStepQuestion.value.attributes.options;
         let optionsString2 = optionString1.join(',');
