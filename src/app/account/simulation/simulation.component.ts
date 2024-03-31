@@ -11,6 +11,8 @@ import {SimulationTextareaComponent} from "./simulation-textarea/simulation-text
 import {SimulationEmailComponent} from "./simulation-email/simulation-email.component";
 import {SimulationTelComponent} from "./simulation-tel/simulation-tel.component";
 import {Router} from "@angular/router";
+import {SimulationService} from "./simulation.service";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-simulation',
@@ -43,7 +45,8 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
   loadingPage: boolean = false;
 
   constructor(
-    private _router: Router
+    private _router: Router,
+    private simulationService: SimulationService
   ) {
   }
 
@@ -76,37 +79,53 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.currentStep && this.currentStep.questions) {
       if (this.currentStep.questions.length > 0) {
         this.currentStepQuestion = this.currentStep.questions[this.currentStepQuestionIndex];
+        console.log(this.currentStepQuestion);
       }
     }
   }
 
   onGoToNextQ(currentStep: any, currentStepQuestion: any) {
+    console.log("onGoToNextQ");
       this.currentStepQuestionIndex++;
       this.currentStepQuestion = currentStep.questions[this.currentStepQuestionIndex];
       console.log(currentStep);
   }
 
   onGoToNextS(currentStep: any, currentStepQuestion: any) {
-
+    console.log("onGoToNextS");
     if (this.currentStepIndex == this.quotationFormSteps.length -1) {
 
-      let quotationRequestData = {
+      let simulationRequest = {
         quotationFormId: this.quotationForm.id,
         groupId: this.quotationForm.productGroup.id,
         productId: null,
+        answers: []
       }
 
-      this.quotationFormSteps.forEach((qfs: any) => {
+      this.quotationFormSteps.forEach((step: any) => {
 
-        let step = {
-          position: qfs.position
+        if (step.questions && step.questions.length > 0) {
+          step.questions.forEach((question: any) => {
+            let answer = {
+              step: step.position,
+              field: question.position,
+              name: question.field.attributes.name,
+              value: question.field.attributes.value,
+            }
+
+            // @ts-ignore
+            simulationRequest.answers.push(answer);
+          });
         }
+
 
       });
 
       console.log(this.quotationForm);
-      console.log("QUOTATION REQUEST DATA");
-      console.log(quotationRequestData);
+      console.log("SIMULATION REQUEST DATA");
+      console.log(simulationRequest);
+
+      this.onGetPricing(simulationRequest);
 
      /* this.loadingPage = true;
 
@@ -124,14 +143,152 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onGoToPreviousS(currentStep: any, currentStepQuestion: any) {
-    this.currentStepQuestionIndex = currentStep.questions.length;
+    console.log("onGoToPreviousS");
     this.currentStepIndex--;
     this.currentStep = this.quotationFormSteps[this.currentStepIndex];
-    this.onGetCurrentElements();
+    this.currentStepQuestionIndex = this.currentStep.questions.length -1;
+   this.onGetCurrentElements();
   }
 
   onGoToPreviousQ(currentStep: any, currentStepQuestion: any) {
+    console.log("onGoToPreviousQ");
     this.currentStepQuestionIndex--;
     this.currentStepQuestion = currentStep.questions[this.currentStepQuestionIndex];
   }
+
+  onGetPricing(simulationRequest: any) {
+
+    let guaranteeList: any[] = [
+      {
+        id: 6,
+        name: "N/A",
+        pricingList: [
+          {
+            "output": {
+              "amount": 100000,
+              "modality": 1,
+              "variable": null,
+              "parameter": null,
+              "operatorVariable": null,
+              "operatorParameter": null
+            },
+            "result": 100000,
+            "valueOne": "Bleu",
+            "operatorOne": {
+              "label": "égal",
+              "typeCode": 1,
+              "typeValue": "=="
+            },
+            "variableOne": {
+              "name": "step1_field1",
+              "step": 1,
+              "field": 1,
+              "label": "Couleur",
+              "typeCode": 6
+            }
+          }
+        ]
+      }
+    ];
+
+    if (guaranteeList && guaranteeList.length > 0) {
+
+      guaranteeList.forEach((guarantee: any) => {
+
+        console.log(guarantee);
+
+        if (guarantee.pricingList && guarantee.pricingList.length > 0) {
+
+          guarantee.pricingList.forEach((pricing: any) => {
+
+            if (pricing.output && pricing.output.modality && pricing.output.modality == 1) {
+
+              if (pricing.variableOne) {
+
+                if (simulationRequest && simulationRequest.answers && simulationRequest.answers.length > 0) {
+
+                  simulationRequest.answers.forEach((answer: any) => {
+
+                    if (answer.name == pricing.variableOne.name) {
+
+                      if (pricing.operatorOne && pricing.operatorOne.typeCode) {
+
+                        if (pricing.operatorOne.typeCode == 1) {
+                          if (pricing.valueOne == answer.value) {
+                            console.log("PRIME GUARANTIE: " + guarantee.id);
+                            console.log(pricing.output.amount);
+                          }
+                        }
+
+                      }
+
+                    }
+
+                  })
+
+                }
+
+              }
+
+            }
+
+          });
+
+        }
+
+      })
+
+    }
+
+  }
+
+  onGetQuotation(currentStep: any, currentStepQuestion: any) {
+
+      let simulationRequest = {
+        quotationFormId: this.quotationForm.id,
+        groupId: this.quotationForm.productGroup.id,
+        productId: null,
+        answers: []
+      }
+
+      this.quotationFormSteps.forEach((step: any) => {
+
+        if (step.questions && step.questions.length > 0) {
+          step.questions.forEach((question: any) => {
+            let answer = {
+              step: step.position,
+              field: question.position,
+              name: question.field.attributes.name,
+              value: question.field.attributes.value,
+            }
+            // @ts-ignore
+            simulationRequest.answers.push(answer);
+          });
+        }
+
+
+      });
+
+      console.log(this.quotationForm);
+      console.log("SIMULATION REQUEST DATA");
+      console.log(simulationRequest);
+
+      this.onGetPricing(simulationRequest);
+
+      /* this.loadingPage = true;
+
+       this._router.navigateByUrl("/account/simulation/quotation")
+         .then(() => {
+           this.loadingPage = false;
+         });*/
+
+    this.simulationService.onGetQuotation(simulationRequest)
+      .subscribe((response: HttpResponse<any>) => {
+        console.log(response);
+      }, (error: HttpErrorResponse) => {
+        console.error(error);
+      });
+
+  }
+
 }

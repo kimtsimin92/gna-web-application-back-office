@@ -14,88 +14,106 @@
             @if (step.position == 1) {-->
 
               <div class="gna-simulation-step">
-                Etape {{ currentStep.position }}: {{ currentStep.name }}
+                Etape {{ currentStep.position }}/{{ quotationFormSteps.length }}: {{ currentStep.name }}
               </div>
               <div class="gna-simulation-question-barre"></div>
 
+          <div>
+
+
               @if (currentStep && currentStepQuestion) {
 
-             <!--   @for (question of currentStep.questions; track question; let iq = $index; let fq = $first; let lq = $last) {
+                <!--   @for (question of currentStep.questions; track question; let iq = $index; let fq = $first; let lq = $last) {
 
-                  @if (fq) {-->
+                     @if (fq) {-->
+                <div class="gna-simulation-question">
+                  <!--  Question {{ currentStepQuestion.position }}: {{ currentStepQuestion.name }}-->
+                  {{ currentStepQuestion.name }}
+                </div>
 
-                    <div class="gna-simulation-question">
-                      Question {{ currentStepQuestion.position }}: {{ currentStepQuestion.name }}
-                    </div>
+                <div class="gna-simulation-question-content">
+                @if (currentStepQuestion.field) {
+                  <ng-container>
 
-                      @if (currentStepQuestion.field) {
-                        <ng-container>
-
-                          @switch (currentStepQuestion.field.code) {
-                            @case (1) {
-                              <app-simulation-text [field]="currentStepQuestion.field"></app-simulation-text>
-                            }
-                            @case (2) {
-                              <app-simulation-number [field]="currentStepQuestion.field"></app-simulation-number>
-                            }
-                            @case (3) {
-                              <app-simulation-date [field]="currentStepQuestion.field"></app-simulation-date>
-                            }
-                            @case (4) {
-                              <app-simulation-checkbox [field]="currentStepQuestion.field"></app-simulation-checkbox>
-                            }
-                            @case (5) {
-                              <app-simulation-radio [field]="currentStepQuestion.field"></app-simulation-radio>
-                            }
-                            @case (6) {
-                              <app-simulation-select [field]="currentStepQuestion.field"></app-simulation-select>
-                            }
-                            @case (7) {
-                              <app-simulation-textarea [field]="currentStepQuestion.field"></app-simulation-textarea>
-                            }
-                            @case (8) {
-                              <app-simulation-email [field]="currentStepQuestion.field"></app-simulation-email>
-                            }
-                            @case (9) {
-                              <app-simulation-tel [field]="currentStepQuestion.field"></app-simulation-tel>
-                            }
-                          }
-                        </ng-container>
+                    @switch (currentStepQuestion.field.code) {
+                      @case (1) {
+                        <app-simulation-text [field]="currentStepQuestion.field"></app-simulation-text>
                       }
-
-                    <div class="gna-simulation-btn">
-                      @if (currentStepQuestionIndex == currentStep.questions.length -1) {
-                        @if (currentStepIndex > 0
-                          && currentStepIndex <= this.quotationFormSteps.length -1) {
-                        <button type="button"
-                                class="btn btn-primary gna-btn-p"
-                                (click)="onGoToPreviousS(currentStep, currentStepQuestion)">Précédent</button>
-                        } @else {
-                          <button type="button"
-                                  class="btn btn-primary gna-btn-p"
-                                  (click)="onGoToPreviousQ(currentStep, currentStepQuestion)">Précédent</button>
-                        }
-                        <button type="button"
-                                class="btn btn-primary gna-btn-c"
-                                (click)="onGoToNextS(currentStep, currentStepQuestion)">Suivant</button>
-                      } @else {
-                        @if (currentStepIndex > 0 && currentStepQuestionIndex == 0) {
-                          <button type="button"
-                                  class="btn btn-primary gna-btn-p"
-                                  (click)="onGoToPreviousS(currentStep, currentStepQuestion)">Précédent</button>
-                        } @else if (currentStepQuestionIndex > 0
-                        && currentStepQuestionIndex <= currentStep.questions.length -1) {
-                          <button type="button"
-                                  class="btn btn-primary gna-btn-p"
-                                  (click)="onGoToPreviousQ(currentStep, currentStepQuestion)">Précédent</button>
-                        }
-                        <button type="button"
-                                class="btn btn-primary gna-btn-c"
-                                (click)="onGoToNextQ(currentStep, currentStepQuestion)">Suivant</button>
+                      @case (2) {
+                        <app-simulation-number [field]="currentStepQuestion.field"></app-simulation-number>
                       }
-                    </div>
+                      @case (3) {
+                        <app-simulation-date [field]="currentStepQuestion.field"></app-simulation-date>
+                      }
+                      @case (4) {
+                        <app-simulation-checkbox [field]="currentStepQuestion.field"></app-simulation-checkbox>
+                      }
+                      @case (5) {
+                        <app-simulation-radio [field]="currentStepQuestion.field"></app-simulation-radio>
+                      }
+                      @case (6) {
+                        <app-simulation-select [field]="currentStepQuestion.field"></app-simulation-select>
+                      }
+                      @case (7) {
+                        <app-simulation-textarea [field]="currentStepQuestion.field"></app-simulation-textarea>
+                      }
+                      @case (8) {
+                        <app-simulation-email [field]="currentStepQuestion.field"></app-simulation-email>
+                      }
+                      @case (9) {
+                        <app-simulation-tel [field]="currentStepQuestion.field"></app-simulation-tel>
+                      }
+                    }
+                  </ng-container>
+                }
+                </div>
 
+                <div class="gna-simulation-btn">
+                  @if (currentStepIndex == quotationFormSteps.length -1 && currentStepQuestionIndex == currentStep.questions.length -1) {
+                    <button type="button"
+                            class="btn btn-primary gna-btn-p"
+                            (click)="onGoToPreviousQ(currentStep, currentStepQuestion)">Précédent</button>
+                    <button type="button"
+                            class="btn btn-primary gna-btn-c"
+                            (click)="onGetQuotation(currentStep, currentStepQuestion)"
+                            [disabled]="currentStepQuestion.field.attributes.required && !currentStepQuestion.field.attributes.value">Obtenir devis</button>
+
+                  } @else if (currentStepQuestionIndex == currentStep.questions.length -1) {
+                    @if (currentStepIndex > 0 && currentStepQuestionIndex == 0) {
+                      <button type="button"
+                              class="btn btn-primary gna-btn-p"
+                              (click)="onGoToPreviousS(currentStep, currentStepQuestion)">Précédent</button>
+                    } @else {
+                      <button type="button"
+                              class="btn btn-primary gna-btn-p"
+                              (click)="onGoToPreviousQ(currentStep, currentStepQuestion)">Précédent</button>
+                    }
+                    <button type="button"
+                            class="btn btn-primary gna-btn-c"
+                            (click)="onGoToNextS(currentStep, currentStepQuestion)"
+                            [disabled]="currentStepQuestion.field.attributes.required && !currentStepQuestion.field.attributes.value">Suivant</button>
+                  } @else {
+                    @if (currentStepIndex > 0 && currentStepQuestionIndex == 0) {
+                      <button type="button"
+                              class="btn btn-primary gna-btn-p"
+                              (click)="onGoToPreviousS(currentStep, currentStepQuestion)">Précédent</button>
+                    } @else if (currentStepQuestionIndex > 0
+                    && currentStepQuestionIndex <= currentStep.questions.length -1) {
+                      <button type="button"
+                              class="btn btn-primary gna-btn-p"
+                              (click)="onGoToPreviousQ(currentStep, currentStepQuestion)">Précédent</button>
+                    }
+                    <button type="button"
+                            class="btn btn-primary gna-btn-c"
+                            (click)="onGoToNextQ(currentStep, currentStepQuestion)"
+                    [disabled]="currentStepQuestion.field.attributes.required && !currentStepQuestion.field.attributes.value">Suivant</button>
                   }
+                </div>
+
+              }
+            </div>
+
+
 
            <!--     }
 

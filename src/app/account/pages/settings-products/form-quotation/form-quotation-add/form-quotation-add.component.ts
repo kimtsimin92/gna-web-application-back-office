@@ -164,11 +164,11 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
       name: "Liste Déroulante",
       tag: "select"
     },
-    /*{
+    {
       code: 7,
       name: "Zone de Texte",
       tag: "textarea"
-    },*/
+    },
     {
       code: 8,
       name: "Email",

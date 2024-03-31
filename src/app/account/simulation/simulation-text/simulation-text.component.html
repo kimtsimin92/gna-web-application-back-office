@@ -1,7 +1,5 @@
 <div class="gna-simulation-text">
   @if (field && field.attributes) {
-<!--    <label [for]="field.attributes.name">{{ field.attributes.label }}</label>-->
-
     <input
       type="text"
       [id]="field.attributes.name"
@@ -11,8 +9,7 @@
       [maxLength]="field.attributes.maxLength ? field.attributes.maxLength : '100'"
       [pattern]="field.attributes.pattern ? field.attributes.pattern : ''"
       [required]="field.attributes.required ? field.attributes.required : false"
-      [(ngModel)]="field.value"
+      [(ngModel)]="field.attributes.value"
       class="form-control"/>
-
   }
 </div>

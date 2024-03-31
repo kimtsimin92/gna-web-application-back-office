@@ -35,7 +35,6 @@ export class FormBuilderInputTextareaDialogComponent implements OnInit, OnDestro
   inputForm = new FormGroup({
     name: new FormControl(null),
     label: new FormControl(null),
-    placeholder: new FormControl(null),
     maxlength: new FormControl(null, [
       Validators.pattern(/^[0-9]*$/)]),
     minlength: new FormControl(null, [
@@ -60,7 +59,6 @@ export class FormBuilderInputTextareaDialogComponent implements OnInit, OnDestro
 
     if (this.data && this.data.formStepQuestion && this.data.formStepQuestion.value.attributes) {
       this.inputForm.patchValue({label: this.data.formStepQuestion.value.attributes.label});
-      this.inputForm.patchValue({placeholder: this.data.formStepQuestion.value.attributes.placeholder});
       this.inputForm.patchValue({maxlength: this.data.formStepQuestion.value.attributes.maxlength});
       this.inputForm.patchValue({minlength: this.data.formStepQuestion.value.attributes.minlength});
       this.inputForm.patchValue({required: this.data.formStepQuestion.value.attributes.required});

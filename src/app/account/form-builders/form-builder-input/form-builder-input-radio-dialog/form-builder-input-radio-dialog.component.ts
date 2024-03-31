@@ -65,16 +65,17 @@ export class FormBuilderInputRadioDialogComponent implements OnInit, OnDestroy {
         this.inputForm.patchValue({label: this.data.formStepQuestion.value.attributes.label});
       }
       if (this.data.formStepQuestion.value.attributes.options) {
-        let optionString1 = this.data.formStepQuestion.value.attributes.options;
-        let optionsString2 = optionString1.join(',');
-        let options = optionsString2.replace(/,/g, '\n');
-        this.inputForm.patchValue({options: options});
+        let optionString1 = this.data.formStepQuestion.value.attributes.options
+        console.log(optionString1);
+        /*  let optionsString2 = optionString1.join(',');
+          let options = optionsString2.replace(/,/g, '\n');*/
+        this.inputForm.patchValue({options: optionString1});
       }
       if (this.data.formStepQuestion.value.attributes.values) {
         let valueString1 = this.data.formStepQuestion.value.attributes.values;
-        let valueString2 = valueString1.join(',');
-        let values = valueString2.replace(/,/g, '\n');
-        this.inputForm.patchValue({values: values});
+        /* let valueString2 = valueString1.join(',');
+         let values = valueString2.replace(/,/g, '\n');*/
+        this.inputForm.patchValue({values: valueString1});
       }
       if (this.data.formStepQuestion.value.attributes.required) {
         this.inputForm.patchValue({required: this.data.formStepQuestion.value.attributes.required});

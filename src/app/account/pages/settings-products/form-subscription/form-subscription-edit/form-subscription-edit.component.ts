@@ -154,11 +154,11 @@ export class FormSubscriptionEditComponent implements OnInit, OnDestroy, AfterVi
       name: "Liste Déroulante",
       tag: "select"
     },
-    /*{
+    {
       code: 7,
       name: "Zone de Texte",
       tag: "textarea"
-    },*/
+    },
     {
       code: 8,
       name: "Email",

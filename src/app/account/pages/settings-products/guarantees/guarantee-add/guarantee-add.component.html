@@ -116,7 +116,7 @@
                       <input pInputText pKeyFilter="int"
                              id="subscriptionMinimumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée minimum souscription *" class="gna-form-input"
                              type="number"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
+                             pattern="[0-9]*"
                              min="1"
                              max="{{subscriptionMaximumPeriod.value}}"
                              required
@@ -130,7 +130,7 @@
                       <input pInputText pKeyFilter="int"
                              id="subscriptionMaximumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée maximum souscription *" class="gna-form-input"
                              type="number"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
+                             pattern="[0-9]*"
                              min="{{subscriptionMinimumPeriod.value}}"
                              required
                              #subscriptionMaximumPeriod

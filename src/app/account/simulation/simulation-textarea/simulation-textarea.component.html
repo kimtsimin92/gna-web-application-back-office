@@ -1,1 +1,15 @@
-<p>simulation-textarea works!</p>
+<div class="gna-simulation-text">
+  @if (field && field.attributes) {
+    <textarea
+      rows="5"
+      [id]="field.attributes.name"
+      [name]="field.attributes.name"
+      [minLength]="field.attributes.minLength ? field.attributes.minLength : '0'"
+      [maxLength]="field.attributes.maxLength ? field.attributes.maxLength : '100'"
+      [pattern]="field.attributes.pattern ? field.attributes.pattern : ''"
+      [required]="field.attributes.required ? field.attributes.required : false"
+      [(ngModel)]="field.attributes.value"
+      class="form-control">
+    </textarea>
+  }
+</div>

@@ -1304,7 +1304,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
           if (result.value.modality == 1) {
             output.modality = result.value.modality;
             // @ts-ignore
-            pf.patchValue({"modality": result.value.modality});
+        //    pf.patchValue({"modality": result.value.modality});
             output.amount = result.value.amount;
             // @ts-ignore
             pf.patchValue({"result": output.amount});
@@ -1313,7 +1313,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
           } else if (result.value.modality == 2) {
             output.modality = result.value.modality;
             // @ts-ignore
-            pf.patchValue({"modality": result.value.modality});
+          //  pf.patchValue({"modality": result.value.modality});
             output.amount = result.value.amount;
             // @ts-ignore
             pf.patchValue({"amount": result.value.amount});
@@ -1332,7 +1332,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
           } else if (result.value.modality == 3) {
             output.modality = result.value.modality;
             // @ts-ignore
-            pf.patchValue({"modality": result.value.modality});
+           // pf.patchValue({"modality": result.value.modality});
             output.amount = result.value.amount;
             // @ts-ignore
             pf.patchValue({"amount": result.value.amount});

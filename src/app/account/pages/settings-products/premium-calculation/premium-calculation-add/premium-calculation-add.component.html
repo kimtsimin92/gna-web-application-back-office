@@ -223,7 +223,7 @@
                                      required
                                      formControlName="valueOne"
                                      type="number"
-                                     pattern="^[0-9]+(\.[0-9]+)?$"
+                                     pattern="[0-9]*"
                                      [readonly]="!pf.value.operatorOne">
                             </mat-form-field>
                           } @else if (pf.value.variableOne && pf.value.variableOne.typeCode == 3) {
@@ -341,7 +341,7 @@
                                    required
                                    formControlName="valueTwo"
                                    type="number"
-                                   pattern="^[0-9]+(\.[0-9]+)?$"
+                                   pattern="[0-9]*"
                                    [readonly]="!pf.value.operatorTwo">
                           </mat-form-field>
                         } @else if (pf.value.variableTwo && pf.value.variableTwo.typeCode == 3) {

@@ -3,7 +3,8 @@
     <div class="gna-simulation-radio" (click)="onActivateCheckbox(field.attributes.vs[io])">
       <input type="radio" [id]="field.attributes.vs[io]"
              [name]="field.attributes.name"
-             [value]="field.attributes.vs[io]"/>
+             [value]="field.attributes.vs[io]"
+      [checked]="field.attributes.value == field.attributes.vs[io]"/>
       <label [for]="field.attributes.vs[io]">{{ option }}</label>
     </div>
   }

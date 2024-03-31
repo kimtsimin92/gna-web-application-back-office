@@ -1,1 +1,15 @@
-<p>simulation-tel works!</p>
+<div class="gna-simulation-text">
+  @if (field && field.attributes) {
+    <input
+      type="tel"
+      [id]="field.attributes.name"
+      [name]="field.attributes.name"
+      [placeholder]="field.attributes.placeholder ? field.attributes.placeholder : ''"
+      [minLength]="field.attributes.minLength ? field.attributes.minLength : '0'"
+      [maxLength]="field.attributes.maxLength ? field.attributes.maxLength : '100'"
+      [pattern]="field.attributes.pattern ? field.attributes.pattern : '^\\d{10}$'"
+      [required]="field.attributes.required ? field.attributes.required : false"
+      [(ngModel)]="field.attributes.value"
+      class="form-control"/>
+  }
+</div>

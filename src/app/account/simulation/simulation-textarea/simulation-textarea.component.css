@@ -1,0 +1,16 @@
+
+.gna-simulation-text label {
+  text-align: left;
+  font-size: 12px;
+  font-family: Avenir, sans-serif!important;
+  letter-spacing: 1px;
+  color: #000000;
+  opacity: 1;
+}
+
+.gna-simulation-text textarea {
+  width: 420px;
+  background: #F0F0F0 0 0 no-repeat padding-box;
+  border-radius: 10px;
+  opacity: 1;
+}
