@@ -374,6 +374,11 @@ export class AccountService {
       .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/pricing/primes/add', requestData, {observe: 'response'});
   }
 
+  editPricing(id: number, requestData: any) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/pricing/primes/edit/'+id, requestData, {observe: 'response'});
+  }
+
 
   getFormSubscriptions(page: number) {
     return this._http

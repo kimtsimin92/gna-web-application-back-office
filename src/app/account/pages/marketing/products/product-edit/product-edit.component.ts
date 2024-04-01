@@ -40,29 +40,31 @@ import {
 import {
   ConfirmationEditDialogComponent
 } from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
+import {MatInput} from "@angular/material/input";
 
 @Component({
   selector: 'app-product-edit',
   standalone: true,
-  imports: [
-    CheckboxModule,
-    DecimalPipe,
-    DropdownModule,
-    ImageModule,
-    InputTextModule,
-    InputTextareaModule,
-    KeyFilterModule,
-    KeyValuePipe,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MultiSelectModule,
-    NgIf,
-    PaginatorModule,
-    ReactiveFormsModule,
-    SharedModule
-  ],
+    imports: [
+        CheckboxModule,
+        DecimalPipe,
+        DropdownModule,
+        ImageModule,
+        InputTextModule,
+        InputTextareaModule,
+        KeyFilterModule,
+        KeyValuePipe,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MultiSelectModule,
+        NgIf,
+        PaginatorModule,
+        ReactiveFormsModule,
+        SharedModule,
+        MatInput
+    ],
   templateUrl: './product-edit.component.html',
   styleUrl: './product-edit.component.css'
 })

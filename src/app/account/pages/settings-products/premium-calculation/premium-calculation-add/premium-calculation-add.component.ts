@@ -1340,7 +1340,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
             // @ts-ignore
             pf.patchValue({"variable": result.value.variable});
             // @ts-ignore
-            let resultData = output.amount + ' ' + output.operatorParameter.typeValue + ' ' + output.parameter + ' ' + output.operatorVariable.typeValue + ' ' + output.variable.label;
+            let resultData = '('+output.amount + ' ' + output.operatorParameter.typeValue + ' ' + output.parameter + ') ' + output.operatorVariable.typeValue + ' ' + output.variable.label;
             // @ts-ignore
             pf.patchValue({"result": resultData});
             // @ts-ignore

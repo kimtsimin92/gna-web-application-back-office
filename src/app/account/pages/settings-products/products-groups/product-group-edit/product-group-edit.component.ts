@@ -33,6 +33,7 @@ import {
   ConfirmationEditDialogComponent
 } from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
 import {InputTextareaModule} from "primeng/inputtextarea";
+import {MatInput} from "@angular/material/input";
 
 @Component({
   selector: 'app-product-group-edit',
@@ -52,7 +53,8 @@ import {InputTextareaModule} from "primeng/inputtextarea";
         PaginatorModule,
         ReactiveFormsModule,
         SharedModule,
-        InputTextareaModule
+        InputTextareaModule,
+        MatInput
     ],
   templateUrl: './product-group-edit.component.html',
   styleUrl: './product-group-edit.component.css'

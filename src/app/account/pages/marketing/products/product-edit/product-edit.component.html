@@ -144,7 +144,7 @@
                       <label for="cashBackRate">Taux de cash-back %</label>
                       <input pInputText pKeyFilter="money"
                              id="cashBackRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux de cash-back" class="gna-form-input"
-                             type="number"
+                             type="text"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="cashBackRate"
                              [readonly]="isSave || accountService.pageLoading"/>
@@ -153,7 +153,7 @@
                       <label for="cashBackRate">Taux de réduction commerciale %</label>
                       <input pInputText pKeyFilter="money"
                              id="commercialDiscountRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux de réduction commerciale" class="gna-form-input"
-                             type="number"
+                             type="text"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="commercialDiscountRate"
                              [readonly]="isSave || accountService.pageLoading"/>
@@ -162,7 +162,7 @@
                       <label for="cashBackRate">Taux de majoration de la prime %</label>
                       <input pInputText pKeyFilter="money"
                              id="premiumIncreaseRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux de majoration de la prime" class="gna-form-input"
-                             type="number"
+                             type="text"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="premiumIncreaseRate"
                              [readonly]="isSave || accountService.pageLoading"/>
@@ -178,7 +178,7 @@
                       <label for="cashBackRate">Taux de réduction cross selling %</label>
                       <input pInputText pKeyFilter="money"
                              id="crossSellingDiscountRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux de réduction cross selling" class="gna-form-input"
-                             type="number"
+                             type="text"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="crossSellingDiscountRate"
                              [readonly]="isSave || accountService.pageLoading"/>
@@ -304,7 +304,7 @@
                       <label for="partnerCommissionRate">Taux de commission %</label>
                       <input pInputText pKeyFilter="money"
                              id="partnerCommissionRate" aria-describedby="name-help" placeholder="Taux de commission partenaire" class="gna-form-input"
-                             type="number"
+                             type="text"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="partnerCommissionRate"/>
                     </div>

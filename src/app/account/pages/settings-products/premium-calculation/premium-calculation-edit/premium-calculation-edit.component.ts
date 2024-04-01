@@ -65,6 +65,12 @@ import {
 import {
   PremiumCalculationModalityDialogComponent
 } from "../premium-calculation-modality-dialog/premium-calculation-modality-dialog.component";
+import {
+  ConfirmationEditDialogComponent
+} from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
+import {
+  EditLoadingDialogComponent
+} from "../../../../dialogs/loading/edit-loading-dialog/edit-loading-dialog.component";
 
 @Component({
   selector: 'app-premium-calculation-edit',
@@ -367,7 +373,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
     this.isSave = true;
     this.accountService.isSave = this.isSave;
 
-    const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
+    const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
       width: '400px',
       height: '340px',
@@ -392,7 +398,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
   onSaveLoadingDialog(): void {
 
-    const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
+    const dialogRef = this._dialog.open(EditLoadingDialogComponent, {
       hasBackdrop: false,
       width: '350px',
     });
@@ -412,6 +418,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
     console.log("PREMIUM CALCULATION DATA");
 
     let requestData = {
+      id: this.pricingFormData.id,
       productGroupId: null,
       guaranteeId: null,
       quotationFormId: null,
@@ -459,11 +466,23 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
             let valueTwo = null;
 
             if (pf.value.variableOne) {
-              variableOne = pf.value.variableOne;
+
+              if (this.variableList && this.variableList.length > 0) {
+                this.variableList.forEach((vl: any) => {
+                  if (vl.name == pf.value.variableOne)
+                  variableOne = vl;
+                });
+              }
+
             }
 
             if (pf.value.operatorOne) {
-              operatorOne = pf.value.operatorOne;
+              if (pf.value.operatorList && pf.value.operatorList.length > 0) {
+                pf.value.operatorList.forEach((ol: any) => {
+                  if (ol.typeCode == pf.value.operatorOne)
+                    operatorOne = ol;
+                });
+              }
             }
 
             if (pf.value.valueOne) {
@@ -471,11 +490,21 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
             }
 
             if (pf.value.variableTwo) {
-              variableTwo = pf.value.variableTwo;
+              if (this.variableList && this.variableList.length > 0) {
+                this.variableList.forEach((vl: any) => {
+                  if (vl.name == pf.value.variableTwo)
+                    variableTwo= vl;
+                });
+              }
             }
 
             if (pf.value.operatorTwo) {
-              operatorTwo = pf.value.operatorTwo;
+              if (pf.value.operatorListTwo && pf.value.operatorListTwo.length > 0) {
+                pf.value.operatorListTwo.forEach((ol: any) => {
+                  if (ol.typeCode == pf.value.operatorTwo)
+                    operatorTwo = ol;
+                });
+              }
             }
 
             if (pf.value.valueTwo) {
@@ -556,9 +585,9 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
     console.log(requestData);
 
-   /* if (this.pricingFormList && this.pricingFormList.length > 0) {
+    if (this.pricingFormList && this.pricingFormList.length > 0) {
 
-      this.accountService.addPricing(requestData)
+      this.accountService.editPricing(requestData.id, requestData)
         .subscribe((responseData: HttpResponse<any>) => {
           console.log(responseData);
           this.isSave = false;
@@ -577,7 +606,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
       this.accountService.isSave = this.isSave;
       this.closeDialog();
       this.onGetNotBlankAlert();
-    }*/
+    }
 
   }
 
@@ -589,7 +618,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
       height: '350px',
       data: {
         httpError: error,
-        dialogMessage: "L'enregistrement de ce formulaire a échoué."
+        dialogMessage: "La modification de ce formulaire a échoué."
       },
     });
 
@@ -611,7 +640,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
       width: '400px',
       height: '350px',
       data: {
-        dialogMessage: "L'enregistrement de cette prime de calcul a réussi."
+        dialogMessage: "La modification de cette prime de calcul a réussi."
       },
     });
 
@@ -1331,7 +1360,6 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
           }
 
           if (result.value.modality == 1) {
-            output.modality = result.value.modality;
             // @ts-ignore
             pf.patchValue({"modality": result.value.modality});
             output.amount = result.value.amount;
@@ -1378,7 +1406,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
             // @ts-ignore
             pf.patchValue({"variable": result.value.variable});
             // @ts-ignore
-            let resultData = output.amount + ' ' + output.operatorParameter.typeValue + ' ' + output.parameter + ' ' + output.operatorVariable.typeValue + ' ' + output.variable.label;
+            let resultData = '('+output.amount + ' ' + output.operatorParameter.typeValue + ' ' + output.parameter + ') ' + output.operatorVariable.typeValue + ' ' + output.variable.label;
             // @ts-ignore
             pf.patchValue({"result": resultData});
             // @ts-ignore

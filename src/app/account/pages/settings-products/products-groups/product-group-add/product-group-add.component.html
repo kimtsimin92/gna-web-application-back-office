@@ -92,9 +92,8 @@
                     <br>
                     <input pInputText pKeyFilter="money"
                            id="accessoryTaxRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux taxe accessoires *" class="gna-form-input"
-                           type="number"
+                           type="text"
                            pattern="^[0-9]+(\.[0-9]+)?$"
-                           min="1"
                            formControlName="accessoryTaxRate"
                            [readonly]="isSave || accountService.pageLoading"/>
                   </div>
