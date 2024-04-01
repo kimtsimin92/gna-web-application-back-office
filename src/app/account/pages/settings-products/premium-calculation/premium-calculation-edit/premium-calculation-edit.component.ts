@@ -218,21 +218,6 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
   operatorList: any[] = [];
   operatorListTwo: any[] = [];
 
-  pricingForm: FormGroup = new FormGroup({
-    modality: new FormControl(1, [Validators.required]),
-    variableOne: new FormControl(null, [Validators.required]),
-    operatorOne: new FormControl(null, [Validators.required]),
-    valueOne: new FormControl(null, [Validators.required]),
-    operatorLogic: new FormControl(null),
-    variableTwo: new FormControl(null),
-    operatorTwo: new FormControl(null),
-    valueTwo: new FormControl(null),
-    result: new FormControl(null, [Validators.required]),
-    output: new FormControl(null, [Validators.required]),
-    modeOutputLabel: new FormControl("Alors"),
-    operatorList: new FormControl([]),
-    operatorListTwo: new FormControl([])
-  });
 
   modeValue: number = 1;
   modeOutput: number = 1;
@@ -260,7 +245,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
       this.headerTitle = "Configuration Produit";
       localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
-      this.onGetProductGroupList();
+     // this.onGetProductGroupList();
 
       // @ts-ignore
       this.pricingFormData = JSON.parse(localStorage.getItem("PRICING_DATA"));
@@ -272,18 +257,13 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
         if (this.pricingFormData.group) {
           this.quotationForm.productGroup.setValue(this.pricingFormData.group.name);
-          if (this.productGroupList && this.productGroupList.length > 0) {
-            this.productGroupList.forEach((pg: any) => {
-              if (pg.id == this.pricingFormData.group.id) {
-                this.onGetGuaranteeByProductGroup(pg);
-              }
-            })
+          this.productGroupList.push(this.pricingFormData.group);
+          if (this.pricingFormData.guarantee) {
+            this.quotationForm.guarantee.setValue(this.pricingFormData.guarantee.guaranteeName);
+            this.guaranteesByProductGroup.push(this.pricingFormData.guarantee);
+            this.currentSelectData = this.pricingFormData.group;
+            this.onGetVariable();
           }
-        }
-
-
-        if (this.pricingFormData.guarantee) {
-          this.quotationForm.guarantee.setValue(this.pricingFormData.guarantee.guaranteeName);
         }
 
         this.pricingFormData.clauses = JSON.parse(this.pricingFormData.clauses);
@@ -296,20 +276,32 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
           this.pricingFormData.clauses.forEach((clause: any) => {
 
            let pricingForm: FormGroup = new FormGroup({
-              modality: new FormControl(clause.modality, [Validators.required]),
               variableOne: new FormControl(clause.variableOne.name, [Validators.required]),
-              operatorOne: new FormControl(clause.operatorOne.label, [Validators.required]),
+              operatorOne: new FormControl(clause.operatorOne.typeCode, [Validators.required]),
               valueOne: new FormControl(clause.valueOne, [Validators.required]),
-              operatorLogic: new FormControl(null),
+              operatorLogic: new FormControl(clause.operatorLogic),
               variableTwo: new FormControl(null),
-              operatorTwo: new FormControl(null),
-              valueTwo: new FormControl(null),
+              operatorTwo: new FormControl(clause.operatorTwo),
+              valueTwo: new FormControl(clause.valueTwo),
               result: new FormControl(clause.result, [Validators.required]),
               output: new FormControl(clause.output, [Validators.required]),
               modeOutputLabel: new FormControl("Alors"),
               operatorList: new FormControl([]),
               operatorListTwo: new FormControl([])
             });
+
+            this.onGetVariableType(pricingForm, clause.variableOne);
+
+           if (clause.operatorLogic) {
+             pricingForm.patchValue({modeOutputLabel: "et"});
+
+             if (clause.variableTwo) {
+               console.log(clause.variableTwo)
+               pricingForm.patchValue({variableTwo: clause.variableTwo.name});
+               this.onGetVariableTypeTwo(pricingForm, clause.variableTwo);
+             }
+           }
+
 
            this.pricingFormList.push(pricingForm);
 
@@ -450,8 +442,6 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
           this.pricingFormList.forEach((pf: any) => {
 
-            let modality = null;
-
             let variableOne = null;
             let variableTwo = null;
 
@@ -460,10 +450,6 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
             let valueOne = null;
             let valueTwo = null;
-
-            if (pf.value.modality) {
-              modality = pf.value.modality;
-            }
 
             if (pf.value.variableOne) {
               variableOne = pf.value.variableOne;
@@ -494,7 +480,6 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
             if (operatorLogic) {
 
               let clause: any = {
-                modality: modality,
                 variableOne: variableOne,
                 operatorOne: operatorOne,
                 valueOne: valueOne,
@@ -717,7 +702,6 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
     if (lastItem.valid) {
 
       let pricingForm: FormGroup = new FormGroup({
-        modality: new FormControl(1, [Validators.required]),
         variableOne: new FormControl(null, [Validators.required]),
         operatorOne: new FormControl(null, [Validators.required]),
         valueOne: new FormControl(null, [Validators.required]),
@@ -1008,14 +992,14 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
     this.variableList = [];
 
-    if (this.currentSelectData.quotationForm) {
+    if (this.pricingFormData.quotationForm) {
 
-      this.formQuotation.patchValue({"quotationForm": this.currentSelectData.quotationForm.id})
+      this.formQuotation.patchValue({"quotationForm": this.pricingFormData.quotationForm.id})
 
-      if (this.currentSelectData.quotationForm.steps && this.currentSelectData.quotationForm.steps.length > 0) {
+      if (this.pricingFormData.quotationForm.steps && this.pricingFormData.quotationForm.steps.length > 0) {
 
         // @ts-ignore
-        this.currentSelectData.quotationForm.steps.forEach((step: any) => {
+        this.pricingFormData.quotationForm.steps.forEach((step: any) => {
 
           if (step.questions && step.questions.length > 0) {
 

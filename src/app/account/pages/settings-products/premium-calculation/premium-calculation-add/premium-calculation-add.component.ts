@@ -241,7 +241,6 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
   operatorListTwo: any[] = [];
 
   pricingForm: FormGroup = new FormGroup({
-    modality: new FormControl(1, [Validators.required]),
     variableOne: new FormControl(null, [Validators.required]),
     operatorOne: new FormControl(null, [Validators.required]),
     valueOne: new FormControl(null, [Validators.required]),
@@ -412,8 +411,6 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
           this.pricingFormList.forEach((pf: any) => {
 
-            let modality = null;
-
             let variableOne = null;
             let variableTwo = null;
 
@@ -422,10 +419,6 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
             let valueOne = null;
             let valueTwo = null;
-
-            if (pf.value.modality) {
-              modality = pf.value.modality;
-            }
 
             if (pf.value.variableOne) {
               variableOne = pf.value.variableOne;
@@ -456,7 +449,6 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
             if (operatorLogic) {
 
               let clause: any = {
-                modality: modality,
                 variableOne: variableOne,
                 operatorOne: operatorOne,
                 valueOne: valueOne,
@@ -679,7 +671,6 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
     if (lastItem.valid) {
 
       let pricingForm: FormGroup = new FormGroup({
-        modality: new FormControl(1, [Validators.required]),
         variableOne: new FormControl(null, [Validators.required]),
         operatorOne: new FormControl(null, [Validators.required]),
         valueOne: new FormControl(null, [Validators.required]),

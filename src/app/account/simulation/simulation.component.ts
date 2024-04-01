@@ -52,6 +52,10 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
 
+    if (localStorage.getItem("SIMULATION_REQUEST_DATA")) {
+      localStorage.removeItem("SIMULATION_REQUEST_DATA");
+    }
+
     if (localStorage.getItem("FORM_QUOTATION_DATA")) {
 
       // @ts-ignore
@@ -121,19 +125,6 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
 
       });
 
-      console.log(this.quotationForm);
-      console.log("SIMULATION REQUEST DATA");
-      console.log(simulationRequest);
-
-      this.onGetPricing(simulationRequest);
-
-     /* this.loadingPage = true;
-
-      this._router.navigateByUrl("/account/simulation/quotation")
-        .then(() => {
-          this.loadingPage = false;
-        });*/
-
     } else {
       this.currentStepQuestionIndex = 0;
       this.currentStepIndex++;
@@ -156,7 +147,7 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
     this.currentStepQuestion = currentStep.questions[this.currentStepQuestionIndex];
   }
 
-  onGetPricing(simulationRequest: any) {
+/*  onGetPricing(simulationRequest: any) {
 
     let guaranteeList: any[] = [
       {
@@ -240,7 +231,7 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
 
     }
 
-  }
+  }*/
 
   onGetQuotation(currentStep: any, currentStepQuestion: any) {
 
@@ -273,21 +264,20 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log("SIMULATION REQUEST DATA");
       console.log(simulationRequest);
 
-      this.onGetPricing(simulationRequest);
-
-      /* this.loadingPage = true;
+       this.loadingPage = true;
 
        this._router.navigateByUrl("/account/simulation/quotation")
          .then(() => {
+           localStorage.setItem("SIMULATION_REQUEST_DATA", JSON.stringify(simulationRequest));
            this.loadingPage = false;
-         });*/
+         });
 
-    this.simulationService.onGetQuotation(simulationRequest)
+/*    this.simulationService.onGetQuotation(simulationRequest)
       .subscribe((response: HttpResponse<any>) => {
         console.log(response);
       }, (error: HttpErrorResponse) => {
         console.error(error);
-      });
+      });*/
 
   }
 

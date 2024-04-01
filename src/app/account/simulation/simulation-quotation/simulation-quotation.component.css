@@ -1,0 +1,221 @@
+
+.gna-simulation {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0!important;
+  background-color: #F4F5F6!important;
+}
+
+.gna-simulation-card {
+  width: 550px !important;
+  min-height: 80vh !important;
+  max-height: 80vh !important;
+  background: #FFFFFF 0 0 no-repeat padding-box !important;
+  border-radius: 20px!important;
+  opacity: 1!important;
+  margin-top: 10vh!important;
+  margin-left: 40vh!important;
+  padding-top: 20px!important;
+  padding-bottom: 20px!important;
+  padding-left: 30px!important;
+}
+
+.gna-simulation-step {
+  font-size: 14px!important;
+  font-weight: bold!important;
+  font-family: Avenir, sans-serif !important;
+  letter-spacing: 1px;
+  color: #000000;
+  opacity: 1;
+}
+
+.gna-simulation-question-content {
+  position: relative;
+  overflow: auto;
+  min-height: 50px !important;
+  max-height: 150px !important;
+}
+
+.gna-simulation-question {
+  font-size: 12px!important;
+  font-family: Avenir, sans-serif !important;
+  letter-spacing: 1px;
+  color: #778392;
+  opacity: 1;
+  margin-bottom: 5px!important;
+}
+
+.gna-simulation-question-barre {
+  width: 45px;
+  height: 2px;
+  background: #2960A3 0 0 no-repeat padding-box;
+  border-radius: 1px;
+  opacity: 1;
+  margin-top: 5px!important;
+  margin-bottom: 10px!important;
+}
+
+.gna-simulation-btn {
+  margin-top: 5vh!important;
+}
+
+.gna-btn-c {
+  background-color: #F6993F!important;
+  border-color: #F6993F!important;
+  color: white!important;
+  border-radius: 30px;
+  opacity: 1;
+  width: 130px!important;
+  height: 30px!important;
+  font-size: 10px!important;
+  font-family: 'AvenirLTProBlack', sans-serif !important;
+  margin-left: 30px;
+}
+
+.gna-btn-c:disabled {
+  background-color: #d7d5d5 !important;
+  border-color: #d7d5d5!important;
+  color: rgba(0, 0, 0, 0.54)!important;
+}
+
+.gna-btn-p {
+  background-color: #2960A3!important;
+  border-color: #2960A3!important;
+  color: white!important;
+  border-radius: 30px;
+  opacity: 1;
+  width: 130px!important;
+  height: 30px!important;
+  font-size: 10px!important;
+  font-family: 'AvenirLTProBlack', sans-serif !important;
+  margin-left: 5px;
+}
+
+.gna-simulation-card-h1 {
+  text-align: center;
+  font-family: Avenir, sans-serif !important;
+  color: #2960A3;
+  opacity: 1;
+  margin-bottom: 20px;
+}
+
+.gna-simulation-card-h2 {
+  font-family: Avenir, sans-serif !important;
+  color: #040A10;;
+  opacity: 1;
+  margin-bottom: 20px;
+}
+
+.gna-simulation-gm {
+  margin-bottom: 20px;
+}
+
+.gs-row {
+  margin-bottom: 10px;
+}
+
+.gs-line-b {
+  width: 98% !important;
+  height: 1px!important;
+  background: #DDDDDD 0 0 no-repeat padding-box;
+  margin-bottom: 10px;
+}
+
+.gs-gm-title {
+  font-family: Avenir, sans-serif !important;
+  color: #172530;
+  opacity: 1;
+}
+
+.gs-gm-description {
+  font-family: AvenirLTProLight, sans-serif !important;
+  color: #040A10;
+  font-size: 8px;
+  opacity: 1;
+}
+
+.gs-gm-cd {
+  font-family: Avenir, sans-serif !important;
+  color: #F6993F;
+  cursor: pointer;
+}
+
+.gs-gc-cd {
+  font-family: Avenir, sans-serif !important;
+  color: #F6993F;
+  cursor: pointer;
+}
+
+.gs-col input {
+  border: 1px solid #2960A3!important;
+  border-radius: 6px!important;
+  background-color: #2960A3!important;
+  color: #2960A3!important;
+  cursor: pointer;
+}
+
+
+.gs-col input:checked {
+  border: 1px solid #2960A3!important;
+  border-radius: 6px!important;
+  background-color: #2960A3!important;
+  color: #2960A3!important;
+}
+
+.gna-simulation-radio {
+  width: 100px;
+  height: 40px;
+  background: #FFFFFF 0 0 no-repeat padding-box;
+  border: 1px solid #2960A3;
+  border-radius: 10px;
+  opacity: 1;
+  padding-top: 10px!important;
+  margin-bottom: 15px!important;
+  cursor: pointer;
+}
+
+.gna-simulation-radio input[type="radio"] {
+  margin-left: 10px!important;
+  border: 2px solid #DDDDDD;
+  opacity: 1;
+  padding-top: 20px!important;
+  height: 10px!important;
+  background-color: #2960A3;
+  cursor: pointer;
+}
+
+.gna-simulation-radio input[type="radio"]:checked {
+  background-color: #2960A3;
+  color: #2960A3;
+}
+
+.gna-simulation-radio input[type="radio"]:focus {
+  outline: none;
+}
+
+.gna-simulation-radio label {
+  margin-left: 10px!important;
+  text-align: left;
+  font-family: Avenir, sans-serif!important;
+  letter-spacing: 1.5px;
+  color: #141415;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.gs-month {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.gna-gs-btn {
+  margin-top: 5vh!important;
+  text-align: center;
+}
+
+.gna-simulation-container {
+  position: relative;
+  overflow: auto;
+  min-height: 45vh !important;
+  max-height: 45vh !important;
+}

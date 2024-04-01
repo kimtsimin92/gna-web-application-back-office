@@ -1,1 +1,129 @@
-<p>simulation-quotation works!</p>
+
+
+<div class="gna-simulation">
+
+  <div class="container">
+
+    <div class="row">
+      <div class="gna-simulation-card">
+
+        <div class="row">
+          <h3 class="gna-simulation-card-h1">{{ onGetPremium() | number : "2.0" }} FCFA / Mois</h3>
+        </div>
+
+        <div class="row gs-month">
+          <div class="col">
+            <div class="gna-simulation-radio" (click)="onActivateCheckbox('1')">
+              <input type="radio" id="1" name="gna-sm" checked>
+              <label for="1">1 mois</label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="gna-simulation-radio" (click)="onActivateCheckbox('3')">
+            <input type="radio" id="3" name="gna-sm">
+              <label for="3">3 mois</label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="gna-simulation-radio" (click)="onActivateCheckbox('6')">
+              <input type="radio" id="6" name="gna-sm">
+              <label for="6">6 mois</label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="gna-simulation-radio" (click)="onActivateCheckbox('12')">
+              <input type="radio" id="12" name="gna-sm">
+              <label for="12">12 mois</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="container gna-simulation-container">
+
+          <div class="gna-simulation-gm">
+            <h4 class="gna-simulation-card-h2">Garanties obligatoires</h4>
+
+            @if (guaranteeMandatoryList && guaranteeMandatoryList.length > 0) {
+
+              @for (gm of guaranteeMandatoryList; track gm; let i = $index; let f = $first; let l = $last) {
+
+                <div class="row gs-row">
+                  <div class="col">
+                    <span class="gs-gm-title">{{ gm.name }}</span>
+                    <br>
+                    <span class="gs-gm-description">{{ gm.description }}</span>
+                  </div>
+                  <div class="col">
+                    <span class="gs-gm-cd">Consulter les détails de la garantie
+                      <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+</svg>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="gs-line-b"></div>
+
+              }
+
+            }
+
+          </div>
+
+          <div>
+            <h4 class="gna-simulation-card-h2">Garanties complémentaires</h4>
+
+            @if (guaranteeComplementaryList && guaranteeComplementaryList.length > 0) {
+
+              @for (gc of guaranteeComplementaryList; track gc; let i = $index; let f = $first; let l = $last) {
+
+                <div class="row gs-row">
+                  <div class="col">
+                    <span class="gs-gm-title">{{ gc.name }}</span>
+                    <br>
+                    <span class="gs-gm-description">{{ gc.description }}</span>
+                  </div>
+                  <div class="col">
+                    <div class="row">
+                      <div class="col-10">
+                        <span class="gs-gm-cd">Consulter les détails de la garantie
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+</svg>
+                        </span>
+                      </div>
+                      <div class="col-1 gs-col">
+                        <input type="checkbox" [id]="gc.code" [name]="gc.code"
+                               [checked]="gc.checked"
+                               (click)="onCheckPremium(gc)">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="gs-line-b"></div>
+
+              }
+
+
+            }
+
+          </div>
+
+        </div>
+
+        <div class="container gna-gs-btn">
+          <button type="button"
+                  class="btn btn-primary gna-btn-p">Recevoir mon devis</button>
+          <button type="button"
+                  class="btn btn-primary gna-btn-c">Souscrire</button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
