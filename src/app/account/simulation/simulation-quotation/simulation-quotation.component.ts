@@ -12,6 +12,11 @@ import {Router} from "@angular/router";
 import {SimulationService} from "../simulation.service";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {DecimalPipe} from "@angular/common";
+import {SaveLoadingDialogComponent} from "../../dialogs/loading/save-loading-dialog/save-loading-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  SimulationQuotationLoadingDialogComponent
+} from "../simulation-quotation-loading-dialog/simulation-quotation-loading-dialog.component";
 
 @Component({
   selector: 'app-simulation-quotation',
@@ -42,6 +47,7 @@ export class SimulationQuotationComponent implements OnInit, AfterViewInit, OnDe
   guaranteeMonth: number = 1;
 
   constructor(private _router: Router,
+              public _dialog: MatDialog,
               private simulationService: SimulationService) {
   }
 
@@ -67,8 +73,10 @@ export class SimulationQuotationComponent implements OnInit, AfterViewInit, OnDe
   }
 
   onGetQuotation() {
+    this.onLoadingDialog();
     this.simulationService.onGetQuotation(this.simulationRequestData)
       .subscribe((response: HttpResponse<any>) => {
+        this.closeDialog();
         console.log(response);
         this.simulationData = response["body"];
         this.guaranteeList = [];
@@ -88,6 +96,7 @@ export class SimulationQuotationComponent implements OnInit, AfterViewInit, OnDe
           }
         }
       }, (error: HttpErrorResponse) => {
+        this.closeDialog();
         console.error(error);
       });
   }
@@ -157,6 +166,23 @@ export class SimulationQuotationComponent implements OnInit, AfterViewInit, OnDe
 
     this.onGetPremium();
 
+  }
+
+  onLoadingDialog(): void {
+
+    const dialogRef = this._dialog.open(SimulationQuotationLoadingDialogComponent, {
+      hasBackdrop: false,
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+
+  }
+
+  closeDialog() {
+    this._dialog.closeAll();
   }
 
 }

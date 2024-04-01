@@ -252,6 +252,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
       if (this.pricingFormData) {
 
+        this.quotationForm.quotationForm.setValue(this.pricingFormData.quotationForm.id);
         this.quotationForm.name.setValue(this.pricingFormData.name);
         this.quotationForm.description.setValue(this.pricingFormData.description);
 
@@ -295,11 +296,17 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
            if (clause.operatorLogic) {
              pricingForm.patchValue({modeOutputLabel: "et"});
 
+             if (clause.operatorTwo) {
+               console.log(clause.operatorTwo)
+               pricingForm.patchValue({operatorTwo: clause.operatorTwo.typeCode});
+             }
+
              if (clause.variableTwo) {
                console.log(clause.variableTwo)
                pricingForm.patchValue({variableTwo: clause.variableTwo.name});
                this.onGetVariableTypeTwo(pricingForm, clause.variableTwo);
              }
+
            }
 
 
@@ -421,10 +428,10 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
     if (this.formQuotation.value.productGroup) {
 
-      requestData.productGroupId = this.formQuotation.value.productGroup.id;
+      requestData.productGroupId = this.pricingFormData.group.id;
 
       if (this.formQuotation.value.guarantee) {
-        requestData.guaranteeId = this.formQuotation.value.guarantee.guaranteeId;
+        requestData.guaranteeId = this.pricingFormData.guarantee.guaranteeId;
 
         if (this.formQuotation.value.quotationForm) {
           requestData.quotationFormId = this.formQuotation.value.quotationForm;
