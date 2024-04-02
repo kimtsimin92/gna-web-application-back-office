@@ -189,15 +189,14 @@ export class LoginFirstTimeComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+/*    dialogRef.afterClosed().subscribe(result => {
 
-      if (result) {
+      if (result) {*/
         this._router.navigateByUrl("/account/home").then(() => {
           this.isSave = false;
-          //this.openSnackBar();
-        });
+      /*  });
       }
-
+*/
     });
 
   }

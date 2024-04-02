@@ -91,6 +91,8 @@ export class PremiumCalculationModalityDialogComponent implements OnInit, OnDest
 
     if (this.data && this.data.outputData) {
 
+      this.variableList = [];
+
       this.outputData = this.data.outputData;
 
       if (this.outputData && this.outputData.modality) {
@@ -123,8 +125,14 @@ export class PremiumCalculationModalityDialogComponent implements OnInit, OnDest
 
     }
 
-    if (this.data && this.data.variableList) {
-      this.variableList = this.data.variableList;
+    if (this.data && this.data.variableList && this.data.variableList.length > 0) {
+      this.variableList = [];
+      this.data.variableList.forEach((vl: any) =>  {
+        if (vl.typeCode == 2 || !vl.text) {
+          this.variableList.push(vl);
+        }
+      });
+
     }
 
   }
@@ -133,11 +141,13 @@ export class PremiumCalculationModalityDialogComponent implements OnInit, OnDest
   }
 
   ngOnDestroy(): void {
+    this.variableList = [];
     this.outputData = null;
   }
 
   onNoClick(): void {
     this.outputData = null;
+    this.variableList = [];
     this.dialogRef.close();
   }
 

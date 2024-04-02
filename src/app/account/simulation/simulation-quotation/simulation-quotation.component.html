@@ -3,13 +3,29 @@
 
 <div class="gna-simulation">
 
-  <div class="sbtn">
-    <button mat-stroked-button
-            color="primary"
-            class="gna-btn-default"
-            (click)="onBack()">
-      <mat-icon>arrow_back</mat-icon>
-      Retour</button>
+  <div class="row container">
+    <div class="col-6">
+      <div class="sbtn">
+        <button mat-stroked-button
+                color="primary"
+                class="gna-btn-default"
+                (click)="onBack()">
+          <mat-icon>arrow_back</mat-icon>
+          Retour</button>
+      </div>
+
+    </div>
+    <div class="col-6">
+      <div class="sbtn">
+        <button mat-stroked-button
+                color="primary"
+                class="gna-btn-default"
+                (click)="onRefresh()">
+          <mat-icon>refresh</mat-icon>
+          Actualiser</button>
+      </div>
+
+    </div>
   </div>
 
   <div class="container">

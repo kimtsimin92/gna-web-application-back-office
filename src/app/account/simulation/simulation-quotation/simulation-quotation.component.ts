@@ -202,4 +202,7 @@ export class SimulationQuotationComponent implements OnInit, AfterViewInit, OnDe
     this._router.navigateByUrl("/account/simulation");
   }
 
+  onRefresh() {
+    window.location.reload();
+  }
 }

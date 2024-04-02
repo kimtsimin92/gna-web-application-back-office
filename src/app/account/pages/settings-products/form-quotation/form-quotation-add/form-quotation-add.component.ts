@@ -682,7 +682,6 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
             if (code > 3 && code < 7) {
 
-              if (code != 5) {
                 attributes = {
                   name: result.value.name,
                   label: result.value.label,
@@ -690,16 +689,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
                   values: [],
                   text: result.value.text,
                   required: result.value.required,
-                }
-              } else {
-                attributes = {
-                  name: result.value.name,
-                  label: result.value.label,
-                  options: [],
-                  values: [],
-                  text: result.value.text,
-                  required: result.value.required,
-                }
+
               }
 
 

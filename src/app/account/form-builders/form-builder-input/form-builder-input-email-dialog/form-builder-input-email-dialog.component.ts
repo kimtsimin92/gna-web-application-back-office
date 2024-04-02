@@ -41,7 +41,8 @@ export class FormBuilderInputEmailDialogComponent implements OnInit, OnDestroy {
     minlength: new FormControl(null, [
       Validators.pattern(/^[0-9]*$/)]),
     pattern: new FormControl(null),
-    required: new FormControl(false)
+    required: new FormControl(false),
+    text: new FormControl(true),
   });
 
   currentSelectedTag: any = null;

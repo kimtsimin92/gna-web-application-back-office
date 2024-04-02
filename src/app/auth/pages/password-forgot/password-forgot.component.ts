@@ -320,13 +320,14 @@ export class PasswordForgotComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.isSave = false;
+/*    dialogRef.afterClosed().subscribe(result => {*/
+
 
         this._router.navigateByUrl("/login").then(() => {
+          this.isSave = false;
         });
 
-    });
+   /* });*/
 
   }
 
