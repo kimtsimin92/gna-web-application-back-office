@@ -82,10 +82,14 @@
                   @if (currentStepIndex == quotationFormSteps.length -1 && currentStepQuestionIndex == currentStep.questions.length -1) {
 
 
-                    @if (currentStepQuestionIndex > 0) {
+                    @if (currentStepQuestionIndex > 0 && currentStepIndex > 0) {
                       <button type="button"
                               class="btn btn-primary gna-btn-p"
                               (click)="onGoToPreviousQ(currentStep, currentStepQuestion)">Précédent</button>
+                    } @else {
+                      <button type="button"
+                              class="btn btn-primary gna-btn-p"
+                              (click)="onGoToPreviousS(currentStep, currentStepQuestion)">Précédent</button>
                     }
 
                     <button type="button"

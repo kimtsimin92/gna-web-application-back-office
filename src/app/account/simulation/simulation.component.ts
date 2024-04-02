@@ -95,6 +95,7 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onGetCurrentElements() {
+
     this.currentStep = this.quotationFormSteps[this.currentStepIndex];
     if (this.currentStep && this.currentStep.questions) {
       if (this.currentStep.questions.length > 0) {
