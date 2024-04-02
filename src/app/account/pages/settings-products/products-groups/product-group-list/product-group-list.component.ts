@@ -44,6 +44,7 @@ import {MatCheckbox} from "@angular/material/checkbox";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatTooltip} from "@angular/material/tooltip";
 import {TooltipModule} from "primeng/tooltip";
+import {SkeletonModule} from "primeng/skeleton";
 
 @Component({
   selector: 'app-product-group-list',
@@ -75,7 +76,8 @@ import {TooltipModule} from "primeng/tooltip";
     MatHeaderCellDef,
     DatePipe,
     MatCardHeader,
-    NgIf
+    NgIf,
+    SkeletonModule
   ],
   templateUrl: './product-group-list.component.html',
   styleUrl: './product-group-list.component.css'
@@ -115,6 +117,8 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
   isDisable: boolean = true;
 
   filteredList: any[] = [];
+
+  fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}];
 
   constructor(
     public _dialog: MatDialog,

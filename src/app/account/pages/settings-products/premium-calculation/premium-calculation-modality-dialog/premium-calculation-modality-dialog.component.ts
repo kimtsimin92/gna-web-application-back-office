@@ -95,6 +95,8 @@ export class PremiumCalculationModalityDialogComponent implements OnInit, OnDest
 
       if (this.outputData && this.outputData.modality) {
         this.inputForm.patchValue({modality: this.outputData.modality});
+      } else {
+        this.inputForm.patchValue({modality: 1});
       }
 
       if (this.outputData && this.outputData.amount) {

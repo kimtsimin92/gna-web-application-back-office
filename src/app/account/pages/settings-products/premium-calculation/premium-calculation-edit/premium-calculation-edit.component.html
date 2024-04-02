@@ -208,7 +208,7 @@
 
                         } @else {
 
-                          @if (pf.value.variableOne && pf.value.variableOne.typeCode == 2) {
+                          @if (pf.value.vOne && pf.value.vOne.typeCode == 2) {
                             <mat-form-field class="gna-pc-value">
                               <mat-label>Valeur</mat-label>
                               <input matInput
@@ -218,7 +218,7 @@
                                      pattern="^[0-9]+(\.[0-9]+)?$"
                                      [readonly]="!pf.value.operatorOne">
                             </mat-form-field>
-                          } @else if (pf.value.variableOne && pf.value.variableOne.typeCode == 3) {
+                          } @else if (pf.value.vOne && pf.value.vOne.typeCode == 3) {
                             <mat-form-field class="gna-pc-value">
                               <mat-label>Valeur</mat-label>
                               <input matInput
@@ -326,7 +326,7 @@
                         </mat-form-field>
 
                       } @else {
-                        @if (pf.value.variableTwo && pf.value.variableTwo.typeCode == 2) {
+                        @if (pf.value.vTwo && pf.value.vTwo.typeCode == 2) {
                           <mat-form-field class="gna-pc-value">
                             <mat-label>Valeur</mat-label>
                             <input matInput
@@ -336,7 +336,7 @@
                                    pattern="^[0-9]+(\.[0-9]+)?$"
                                    [readonly]="!pf.value.operatorTwo">
                           </mat-form-field>
-                        } @else if (pf.value.variableTwo && pf.value.variableTwo.typeCode == 3) {
+                        } @else if (pf.value.vTwo && pf.value.vTwo.typeCode == 3) {
                           <mat-form-field class="gna-pc-value">
                             <mat-label>Valeur</mat-label>
                             <input matInput

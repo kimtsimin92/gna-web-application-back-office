@@ -18,7 +18,7 @@
       <div class="row">
         <div class="col-12">
           <label for="label">
-            Label
+            Label *
           </label>
           <input pInputText
                  type="text" id="label" class="gna-form-input"
@@ -27,7 +27,7 @@
 
         <div class="col-12 mt-2">
           <label>
-            Options
+            Options *
           </label>
           <textarea pInputTextarea formControlName="options"
                     class="gna-form-input">
@@ -35,27 +35,27 @@
         </div>
 
         <div class="col-12 mt-2">
-          <label>
-            Values
-          </label>
-          <textarea pInputTextarea formControlName="values"
-                    class="gna-form-input"></textarea>
+          <div class="row">
+            <div class="col-10">
+              <label>
+                Values *
+              </label>
+              <textarea pInputTextarea formControlName="values"
+                        class="gna-form-input"></textarea>
+            </div>
+            <div class="col-2">
+              <label for="multiple">Text</label>
+              <p-checkbox id="multiple" formControlName="text" [binary]="true"
+                          class="gna-form-checkbox"></p-checkbox>
+            </div>
+          </div>
         </div>
 
         <div class="col-12 mt-2">
 
-      <!--    <div class="row">
-            <div class="col">
-              <label for="multiple" class="label-mr">Multiple</label>
-              <p-checkbox id="multiple" formControlName="multiple" [binary]="true"
-                          class="gna-form-checkbox"></p-checkbox>
-            </div>
-            <div class="col">-->
               <label for="required" class="label-mr">Required</label>
               <p-checkbox id="required" formControlName="required" [binary]="true"
                           class="gna-form-checkbox"></p-checkbox>
-         <!--   </div>
-          </div>-->
 
         </div>
 

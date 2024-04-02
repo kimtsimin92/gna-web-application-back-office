@@ -43,7 +43,8 @@ export class FormBuilderInputCheckboxDialogComponent implements OnInit, OnDestro
    // multiple: new FormControl(false),
     options: new FormControl(this.optionsData),
     values: new FormControl(this.valuesData),
-    required: new FormControl(false)
+    required: new FormControl(false),
+    text: new FormControl(true, [Validators.required]),
   });
 
   currentSelectedTag: any = null;
@@ -83,6 +84,11 @@ export class FormBuilderInputCheckboxDialogComponent implements OnInit, OnDestro
       }
       if (this.data.formStepQuestion.value.attributes.required) {
         this.inputForm.patchValue({required: this.data.formStepQuestion.value.attributes.required});
+      }
+
+
+      if (this.data.formStepQuestion.value.attributes.text) {
+        this.inputForm.patchValue({text: this.data.formStepQuestion.value.attributes.text});
       }
     }
 

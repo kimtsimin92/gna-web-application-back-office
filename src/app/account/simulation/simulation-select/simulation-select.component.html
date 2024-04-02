@@ -1,11 +1,31 @@
 @if (field.attributes && field.attributes.name && field.attributes.options && field.attributes.values) {
-  @for (option of field.attributes.ots; track option; let io = $index; let fo = $first; let lo = $last) {
-    <div class="gna-simulation-radio" (click)="onActivateCheckbox(field.attributes.vs[io])">
-      <input type="radio" [id]="field.attributes.vs[io]"
-             [name]="field.attributes.name"
-             [value]="field.attributes.vs[io]"
-      [checked]="field.attributes.value == field.attributes.vs[io]"/>
-      <label [for]="field.attributes.vs[io]">{{ option }}</label>
+
+  @if (field.attributes.ots.length > 0 && field.attributes.ots.length < 3) {
+
+    @for (option of field.attributes.ots; track option; let io = $index; let fo = $first; let lo = $last) {
+      <div class="gna-simulation-radio" (click)="onActivateCheckbox(field.attributes.vs[io])">
+        <input type="radio" [id]="field.attributes.vs[io]"
+               [name]="field.attributes.name"
+               [value]="field.attributes.vs[io]"
+               [checked]="field.attributes.value == field.attributes.vs[io]"/>
+        <label [for]="field.attributes.vs[io]">{{ option }}</label>
+      </div>
+    }
+
+  } @else if(field.attributes.ots.length > 0 && field.attributes.ots.length > 2) {
+
+    <div class="row container">
+      @for (option of field.attributes.ots; track option; let io = $index; let fo = $first; let lo = $last) {
+        <div class="col-3 gna-simulation-radio-2" (click)="onActivateCheckbox(field.attributes.vs[io])">
+          <input type="radio" [id]="field.attributes.vs[io]"
+                 [name]="field.attributes.name"
+                 [value]="field.attributes.vs[io]"
+                 [checked]="field.attributes.value == field.attributes.vs[io]"/>
+          <label [for]="field.attributes.vs[io]">{{ option }}</label>
+        </div>
+      }
     </div>
+
   }
+
 }

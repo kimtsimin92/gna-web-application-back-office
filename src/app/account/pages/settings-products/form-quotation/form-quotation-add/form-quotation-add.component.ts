@@ -688,7 +688,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
                   label: result.value.label,
                   options: [],
                   values: [],
-                  multiple: result.value.multiple,
+                  text: result.value.text,
                   required: result.value.required,
                 }
               } else {
@@ -697,6 +697,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
                   label: result.value.label,
                   options: [],
                   values: [],
+                  text: result.value.text,
                   required: result.value.required,
                 }
               }

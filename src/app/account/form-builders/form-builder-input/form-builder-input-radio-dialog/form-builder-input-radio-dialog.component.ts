@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {CheckboxModule} from "primeng/checkbox";
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {MatButton} from "@angular/material/button";
@@ -34,15 +34,17 @@ import {NgIf} from "@angular/common";
 export class FormBuilderInputRadioDialogComponent implements OnInit, OnDestroy {
 
   optionsData = "Option 1\nOption 2";
-  valuesData = "1\n2";
+  valuesData = "Value 1\nValue 2";
 
   formGroup: FormGroup = new FormGroup({}, undefined, undefined);
   inputForm = new FormGroup({
     name: new FormControl(null),
-    label: new FormControl(null),
-    options: new FormControl(this.optionsData),
-    values: new FormControl(this.valuesData),
-    required: new FormControl(false)
+    label: new FormControl(null, [Validators.required]),
+    // multiple: new FormControl(false),
+    options: new FormControl(this.optionsData, [Validators.required]),
+    values: new FormControl(this.valuesData, [Validators.required]),
+    required: new FormControl(false),
+    text: new FormControl(true, [Validators.required]),
   });
 
   currentSelectedTag: any = null;
@@ -64,26 +66,50 @@ export class FormBuilderInputRadioDialogComponent implements OnInit, OnDestroy {
       if (this.data.formStepQuestion.value.attributes.label) {
         this.inputForm.patchValue({label: this.data.formStepQuestion.value.attributes.label});
       }
-      if (this.data.formStepQuestion.value.attributes.options) {
+      /*  if (this.data.formStepQuestion.value.attributes.multiple) {
+          this.inputForm.patchValue({multiple: this.data.formStepQuestion.value.attributes.multiple});
+        }*/
+      if (this.data.formStepQuestion.value.attributes.options && this.data.formStepQuestion.value.attributes.values) {
+
         let optionString1 = this.data.formStepQuestion.value.attributes.options
-        console.log(optionString1);
-        /*  let optionsString2 = optionString1.join(',');
-          let options = optionsString2.replace(/,/g, '\n');*/
-        this.inputForm.patchValue({options: optionString1});
-      }
-      if (this.data.formStepQuestion.value.attributes.values) {
+
         let valueString1 = this.data.formStepQuestion.value.attributes.values;
-        /* let valueString2 = valueString1.join(',');
-         let values = valueString2.replace(/,/g, '\n');*/
-        this.inputForm.patchValue({values: valueString1});
+
+        if (Array.isArray(optionString1)) {
+
+          let optionsString2 = optionString1.join(',');
+          let options = optionsString2.replace(/,/g, '\n');
+          this.inputForm.patchValue({options: options});
+
+
+          let valueString2 = valueString1.join(',');
+          let values = valueString2.replace(/,/g, '\n');
+          this.inputForm.patchValue({values: values});
+
+
+        } else {
+
+          // let optionsString2 = optionString1.join(',');
+          //  let options = optionsString2.replace(/,/g, '\n');
+          this.inputForm.patchValue({options: optionString1});
+          this.inputForm.patchValue({values: valueString1});
+
+
+        }
+
       }
+
       if (this.data.formStepQuestion.value.attributes.required) {
         this.inputForm.patchValue({required: this.data.formStepQuestion.value.attributes.required});
+      }
+
+      if (this.data.formStepQuestion.value.attributes.text) {
+        this.inputForm.patchValue({text: this.data.formStepQuestion.value.attributes.text});
       }
     }
 
     // @ts-ignore
-    this.inputForm.setControl("name", new FormControl("step"+this.currentSelectedTag.stepIndex+"_field"+this.currentSelectedTag.questionIndex))
+    this.inputForm.setControl("name", new FormControl("step" + this.currentSelectedTag.stepIndex + "_field" + this.currentSelectedTag.questionIndex))
     this.formGroup = this._fb.group(this.inputForm);
 
   }

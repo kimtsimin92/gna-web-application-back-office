@@ -1,3 +1,9 @@
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+}
+
 .example-full-width {
   width: 100% !important;
   margin-bottom: 10px;
@@ -272,7 +278,8 @@ table th {
 
 .example-table-con {
   position: relative;
-  max-height: 110px;
+  max-height: 10vh;
+  min-height: 10vh;
   overflow: auto;
 }
 

@@ -15,23 +15,46 @@ export class SimulationCheckboxComponent implements OnInit, AfterViewInit, OnDes
   }
 
   ngOnInit(): void {
-
     console.log(this.field);
+
     if (this.field.attributes && this.field.attributes.options && this.field.attributes.values) {
 
-      let optionElements = this.field.attributes.options.split("\n");
-      let valueElements = this.field.attributes.values.split("\n");
+      let optionElements = this.field.attributes.options;
 
-      if (optionElements && optionElements.length > 0 && valueElements && valueElements.length > 0) {
-        this.field.attributes.ots = [];
-        optionElements.forEach((oe: any) => {
-          this.field.attributes.ots.push(oe);
-        });
-        this.field.attributes.vs = [];
-        valueElements.forEach((ve: any) => {
-          this.field.attributes.vs.push(ve);
-        });
+      let valueElements = this.field.attributes.values;
+
+      if (Array.isArray(optionElements) && Array.isArray(valueElements)) {
+
+        if (optionElements && optionElements.length > 0 && valueElements && valueElements.length > 0) {
+          this.field.attributes.ots = [];
+          optionElements.forEach((oe: any) => {
+            this.field.attributes.ots.push(oe);
+          });
+          this.field.attributes.vs = [];
+          valueElements.forEach((ve: any) => {
+            this.field.attributes.vs.push(ve);
+          });
+        }
+
+
+      } else {
+        let optionElements = this.field.attributes.options.split("\n");
+        valueElements = this.field.attributes.values.split("\n");
+
+        if (optionElements && optionElements.length > 0 && valueElements && valueElements.length > 0) {
+          this.field.attributes.ots = [];
+          optionElements.forEach((oe: any) => {
+            this.field.attributes.ots.push(oe);
+          });
+          this.field.attributes.vs = [];
+          valueElements.forEach((ve: any) => {
+            this.field.attributes.vs.push(ve);
+          });
+        }
+
       }
+
+
     }
   }
 

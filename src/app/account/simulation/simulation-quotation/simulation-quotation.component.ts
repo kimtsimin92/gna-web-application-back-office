@@ -11,28 +11,36 @@ import {SimulationTextareaComponent} from "../simulation-textarea/simulation-tex
 import {Router} from "@angular/router";
 import {SimulationService} from "../simulation.service";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
-import {DecimalPipe} from "@angular/common";
+import {DecimalPipe, NgIf} from "@angular/common";
 import {SaveLoadingDialogComponent} from "../../dialogs/loading/save-loading-dialog/save-loading-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {
   SimulationQuotationLoadingDialogComponent
 } from "../simulation-quotation-loading-dialog/simulation-quotation-loading-dialog.component";
+import {AccountService} from "../../account.service";
+import {HeaderComponent} from "../../components/header/header.component";
+import {MatButton} from "@angular/material/button";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-simulation-quotation',
   standalone: true,
-  imports: [
-    SimulationCheckboxComponent,
-    SimulationDateComponent,
-    SimulationEmailComponent,
-    SimulationNumberComponent,
-    SimulationRadioComponent,
-    SimulationSelectComponent,
-    SimulationTelComponent,
-    SimulationTextComponent,
-    SimulationTextareaComponent,
-    DecimalPipe
-  ],
+    imports: [
+        SimulationCheckboxComponent,
+        SimulationDateComponent,
+        SimulationEmailComponent,
+        SimulationNumberComponent,
+        SimulationRadioComponent,
+        SimulationSelectComponent,
+        SimulationTelComponent,
+        SimulationTextComponent,
+        SimulationTextareaComponent,
+        DecimalPipe,
+        HeaderComponent,
+        MatButton,
+        MatIcon,
+        NgIf
+    ],
   templateUrl: './simulation-quotation.component.html',
   styleUrl: './simulation-quotation.component.css'
 })
@@ -46,13 +54,18 @@ export class SimulationQuotationComponent implements OnInit, AfterViewInit, OnDe
 
   guaranteeMonth: number = 1;
 
+  headerTitle: string | undefined;
+
   constructor(private _router: Router,
               public _dialog: MatDialog,
+              public accountService: AccountService,
               private simulationService: SimulationService) {
   }
 
   ngOnInit(): void {
     if (localStorage.getItem("SIMULATION_REQUEST_DATA")) {
+      this.headerTitle = "Simulation Cotation";
+      localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
       // @ts-ignore
       this.simulationRequestData = JSON.parse(localStorage.getItem("SIMULATION_REQUEST_DATA"));
       if (this.simulationRequestData) {
@@ -183,6 +196,10 @@ export class SimulationQuotationComponent implements OnInit, AfterViewInit, OnDe
 
   closeDialog() {
     this._dialog.closeAll();
+  }
+
+  onBack() {
+    this._router.navigateByUrl("/account/simulation");
   }
 
 }

@@ -44,39 +44,41 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {TooltipModule} from "primeng/tooltip";
 import {ChipModule} from "primeng/chip";
 import {DatePipe, DecimalPipe, NgIf} from "@angular/common";
+import {SkeletonModule} from "primeng/skeleton";
 
 @Component({
   selector: 'app-guarantee-list',
   standalone: true,
-  imports: [
-    BreadcrumbModule,
-    ButtonModule,
-    InputTextModule,
-    MatButton,
-    MatCard,
-    MatCell,
-    MatCellDef,
-    MatCheckbox,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatPaginator,
-    MatProgressSpinner,
-    MatRow,
-    MatRowDef,
-    MatSort,
-    MatSortHeader,
-    MatTable,
-    MatTooltip,
-    TooltipModule,
-    MatHeaderCellDef,
-    ChipModule,
-    DecimalPipe,
-    DatePipe,
-    MatCardHeader,
-    NgIf
-  ],
+    imports: [
+        BreadcrumbModule,
+        ButtonModule,
+        InputTextModule,
+        MatButton,
+        MatCard,
+        MatCell,
+        MatCellDef,
+        MatCheckbox,
+        MatColumnDef,
+        MatHeaderCell,
+        MatHeaderRow,
+        MatHeaderRowDef,
+        MatPaginator,
+        MatProgressSpinner,
+        MatRow,
+        MatRowDef,
+        MatSort,
+        MatSortHeader,
+        MatTable,
+        MatTooltip,
+        TooltipModule,
+        MatHeaderCellDef,
+        ChipModule,
+        DecimalPipe,
+        DatePipe,
+        MatCardHeader,
+        NgIf,
+        SkeletonModule
+    ],
   templateUrl: './guarantee-list.component.html',
   styleUrl: './guarantee-list.component.css'
 })
@@ -103,6 +105,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
   currentPage: number = 0;
   isLoadingResults = false;
   isRateLimitReached = false;
+
+  fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}];
 
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;

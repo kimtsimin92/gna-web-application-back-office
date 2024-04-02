@@ -55,41 +55,46 @@
               <th>Nom de la garantie</th>
               <th>Taux de taxe</th>
               <th>Date de création</th>
+              <th>Date de modification</th>
               <th>Statut</th>
               <th></th>
             </tr>
             </thead>
-            <tbody *ngIf="dataPaginationResponse && filteredList.length > 0">
-              @for (element of filteredList; track element) {
-                <tr>
-                  <td>
-                    {{ element.code }}
-                  </td>
-                  <td>
-                    {{ element.name }}
-                  </td>
-                  <td>
-                    @if (element.taxRate) {
-                      {{ element.taxRate | number : "2.0"}}%
-                    } @else {
-                      0
-                    }
-                  </td>
-                  <td>
-                    {{ element.createdAt | date: 'dd-MM-YYYY'}}
-                  </td>
-                  <td>
-                    @if (element.enabled) {
-                      @if (element.statusCode && element.statusCode === 1) {
+            @defer (when dataPaginationResponse) {
+              <tbody *ngIf="dataPaginationResponse && filteredList.length > 0">
+                @for (element of filteredList; track element) {
+                  <tr>
+                    <td>
+                      {{ element.code }}
+                    </td>
+                    <td>
+                      {{ element.name }}
+                    </td>
+                    <td>
+                      @if (element.taxRate) {
+                        {{ element.taxRate | number : "2.0"}}%
+                      } @else {
+                        0
+                      }
+                    </td>
+                    <td>
+                      {{ element.createdAt | date: 'dd-MM-YYYY'}}
+                    </td>
+                    <td>
+                      {{ element.updatedAt | date: 'dd-MM-YYYY'}}
+                    </td>
+                    <td>
+                      @if (element.enabled) {
+                        @if (element.statusCode && element.statusCode === 1) {
                           <span class="gna-list-status">En Attente</span>
+                        } @else {
+                          <span class="gna-list-status">Désactivé</span>
+                        }
                       } @else {
                         <span class="gna-list-status">Désactivé</span>
                       }
-                    } @else {
-                      <span class="gna-list-status">Désactivé</span>
-                    }
-                  </td>
-                  <td>
+                    </td>
+                    <td>
                      <span class="gna-action-span-div">
                      <!-- <span class="gna-action-span">
                         @if (element.removable) {
@@ -99,20 +104,46 @@
                       <span class="gna-action-span">
                         <img src="assets/images/table-eye.svg" alt="" class="gna-table-btn"
                              (click)="onView(element)">
-                  <!--  <p-button icon="fa fa-eye" [rounded]="true" class="gna-btn-eye"
-                              pTooltip="Afficher"
-                              tooltipPosition="bottom"
-                              (click)="onView(element)"></p-button>-->
+                        <!--  <p-button icon="fa fa-eye" [rounded]="true" class="gna-btn-eye"
+                                    pTooltip="Afficher"
+                                    tooltipPosition="bottom"
+                                    (click)="onView(element)"></p-button>-->
                   </span>
                   <span class="gna-action-span">
                       <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn"
                            (click)="onViewEdit(element)">
                   </span>
                   </span>
-                  </td>
-                </tr>
-              }
-            </tbody>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            }  @placeholder {
+              <tbody>
+                @for (item of fakeItems; track item) {
+                  <tr>
+                    <td><p-skeleton width="5rem" styleClass="mb-2"></p-skeleton></td>
+                    <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
+                    <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
+                    <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
+                    <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
+                    <td><p-skeleton width="8rem" styleClass="mb-2"></p-skeleton></td>
+                    <td>
+                          <span class="gna-action-span-div-s">
+                            <div class="row">
+                              <div class="col">
+                                <p-skeleton shape="circle" size="2rem"></p-skeleton>
+                              </div>
+                              <div class="col">
+                                <p-skeleton size="2rem"></p-skeleton>
+                              </div>
+                            </div>
+                          </span></td>
+                  </tr>
+                }
+              </tbody>
+            }
+
           </table>
        <!--   <table
             class="demo-table table table-striped"

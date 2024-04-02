@@ -283,10 +283,12 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
           this.pricingFormData.clauses.forEach((clause: any) => {
 
            let pricingForm: FormGroup = new FormGroup({
+              vOne: new FormControl(clause.variableOne),
               variableOne: new FormControl(clause.variableOne.name, [Validators.required]),
               operatorOne: new FormControl(clause.operatorOne.typeCode, [Validators.required]),
               valueOne: new FormControl(clause.valueOne, [Validators.required]),
               operatorLogic: new FormControl(clause.operatorLogic),
+              vTwo: new FormControl(null),
               variableTwo: new FormControl(null),
               operatorTwo: new FormControl(clause.operatorTwo),
               valueTwo: new FormControl(clause.valueTwo),
@@ -309,6 +311,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
              if (clause.variableTwo) {
                console.log(clause.variableTwo)
+               pricingForm.patchValue({vTwo: clause.variableTwo});
                pricingForm.patchValue({variableTwo: clause.variableTwo.name});
                this.onGetVariableTypeTwo(pricingForm, clause.variableTwo);
              }
@@ -738,11 +741,13 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
     if (lastItem.valid) {
 
       let pricingForm: FormGroup = new FormGroup({
+        vOne: new FormControl(null),
         variableOne: new FormControl(null, [Validators.required]),
         operatorOne: new FormControl(null, [Validators.required]),
         valueOne: new FormControl(null, [Validators.required]),
         operatorLogic: new FormControl(null),
         variableTwo: new FormControl(null),
+        vTwo: new FormControl(null),
         operatorTwo: new FormControl(null),
         valueTwo: new FormControl(null),
         result: new FormControl(null, [Validators.required]),
@@ -1066,7 +1071,12 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
                   typeCode: field.code,
                   typeValue: field.type,
                   name: name,
-                  label: label
+                  label: label,
+                  text: field.attributes.text
+                }
+
+                if (variable.text) {
+                  variable.typeCode = 2;
                 }
 
                 this.variableList.push(variable);
@@ -1106,6 +1116,9 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
     console.log(variable);
 
     let operatorList = [];
+
+        pf.patchValue({"vOne": variable});
+
 
     if (variable.typeCode) {
 
@@ -1221,6 +1234,8 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
     console.log(variable);
 
     let operatorList = [];
+
+    pf.patchValue({"vTwo": variable});
 
     if (variable.typeCode) {
 
@@ -1361,7 +1376,8 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
           if (result.value.modality == 1) {
             // @ts-ignore
-            pf.patchValue({"modality": result.value.modality});
+           pf.patchValue({"modality": result.value.modality});
+            output.modality = result.value.modality;
             output.amount = result.value.amount;
             // @ts-ignore
             pf.patchValue({"result": output.amount});

@@ -13,27 +13,34 @@ import {SimulationTelComponent} from "./simulation-tel/simulation-tel.component"
 import {Router} from "@angular/router";
 import {SimulationService} from "./simulation.service";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {HeaderComponent} from "../components/header/header.component";
+import {AccountService} from "../account.service";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-simulation',
   standalone: true,
-  imports: [
-    MatButton,
-    SimulationRadioComponent,
-    SimulationTextComponent,
-    NgIf,
-    SimulationNumberComponent,
-    SimulationDateComponent,
-    SimulationCheckboxComponent,
-    SimulationSelectComponent,
-    SimulationTextareaComponent,
-    SimulationEmailComponent,
-    SimulationTelComponent
-  ],
+    imports: [
+        MatButton,
+        SimulationRadioComponent,
+        SimulationTextComponent,
+        NgIf,
+        SimulationNumberComponent,
+        SimulationDateComponent,
+        SimulationCheckboxComponent,
+        SimulationSelectComponent,
+        SimulationTextareaComponent,
+        SimulationEmailComponent,
+        SimulationTelComponent,
+      MatIcon,
+        HeaderComponent
+    ],
   templateUrl: './simulation.component.html',
   styleUrl: './simulation.component.css'
 })
 export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  headerTitle: string | undefined;
 
   quotationForm: any = null;
   quotationFormSteps: any[] = [];
@@ -46,6 +53,7 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private _router: Router,
+    public accountService: AccountService,
     private simulationService: SimulationService
   ) {
   }
@@ -58,6 +66,9 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (localStorage.getItem("FORM_QUOTATION_DATA")) {
 
+      this.headerTitle = "Simulation Cotation";
+      localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
+
       // @ts-ignore
       this.quotationForm = JSON.parse(localStorage.getItem("FORM_QUOTATION_DATA"));
       console.log(this.quotationForm);
@@ -65,10 +76,15 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.quotationForm && this.quotationForm.steps && this.quotationForm.steps.length > 0) {
         this.quotationFormSteps = this.quotationForm.steps;
         if (this.quotationFormSteps && this.quotationFormSteps.length > 0) {
-           this.onGetCurrentElements();
+          this.onGetCurrentElements();
         }
       }
+    } else {
+
+      this._router.navigateByUrl("/account/settings-products/forms/quotations/list");
     }
+
+
 
   }
 
@@ -90,9 +106,16 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onGoToNextQ(currentStep: any, currentStepQuestion: any) {
     console.log("onGoToNextQ");
-      this.currentStepQuestionIndex++;
-      this.currentStepQuestion = currentStep.questions[this.currentStepQuestionIndex];
-      console.log(currentStep);
+      setTimeout(() => {
+        this.currentStepQuestionIndex++;
+        this.currentStepQuestion = currentStep.questions[this.currentStepQuestionIndex];
+        if (currentStepQuestion.field.code == 6) {
+          this.currentStepQuestion.field.code = 5;
+        } else if (currentStepQuestion.field.code == 6) {
+          this.currentStepQuestion.field.code = 6;
+        }
+        console.log(this.currentStepQuestion);
+      }, 20);
   }
 
   onGoToNextS(currentStep: any, currentStepQuestion: any) {
@@ -252,6 +275,10 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
               name: question.field.attributes.name,
               value: question.field.attributes.value,
             }
+
+            if (question.field.attributes.text) {
+              answer.value = Number(question.field.attributes.value);
+            }
             // @ts-ignore
             simulationRequest.answers.push(answer);
           });
@@ -281,4 +308,7 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
+  onBack() {
+    this._router.navigateByUrl("/account/settings-products/forms/quotations/list");
+  }
 }

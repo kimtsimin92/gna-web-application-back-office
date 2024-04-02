@@ -1,6 +1,16 @@
-
+<app-header
+  [headerTitle]="headerTitle" *ngIf="!accountService.loadingPage"></app-header>
 
 <div class="gna-simulation">
+
+  <div class="sbtn">
+    <button mat-stroked-button
+            color="primary"
+            class="gna-btn-default"
+            (click)="onBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Retour</button>
+  </div>
 
   <div class="container">
 
