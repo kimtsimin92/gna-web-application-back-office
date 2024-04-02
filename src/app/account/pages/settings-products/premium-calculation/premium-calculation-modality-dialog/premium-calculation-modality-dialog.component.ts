@@ -120,7 +120,7 @@ export class PremiumCalculationModalityDialogComponent implements OnInit, OnDest
       }
 
       if (this.outputData && this.outputData.variable) {
-        this.inputForm.patchValue({variable: this.outputData.variable});
+        this.inputForm.patchValue({variable: this.outputData.variable.name});
       }
 
     }

@@ -137,7 +137,7 @@
                 formControlName="variable"
                 required>
                 @for (variable of variableList; track variable) {
-                  <mat-option [value]="variable">{{variable.label}}</mat-option>
+                  <mat-option [value]="variable.name">{{variable.label}}</mat-option>
                 }
               </mat-select>
             </mat-form-field>

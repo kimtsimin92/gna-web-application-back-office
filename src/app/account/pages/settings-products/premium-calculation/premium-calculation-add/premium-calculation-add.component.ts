@@ -1326,9 +1326,20 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
             // @ts-ignore
             pf.patchValue({"output": output});
           } else if (result.value.modality == 3) {
+
+            let variable = result.value.variable;
+
+            if (this.variableList && this.variableList.length > 0) {
+              this.variableList.forEach((vl: any) => {
+                if (vl.name == result.value.variable) {
+                  variable = vl;
+                }
+              });
+            }
+
             output.modality = result.value.modality;
             // @ts-ignore
-           pf.patchValue({"modality": result.value.modality});
+            pf.patchValue({"modality": result.value.modality});
             output.amount = result.value.amount;
             // @ts-ignore
             pf.patchValue({"amount": result.value.amount});
@@ -1341,9 +1352,9 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
             output.operatorVariable = result.value.operatorVariable;
             // @ts-ignore
             pf.patchValue({"operatorVariable": result.value.operatorVariable});
-            output.variable = result.value.variable;
+            output.variable = variable;
             // @ts-ignore
-            pf.patchValue({"variable": result.value.variable});
+            pf.patchValue({"variable": variable});
             // @ts-ignore
             let resultData = '('+output.amount + ' ' + output.operatorParameter.typeValue + ' ' + output.parameter + ') ' + output.operatorVariable.typeValue + ' ' + output.variable.label;
             // @ts-ignore
@@ -1351,6 +1362,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
             // @ts-ignore
             pf.patchValue({"output": output});
           }
+
 
           console.log(output);
 
