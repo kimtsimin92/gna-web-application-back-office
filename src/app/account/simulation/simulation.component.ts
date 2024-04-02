@@ -98,17 +98,17 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
     this.currentStep = this.quotationFormSteps[this.currentStepIndex];
     if (this.currentStep && this.currentStep.questions) {
       if (this.currentStep.questions.length > 0) {
-        if (this.currentStep.questions[this.currentStepQuestionIndex]
-          && this.currentStep.questions[this.currentStepQuestionIndex].field.code == 6) {
-          let cstq = this.currentStep.questions[this.currentStepQuestionIndex];
-          cstq.code = 5;
-          this.currentStepQuestion = cstq;
-        } else if (this.currentStep.questions[this.currentStepQuestionIndex]
-          && this.currentStep.questions[this.currentStepQuestionIndex].field.code == 5) {
-          let cstq = this.currentStep.questions[this.currentStepQuestionIndex];
-          cstq.code = 6;
-          this.currentStepQuestion = cstq;
+
+        this.currentStepQuestion = this.currentStep.questions[this.currentStepQuestionIndex];
+
+        if (this.currentStepIndex != 0) {
+          if (this.currentStepQuestion.field.code == 6) {
+            this.currentStepQuestion.field.code = 5;
+          } else if (this.currentStepQuestion.field.code == 5) {
+            this.currentStepQuestion.field.code = 6;
+          }
         }
+
         console.log(this.currentStepQuestion);
       }
     }
@@ -121,7 +121,7 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
         this.currentStepQuestion = currentStep.questions[this.currentStepQuestionIndex];
         if (currentStepQuestion.field.code == 6) {
           this.currentStepQuestion.field.code = 5;
-        } else if (currentStepQuestion.field.code == 5) {
+        } else if (currentStepQuestion.field.code == 6) {
           this.currentStepQuestion.field.code = 6;
         }
         console.log(this.currentStepQuestion);
