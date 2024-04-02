@@ -44,7 +44,7 @@ export class FormBuilderInputRadioDialogComponent implements OnInit, OnDestroy {
     options: new FormControl(this.optionsData, [Validators.required]),
     values: new FormControl(this.valuesData, [Validators.required]),
     required: new FormControl(false),
-    text: new FormControl(true, [Validators.required]),
+    text: new FormControl(true),
   });
 
   currentSelectedTag: any = null;

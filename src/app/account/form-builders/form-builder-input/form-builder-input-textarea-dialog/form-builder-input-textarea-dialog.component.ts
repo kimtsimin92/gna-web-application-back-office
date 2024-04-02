@@ -34,7 +34,7 @@ export class FormBuilderInputTextareaDialogComponent implements OnInit, OnDestro
   formGroup: FormGroup = new FormGroup({}, undefined, undefined);
   inputForm = new FormGroup({
     name: new FormControl(null),
-    label: new FormControl(null),
+    label: new FormControl(null, [Validators.required]),
     maxlength: new FormControl(null, [
       Validators.pattern(/^[0-9]*$/)]),
     minlength: new FormControl(null, [

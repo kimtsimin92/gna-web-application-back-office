@@ -33,7 +33,7 @@ export class FormBuilderInputTextDialogComponent implements OnInit, OnDestroy {
   formGroup: FormGroup = new FormGroup({}, undefined, undefined);
   inputForm = new FormGroup({
     name: new FormControl(null),
-    label: new FormControl(null),
+    label: new FormControl(null, [Validators.required]),
     placeholder: new FormControl(null),
     maxlength: new FormControl(null, [
       Validators.pattern(/^[0-9]*$/)]),

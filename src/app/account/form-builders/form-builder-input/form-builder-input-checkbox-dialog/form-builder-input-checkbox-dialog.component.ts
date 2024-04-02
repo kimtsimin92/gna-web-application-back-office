@@ -39,12 +39,12 @@ export class FormBuilderInputCheckboxDialogComponent implements OnInit, OnDestro
   formGroup: FormGroup = new FormGroup({}, undefined, undefined);
   inputForm = new FormGroup({
     name: new FormControl(null),
-    label: new FormControl(null),
+    label: new FormControl(null, [Validators.required]),
    // multiple: new FormControl(false),
     options: new FormControl(this.optionsData),
     values: new FormControl(this.valuesData),
     required: new FormControl(false),
-    text: new FormControl(true, [Validators.required]),
+    text: new FormControl(true),
   });
 
   currentSelectedTag: any = null;

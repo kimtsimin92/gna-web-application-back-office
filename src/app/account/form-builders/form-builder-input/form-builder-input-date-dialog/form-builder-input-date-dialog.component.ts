@@ -34,12 +34,13 @@ export class FormBuilderInputDateDialogComponent implements OnInit, OnDestroy {
   formGroup: FormGroup = new FormGroup({}, undefined, undefined);
   inputForm = new FormGroup({
     name: new FormControl(null),
-    label: new FormControl(null),
+    label: new FormControl(null, [Validators.required]),
     max: new FormControl(null, [
       Validators.pattern(/^[0-9\-]*$/)]),
     min: new FormControl(null, [
       Validators.pattern(/^[0-9\-]*$/)]),
-    required: new FormControl(false)
+    required: new FormControl(false),
+    text: new FormControl(false),
   });
 
   currentSelectedTag: any = null;
