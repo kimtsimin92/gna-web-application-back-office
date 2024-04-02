@@ -39,7 +39,7 @@ export class SimulationCheckboxComponent implements OnInit, AfterViewInit, OnDes
 
       } else {
         let optionElements = this.field.attributes.options.split("\n");
-        valueElements = this.field.attributes.values.split("\n");
+        let valueElements = this.field.attributes.values.split("\n");
 
         if (optionElements && optionElements.length > 0 && valueElements && valueElements.length > 0) {
           this.field.attributes.ots = [];
