@@ -1,9 +1,10 @@
-<!--<main>
+<main *ngIf="!accountService.loadingPage">
 
   <div class="container-fluid">
   <div class="row">
 
-    <div class="col-8 gna-login-page-banner">
+    <div class="col-12 col-sm-8 col-md-8 col-lg-8 col-xl-8
+     gna-login-page-banner">
       <div class="gna-login-page-banner-logo">
         <img src="assets/gna/images/gna-logo.png">
       </div>
@@ -14,7 +15,11 @@
     </div>
 
 
-    <div class="col-4 gna-login-page-form">
+    <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 gna-login-page-form">
+
+      <div class="auth-loading">
+   <mat-spinner *ngIf="auth.loading"></mat-spinner>
+ </div>
 
       <div class="gna-login-page-form-title">
       <div class="gna-login-page-form-title-logo">
@@ -60,7 +65,8 @@
           </div>
           </div>
             <div class="mt-3 small">
-              <a routerLink="/login/password/forgot">Mot de passe oublié</a>
+              <a href="#">Mot de passe oublié</a>
+<!--              <a routerLink="/login/password/forgot">Mot de passe oublié</a>-->
             </div>
           <div class="mt-5">
             @if (form.valid && !auth.isError) {
@@ -82,7 +88,7 @@
 
 </main>
 
-<footer>
+<footer *ngIf="!accountService.loadingPage">
 
   <nav class="navbar navbar-expand-lg navbar-dark gna-login-page-footer fixed-bottom">
 
@@ -107,8 +113,10 @@
 
   </nav>
 
-</footer>-->
+</footer>
+<app-gna-loading *ngIf="accountService.loadingPage"></app-gna-loading>
 
+<!--
 <header *ngIf="!accountService.loadingPage">
 
   <nav class="navbar navbar-expand-lg navbar-dark gna-navbar">
@@ -212,3 +220,4 @@
 </footer>
 <app-gna-loading *ngIf="accountService.loadingPage"></app-gna-loading>
 
+-->

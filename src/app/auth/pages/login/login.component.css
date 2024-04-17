@@ -1,9 +1,64 @@
-/*
 
-main {
+@media only screen and (max-width: 767px) {
+
+ .gna-login-page-banner {
+   display: none;
+ }
+
+  .gna-login-page-form {
+    width: 100vh!important;
+  }
+
+  .gna-login-page-form-title-logo {
+    margin-left: 0!important;
+  }
+
+  .gna-login-page-form-title-text {
+    margin-left: 0!important;
+  }
+
+
+  .gna-login-page-input {
+    width: 99% !important;
+  }
+
+
+}
+
+@media only screen and (max-width: 950px) {
+
+  .gna-login-page-banner {
+    display: none;
+  }
+
+  .gna-login-page-form {
+    width: 100vh!important;
+  }
+
+  .gna-login-page-form-title-logo {
+    margin-left: 0!important;
+  }
+
+  .gna-login-page-form-title-text {
+    margin-left: 0!important;
+  }
+
+  .gna-login-page-input {
+    width: 99% !important;
+  }
+
+
+}
+
+
+  main {
   padding: 0;
   margin: 0;
   width: 100%;
+}
+
+.login-spinner {
+  width: 20%;
 }
 
 .gna-login-page-icon {
@@ -111,9 +166,9 @@ main {
   color: #616161!important;
 }
 
-*/
 
 /* Show it is fixed to the top */
+/*
 body {
 }
 
@@ -152,10 +207,10 @@ body {
   color: white;
 }
 
-/*.form-control {*/
-/*  border: 1px solid #2960A3!important;*/
-/*  border-radius: 0;*/
-/*}*/
+!*.form-control {*!
+!*  border: 1px solid #2960A3!important;*!
+!*  border-radius: 0;*!
+!*}*!
 
 .form-control::-webkit-input-placeholder {
   color: #2960A3;
@@ -165,7 +220,7 @@ body {
   border-color: #dc3545!important;
 }
 
-/*MATERIAL*/
+!*MATERIAL*!
 .example-container {
   display: flex;
   flex-direction: column;
@@ -190,7 +245,7 @@ input.example-right-align {
   caret-color: #2960A3!important;
 }
 
-/*****/
+!*****!
 .mat-mdc-form-field {
   width: 90%!important;
   margin-bottom: 20px;
@@ -242,10 +297,10 @@ input.example-right-align {
 }
 
 
-/*.form-control {*/
-/*  border: 1px solid #2960A3!important;*/
-/*  border-radius: 0;*/
-/*}*/
+!*.form-control {*!
+!*  border: 1px solid #2960A3!important;*!
+!*  border-radius: 0;*!
+!*}*!
 
 .form-control::-webkit-input-placeholder {
   color: #2960A3;
@@ -259,7 +314,7 @@ input.example-right-align {
   margin-top: 10%;
 }
 
-/*MATERIAL*/
+!*MATERIAL*!
 
 .example-container > * {
   width: 100%;
@@ -309,3 +364,12 @@ input.example-right-align {
   width: 95%!important;
 }
 
+*/
+
+
+.auth-loading {
+  position: absolute;
+  z-index: 1;
+  margin-top: 150px;
+  margin-left: 80px;
+}

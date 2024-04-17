@@ -278,27 +278,31 @@ table th {
   margin: 0 10px;
 }
 
-.example-table-con {
-  position: relative;
-  max-height: 12vh;
-  min-height: 12vh;
-  overflow: auto;
-}
-
-
-.gi-table {
+.gpg-table {
   border: 1px solid #2960A3!important;
 }
 
-
-.gi-table th {
+.gpg-table th {
   background-color: #2960A3!important;
   color: white!important;
   font-size: 11px!important;
 }
 
-.gi-table td {
+.gpg-table td {
   color: #2960A3!important;
+}
+
+.gpg-table tbody {
+  display: block;
+  min-height: 16vh;
+  max-height: 16vh;
+  overflow: auto;
+}
+
+.gpg-table thead, tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 
 

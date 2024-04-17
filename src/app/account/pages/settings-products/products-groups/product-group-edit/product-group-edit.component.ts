@@ -145,7 +145,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
 
   selectGuaranteeList: any[] = [];
   branchCode: any = null;
-  guaranteeCode: any = null;
+  selectGuarantee: any = null;
   productGroup: any = null;
 
   constructor(
@@ -217,6 +217,18 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
         this.dataForm.insuranceSectorId.setValue(this.productGroup.insuranceSector.name);
       }
 
+      if (this.productGroup.guarantees) {
+        if (this.productGroup.guarantees.length > 0) {
+          this.productGroup.guarantees.forEach((g: any) => {
+            if (!this.selectGuaranteeList[g.guaranteeId]) {
+              this.selectGuaranteeList[g.guaranteeId] = g;
+              // @ts-ignore
+              this.dataForm.guarantees.setValue(new FormControl(this.selectGuaranteeList));
+            }
+          });
+        }
+      }
+
       if (this.productGroup.apis) {
         if (this.productGroup.apis.length > 0) {
           let apiIds: any[] = [];
@@ -231,18 +243,6 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       this.dataForm.managementMode.setValue(this.productGroup.managementMode);
       this.dataForm.insuredMultiple.setValue(this.productGroup.insuredMultiple);
       this.dataForm.coverageRate.setValue(this.productGroup.coverageRate);
-
-      if (this.productGroup.guarantees) {
-        if (this.productGroup.guarantees.length > 0) {
-          this.productGroup.guarantees.forEach((g: any) => {
-            if (!this.selectGuaranteeList[g.id]) {
-              this.selectGuaranteeList[g.id] = g;
-              // @ts-ignore
-              this.dataForm.guarantees.setValue(new FormControl(this.selectGuaranteeList));
-            }
-          });
-        }
-      }
 
     } else {
       this._router.navigateByUrl("/account/products-groups/list");
@@ -475,9 +475,23 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     this.accountService.pageLoading = true;
     this.accountService.getGuaranteeList()
       .subscribe((responseData: HttpResponse<any>) => {
+
         this.accountService.pageLoading = false;
         console.log(responseData);
-        this.guaranteeList = responseData["body"];
+
+        let guaranteeList = responseData["body"];
+
+        if (guaranteeList && guaranteeList.length > 0 && this.selectGuaranteeList && this.selectGuaranteeList.length > 0) {
+          this.guaranteeList = [];
+          guaranteeList.forEach((gl: any) => {
+            if (!this.selectGuaranteeList[gl.id]) {
+              this.guaranteeList.push(gl);
+            }
+          });
+        } else {
+          this.guaranteeList = guaranteeList;
+        }
+
       }, (errorData: HttpErrorResponse) => {
         this.accountService.pageLoading = false;
         console.log(errorData);
@@ -487,24 +501,60 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
 
 
   onAddGuaranteeToTable() {
-    if (!this.selectGuaranteeList[this.guaranteeCode.id]) {
-      this.guaranteeCode.mandatory = false;
-      this.selectGuaranteeList[this.guaranteeCode.id] = this.guaranteeCode;
+
+    console.log(this.selectGuarantee);
+    console.log(this.selectGuaranteeList);
+    console.log(this.selectGuaranteeList[this.selectGuarantee.id]);
+
+    if (!this.selectGuaranteeList[this.selectGuarantee.id]) {
+
+      let selectedGuarantee = {
+        guaranteeId: this.selectGuarantee.id,
+        guaranteeCode: this.selectGuarantee.code,
+        guaranteeName: this.selectGuarantee.name,
+        mandatory: false,
+      }
+
+      this.selectGuaranteeList[selectedGuarantee.guaranteeId] = selectedGuarantee;
+
       // @ts-ignore
-      this.dataForm.guarantees.setValue(new FormControl(this.selectGuaranteeList));
+     this.dataForm.guarantees.setValue(new FormControl(this.selectGuaranteeList));
+
+      if (this.guaranteeList && this.guaranteeList.length > 0 && this.selectGuaranteeList && this.selectGuaranteeList.length > 0) {
+        let guaranteeList: any[] = [];
+        this.guaranteeList.forEach((gl: any) => {
+          if (!this.selectGuaranteeList[gl.id]) {
+            guaranteeList.push(gl);
+          }
+        });
+        this.guaranteeList = guaranteeList;
+      }
+
+      this.selectGuarantee = null;
+
+    } else {
+      this.selectGuarantee = null;
     }
 
   }
 
   onSelectGuarantee(guarantee: any) {
-    console.log(guarantee);
-    this.guaranteeCode = guarantee;
+    this.selectGuarantee = guarantee;
   }
 
   onRemoveGuaranteeFromList(selectGuarantee: any) {
-    if (this.selectGuaranteeList[selectGuarantee.id]) {
-      delete this.selectGuaranteeList[selectGuarantee.id];
+
+    if (this.selectGuaranteeList[selectGuarantee.guaranteeId]) {
+      delete this.selectGuaranteeList[selectGuarantee.guaranteeId];
+      let gl = {
+        id: selectGuarantee.guaranteeId,
+        code: selectGuarantee.guaranteeCode,
+        name: selectGuarantee.guaranteeName,
+        mandatory: false,
+      }
+      this.guaranteeList.push(gl);
     }
+
   }
 
 }

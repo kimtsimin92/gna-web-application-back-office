@@ -160,7 +160,7 @@ export class AuthService {
     this.loading = true;
     this.isError = false;
 
-    this.openLoadingDialog();
+   // this.openLoadingDialog();
 
     this._http.post<HttpResponse<any>>(environment.usersService + '/api/v1/users/auth/login/web', data, {observe: 'response'})
       .subscribe(response => {
@@ -179,7 +179,7 @@ export class AuthService {
             setTimeout(() => {
               this._router.navigateByUrl(redirectFirstTime).then(() => {
                 this.loading = false;
-                this.closeDialog();
+              //  this.closeDialog();
               //this.openSnackBarLFT();
               });
             }, 500);
@@ -187,7 +187,7 @@ export class AuthService {
             setTimeout(() => {
               this._router.navigateByUrl(redirect).then(() => {
                 this.loading = false;
-                this.closeDialog();
+               // this.closeDialog();
               // this.openSnackBar();
               });
             }, 500);

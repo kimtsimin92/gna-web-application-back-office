@@ -160,6 +160,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
   ];
 
   selectGuaranteeList: any[] = [];
+  selectGuarantee: any = null;
   branchCode: any = null;
   guaranteeCode: any = null;
 

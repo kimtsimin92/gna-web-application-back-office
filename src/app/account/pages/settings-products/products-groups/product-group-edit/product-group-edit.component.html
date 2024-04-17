@@ -124,7 +124,7 @@
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                  <label>APIs</label>
+                 <!-- <label>APIs</label>
                   <br>
                   <p-multiSelect [options]="apiList"
                                  optionLabel="name"
@@ -139,7 +139,10 @@
                         <div>{{ api.name }}</div>
                       </div>
                     </ng-template>
-                  </p-multiSelect>
+                  </p-multiSelect>-->
+                <label>Description</label>
+                <textarea rows="2" pInputTextarea formControlName="description"
+                          class="gna-form-input"></textarea>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <div class="row">
@@ -166,11 +169,11 @@
                             class="gna-form-checkbox"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
               </div>
-              <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+           <!--   <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <label>Description</label>
                 <textarea rows="2" pInputTextarea formControlName="description"
                           class="gna-form-input"></textarea>
-              </div>
+              </div>-->
             </div>
           </form>
           <mat-divider class="mt-2"></mat-divider>
@@ -183,15 +186,8 @@
                 <p-dropdown [options]="guaranteeList"
                             optionLabel="name" placeholder="Garantie *"
                             class="gna-form-dropdown"
-                            [readonly]="isSave || accountService.pageLoading || accountService.isSave">
-                  <ng-template let-guarantee pTemplate="guarantee">
-                    <div class="flex align-items-center gap-2"
-                         (click)="onSelectGuarantee(guarantee)">
-                      <div>
-                        {{ guarantee.name }}
-                      </div>
-                    </div>
-                  </ng-template>
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave"
+                            [(ngModel)]="selectGuarantee">
                 </p-dropdown>
               } @else {
                 <label>Garantie</label>
@@ -202,7 +198,7 @@
             </div>
 
             <div class="col-12 col-sm-6 col-md-6 col-lg-9 col-xl-9 mt-5 btn-new">
-              @if (!guaranteeCode || guaranteeList && guaranteeList.length <= 0) {
+              @if (!selectGuarantee || guaranteeList && guaranteeList.length <= 0) {
                 <button mat-raised-button
                         class="gna-btn-default gna-btn-add gna-disable">Ajouter</button>
               } @else {
@@ -215,7 +211,7 @@
 
           </div>
           <div class="example-table-con">
-            <table class="table table-borderless gi-table">
+            <table class="table table-borderless gi-table gpg-table">
               <thead>
               <tr>
                 <th>Code garantie</th>
@@ -224,26 +220,26 @@
               </tr>
               </thead>
               <tbody>
-                @for (selectGuarantee of selectGuaranteeList | keyvalue; track selectGuarantee) {
+                @for (sg of selectGuaranteeList | keyvalue; track sg) {
                   <tr>
                     <td>
-                      @if (selectGuarantee.value.guaranteeCode) {
-                        {{ selectGuarantee.value.guaranteeCode }}
+                      @if (sg.value.guaranteeCode) {
+                        {{ sg.value.guaranteeCode }}
                       } @else {
-                        {{ selectGuarantee.value.code }}
+                        {{ sg.value.code }}
                       }
                     </td>
                     <td>
-                      @if (selectGuarantee.value.guaranteeName) {
-                        {{ selectGuarantee.value.guaranteeName }}
+                      @if (sg.value.guaranteeName) {
+                        {{ sg.value.guaranteeName }}
                       } @else {
-                        {{ selectGuarantee.value.name }}
+                        {{ sg.value.name }}
                       }
                     </td>
                     <td>
                               <span class="gna-action-span-div">
                       <span class="gna-action-span">
-                          <p-checkbox  [binary]="true" [(ngModel)]="selectGuarantee.value.mandatory"
+                          <p-checkbox  [binary]="true" [(ngModel)]="sg.value.mandatory"
                                        [readonly]="isSave || accountService.pageLoading || accountService.isSave"
                                        class="gna-table-checkbox"></p-checkbox>
                       </span>
@@ -252,7 +248,7 @@
                                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2">
                                           } @else {
                                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2"
-                                                 (click)="onRemoveGuaranteeFromList(selectGuarantee.value)">
+                                                 (click)="onRemoveGuaranteeFromList(sg.value)">
                                           }
                                       </span>
                               </span>

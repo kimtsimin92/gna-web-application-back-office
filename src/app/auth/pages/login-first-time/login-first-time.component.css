@@ -1,7 +1,175 @@
+
+@media only screen and (max-width: 767px) {
+
+  .gna-login-page-banner {
+    display: none;
+  }
+
+  .gna-login-page-form {
+    width: 100vh!important;
+  }
+
+  .gna-login-page-form-title-logo {
+    margin-left: 0!important;
+  }
+
+  .gna-login-page-form-title-text {
+    margin-left: 0!important;
+  }
+
+
+  .gna-login-page-input {
+    width: 99% !important;
+  }
+
+
+}
+
+@media only screen and (max-width: 950px) {
+
+  .gna-login-page-banner {
+    display: none;
+  }
+
+  .gna-login-page-form {
+    width: 100vh!important;
+  }
+
+  .gna-login-page-form-title-logo {
+    margin-left: 0!important;
+  }
+
+  .gna-login-page-form-title-text {
+    margin-left: 0!important;
+  }
+
+  .gna-login-page-input {
+    width: 99% !important;
+  }
+
+
+}
+
+
+main {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.login-spinner {
+  width: 20%;
+}
+
+.gna-login-page-icon {
+  display: initial!important;
+}
+
+.gna-login-page-icon > i:last-of-type {
+  color: #2960A3!important;
+}
+
+.gna-login-page-input {
+  width: 70%!important;
+}
+
+.gna-login-page {
+
+}
+
+.login-btn {
+  width: 100%!important;
+}
+
+.gna-login-page-banner {
+  background-image: url("/../../assets/gna/images/Groupe de masques 2.png");
+  background-size: cover;
+  background-position: 0  -45px;
+  height: 100vh;
+  width: 122vh;
+}
+
+.gna-login-page-banner-text {
+  margin-top: 30px;
+  margin-left: 30px;
+}
+
+.gna-login-page-banner-logo {
+  margin-top: 10px;
+  margin-left: 30px;
+  background-color: #F4F5F6;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}
+
+.gna-login-page-banner-logo img {
+  width: 50px;
+  margin-top: 15px;
+  margin-left: 5px;
+}
+
+.gna-login-page-form {
+  margin-top: 7vh!important;
+  margin-left: auto;
+  width: 60vh!important;
+}
+
+.gna-login-page-form-title {
+  margin-bottom: 50px;
+}
+
+.gna-login-page-form-title-logo {
+  margin-left: 15%;
+  margin-bottom: 20px;
+}
+
+.gna-login-page-form-title-logo img {
+  width: 130px;
+  opacity: 40%;
+}
+
+.gna-login-page-form-title-text {
+  margin-left: 17%;
+  color: #f6993f;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.gna-login-page-form label {
+  color: #2960A3;
+}
+
+.gna-login-page-form .p-inputtext {
+  border-color: #2960A3!important;
+}
+
+
+.gna-login-page-form .p-inputtext.ng-dirty.ng-invalid {
+  border-color: #e24c4c!important;
+}
+
+
+.gna-login-page-form button {
+  width: 70%!important;
+}
+
+.gna-login-page-footer {
+  background-color: #EFEFEF!important;
+  width: 100%;
+  height: 35px;
+}
+
+.gna-login-page-footer-text span {
+  font-size: 10px;
+  padding: 10px;
+  color: #616161!important;
+}
+
+
 /* Show it is fixed to the top */
+/*
 body {
-  /*min-height: 75rem;*/
-  padding-top: 3.5rem;
 }
 
 .gna-footer {
@@ -14,16 +182,11 @@ body {
   padding: 0!important;
 }
 
-.login-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+
 
 .login-image {
   width: 100%;
 }
-
 
 .login-button {
   text-align: end;
@@ -43,10 +206,11 @@ body {
 .login-text-footer a {
   color: white;
 }
-/*.form-control {*/
-/*  border: 1px solid #2960A3!important;*/
-/*  border-radius: 0;*/
-/*}*/
+
+!*.form-control {*!
+!*  border: 1px solid #2960A3!important;*!
+!*  border-radius: 0;*!
+!*}*!
 
 .form-control::-webkit-input-placeholder {
   color: #2960A3;
@@ -56,20 +220,12 @@ body {
   border-color: #dc3545!important;
 }
 
-/*MATERIAL*/
+!*MATERIAL*!
 .example-container {
   display: flex;
   flex-direction: column;
 }
 
-.example-container > * {
-  width: 90%;
-  margin-left: 20px;
-}
-
-.example-right-align {
-  text-align: right;
-}
 
 input.example-right-align::-webkit-outer-spin-button,
 input.example-right-align::-webkit-inner-spin-button {
@@ -89,9 +245,10 @@ input.example-right-align {
   caret-color: #2960A3!important;
 }
 
-/*****/
+!*****!
 .mat-mdc-form-field {
   width: 90%!important;
+  margin-bottom: 20px;
 }
 
 .btn-new {
@@ -101,36 +258,31 @@ input.example-right-align {
 }
 
 
-/**/
-/* Show it is fixed to the top */
-body {
-  /*min-height: 75rem;*/
-  padding-top: 3.5rem;
-}
-
 .gna-footer {
   width: 100%;
   height: 50px;
 }
 
 
-main > .container {
-  /*padding: 60px 15px 0;*/
-}
 
 .card-header {
   padding: 0!important;
 }
 
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .login-image {
   width: 100%;
 }
 
 .login-form {
+  margin-top: 2%;
   align-self: center;
-  margin-top: 8%;
-  width: 100%;
+  width: 500px;
 }
 
 .login-button {
@@ -145,10 +297,10 @@ main > .container {
 }
 
 
-/*.form-control {*/
-/*  border: 1px solid #2960A3!important;*/
-/*  border-radius: 0;*/
-/*}*/
+!*.form-control {*!
+!*  border: 1px solid #2960A3!important;*!
+!*  border-radius: 0;*!
+!*}*!
 
 .form-control::-webkit-input-placeholder {
   color: #2960A3;
@@ -162,11 +314,7 @@ main > .container {
   margin-top: 10%;
 }
 
-/*MATERIAL*/
-.example-container {
-  display: flex;
-  flex-direction: column;
-}
+!*MATERIAL*!
 
 .example-container > * {
   width: 100%;
@@ -203,7 +351,6 @@ input.example-right-align {
 
 .login-fp a {
   color: #2960A3!important;
-  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
@@ -217,31 +364,4 @@ input.example-right-align {
   width: 95%!important;
 }
 
-.mat-stepper-horizontal {
-  margin-top: 8px;
-}
-
-.mat-mdc-form-field {
-  margin-top: 16px;
-}
-
-.gna-otp-div mat-form-field {
-  padding-left: 5px;
-}
-
-.gna-otp-input {
-  width: 10%!important;
-}
-
-.gna-otp-input input::-webkit-inner-spin-button,
-.gna-otp-input input::-webkit-outer-spin-button {
-  display: none;
-}
-
-
-.gna-page-loading {
-  position: absolute;
-  z-index: 1;
-  margin-top: 20%;
-  margin-left: 45%;
-}
+*/

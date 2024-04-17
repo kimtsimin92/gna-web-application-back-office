@@ -120,7 +120,7 @@
                                 [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                   </div>
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                      <label>APIs</label>
+               <!--       <label>APIs</label>
                       <br>
                       <p-multiSelect [options]="apiList"
                                   optionLabel="name" placeholder="APIs"
@@ -133,7 +133,10 @@
                             <div>{{ api.name }}</div>
                           </div>
                         </ng-template>
-                      </p-multiSelect>
+                      </p-multiSelect>-->
+                    <label>Description</label>
+                    <textarea rows="2" pInputTextarea formControlName="description"
+                              class="gna-form-input"></textarea>
                   </div>
                   <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                     <div class="row">
@@ -160,11 +163,11 @@
                                     class="gna-form-checkbox"
                                     [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
                       </div>
-                  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <!--<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <label>Description</label>
                     <textarea rows="2" pInputTextarea formControlName="description"
                               class="gna-form-input"></textarea>
-                  </div>
+                  </div>-->
                 </div>
               </form>
               <mat-divider class="mt-2"></mat-divider>
@@ -177,15 +180,8 @@
                     <p-dropdown [options]="guaranteeList"
                                 optionLabel="name"  optionValue="name" placeholder="Garantie *"
                                 class="gna-form-dropdown"
-                                [readonly]="isSave || accountService.pageLoading || accountService.isSave">
-                      <ng-template let-guarantee pTemplate="guarantee">
-                        <div class="flex align-items-center gap-2"
-                        (click)="onSelectGuarantee(guarantee)">
-                          <div>
-                            {{ guarantee.name }}
-                          </div>
-                        </div>
-                      </ng-template>
+                                [readonly]="isSave || accountService.pageLoading || accountService.isSave"
+                    [(ngModel)]="selectGuarantee">
                     </p-dropdown>
                   } @else {
                     <label>Garantie</label>
@@ -208,8 +204,8 @@
                 </div>
 
               </div>
-            <div class="example-table-con ">
-              <table class="table table-borderless gi-table">
+            <div class="example-table-con">
+              <table class="table table-borderless gi-table gpg-table">
                 <thead>
                 <tr>
                   <th>Code garantie</th>

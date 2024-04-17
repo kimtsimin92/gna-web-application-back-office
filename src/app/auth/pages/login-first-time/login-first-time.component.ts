@@ -115,9 +115,9 @@ export class LoginFirstTimeComponent implements OnInit {
 
 
   onPasswordCompare() {
-    if (this.formProfilePwd.value.passwordOld == this.formProfilePwd.value.passwordNew) {
+/*    if (this.formProfilePwd.value.passwordOld == this.formProfilePwd.value.passwordNew) {
       this.formProfilePwd.controls['passwordNew'].setErrors({'incorrect': true});
-    }
+    }*/
     if (this.formProfilePwd.value.passwordNew !== this.formProfilePwd.value.passwordConfirm) {
       this.formProfilePwd.controls['passwordConfirm'].setErrors({'incorrect': true});
     }
