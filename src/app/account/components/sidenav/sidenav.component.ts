@@ -227,17 +227,17 @@ export class SidenavComponent implements OnInit {
 
     //  if (this.authService.getAuthRoles() && this.authService.getAuthRoles().length > 0 && this.authService.getAuthRoles().indexOf('ROLE_PARTNER') >= 0) {
 
-        let rolePartner = {name: '- Partenaires', link: '/account/partners/list', class: null};
+        let rolePartner = {name: ' Partenaires', link: '/account/partners/list', class: null};
         // @ts-ignore
         groupSettingsListManagement.children.push(rolePartner);
 
      // }
 
-      let roleBranch =  {name: '- Branches', link: '/account/branches/list', class: null};
+      let roleBranch =  {name: ' Branches', link: '/account/branches/list', class: null};
       // @ts-ignore
       groupSettingsListManagement.children.push(roleBranch);
 
-      let roleZone =   {name: '- Territoires', link: '/account/zones/list', class: null};
+      let roleZone =   {name: ' Territoires', link: '/account/zones/list', class: null};
       // @ts-ignore
       groupSettingsListManagement.children.push(roleZone);
 

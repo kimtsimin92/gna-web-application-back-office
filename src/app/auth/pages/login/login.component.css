@@ -1,12 +1,20 @@
 
 @media only screen and (max-width: 767px) {
 
- .gna-login-page-banner {
+  .gna-loading-spinner {
+    position: absolute;
+    z-index: 1;
+    margin-left: 44%!important;
+  }
+
+
+  .gna-login-page-banner {
    display: none;
  }
 
   .gna-login-page-form {
     width: 100vh!important;
+    text-align: center!important;
   }
 
   .gna-login-page-form-title-logo {
@@ -15,6 +23,7 @@
 
   .gna-login-page-form-title-text {
     margin-left: 0!important;
+
   }
 
 
@@ -26,6 +35,12 @@
 }
 
 @media only screen and (max-width: 950px) {
+
+  .gna-loading-spinner {
+    position: absolute;
+    z-index: 1;
+    margin-left: 44%;
+  }
 
   .gna-login-page-banner {
     display: none;
