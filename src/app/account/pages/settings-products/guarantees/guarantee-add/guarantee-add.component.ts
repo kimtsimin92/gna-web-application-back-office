@@ -224,6 +224,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
     this.onSaveLoadingDialog();
 
     let requestData = {
+      code: this.formData.value.code,
       name: this.formData.value.name,
       taxRate: this.formData.value.taxRate,
       franchiseRate: this.formData.value.franchiseRate,

@@ -193,20 +193,6 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     this._router.navigateByUrl("/account/guarantees/add");
   }
 
-  onGetNotificationErrorDialog(): void {
-
-    const dialogRef = this._dialog.open(ErrorNotificationDialogComponent, {
-      width: '440px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-      if (result) {
-        this.closeDialog();
-      }
-    });
-
-  }
 
   onView(data: any) {
 
@@ -318,7 +304,25 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
 
       }, (errorData: HttpErrorResponse) => {
         console.log(errorData);
+        this.dataPaginationResponse = {};
+        this.onGetNotificationErrorDialog();
       });
+
+  }
+
+  onGetNotificationErrorDialog(): void {
+
+    const dialogRef = this._dialog.open(ErrorNotificationDialogComponent, {
+      width: '400px',
+      height: '340px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.closeDialog();
+      }
+    });
 
   }
 

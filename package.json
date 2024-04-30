@@ -1,5 +1,5 @@
 {
-  "name": "gna-backoffice-web-application",
+  "name": "gna-web-application-back-office",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

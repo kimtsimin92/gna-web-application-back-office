@@ -51,11 +51,11 @@
           <table class="gna-table">
             <thead>
             <tr>
-              <th>Code</th>
-              <th>Nom de la garantie</th>
+              <th>Code garantie</th>
+              <th>Nom garantie</th>
+              <th>Prime minimum</th>
               <th>Taux de taxe</th>
-              <th>Date de création</th>
-              <th>Date de modification</th>
+              <th>Enregistrement</th>
               <th>Statut</th>
               <th></th>
             </tr>
@@ -71,6 +71,13 @@
                       {{ element.name }}
                     </td>
                     <td>
+                      @if (element.premiumMinimum) {
+                        {{ element.premiumMinimum | number : "2.0"}}
+                      } @else {
+                        0
+                      }
+                    </td>
+                    <td>
                       @if (element.taxRate) {
                         {{ element.taxRate | number : "2.0"}}%
                       } @else {
@@ -78,10 +85,7 @@
                       }
                     </td>
                     <td>
-                      {{ element.createdAt | date: 'dd-MM-YYYY'}}
-                    </td>
-                    <td>
-                      {{ element.updatedAt | date: 'dd-MM-YYYY'}}
+                      {{ element.createdAt | date: 'dd-MM-YYYY'}} {{ element.createdAt | date: 'hh:mm:ss'}}
                     </td>
                     <td>
                       @if (element.enabled) {
@@ -116,7 +120,13 @@
                   </span>
                     </td>
                   </tr>
-                }
+                } @empty {
+            <tr>
+              <td>
+                <span class="gna-text-primary">Pas d'enregistrement disponible.</span>
+              </td>
+            </tr>
+          }
               </tbody>
             }  @placeholder {
               <tbody>

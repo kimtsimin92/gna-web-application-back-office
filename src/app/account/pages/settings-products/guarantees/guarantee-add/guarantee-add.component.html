@@ -64,6 +64,13 @@
                   [formGroup]="formData">
                   <div class="row pb-2 gna-form">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <label for="name">Code Garantie</label>
+                      <input pInputText
+                             type="text" id="code" aria-describedby="name-help" placeholder="Code Garantie *" class="gna-form-input"
+                             required
+                             formControlName="code"/>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label for="name">Nom Garantie</label>
                       <input pInputText
                              type="text" id="name" aria-describedby="name-help" placeholder="Nom Garantie *" class="gna-form-input"
@@ -213,17 +220,17 @@
                         </ng-template>
                       </p-multiSelect>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-9">
+                      <label>Description</label>
+                      <textarea rows="2" pInputTextarea formControlName="description"
+                                class="gna-form-input"></textarea>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                       <label>Clauses</label>
                       <button
                         type="button"
                         mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
                         (click)="openClauseEditorDialog()">Ajouter</button>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                      <label>Description</label>
-                      <textarea rows="2" pInputTextarea formControlName="description"
-                                class="gna-form-input"></textarea>
                     </div>
                   </div>
 

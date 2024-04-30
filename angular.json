@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "gna-backoffice-web-application": {
+    "gna-web-application-back-office": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/gna-backoffice-web-application",
+            "outputPath": "dist/gna-web-application-back-office",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "gna-backoffice-web-application:build:production"
+              "buildTarget": "gna-web-application-back-office:build:production"
             },
             "development": {
-              "buildTarget": "gna-backoffice-web-application:build:development"
+              "buildTarget": "gna-web-application-back-office:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "gna-backoffice-web-application:build"
+            "buildTarget": "gna-web-application-back-office:build"
           }
         },
         "test": {
