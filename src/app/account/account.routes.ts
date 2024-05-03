@@ -109,7 +109,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'home', component: HomeComponent,
+        path: 'dashboard', component: HomeComponent,
         title: 'Dashboard | GNA',
       },
       {

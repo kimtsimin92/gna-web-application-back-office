@@ -1,0 +1,20 @@
+
+@media only screen and (max-width: 600px) {
+
+  .gna-responsive {
+    display: none!important;
+  }
+
+  .gna-header-title {
+    display: none!important;
+  }
+
+  .gna-menu-btn {
+    display: block!important;
+  }
+
+  .gna-sidebar {
+    display: none!important;
+  }
+
+}

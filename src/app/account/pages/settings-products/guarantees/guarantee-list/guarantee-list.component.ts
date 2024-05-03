@@ -3,7 +3,7 @@ import {MenuItem} from "primeng/api";
 import {
   MatCell,
   MatCellDef,
-  MatColumnDef,
+  MatColumnDef, MatFooterRow,
   MatHeaderCell, MatHeaderCellDef,
   MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable,
   MatTableDataSource
@@ -49,36 +49,37 @@ import {SkeletonModule} from "primeng/skeleton";
 @Component({
   selector: 'app-guarantee-list',
   standalone: true,
-    imports: [
-        BreadcrumbModule,
-        ButtonModule,
-        InputTextModule,
-        MatButton,
-        MatCard,
-        MatCell,
-        MatCellDef,
-        MatCheckbox,
-        MatColumnDef,
-        MatHeaderCell,
-        MatHeaderRow,
-        MatHeaderRowDef,
-        MatPaginator,
-        MatProgressSpinner,
-        MatRow,
-        MatRowDef,
-        MatSort,
-        MatSortHeader,
-        MatTable,
-        MatTooltip,
-        TooltipModule,
-        MatHeaderCellDef,
-        ChipModule,
-        DecimalPipe,
-        DatePipe,
-        MatCardHeader,
-        NgIf,
-        SkeletonModule
-    ],
+  imports: [
+    BreadcrumbModule,
+    ButtonModule,
+    InputTextModule,
+    MatButton,
+    MatCard,
+    MatCell,
+    MatCellDef,
+    MatCheckbox,
+    MatColumnDef,
+    MatHeaderCell,
+    MatHeaderRow,
+    MatHeaderRowDef,
+    MatPaginator,
+    MatProgressSpinner,
+    MatRow,
+    MatRowDef,
+    MatSort,
+    MatSortHeader,
+    MatTable,
+    MatTooltip,
+    TooltipModule,
+    MatHeaderCellDef,
+    ChipModule,
+    DecimalPipe,
+    DatePipe,
+    MatCardHeader,
+    NgIf,
+    SkeletonModule,
+    MatFooterRow
+  ],
   templateUrl: './guarantee-list.component.html',
   styleUrl: './guarantee-list.component.css'
 })
@@ -94,13 +95,13 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
   loading: boolean = false;
   dataPaginationResponse: any;
 
-  displayedColumns: string[] = ['code', 'name', 'franchiseMinimum', 'createdAt',
+  displayedColumns: string[] = ['code', 'name', 'premiumMinimum', 'taxRate', 'createdAt',
     'status', 'action'];
   dataSource = new MatTableDataSource<any>([]);
   selection = new SelectionModel<any>(true, []);
 
   resultsLength = 0;
-  pageSize: number = 6;
+  pageSize: number = 10;
   totalPages: number = 0;
   currentPage: number = 0;
   isLoadingResults = false;
@@ -139,12 +140,11 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
 
-      this.onGetDataList();
-
 
   }
 
   ngAfterViewInit(): void {
+    this.onGetDataList();
   }
 
   ngOnDestroy(): void {
@@ -224,7 +224,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
-/*  onGetDataList() {
+  onGetDataList() {
 
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -280,8 +280,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }*/
-  onGetDataList() {
+  }
+  /*onGetDataList() {
 
     let page = 0;
 
@@ -308,7 +308,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
         this.onGetNotificationErrorDialog();
       });
 
-  }
+  }*/
 
   onGetNotificationErrorDialog(): void {
 

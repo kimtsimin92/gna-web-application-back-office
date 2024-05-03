@@ -172,7 +172,7 @@ export class AuthService {
 
           console.log(this.authJwt);
 
-          const redirect = this.redirectUrl ? this._router.parseUrl(this.redirectUrl) : '/account/home';
+          const redirect = this.redirectUrl ? this._router.parseUrl(this.redirectUrl) : '/account/dashboard';
           const redirectFirstTime = this.redirectUrl ? this._router.parseUrl(this.redirectUrl) : '/login/first-time';
 
           if (!this.authJwt?.loginFirstTime) {

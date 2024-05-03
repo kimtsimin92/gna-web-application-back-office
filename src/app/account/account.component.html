@@ -5,7 +5,7 @@
   class="example-container"
                       *ngIf="!accountService.loadingPage">
   <mat-drawer [mode]="'side'"  #drawer
-              [opened]="drawerToggle">
+              [opened]="drawerToggle" class="gna-sidebar">
     <app-sidenav></app-sidenav>
   </mat-drawer>
   <mat-drawer-content>

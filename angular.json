@@ -31,7 +31,8 @@
               "node_modules/quill/dist/quill.snow.css",
               "src/custom-theme.scss",
               "src/styles.css",
-              "src/assets/scss/style-gna.scss"
+              "src/assets/scss/style-gna.scss",
+              "src/assets/css/gna-responsive.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

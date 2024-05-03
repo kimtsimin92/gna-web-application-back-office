@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Dashboard";
+    this.headerTitle = "Tableau de bord";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
     this.apps = this.appsData;

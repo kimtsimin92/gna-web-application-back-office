@@ -28,7 +28,7 @@
 
 root {
   /* Colors: */
-  --unnamed-color-1c3694: #2960A3;
+  --unnamed-color-1c3694: #1d3593;
   --unnamed-color-f4f5f6: #F4F5F6;
   --unnamed-color-8db3e2: #8DB3E2;
   --unnamed-color-f5f7f7: #F5F7F7;
@@ -38,7 +38,7 @@ root {
   --unnamed-color-040a10: #040A10;
   --unnamed-color-102641: #102641;
   --unnamed-color-dddddd: #DDDDDD;
-  --unnamed-color-2960a3: #2960A3;
+  --unnamed-color-1d3593: #1d3593;
   --unnamed-color-f6993f: #F6993F;
 }
 
@@ -55,7 +55,11 @@ html, body {
 
 a {
   text-decoration: none;
-  color: #2960A3;
+  color: #1d3593;
+}
+
+.gna-menu-btn {
+  display: none;
 }
 
 .gna-clickable {
@@ -71,7 +75,7 @@ a {
 }
 
 .gna-text-primary {
-  color: #2960A3!important;
+  color: #1d3593!important;
 }
 
 .gna-text-secondary {
@@ -87,14 +91,14 @@ a {
 }
 
 .card-header {
-  /*border-bottom: 0.5px solid #2960A3!important;*/
-  background-color: #2960A3!important;
+  /*border-bottom: 0.5px solid #1d3593!important;*/
+  background-color: #1d3593!important;
   color: white;
 }
 
 
 .gna-card-body {
-  border: 1px solid#2960A3!important;
+  border: 1px solid#1d3593!important;
 }
 
 /*.card-header {
@@ -106,14 +110,15 @@ a {
 }**/
 
 /*.input-group-text {
-    color: #2960A3!important;
+    color: #1d3593!important;
 }*/
 
 
 .gna-btn-default {
   width: 165px!important;
+ /* width: 165px!important;
   height: 30px!important;
-  font-size: 11px!important;
+  font-size: 11px!important;*/
   font-family: 'AvenirLTProBlack', sans-serif !important;
 }
 
@@ -131,7 +136,7 @@ a {
 }
 
 .gna-navbar {
-  background-color: #2960A3!important;
+  background-color: #1d3593!important;
 }
 
 .dropdown-toggle::after {
@@ -181,11 +186,11 @@ a {
 }
 
 .gna-color {
-  color: #2960A3;
+  color: #1d3593;
 }
 
 .gna-header-dialog {
-  color: #2960A3!important;
+  color: #1d3593!important;
   text-align: center;
   font-weight: bold!important;
 }
@@ -203,7 +208,7 @@ a {
 .gna-content-header {
   padding-top: 55px;
   font-size: 11px;
-  color: #2960A3;
+  color: #1d3593;
 }
 
 .gna-breadcrumb ol li {
@@ -386,9 +391,9 @@ a {
 .gna-btn-eye .p-button.p-button-icon-only {
   width: 20px!important;
   height: 20px!important;
-  border-radius: 50px 50px;
-  background-color: #2960A3!important;
-  border-color: #2960A3!important;
+ /* border-radius: 50px 50px; */
+  background-color: #1d3593!important;
+  border-color: #1d3593!important;
 }
 
 .gna-card-header-title {
@@ -409,8 +414,8 @@ a {
   width: 20px!important;
   height: 20px!important;
 
-  background-color: #2960A3!important;
-  border-color: #2960A3!important;
+  background-color: #1d3593!important;
+  border-color: #1d3593!important;
 }
 
 .gna-btn-delete .p-button.p-button-icon-only {
@@ -464,7 +469,7 @@ a {
 }
 
 .gna-chip-p .p-chip {
-  background-color: #2960A3!important;
+  background-color: #1d3593!important;
   color:white!important;
   width: 70px!important;
   text-align: center;
@@ -500,7 +505,7 @@ a {
   margin-left: 1vh!important;
   margin-right: 1vh!important;
   min-height: 78vh!important;
-  max-height: 78vh!important;
+ /* max-height: 78vh!important;*/
 }
 
 .gna-if {
@@ -549,7 +554,7 @@ a {
 
 .gna-mat-stepper .mat-step-text-label {
   font-weight: bold!important;
-  color: #2960A3!important;
+  color: #1d3593!important;
 }
 
 /*.gna-mat-stepper-2 .mat-horizontal-content-container {
@@ -704,7 +709,7 @@ tr:hover {
 }
 
 .bc-card {
-  border: 1px solid #2960A3!important;
+  border: 1px solid #1d3593!important;
 }
 
 .gna-action-span-div {
@@ -727,7 +732,7 @@ tr:hover {
 }
 
 .gna-action-btn-span-v {
-  background-color: #2960A3!important;
+  background-color: #1d3593!important;
   width: 30px!important;
   height: 25px!important;
   display: block;
@@ -774,10 +779,10 @@ tr:hover {
 }
 
 .example-table-container {
-  position: relative;
+/*  position: relative;
   min-height: 50vh!important;
   max-height: 50vh!important;
-  overflow: auto;
+  overflow: auto;*/
 }
 
 .example-rate-limit-reached {
@@ -908,7 +913,7 @@ th, td {
   display: block;
   padding-top: 10px;
   padding-left: 20px;
-  color: #2960A3;
+  color: #1d3593;
   font-size: 12px;
 }
 
@@ -1018,7 +1023,7 @@ th, td {
 }
 
 .gna-form {
-  color: #2960A3;
+  color: #1d3593;
 }
 
 .gna-form label {
@@ -1255,13 +1260,13 @@ th, td {
 
 .form-builder-field-header {
   height: 50px!important;
-  background-color: #2960A3!important;
+  background-color: #1d3593!important;
   padding: 5px!important;
 }
 
 .form-builder-field-header-2 {
   height: 30px!important;
-  background-color: #2960A3!important;
+  background-color: #1d3593!important;
   padding: 5px!important;
 }
 

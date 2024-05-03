@@ -144,9 +144,9 @@ export class SidenavComponent implements OnInit {
   menuData: any[] = [
     {
       id: 1,
-      name: 'Accueil',
-      icon: 'home',
-      link: '/account/home',
+      name: ' Tableau de bord',
+      icon: 'fa-solid fa-pie-chart',
+      link: '/account/dashboard',
       class: null
     },
   ];
@@ -188,14 +188,13 @@ export class SidenavComponent implements OnInit {
 
       let groupSettingsProducts = {
           id: 3,
-          name: 'Configuration des produits',
-          icon: 'room_preferences',
+          name: ' Configuration des produits',
+          icon: 'fa-solid fa-sliders',
           children: [
             {name: 'Garanties', link: '/account/guarantees/list', class: null},
-            {name: 'Groupes Produits', link: '/account/products-groups/list', class: null},
-            {name: 'Formulaires Cotations', link: '/account/settings-products/forms/quotations/list', class: null},
-           {name: 'Formulaires Souscriptions', link: '/account/settings-products/forms/subscriptions/list', class: null},
-           {name: 'Calculs Primes', link: '/account/settings-products/premium-calculation/list', class: null}
+            {name: 'Groupes de produits', link: '/account/products-groups/list', class: null},
+            {name: 'Formulaires de cotations', link: '/account/settings-products/forms/quotations/list', class: null},
+           {name: 'Calculs de primes', link: '/account/settings-products/premium-calculation/list', class: null}
           ],
         };
 
@@ -203,8 +202,8 @@ export class SidenavComponent implements OnInit {
 
       let groupMarketing =  {
         id: 4,
-        name: 'Marketing',
-        icon: 'sell',
+        name: ' Marketing',
+        icon: 'fa-solid fa-bullhorn',
         children: [
           {name: 'Segmentation', link: '/account/segments/list', class: null},
           {name: 'Produits', link: '/account/products/list', class: null}
@@ -216,8 +215,8 @@ export class SidenavComponent implements OnInit {
     let groupSettings =
       {
         id: 5,
-        name: 'Paramètres',
-        icon: 'manage_accounts',
+        name: ' Paramètres',
+        icon: 'fa-solid fa-gear',
         children: [],
       };
 
