@@ -10,15 +10,17 @@
         </button>
         </span>
 
-        <span class="gna-ml gna-header-logo gna-responsive">
+        <span class="gna-ml gna-header-logo gna-responsive gna-clickable"
+        (click)="onDrawerToggle()">
           <img src="assets/gna/images/51f51f4b-de2c-4033-8a43-44f4fff25edf.png"
                width="80">
         </span>
-   <span class="gna-header-title gna-responsive">
-      <button mat-icon-button [disabled]="accountService.pageLoading || accountService.isSave"
+   <span class="gna-header-title gna-responsive gna-clickable"
+         (click)="onDrawerToggle()">
+<!--      <button mat-icon-button [disabled]="accountService.pageLoading || accountService.isSave"
               (click)="onDrawerToggle()">
           <mat-icon>apps</mat-icon>
-        </button>
+        </button>-->
         </span>
         <span *ngIf="headerTitle" class="gna-cursor-t">
          {{ headerTitle }}

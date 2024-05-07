@@ -45,6 +45,18 @@ import {TooltipModule} from "primeng/tooltip";
 import {ChipModule} from "primeng/chip";
 import {DatePipe, DecimalPipe, NgIf} from "@angular/common";
 import {SkeletonModule} from "primeng/skeleton";
+import {MatFormField, MatInput} from "@angular/material/input";
+import {MatLabel} from "@angular/material/form-field";
+import {TableModule} from "primeng/table";
+import {DropdownModule} from "primeng/dropdown";
+import {PaginatorModule} from "primeng/paginator";
+
+interface PageEvent {
+  first: number;
+  rows: number;
+  page: number;
+  pageCount: number;
+}
 
 @Component({
   selector: 'app-guarantee-list',
@@ -78,7 +90,13 @@ import {SkeletonModule} from "primeng/skeleton";
     MatCardHeader,
     NgIf,
     SkeletonModule,
-    MatFooterRow
+    MatFooterRow,
+    MatInput,
+    MatFormField,
+    MatLabel,
+    TableModule,
+    DropdownModule,
+    PaginatorModule,
   ],
   templateUrl: './guarantee-list.component.html',
   styleUrl: './guarantee-list.component.css'
@@ -120,6 +138,64 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
 
   filteredList: any[] = [];
 
+  dataList: any[] = [];
+
+  first = 0;
+  rows = 10;
+
+  first1: number = 0;
+
+  rows1: number = 10;
+
+  first2: number = 0;
+
+  rows2: number = 10;
+
+  first3: number = 0;
+
+  rows3: number = 10;
+
+  totalRecords: number = 0;
+
+  options = [
+    { label: 5, value: 5 },
+    { label: 10, value: 10 },
+    { label: 20, value: 20 },
+    { label: 100, value: 100 }
+  ];
+
+  onPageChange1(event: PageEvent) {
+    this.first1 = event.first;
+    this.rows1 = event.rows;
+  }
+
+  onPageChange2(event: any) {
+    this.first2 = event.first;
+    this.rows2 = event.rows;
+  }
+
+  onPageChange3(event: PageEvent) {
+    this.first3 = event.first;
+    this.rows3 = event.rows;
+  }
+
+  pageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
+  }
+
+  next() {
+    this.first = this.first + this.rows;
+  }
+
+  prev() {
+    this.first = this.first - this.rows;
+  }
+
+  reset() {
+    this.first = 0;
+  }
+
   constructor(
     public _dialog: MatDialog,
     private _router: Router,
@@ -140,11 +216,13 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
 
+    this.onGetDataList();
+
 
   }
 
   ngAfterViewInit(): void {
-    this.onGetDataList();
+   // this.onGetDataList();
   }
 
   ngOnDestroy(): void {
@@ -224,7 +302,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
 
-  onGetDataList() {
+/*  onGetDataList() {
 
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -280,8 +358,9 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
-  /*onGetDataList() {
+  }*/
+
+  onGetDataList() {
 
     let page = 0;
 
@@ -297,6 +376,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
         this.dataPaginationResponse =  responseData["body"];
         if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
           this.filteredList = this.dataPaginationResponse.guarantees;
+          this.dataList = this.dataPaginationResponse.guarantees;
+          this.totalRecords = this.dataList.length;
           if (this.currentPage <= 0) {
             this.currentPage++;
           }
@@ -308,7 +389,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
         this.onGetNotificationErrorDialog();
       });
 
-  }*/
+  }
+
 
   onGetNotificationErrorDialog(): void {
 
@@ -478,4 +560,9 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
 
   }
 
+  protected readonly HTMLInputElement = HTMLInputElement;
+
+  getValue(event: Event) {
+    return (event.target as HTMLInputElement).value;
+  }
 }

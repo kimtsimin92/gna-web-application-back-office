@@ -17,10 +17,17 @@
           <div class="gna-list-header-1">
           <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (keyup)="filterResults(filter.value)" placeholder="Recherche..."
-                           class="example-full-width gna-list-ir"
-                           #filter/>
+                    <input
+                      pInputText
+                      type="text"
+                      (input)="dt.filterGlobal(getValue($event), 'contains')"
+                      placeholder="Recherche..."
+                           class="example-full-width gna-list-ir"/>
                       </span>
+           <!-- <mat-form-field appearance="outline">
+              <mat-label>Filter</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Entrer votre recherche" #input>
+            </mat-form-field>-->
           </div>
           <div class="gna-list-header-2">
             <button mat-raised-button color="primary"
@@ -155,14 +162,115 @@
             }
 
           </table>-->
-          <table
-            class="demo-table table table-striped"
+          <p-table
+            #dt
+            [value]="dataList"
+                   styleClass="p-datatable-striped"
+                   [tableStyle]="{ 'min-width': '50rem' }"
+                   [paginator]="false"
+                   [rows]="10"
+                   [first]="first"
+                   [showCurrentPageReport]="true"
+                   currentPageReportTemplate="Affichage {first} à {last} sur {totalRecords} Enregistrements"
+                   (onPage)="pageChange($event)"
+                   [rowsPerPageOptions]="[5, 10, 20, 25, 50, 100]"
+            [globalFilterFields]="['code', 'name']">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="code" style="width:20%">
+                  Code Garantie <p-sortIcon field="code" />
+                </th>
+                <th pSortableColumn="name" style="width:20%">Nom Garantie
+                  <p-sortIcon field="name" />
+                </th>
+                <th>Prime Minimum</th>
+                <th>Taux Taxe</th>
+                <th>Enregistrement</th>
+                <th>Statut</th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-element>
+                    <tr>
+                      <td>
+                        {{ element.code }}
+                      </td>
+                      <td>
+                        {{ element.name }}
+                      </td>
+                      <td>
+                        @if (element.premiumMinimum) {
+                          {{ element.premiumMinimum | number : "2.0"}}
+                        } @else {
+                          0
+                        }
+                      </td>
+                      <td>
+                        @if (element.taxRate) {
+                          {{ element.taxRate | number : "2.0"}}%
+                        } @else {
+                          0
+                        }
+                      </td>
+                      <td>
+                        {{ element.createdAt | date: 'dd-MM-YYYY'}} {{ element.createdAt | date: 'hh:mm:ss'}}
+                      </td>
+                      <td>
+                        @if (element.enabled) {
+                          @if (element.statusCode && element.statusCode === 1) {
+                            <span class="gna-list-status">En Attente</span>
+                          } @else {
+                            <span class="gna-list-status">Désactivé</span>
+                          }
+                        } @else {
+                          <span class="gna-list-status">Désactivé</span>
+                        }
+                      </td>
+                      <td>
+                        <span class="gna-action-span-div">
+                      <span class="gna-action-span">
+                        @if (element.removable) {
+                          <p-button icon="pi pi-trash" [rounded]="true"
+                                    pTooltip="Supprimer"
+                                    tooltipPosition="bottom"
+                                    class="gna-btn-delete"
+                                    [disabled]="isSave"
+                                    (click)="onConfirm(element)"></p-button>
+                        } @else {
+                          <p-button icon="pi pi-trash" [rounded]="true"
+                                    pTooltip="Supprimer"
+                                    tooltipPosition="bottom"
+                                    class="gna-btn-delete"
+                                    [disabled]="isDisable"></p-button>
+                        }
+
+                  </span>
+                      <span class="gna-action-span">
+                    <p-button icon="pi pi-eye" [rounded]="true" class="gna-btn-eye"
+                              pTooltip="Afficher"
+                              tooltipPosition="bottom"
+                              (click)="onView(element)"></p-button>
+                  </span>
+                  <span class="gna-action-span">
+                    <p-button icon="pi pi-pencil" class="gna-btn-edit"
+                              pTooltip="Modifier"
+                              tooltipPosition="bottom"
+                              (click)="onViewEdit(element)"></p-button>
+                  </span>
+                  </span>
+                      </td>
+                    </tr>
+
+            </ng-template>
+          </p-table>
+     <!--     <table
+            class="table table-striped"
             mat-table [dataSource]="dataSource"
             matSort matSortActive="code"
             matSortDisableClear
             matSortDirection="asc"
             (matSortChange)="announceSortChange($event)">
-            <!-- Position Column -->
+            &lt;!&ndash; Position Column &ndash;&gt;
             <ng-container matColumnDef="code">
               <th mat-header-cell *matHeaderCellDef
                   mat-sort-header
@@ -275,9 +383,9 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
-          </table>
+          </table>-->
         </div>
-<!--        <div class="gna-pagination">
+       <div class="gna-pagination">
           @if (dataPaginationResponse) {
             @if (currentPage > 1) {
               <span class="gna-pagination-previous"
@@ -309,14 +417,14 @@
             <span class="gna-pagination-page gna-pagination-disabled">0</span>
             <span class="gna-pagination-next gna-pagination-disabled"><i class="pi pi-arrow-right"></i></span>
           }
-        </div>-->
-       <mat-paginator
+        </div>
+   <!--    <mat-paginator
          [pageSizeOptions]="[5, 10, 20, 50, 100]"
           [length]="resultsLength"
           [pageSize]="pageSize"
           showFirstLastButtons
         >
-        </mat-paginator>
+        </mat-paginator>-->
       </div>
     </mat-card>
   </div>
