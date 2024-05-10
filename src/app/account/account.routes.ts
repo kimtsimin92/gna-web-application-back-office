@@ -99,6 +99,18 @@ import {
 } from "./pages/settings-products/premium-calculation/premium-calculation-detail/premium-calculation-detail.component";
 import {SimulationComponent} from "./simulation/simulation.component";
 import {SimulationQuotationComponent} from "./simulation/simulation-quotation/simulation-quotation.component";
+import {
+  CustomerPersonalAccountRequestListComponent
+} from "./pages/manager-customers-accounts/customer-personal-account-request-list/customer-personal-account-request-list.component";
+import {
+  CustomerCompanyAccountRequestListComponent
+} from "./pages/manager-customers-accounts/customer-company-account-request-list/customer-company-account-request-list.component";
+import {
+  CustomerPersonalAccountRequestDetailComponent
+} from "./pages/manager-customers-accounts/customer-personal-account-request-detail/customer-personal-account-request-detail.component";
+import {
+  CustomerCompanyAccountRequestDetailComponent
+} from "./pages/manager-customers-accounts/customer-company-account-request-detail/customer-company-account-request-detail.component";
 
 
 export const routes: Routes = [
@@ -111,6 +123,22 @@ export const routes: Routes = [
       {
         path: 'dashboard', component: HomeComponent,
         title: 'Dashboard | GNA',
+      },
+      {
+        path: 'manager/accounts/personals/requests/list', component: CustomerPersonalAccountRequestListComponent,
+        title: "Demmandes d'ouvertures de comptes particuliers - Lister | GNA",
+      },
+      {
+        path: 'manager/accounts/personals/requests/details', component: CustomerPersonalAccountRequestDetailComponent,
+        title: "Demmandes d'ouvertures de comptes particuliers - Voir | GNA",
+      },
+      {
+        path: 'manager/accounts/companies/requests/list', component: CustomerCompanyAccountRequestListComponent,
+        title: "Demmandes d'ouvertures de comptes entreprises - Lister | GNA",
+      },
+      {
+        path: 'manager/accounts/companies/requests/details', component: CustomerCompanyAccountRequestDetailComponent,
+        title: "Demmandes d'ouvertures de comptes entreprises - Voir | GNA",
       },
       {
         path: 'partners/list', component: PartnerListComponent,
@@ -162,19 +190,19 @@ export const routes: Routes = [
       },
       {
         path: 'segments/list', component: SegmentListComponent,
-        title: 'Segments - Lister | GNA',
+        title: 'Segmentation - Lister | GNA',
       },
       {
         path: 'segments/add', component: SegmentAddComponent,
-        title: 'Segments - Créer | GNA',
+        title: 'Segmentation - Créer | GNA',
       },
       {
         path: 'segments/edit', component: SegmentEditComponent,
-        title: 'Segments - Modifier | GNA',
+        title: 'Segmentation - Modifier | GNA',
       },
       {
         path: 'segments/view', component: SegmentViewComponent,
-        title: 'Segments | GNA',
+        title: 'Segmentation | GNA',
       },
       {
         path: 'settings-products/forms/quotations/list', component: FormQuotationListComponent,

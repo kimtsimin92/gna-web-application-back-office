@@ -1,5 +1,6 @@
 export const environment = {
-  apiGateway: "http://159.8.251.21:28080",
-  usersService: "http://159.8.251.21:28080/users-service",
-  productsService: "http://159.8.251.21:28080/products-service",
+  apiGateway: "http://crossroadtest.net:28080",
+  usersService: "http://crossroadtest.net:28080/users-service",
+  productsService: "http://crossroadtest.net:28080/products-service",
+  customersService: "http://crossroadtest.net:28090"
 };

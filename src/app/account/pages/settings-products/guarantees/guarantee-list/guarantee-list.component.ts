@@ -43,13 +43,18 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatTooltip} from "@angular/material/tooltip";
 import {TooltipModule} from "primeng/tooltip";
 import {ChipModule} from "primeng/chip";
-import {DatePipe, DecimalPipe, NgIf} from "@angular/common";
+import {DatePipe, DecimalPipe, NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {SkeletonModule} from "primeng/skeleton";
 import {MatFormField, MatInput} from "@angular/material/input";
 import {MatLabel} from "@angular/material/form-field";
 import {TableModule} from "primeng/table";
 import {DropdownModule} from "primeng/dropdown";
 import {PaginatorModule} from "primeng/paginator";
+import {TagModule} from "primeng/tag";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {BreakpointObserver} from "@angular/cdk/layout";
+import {Breakpoints} from '@angular/cdk/layout';
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 
 interface PageEvent {
   first: number;
@@ -97,6 +102,14 @@ interface PageEvent {
     TableModule,
     DropdownModule,
     PaginatorModule,
+    TagModule,
+    NgForOf,
+    NgStyle,
+    InputSwitchModule,
+    MatMenuTrigger,
+    MatMenu,
+    MatMenuItem,
+    NgClass,
   ],
   templateUrl: './guarantee-list.component.html',
   styleUrl: './guarantee-list.component.css'
@@ -111,21 +124,47 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
 
   loadingPage: boolean = false;
   loading: boolean = false;
-  dataPaginationResponse: any;
+  dataPaginationResponse: any = null;
 
-  displayedColumns: string[] = ['code', 'name', 'premiumMinimum', 'taxRate', 'createdAt',
-    'status', 'action'];
   dataSource = new MatTableDataSource<any>([]);
   selection = new SelectionModel<any>(true, []);
 
-  resultsLength = 0;
+
+  pageNumber: number = 0;
   pageSize: number = 10;
+  pageSizeList: any[] = [
+    {
+      name: 5
+    },
+    {
+      name: 10
+    },
+    {
+      name: 15
+    },
+    {
+      name: 20
+    },
+    {
+      name: 30
+    },
+    {
+      name: 50
+    },
+    {
+      name: 100
+    }
+  ];
+
+  pageSort: string = "name";
+  pageOrder: string = "asc";
+
   totalPages: number = 0;
   currentPage: number = 0;
   isLoadingResults = false;
   isRateLimitReached = false;
 
-  fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}];
+  fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
 
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -135,6 +174,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
   @Output() newEvent = new EventEmitter<boolean>();
   isSave: boolean = false;
   isDisable: boolean = true;
+
+  scrollHeight: string = "380px";
 
   filteredList: any[] = [];
 
@@ -196,7 +237,17 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     this.first = 0;
   }
 
+  stateOn: boolean = true;
+  stateOff: boolean = false;
+
+  statusList: any[] = [
+    { label: 'En Attente', value: '1' },
+    { label: 'Validé', value: '2' },
+    { label: 'Refusé', value: '3' },
+    ];
+
   constructor(
+    private responsive: BreakpointObserver,
     public _dialog: MatDialog,
     private _router: Router,
     private _liveAnnouncer: LiveAnnouncer,
@@ -205,6 +256,54 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
   }
   ngOnInit(): void {
 
+    this.responsive.observe(Breakpoints.XSmall)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches XSmall : pageSize 5");
+          this.scrollHeight = "390px";
+          this.pageSize = 5;
+          this.onGetDataList();
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.Small)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches Small : pageSize 5");
+          this.scrollHeight = "390px";
+          this.pageSize = 5;
+          this.onGetDataList();
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.Large)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches Large : pageSize 5");
+          this.scrollHeight = "390px";
+          this.pageSize = 5;
+          this.onGetDataList();
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.XLarge)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches XLarge : pageSize 10");
+          this.scrollHeight = "660px";
+          this.pageSize = 10;
+          this.onGetDataList();
+        }
+
+      });
+
     if (localStorage.getItem("APP_HEADER_TITLE")) {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
@@ -212,20 +311,32 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     this.headerTitle = "Configuration des produits";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
-    this.items = [{ label: 'Configuration Produits' }, { label: 'Garanties' }];
-
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
-
-    this.onGetDataList();
-
 
   }
 
   ngAfterViewInit(): void {
-   // this.onGetDataList();
+    this.onGetDataList();
   }
 
   ngOnDestroy(): void {
+  }
+
+
+  // @ts-ignore
+  getSeverity(status: string) {
+    switch (status) {
+      case '1':
+        return 'warning';
+
+      case '2':
+        return 'success';
+
+      case '3':
+        return 'danger';
+
+      case '4':
+        return '';
+    }
   }
 
 
@@ -359,34 +470,37 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }*/
-
   onGetDataList() {
 
-    let page = 0;
-
     if (this.currentPage > 0) {
-      page = this.currentPage - 1;
+      this.pageNumber = this.currentPage - 1;
     } else {
-      page = this.currentPage;
+      this.pageNumber = this.currentPage;
     }
 
-    this.accountService.onGetGuarantees(page)
+    this.accountService.onGetGuaranteeList(this.pageSort, this.pageOrder, this.pageNumber, this.pageSize)
       .subscribe((responseData: HttpResponse<any>) => {
+
         console.log(responseData);
         this.dataPaginationResponse =  responseData["body"];
+
         if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
-          this.filteredList = this.dataPaginationResponse.guarantees;
+
           this.dataList = this.dataPaginationResponse.guarantees;
           this.totalRecords = this.dataList.length;
+
           if (this.currentPage <= 0) {
             this.currentPage++;
           }
+
         }
 
       }, (errorData: HttpErrorResponse) => {
+
         console.log(errorData);
         this.dataPaginationResponse = {};
         this.onGetNotificationErrorDialog();
+
       });
 
   }
@@ -424,8 +538,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
 
     const dialogRef = this._dialog.open(ConfirmationRemoveDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
-      height: '250px',
+      width: '400px',
+      height: '340px',
       data: {
         dialogMessage: "de la garantie " + data.name
       },
@@ -534,35 +648,32 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   onGoToPrevious() {
-    this.currentPage--;
-    this.onGetDataList();
+
+    if (!this.isSave) {
+      this.currentPage--;
+      this.onGetDataList();
+    }
+
   }
 
   onGoToNext() {
-    this.currentPage++;
-    this.onGetDataList();
+    if (!this.isSave) {
+      this.currentPage++;
+      this.onGetDataList();
+    }
   }
 
-  filterResults(text: string) {
-    if (!text) {
-      this.filteredList = this.dataPaginationResponse.guarantees;
-      return;
-    }
 
-    console.log(text);
-
-    if (this.dataPaginationResponse && this.dataPaginationResponse.guarantees) {
-      this.filteredList = this.dataPaginationResponse.guarantees.filter(
-        // @ts-ignore
-        guarantee => guarantee?.name.toLowerCase().includes(text.toLowerCase())
-      );
-    }
-
-  }
-
-  protected readonly HTMLInputElement = HTMLInputElement;
 
   getValue(event: Event) {
     return (event.target as HTMLInputElement).value;
   }
+
+  onGetPageSize(name: number) {
+    this.pageSize = name;
+    this.pageNumber = 0;
+    this.currentPage = 0;
+    this.onGetDataList();
+  }
+
 }

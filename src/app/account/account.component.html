@@ -8,14 +8,14 @@
               [opened]="drawerToggle" class="gna-sidebar">
     <app-sidenav></app-sidenav>
   </mat-drawer>
-  <mat-drawer-content>
+  <mat-drawer-content class="mdc-example-container">
     <main>
       <!--<div class="gna-page-loading">
         <mat-spinner *ngIf="accountService.pageLoading"></mat-spinner>
       </div>-->
       <router-outlet></router-outlet>
     </main>
-  <!--  <app-footer></app-footer>-->
+  <app-footer class="mt-5"></app-footer>
   </mat-drawer-content>
 </mat-drawer-container>
 <app-gna-loading *ngIf="accountService.loadingPage"></app-gna-loading>

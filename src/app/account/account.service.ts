@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {JwtHelperService} from "@auth0/angular-jwt";
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpParams, HttpResponse} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {SessionAlertDialogComponent} from "./dialogs/session-alert-dialog/session-alert-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -270,7 +270,7 @@ export class AccountService {
 
   // Guarantees
 
-  getGuarantees(sort: string, order: string, page: number, size: number) {
+  onGetGuaranteeList(sort: string, order: string, page: number, size: number) {
     return this._http
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/guarantees?sort='
         +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
@@ -514,6 +514,25 @@ console.log(minutes);
       console.log(`Dialog result: ${result}`);
     });
 
+  }
+
+
+  //
+
+  onGetCustomersList(requestData: any) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+'/v1/users', {
+        observe: 'response',
+        params: new HttpParams({fromString:  'filters={"type_customer_id":"1"}'})
+      });
+  }
+
+  onGetCustomersListByType(type: string) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+'/v1/users', {
+        observe: 'response',
+        params: new HttpParams({fromString:  `filters={"type_customer_id":${type}}`})
+      });
   }
 
 }

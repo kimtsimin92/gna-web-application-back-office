@@ -26,6 +26,7 @@ import {
   ErrorNotificationDialogComponent
 } from "../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-header',
@@ -53,11 +54,12 @@ export class HeaderComponent implements OnInit, OnChanges, AfterViewInit, DoChec
   headerTitle: string | undefined;
 
   @Output() drawerEvent = new EventEmitter<boolean>();
-  isToggle: boolean = false;
+  isToggle: boolean = true;
 
   userData: any = null;
 
   constructor(
+    private responsive: BreakpointObserver,
     public auth: AuthService,
     private _title: Title,
     private _router: Router,
@@ -78,7 +80,48 @@ export class HeaderComponent implements OnInit, OnChanges, AfterViewInit, DoChec
         this.headerTitle = localStorage.getItem("APP_HEADER_TITLE");
       }, 200);
     }
-    this.onDrawerToggle();
+   // this.onDrawerToggle();
+
+    this.responsive.observe(Breakpoints.XSmall)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches XSmall");
+          this.isToggle = false;
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.Small)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches Small");
+          this.isToggle = true;
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.Large)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches Large");
+          this.isToggle = true;
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.XLarge)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches XLarge");
+          this.isToggle = true;
+        }
+
+      });
+
   }
 
   ngAfterViewInit(): void {

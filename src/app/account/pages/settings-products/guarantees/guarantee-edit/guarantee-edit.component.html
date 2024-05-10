@@ -3,36 +3,39 @@
 </div>
 
 
-<div class="gna-main-content">
+<div class="container-fluid">
 
-  <div class="container-fluid gna-main-div-card">
+  <div>
     <mat-card class="gna-card">
       <mat-card-header class="gna-card-header">
+
+        <div class="container-fluid">
+
         <div class="gna-card-header-btn row">
-          <div class="col-12 col-sm-6">
+          <div class="col-12 col-sm-6 col-md-4 offset-md-4 col-lg-4 offset-lg-4 col-xl-2 offset-xl-8">
             <button mat-raised-button
-                    class="gna-btn-default gna-btn-cancel"
+                    class="gna-btn-default gna-btn-cancel gna-full-width"
                     (click)="onBack()"
                     [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
           </div>
-          <div class="col-12 col-sm-6">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
             @if (!formData.valid) {
               <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
+                      class="gna-btn-default gna-btn-save gna-full-width"
                       (click)="onGetNotBlankAlert()">Modifier</button>
             } @else {
               <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
+                      class="gna-btn-default gna-btn-save gna-full-width"
                       [disabled]="isSave || accountService.pageLoading || accountService.isSave"
                       (click)="onConfirm()">Modifier</button>
             }
           </div>
 
         </div>
+        </div>
       </mat-card-header>
-      <mat-card-content>
-
-        <div class="mt-3 gna-card-tab"></div>
+      <div class="container-fluid">
+        <div class="example-table-container-form mt-4">
 
         <ul class="nav nav-tabs">
           <li class="nav-item">
@@ -251,12 +254,15 @@
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Taux franchise</label>
+                      <label>Capital</label>
                       <input pInputText pKeyFilter="money"
-                             aria-describedby="name-help" placeholder="Taux franchise" class="gna-form-input"
-                             type="text"
+                             aria-describedby="accessory-amount-company-help" placeholder="Capital *" class="gna-form-input"
+                             type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
-                             formControlName="franchiseRate"/>
+                             min="1"
+                             formControlName="capital"
+                             required
+                             [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label for="franchiseMinimum">Franchise minimum</label>
@@ -279,15 +285,12 @@
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Capital</label>
+                      <label>Taux franchise</label>
                       <input pInputText pKeyFilter="money"
-                             aria-describedby="accessory-amount-company-help" placeholder="Capital *" class="gna-form-input"
-                             type="number"
+                             aria-describedby="name-help" placeholder="Taux franchise" class="gna-form-input"
+                             type="text"
                              pattern="^[0-9]+(\.[0-9]+)?$"
-                             min="1"
-                             formControlName="capital"
-                             required
-                             [readonly]="isSave || accountService.pageLoading"/>
+                             formControlName="franchiseRate"/>
                     </div>
                     <div class="col-12 btn-new mb-3">
                       @if (!formDataItem.valid) {
@@ -303,7 +306,7 @@
                     </div>
                   </div>
                 </form>
-                <div class="example-table-con">
+                <div>
                   <table class="table table-borderless gi-table">
                     <thead>
                     <tr>
@@ -686,7 +689,8 @@
             </div>
           </mat-tab>
         </mat-tab-group>-->
-      </mat-card-content>
+        </div>
+        </div>
     </mat-card>
   </div>
 

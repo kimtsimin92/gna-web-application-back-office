@@ -11,6 +11,7 @@ import {NgIf} from "@angular/common";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {GnaLoadingComponent} from "./transitions/gna-loading/gna-loading.component";
 import {JwtHelperService} from "@auth0/angular-jwt";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-account',
@@ -39,6 +40,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
   headerTitle: string | undefined;
 
   constructor(
+    private responsive: BreakpointObserver,
     private _router: Router,
     private _route: ActivatedRoute,
     public auth: AuthService,
@@ -46,15 +48,53 @@ export class AccountComponent implements OnInit, AfterViewInit {
   ) {
   }
 
-  onToggle($event: any) {
-    this.drawerToggle = $event;
-  }
-
   ngOnInit(): void {
+
     this.accountService.loadingPage = true;
     setTimeout(() => {
       this.accountService.loadingPage = false;
     }, 1000);
+
+    this.responsive.observe(Breakpoints.XSmall)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches XSmall");
+          this.drawerToggle = false;
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.Small)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches Small");
+          this.drawerToggle = true;
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.Large)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches Large");
+          this.drawerToggle = true;
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.XLarge)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches XLarge");
+          this.drawerToggle = true;
+        }
+
+      });
+
 
   }
 
@@ -64,6 +104,9 @@ export class AccountComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 
+  onToggle($event: any) {
+    this.drawerToggle = $event;
+  }
 
 
 }

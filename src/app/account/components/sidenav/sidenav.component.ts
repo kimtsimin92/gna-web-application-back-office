@@ -147,7 +147,7 @@ export class SidenavComponent implements OnInit {
       name: ' Tableau de bord',
       icon: 'fa-solid fa-pie-chart',
       link: '/account/dashboard',
-      class: null
+      class: null,
     },
   ];
 
@@ -186,27 +186,48 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
 
+    let groupManageCustomerAccounts = {
+      id: 3,
+      name: ' Gestion des comptes',
+      icon: 'fa-solid fa-users',
+      children: [
+        { name: "Demandes d'ouvertures de comptes", icon: '',
+          children: [
+            {name: "Comptes Particuliers", link: '/account/manager/accounts/personals/requests/list', class: null},
+            {name: 'Comptes Entreprises', link: '/account/manager/accounts/companies/requests/list', class: null},
+          ],},
+        {name: 'Comptes',
+          icon: '',
+          children: [
+            {name: "Comptes Particuliers", link: '/account/manager/accounts/personals/requests/list', class: null},
+            {name: 'Comptes Entreprises', link: '/account/manager/accounts/companies/requests/list', class: null},
+          ]},
+      ],
+    };
+
+    this.menuData.push(groupManageCustomerAccounts);
+
       let groupSettingsProducts = {
-          id: 3,
+          id: 4,
           name: ' Configuration des produits',
           icon: 'fa-solid fa-sliders',
           children: [
             {name: 'Garanties', link: '/account/guarantees/list', class: null},
-            {name: 'Groupes de produits', link: '/account/products-groups/list', class: null},
+         /*   {name: 'Groupes de produits', link: '/account/products-groups/list', class: null},
             {name: 'Formulaires de cotations', link: '/account/settings-products/forms/quotations/list', class: null},
-           {name: 'Calculs de primes', link: '/account/settings-products/premium-calculation/list', class: null}
+           {name: 'Calculs de primes', link: '/account/settings-products/premium-calculation/list', class: null}*/
           ],
         };
 
         this.menuData.push(groupSettingsProducts);
 
-      let groupMarketing =  {
-        id: 4,
+   /*   let groupMarketing =  {
+        id: 5,
         name: ' Marketing',
         icon: 'fa-solid fa-bullhorn',
         children: [
+          {name: 'Produits', link: '/account/products/list', class: null},
           {name: 'Segmentation', link: '/account/segments/list', class: null},
-          {name: 'Produits', link: '/account/products/list', class: null}
         ],
       };
 
@@ -214,7 +235,7 @@ export class SidenavComponent implements OnInit {
 
     let groupSettings =
       {
-        id: 5,
+        id: 6,
         name: ' Paramètres',
         icon: 'fa-solid fa-gear',
         children: [],
@@ -254,7 +275,7 @@ export class SidenavComponent implements OnInit {
     // @ts-ignore
     groupSettings.children.push(roleManageUsers);
 
-    this.menuData.push(groupSettings);
+    this.menuData.push(groupSettings);*/
 
     this.dataSource.data = this.menuData;
 

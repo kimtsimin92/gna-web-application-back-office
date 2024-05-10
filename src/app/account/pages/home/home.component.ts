@@ -9,6 +9,8 @@ import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {BreadcrumbModule} from "primeng/breadcrumb";
 import {MenuItem} from "primeng/api";
+import {AccountService} from "../../account.service";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-home',
@@ -49,7 +51,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
               public _dialog: MatDialog,
-              private _router: Router,) { }
+              private _router: Router,
+              private accountService: AccountService,) { }
 
   ngOnInit(): void {
 
@@ -65,6 +68,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.items = [{ label: 'Computer' }, { label: 'Notebook' }, { label: 'Accessories' }, { label: 'Backpacks' }, { label: 'Item' }];
 
     this.home = { icon: 'pi pi-home', routerLink: '/' };
+
+   // this.onGetCustomerList();
 
   }
 
@@ -87,6 +92,19 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.loadingPage = false;
         });
     }, 100);
+  }
+
+  onGetCustomerList() {
+
+    let customerType = "1";
+
+    this.accountService.onGetCustomersListByType(customerType)
+      .subscribe((responseData: any) => {
+        console.log(responseData);
+      }, (errorData: HttpErrorResponse) => {
+        console.log(errorData);
+      } );
+
   }
 
 }

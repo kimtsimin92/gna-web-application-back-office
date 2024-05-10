@@ -580,11 +580,6 @@ table th {
   margin: 0 10px;
 }
 
-.example-table-con {
-  position: relative;
-  max-height: 110px;
-  overflow: auto;
-}
 
 .gi-table {
   border: 1px solid #2960A3!important;

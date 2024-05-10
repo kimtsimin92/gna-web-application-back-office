@@ -1,4 +1,5 @@
 
+/* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
 
   .gna-responsive {
@@ -13,8 +14,56 @@
     display: block!important;
   }
 
-  .gna-sidebar {
-    display: none!important;
+  /*.gna-sidebar {*/
+  /*  display: none!important;*/
+  /*}*/
+
+  .gna-btn-default {
+    margin-top: 5px!important;
+  }
+
+  .gna-action-span-div {
+    justify-content: flex-start!important;
+  }
+
+  .example-table-container {
+    min-height: 50vh!important;
+  }
+
+}
+
+@media only screen and (min-width : 1000px) {
+
+  .example-table-container {
+    min-height: 60vh!important;
+  }
+
+  .example-table-container-form {
+    min-height: 65vh!important;
+  }
+
+}
+
+@media only screen and (min-width : 1200px) {
+
+  .example-table-container {
+    min-height: 60vh!important;
+  }
+
+  .example-table-container-form {
+    min-height: 65vh!important;
+  }
+
+}
+
+@media only screen and (min-width: 1800px) {
+
+  .example-table-container {
+    min-height: 70vh!important;
+      }
+
+  .example-table-container-form {
+    min-height: 75vh!important;
   }
 
 }
