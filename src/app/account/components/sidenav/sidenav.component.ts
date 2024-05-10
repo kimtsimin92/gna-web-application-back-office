@@ -186,7 +186,7 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let groupManageCustomerAccounts = {
+/*    let groupManageCustomerAccounts = {
       id: 3,
       name: ' Gestion des comptes',
       icon: 'fa-solid fa-users',
@@ -205,33 +205,37 @@ export class SidenavComponent implements OnInit {
       ],
     };
 
-    this.menuData.push(groupManageCustomerAccounts);
+    this.menuData.push(groupManageCustomerAccounts);*/
 
-      let groupSettingsProducts = {
+/*      let groupSettingsProducts = {
           id: 4,
           name: ' Configuration des produits',
           icon: 'fa-solid fa-sliders',
           children: [
-            {name: 'Garanties', link: '/account/guarantees/list', class: null},
-         /*   {name: 'Groupes de produits', link: '/account/products-groups/list', class: null},
+               {name: 'Garanties', link: '/account/guarantees/list', class: null},
+        {name: 'Groupes de produits', link: '/account/products-groups/list', class: null},
             {name: 'Formulaires de cotations', link: '/account/settings-products/forms/quotations/list', class: null},
-           {name: 'Calculs de primes', link: '/account/settings-products/premium-calculation/list', class: null}*/
+           {name: 'Calculs de primes', link: '/account/settings-products/premium-calculation/list', class: null}
           ],
         };
 
-        this.menuData.push(groupSettingsProducts);
+        this.menuData.push(groupSettingsProducts);*/
 
-   /*   let groupMarketing =  {
-        id: 5,
-        name: ' Marketing',
-        icon: 'fa-solid fa-bullhorn',
-        children: [
-          {name: 'Produits', link: '/account/products/list', class: null},
-          {name: 'Segmentation', link: '/account/segments/list', class: null},
-        ],
-      };
+    let groupMarketing =  {
+      id: 5,
+      name: ' Marketing',
+      icon: 'fa-solid fa-bullhorn',
+      children: [
+     /*   {name: 'Produits', link: '/account/products/list', class: null},
+        {name: 'Segmentation', link: '/account/segments/list', class: null},*/
+        {name: 'Campagnes', link: '/account/marketing/campaigns/list', class: null},
+      ],
+    };
 
-      this.menuData.push(groupMarketing);
+    this.menuData.push(groupMarketing);
+
+   /*
+
 
     let groupSettings =
       {

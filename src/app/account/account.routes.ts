@@ -111,6 +111,10 @@ import {
 import {
   CustomerCompanyAccountRequestDetailComponent
 } from "./pages/manager-customers-accounts/customer-company-account-request-detail/customer-company-account-request-detail.component";
+import {CampaignListComponent} from "./pages/marketing/campaign/campaign-list/campaign-list.component";
+import {CampaignDetailComponent} from "./pages/marketing/campaign/campaign-detail/campaign-detail.component";
+import {CampaignAddComponent} from "./pages/marketing/campaign/campaign-add/campaign-add.component";
+import {CampaignEditComponent} from "./pages/marketing/campaign/campaign-edit/campaign-edit.component";
 
 
 export const routes: Routes = [
@@ -299,6 +303,22 @@ export const routes: Routes = [
       {
         path: 'products/view', component: ProductViewComponent,
         title: 'Produit | GNA',
+      },
+      {
+        path: 'marketing/campaigns/list', component: CampaignListComponent,
+        title: 'Marketing Campaign List | GNA',
+      },
+      {
+        path: 'marketing/campaigns/details', component: CampaignDetailComponent,
+        title: 'Marketing Campaign Details | GNA',
+      },
+      {
+        path: 'marketing/campaigns/add', component: CampaignAddComponent,
+        title: 'Marketing Campaign Créer | GNA',
+      },
+      {
+        path: 'marketing/campaigns/edit', component: CampaignEditComponent,
+        title: 'Marketing Campaign Modifier | GNA',
       },
       {
         path: 'profile', component: ProfileComponent,
