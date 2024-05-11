@@ -147,11 +147,11 @@
 
           <div class="gna-pagination">
 
-            @if (dataList) {
-              @if (pageSize > 0) {
+            @if (dataPaginationResponse) {
+              @if (dataPaginationResponse.pageSize > 0) {
                 <span class="gna-pagination-page-size"
                       [matMenuTriggerFor]="aboveMenu"
-                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ pageSize }}
+                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ dataPaginationResponse.pageSize }}
                   <i class="pi pi-angle-up"></i></span>
                 <mat-menu #aboveMenu="matMenu" yPosition="above">
                   @for (psl of pageSizeList; track psl) {
@@ -167,7 +167,7 @@
           </div>
 
           <div class="gna-pagination">
-            @if (dataList) {
+            @if (dataPaginationResponse) {
               @if (currentPage > 1) {
                 <span class="gna-pagination-previous"
                       (click)="onGoToPrevious()"
@@ -179,13 +179,13 @@
               <i class="pi pi-arrow-left"></i>
             </span>
               }
-              @if (pageSize > 0) {
+              @if (dataPaginationResponse.pageSize > 0) {
                 <span class="gna-pagination-page"
                       [ngClass]="{'gna-pagination-disabled': isSave}">{{ currentPage }}</span>
               } @else {
                 <span class="gna-pagination-page gna-pagination-disabled">0</span>
               }
-              @if (currentPage < pageNumber) {
+              @if (currentPage < dataPaginationResponse.totalPages) {
                 <span class="gna-pagination-next"
                       (click)="onGoToNext()"
                       [ngClass]="{'gna-pagination-disabled': isSave}">

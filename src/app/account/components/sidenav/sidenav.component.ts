@@ -186,7 +186,7 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
 
-/*    let groupManageCustomerAccounts = {
+let groupManageCustomerAccounts = {
       id: 3,
       name: ' Gestion des comptes',
       icon: 'fa-solid fa-users',
@@ -205,9 +205,9 @@ export class SidenavComponent implements OnInit {
       ],
     };
 
-    this.menuData.push(groupManageCustomerAccounts);*/
+    this.menuData.push(groupManageCustomerAccounts);
 
-/*      let groupSettingsProducts = {
+     let groupSettingsProducts = {
           id: 4,
           name: ' Configuration des produits',
           icon: 'fa-solid fa-sliders',
@@ -219,7 +219,7 @@ export class SidenavComponent implements OnInit {
           ],
         };
 
-        this.menuData.push(groupSettingsProducts);*/
+        this.menuData.push(groupSettingsProducts);
 
     let groupMarketing =  {
       id: 5,

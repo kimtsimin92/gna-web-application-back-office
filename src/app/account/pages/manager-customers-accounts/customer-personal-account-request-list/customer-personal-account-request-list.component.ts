@@ -60,7 +60,7 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
 
   pageSort: string = "nom";
   pageOrder: string = "asc";
-  pageNumber: number = 0;
+  pageNumber: number = 1;
   pageSize: number = 10;
   pageSizeList: any[] = [
     {
@@ -101,6 +101,9 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
     { label: 'Validé', value: '2' },
     { label: 'Refusé', value: '3' },
   ];
+
+  dataPaginationResponse: any = null;
+  totalRecords: number = 0;
 
   constructor(
     private responsive: BreakpointObserver,
@@ -189,10 +192,24 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
 
         console.log(responseData);
 
-        let responseDataBody = responseData['body'];
+        this.dataPaginationResponse = responseData['body'];
 
-        if (responseDataBody) {
-          this.dataList = responseDataBody.data;
+        if (this.dataPaginationResponse && this.dataPaginationResponse.pagination) {
+
+          this.dataPaginationResponse.pageSize = this.dataPaginationResponse.pagination.limit;
+          this.dataPaginationResponse.totalPages = this.dataPaginationResponse.pagination.total_pages;
+
+          if (this.dataPaginationResponse.totalPages > 0) {
+
+            this.dataList = this.dataPaginationResponse.data;
+
+            if (this.currentPage <= 0) {
+              this.currentPage++;
+            }
+
+
+          }
+
         }
 
       }, (errorData: HttpErrorResponse) => {
