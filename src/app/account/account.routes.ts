@@ -133,7 +133,7 @@ export const routes: Routes = [
         title: "Demmandes d'ouvertures de comptes particuliers - Lister | GNA",
       },
       {
-        path: 'manager/accounts/personals/requests/details', component: CustomerPersonalAccountRequestDetailComponent,
+        path: 'manager/accounts/personals/requests/view', component: CustomerPersonalAccountRequestDetailComponent,
         title: "Demmandes d'ouvertures de comptes particuliers - Voir | GNA",
       },
       {
@@ -141,7 +141,7 @@ export const routes: Routes = [
         title: "Demmandes d'ouvertures de comptes entreprises - Lister | GNA",
       },
       {
-        path: 'manager/accounts/companies/requests/details', component: CustomerCompanyAccountRequestDetailComponent,
+        path: 'manager/accounts/companies/requests/view', component: CustomerCompanyAccountRequestDetailComponent,
         title: "Demmandes d'ouvertures de comptes entreprises - Voir | GNA",
       },
       {

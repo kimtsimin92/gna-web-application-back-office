@@ -226,15 +226,132 @@ let groupManageCustomerAccounts = {
       name: ' Marketing',
       icon: 'fa-solid fa-bullhorn',
       children: [
-     /*   {name: 'Produits', link: '/account/products/list', class: null},
-        {name: 'Segmentation', link: '/account/segments/list', class: null},*/
-        {name: 'Campagnes', link: '/account/marketing/campaigns/list', class: null},
+        {name: 'Produits', link: '/account/products/list', class: null},
+        {name: 'Segmentation', link: '/account/segments/list', class: null},
+        {name: 'Campagne', link: '/account/marketing/campaigns/list', class: null},
+        {name: 'Communication', link: '/account/marketing/campaigns/list', class: null},
       ],
     };
 
     this.menuData.push(groupMarketing);
 
-   /*
+
+    let groupSubscriptions =  {
+      id: 5,
+      name: ' Gestion des souscriptions',
+      icon: 'fa-solid fa-umbrella',
+      children: [
+        {name: 'Souscriptions soumises', link: '/account/products/list', class: null},
+        {name: 'Souscriptions validées', link: '/account/segments/list', class: null},
+        {name: 'Souscriptions rejetées', link: '/account/marketing/campaigns/list', class: null},
+      ],
+    };
+
+    this.menuData.push(groupSubscriptions);
+
+    let groupSinisters =  {
+      id: 5,
+      name: ' Gestion des sinistres',
+      icon: 'fa-solid fa-bolt',
+      children: [
+        {name: 'Déclarations physiques', link: '/account/segments/list', class: null},
+        {name: 'Demandes soumises', link: '/account/products/list', class: null},
+        {name: 'Demandes validés', link: '/account/products/list', class: null},
+        {name: 'Demandes rejetées', link: '/account/products/list', class: null},
+      ],
+    };
+
+    this.menuData.push(groupSinisters);
+
+    let groupCompensations =  {
+      id: 5,
+      name: ' Gestion des indemnisations',
+      icon: 'fa-solid fa-hand-holding-dollar',
+      children: [
+        {name: 'Sinistres ouverts', link: '/account/marketing/campaigns/list', class: null},
+        {name: 'Sinistres clôturés', link: '/account/marketing/campaigns/list', class: null},
+      ],
+    };
+
+    this.menuData.push(groupCompensations);
+
+    let groupAccounting =  {
+      id: 5,
+      name: ' Comptabilité',
+      icon: 'fa-solid fa-coins',
+      children: [
+        {name: 'Demandes à traiter', link: '/account/products/list', class: null},
+        {name: 'Demandes traitées', link: '/account/segments/list', class: null},
+      ],
+    };
+
+    this.menuData.push(groupAccounting);
+
+    let groupCoinsurance =  {
+      id: 5,
+      name: ' Coassurance',
+      icon: 'fa-solid fa-handshake',
+      children: [
+        {name: 'Demandes soumises', link: '/account/products/list', class: null},
+        {name: 'Demandes validés', link: '/account/segments/list', class: null},
+        {name: 'Demandes rejetées', link: '/account/segments/list', class: null},
+      ],
+    };
+
+    this.menuData.push(groupCoinsurance);
+
+    let groupReinsurance =  {
+      id: 5,
+      name: ' Réassurance',
+      icon: 'fa-solid fa-handshake',
+      children: [
+        {name: 'Demandes soumises', link: '/account/products/list', class: null},
+        {name: 'Demandes validés', link: '/account/segments/list', class: null},
+        {name: 'Demandes rejetées', link: '/account/segments/list', class: null},
+      ],
+    };
+
+    this.menuData.push(groupReinsurance);
+
+    let groupExperts =  {
+      id: 5,
+      name: ' Expertise',
+      icon: 'fa-solid fa-user-tie',
+      children: [
+        {name: 'Demandes soumises', link: '/account/products/list', class: null},
+        {name: 'Demandes validés', link: '/account/segments/list', class: null},
+        {name: 'Demandes rejetées', link: '/account/segments/list', class: null},
+      ],
+    };
+
+    this.menuData.push(groupExperts);
+
+    let groupProviders =  {
+      id: 5,
+      name: ' Prestation',
+      icon: 'fa-solid fa-briefcase',
+      children: [
+        {name: 'Demandes soumises', link: '/account/products/list', class: null},
+        {name: 'Demandes validés', link: '/account/segments/list', class: null},
+        {name: 'Demandes rejetées', link: '/account/segments/list', class: null},
+      ],
+    };
+
+    this.menuData.push(groupProviders);
+
+    let groupPartners =  {
+      id: 5,
+      name: ' Partenariat',
+      icon: 'fa-solid fa-handshake-angle',
+      children: [
+        {name: 'Souscription', link: '/account/products/list', class: null},
+        {name: 'Offres', link: '/account/segments/list', class: null},
+        {name: 'Rendez-vous', link: '/account/segments/list', class: null},
+      ],
+    };
+
+    this.menuData.push(groupPartners);
+
 
 
     let groupSettings =
@@ -279,7 +396,7 @@ let groupManageCustomerAccounts = {
     // @ts-ignore
     groupSettings.children.push(roleManageUsers);
 
-    this.menuData.push(groupSettings);*/
+    this.menuData.push(groupSettings);
 
     this.dataSource.data = this.menuData;
 

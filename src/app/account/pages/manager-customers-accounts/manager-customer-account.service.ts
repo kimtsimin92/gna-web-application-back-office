@@ -11,11 +11,11 @@ export class ManagerCustomerAccountService {
     private _http: HttpClient
   ) { }
 
-  onGetCustomerAccountRequestListByType(skip: number, limit: number, filters: string) {
+  onGetCustomerAccountRequestListByType(pageNumber: number, limit: number, filters: string) {
     return this._http
       .get<HttpResponse<any>>(environment.customersService+'/v1/users', {
         observe: 'response',
-        params: new HttpParams({fromString:  `skip=${skip}&limit=${limit}&filters={"type_customer_id":${filters}}`})
+        params: new HttpParams({fromString:  `filters={"type_customer_id":${filters}}&page=${pageNumber}&limit=${limit}`})
       });
   }
 

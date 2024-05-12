@@ -1386,3 +1386,23 @@ th, td {
   width: 1.15rem!important;
   border-radius: 2px!important;
 }
+
+.gna-table-header th {
+  background-color: #e1e1e1!important;
+}
+
+.gna-table-files {
+  width: 100%!important;
+  margin-left: 25px;
+}
+
+.gna-table-files span {
+
+  font-weight: bold;
+  text-decoration: underline;
+
+}
+
+.gna-table-td-mt {
+  margin-top: 10px;
+}

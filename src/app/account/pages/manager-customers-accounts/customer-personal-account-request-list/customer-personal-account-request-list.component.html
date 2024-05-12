@@ -33,47 +33,63 @@
           <p-table
             #dt
             [value]="dataList"
+            dataKey="id"
             styleClass="p-datatable-striped"
-            [tableStyle]="{ 'min-width': '60rem' }"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [loading]="loading"
+            [rows]="rows"
+            [totalRecords]="totalRecords"
             [paginator]="false"
-            [rows]="10"
             [first]="first"
-            [showCurrentPageReport]="true"
             (onPage)="pageChange($event)"
             [rowsPerPageOptions]="[5, 10, 20, 15, 30, 50, 100]"
             [globalFilterFields]="['matricule_cmu', 'nom', 'prenom', 'genre']"
-            [scrollable]="true">
+            [scrollable]="true"
+            [resizableColumns]="true" >
             <ng-template pTemplate="header">
-              <tr>
-                <th pSortableColumn="matricule_cmu" style="width:15%">
+              <tr class="gna-table-header">
+                <th pSortableColumn="matricule_cmu">
                   N° CMU
-                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />
+                  <p-sortIcon field="matricule_cmu" />
+<!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                 </th>
-                <th pSortableColumn="nom" style="width:30%">Nom
-                  <p-columnFilter type="text" field="nom" display="menu" />
+                <th pSortableColumn="nom">Nom
+<!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
+                  <p-sortIcon field="nom" />
                 </th>
-                <th pSortableColumn="prenom" style="width:30%">Prénom
-                  <p-columnFilter type="text" field="prenom" display="menu" />
+                <th pSortableColumn="prenom">Prénom
+<!--                  <p-columnFilter type="text" field="prenom" display="menu" />-->
+                  <p-sortIcon field="prenom" />
                 </th>
-                <th pSortableColumn="genre" style="width:30%">Genre
-                  <p-columnFilter type="text" field="genre" display="menu" />
+                <th pSortableColumn="genre">Genre
+<!--                  <p-columnFilter type="text" field="genre" display="menu" />-->
+                  <p-sortIcon field="genre" />
                 </th>
-                <th pSortableColumn="contact" style="width:20%" class="gna-responsive">Téléphone
-                  <p-columnFilter type="text" field="contact" display="menu" />
-                <th pSortableColumn="created_at" style="width:20%" class="gna-responsive">Enregistrement
-                  <p-columnFilter type="date" field="created_at" display="menu" />
-                <th style="width:10%"></th>
+                <th pSortableColumn="contact" class="gna-responsive">Téléphone
+<!--                  <p-columnFilter type="text" field="contact" display="menu" />-->
+                  <p-sortIcon field="contact" />
+                <th pSortableColumn="created_at" class="gna-responsive">Enregistrement
+<!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
+                <p-sortIcon field="created_at" />
+                <th></th>
               </tr>
             </ng-template>
 
-            <ng-template pTemplate="body" let-element>
+            <ng-template pTemplate="body" let-element let-expanded="expanded">
               <tr>
                 <td>
-                  @if (element.matricule_cmu ) {
-                    {{ element.matricule_cmu }}
-                  } @else {
-                    N/A
-                  }
+                  <div class="row">
+                    <div class="col-4">
+                      <p-button type="button" pRipple [pRowToggler]="element" [text]="true" [rounded]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+                    </div>
+                    <div class="col-8 gna-table-td-mt">
+                      @if (element.matricule_cmu ) {
+                        {{ element.matricule_cmu }}
+                      } @else {
+                        N/A
+                      }
+                    </div>
+                  </div>
                 </td>
                 <td>
                   @if (element.nom) {
@@ -118,7 +134,7 @@
                     <p-button icon="pi pi-eye" class="gna-btn-eye"
                               pTooltip="Afficher"
                               tooltipPosition="bottom"
-                              (click)="onViewDetails(element)"
+                              (click)="onGoToView(element)"
                               [disabled]="isSave"></p-button>
                   </span>
                                    </span>
@@ -127,15 +143,27 @@
 
             </ng-template>
 
+            <ng-template pTemplate="rowexpansion" let-element>
+            <div class="gna-table-files">
+              <span>Documents joints</span>
+            </div>
+            </ng-template>
+
             <ng-template pTemplate="loadingbody">
-              <tr>
-                <td *ngFor="let item of fakeDataList">
-                <td><p-skeleton width="5rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="8rem" styleClass="mb-2"></p-skeleton></td>
+              <tr *ngFor="let item of fakeDataList">
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td>
+                   <span class="gna-action-span-div">
+                      <span class="gna-action-span">
+                         <p-skeleton width="2rem" styleClass="mb-4"></p-skeleton>
+                      </span>
+                   </span>
+                </td>
               </tr>
             </ng-template>
 
@@ -163,6 +191,9 @@
                 <span class="gna-pagination-page-size gna-pagination-disabled">0
                 <i class="pi pi-angle-up"></i></span>
               }
+            } @else {
+              <span class="gna-pagination-page-size gna-pagination-disabled">0
+                <i class="pi pi-angle-up"></i></span>
             }
           </div>
 

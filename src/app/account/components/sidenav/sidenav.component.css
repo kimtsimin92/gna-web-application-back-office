@@ -2,7 +2,6 @@ mat-tree {
   padding-top: 60px;
   /*background: transparent linear-gradient(180deg, #EF8F00 0%, #F08217 69%, #915C27 100%) 0 0 no-repeat padding-box;*/
   background-color: #EF8F00;
-  height: 100% !important
 }
 
 .mat-tree-node {

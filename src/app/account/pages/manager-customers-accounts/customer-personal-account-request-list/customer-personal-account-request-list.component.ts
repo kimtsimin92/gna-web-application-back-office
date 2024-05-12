@@ -13,12 +13,12 @@ import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardHeader} from "@angular/material/card";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {SharedModule} from "primeng/api";
 import {SkeletonModule} from "primeng/skeleton";
 import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
 import {TooltipModule} from "primeng/tooltip";
 import {FormsModule} from "@angular/forms";
+import {RippleModule} from "primeng/ripple";
 
 @Component({
   selector: 'app-customer-personal-account-request-list',
@@ -37,19 +37,20 @@ import {FormsModule} from "@angular/forms";
     MatMenuItem,
     MatProgressSpinner,
     NgForOf,
-    SharedModule,
     SkeletonModule,
     TableModule,
     TagModule,
     TooltipModule,
     FormsModule,
     MatMenuTrigger,
-    NgClass
+    NgClass,
+    RippleModule
   ],
   templateUrl: './customer-personal-account-request-list.component.html',
   styleUrl: './customer-personal-account-request-list.component.css'
 })
 export class CustomerPersonalAccountRequestListComponent implements OnInit, AfterViewInit, OnDestroy {
+
 
   loadingPage: boolean = false;
   isSave: boolean = false;
@@ -87,14 +88,16 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
   ];
 
   first = 0;
-  rows = 10;
 
+  totalElements: number = 0;
   totalPages: number = 0;
-  currentPage: number = 0;
+  currentPage: number = 1;
 
   dataList: any[] = [];
 
-  fakeDataList: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
+  fakeDataList: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5},  {id: 6}];
+  fakeDataListOne: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}];
+  fakeDataListTwo: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
 
   statusList: any[] = [
     { label: 'En Attente', value: '1' },
@@ -103,6 +106,9 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
   ];
 
   dataPaginationResponse: any = null;
+
+  loading: boolean = false;
+  rows = 0;
   totalRecords: number = 0;
 
   constructor(
@@ -121,6 +127,8 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
           console.log("screens matches XSmall : pageSize 5");
           this.scrollHeight = "390px";
           this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
           this.onGetDataList();
         }
 
@@ -133,6 +141,8 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
           console.log("screens matches Small : pageSize 5");
           this.scrollHeight = "390px";
           this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
           this.onGetDataList();
         }
 
@@ -145,6 +155,8 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
           console.log("screens matches Large : pageSize 5");
           this.scrollHeight = "390px";
           this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
           this.onGetDataList();
         }
 
@@ -157,6 +169,8 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
           console.log("screens matches XLarge : pageSize 10");
           this.scrollHeight = "660px";
           this.pageSize = 10;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListTwo;
           this.onGetDataList();
         }
 
@@ -179,16 +193,22 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
 
   onGetDataList() {
 
-    if (this.currentPage > 0) {
-      this.pageNumber = this.currentPage - 1;
-    } else {
+    this.loadingPage = true;
+    this.loading = true;
+
+    console.log(this.currentPage);
+
       this.pageNumber = this.currentPage;
-    }
 
     let customerAccountType = "1";
 
+    this.dataList = [];
+
     this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(this.pageNumber, this.pageSize, customerAccountType)
       .subscribe((responseData: HttpResponse<any>) => {
+
+        this.loadingPage = false;
+        this.loading = false;
 
         console.log(responseData);
 
@@ -198,6 +218,9 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
 
           this.dataPaginationResponse.pageSize = this.dataPaginationResponse.pagination.limit;
           this.dataPaginationResponse.totalPages = this.dataPaginationResponse.pagination.total_pages;
+          this.dataPaginationResponse.totalElements = this.dataPaginationResponse.pagination.total_records;
+
+          this.totalRecords = this.dataPaginationResponse.totalElements;
 
           if (this.dataPaginationResponse.totalPages > 0) {
 
@@ -207,12 +230,14 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
               this.currentPage++;
             }
 
-
           }
 
         }
 
       }, (errorData: HttpErrorResponse) => {
+
+        this.loadingPage = false;
+        this.loading = false;
 
         console.log(errorData);
 
@@ -248,8 +273,9 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
 
   onGetPageSize(name: number) {
     this.pageSize = name;
-    this.pageNumber = 0;
-    this.currentPage = 0;
+    this.rows = this.pageSize;
+    this.pageNumber = 1;
+    this.currentPage = 1;
     this.onGetDataList();
   }
 
@@ -270,7 +296,7 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
     }
   }
 
-  onViewDetails(data: any) {
+  onGoToView(data: any) {
 
     this.loadingPage = true;
     console.info(data);
@@ -278,11 +304,19 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
     // @ts-ignore
     localStorage.setItem("CUSTOMER_ACCOUNT_REQUEST_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/manager/accounts/personals/requests/details")
+    this._router.navigateByUrl("/account/manager/accounts/personals/requests/view")
       .then(() => {
         this.loadingPage = false;
       });
 
+  }
+
+  loadCarsLazy(event: any) {
+
+    setTimeout(() => {
+      // @ts-ignore
+      event.forceUpdate();
+    }, Math.random() * 1000 + 250);
   }
 
 }
