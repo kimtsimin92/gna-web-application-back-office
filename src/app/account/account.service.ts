@@ -535,4 +535,18 @@ console.log(minutes);
       });
   }
 
+  onSaveCustomerAccountValid(userId: any) {
+    return this._http
+      .put<HttpResponse<any>>(environment.customersService+`/v1/users/switch_activation_user/${userId}`, {}, {
+        observe: 'response'
+      });
+  }
+
+  onSaveCustomerAccountReject(userId: any) {
+    return this._http
+      .put<HttpResponse<any>>(environment.customersService+`/v1/users/switch_activation_user/${userId}`, {}, {
+        observe: 'response'
+      });
+  }
+
 }

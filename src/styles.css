@@ -272,6 +272,12 @@ a {
   height: 30px!important;
 }
 
+.gna-btn-save-1 {
+  background-color: #1d3593!important;
+  color: white!important;
+  height: 30px!important;
+}
+
 .gna-btn-add {
   background-color: #32BEA6!important;
   color: white!important;
@@ -295,6 +301,12 @@ a {
 
 .gna-btn-cancel {
   background-color: #c9273a!important;
+  color: white!important;
+  height: 30px!important;
+}
+
+.gna-btn-cancel-1 {
+  background-color: #f6993f!important;
   color: white!important;
   height: 30px!important;
 }
@@ -1361,9 +1373,25 @@ th, td {
 /* NG Prime Tag */
 
 .p-tag.p-tag-warning {
-  background-color: #cecece!important;
-  color: #1D3592!important;
+  background-color: #1D3592!important;
+  color: white!important;
 }
+
+.p-tag.p-tag-success {
+  background-color: #32BEA6!important;
+  color: white!important;
+}
+
+.p-tag.p-tag-danger {
+  background-color: #c9273a!important;
+  color: white!important;
+}
+
+.p-tag.p-tag-success {
+  background-color: #32BEA6!important;
+  color: white!important;
+}
+
 
 /* NG Prime Input Switch */
 
@@ -1392,17 +1420,41 @@ th, td {
 }
 
 .gna-table-files {
-  width: 100%!important;
   margin-left: 25px;
+  font-weight: bold;
+
 }
 
-.gna-table-files span {
+.gna-files {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.gna-files-underline {
 
   font-weight: bold;
   text-decoration: underline;
+  margin-bottom: 5px;
 
 }
 
 .gna-table-td-mt {
   margin-top: 10px;
+}
+
+.gna-element-file-name {
+
+}
+
+.gna-element-file {
+  width: 50px;
+  height: 50px;
+}
+
+.p-editor-container .p-editor-toolbar {
+  background-color: #1d3593!important;
+}
+
+.p-editor-container .p-editor-toolbar.ql-snow .ql-picker .ql-picker-label {
+  color: white!important;
 }

@@ -1,13 +1,13 @@
-<p>coinsurance-reject-list works!</p>
+
 <div class="gna-bc">
-    <span>Réassurances</span>
+    <span>Réassurances / Souscriptions soumises</span>
   </div>
-  
+
   <div class="container-fluid">
-  
+
     <div>
       <mat-card class="gna-card">
-  
+
         <mat-card-header class="gna-card-header">
           <div class="container-fluid">
             <div class="gna-list-header row">
@@ -26,11 +26,11 @@
             </div>
           </div>
         </mat-card-header>
-  
+
         <div class="container-fluid">
-  
+
           <div class="example-table-container mt-4">
-  
+
             <p-table
               #dt
               [value]="dataList"
@@ -55,40 +55,42 @@
                     <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                   </th>
                   <th pSortableColumn="nom">
-                    Produits
+                    Produit
                     <!--                  <p-columnFilter type="text" field="genre" display="menu" />-->
                     <p-sortIcon field="genre" />
                   </th>
-                  <th pSortableColumn="contact" class="gna-responsive">Montant
+                  <th pSortableColumn="contact" class="gna-responsive">Montant de la prime
                     <!--                  <p-columnFilter type="text" field="contact" display="menu" />-->
                     <p-sortIcon field="contact" />
+                  </th>
                   <th pSortableColumn="created_at" class="gna-responsive">Date de souscription
                     <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
                     <p-sortIcon field="created_at" />
-                  <th>
-  
+
                   </th>
+                  <th></th>
+                  <th></th>
                 </tr>
               </ng-template>
-  
+
               <ng-template pTemplate="body" let-element let-expanded="expanded">
                 <tr>
                   <td>
                     <div class="row">
                       <div class="col-4">
                         <p-button type="button" pRipple [pRowToggler]="element" [text]="true" [rounded]="true"
-                          [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+                                  [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
                       </div>
                       <div class="col-8 gna-table-td-mt">
                         @if (element.matricule_cmu ) {
-                        {{ element.matricule_cmu }}
+                          {{ element.matricule_cmu }}
                         } @else {
-                        N/A
+                          N/A
                         }
                       </div>
                     </div>
                   </td>
-                  
+
                   <td>
                     @if (element.genre) {
                       {{element.nom +' '+ element.prenom}}
@@ -111,26 +113,28 @@
                     }
                   </td>
                   <td>
+                    <p-tag severity="warning" value="Soumis"></p-tag>
+                  </td>
+                  <td>
                     <span class="gna-action-span-div">
                       <span class="gna-action-span">
                         <p-button icon="pi pi-eye" class="gna-btn-eye" pTooltip="Afficher" tooltipPosition="bottom"
-                          (click)="onGoToView(element)" [disabled]="isSave"></p-button>
+                                  (click)="onGoToView(element)" [disabled]="isSave"></p-button>
                       </span>
                     </span>
                   </td>
                 </tr>
-  
+
               </ng-template>
-  
+
               <ng-template pTemplate="rowexpansion" let-element>
-              <div class="gna-table-files">
-                <span>Documents joints</span>
-              </div>
+                <div class="gna-table-files">
+                  <span>Documents joints</span>
+                </div>
               </ng-template>
-  
+
               <ng-template pTemplate="loadingbody">
                 <tr *ngFor="let item of fakeDataList">
-                  <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                   <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                   <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                   <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
@@ -145,15 +149,15 @@
                   </td>
                 </tr>
               </ng-template>
-  
+
             </p-table>
-  
+
           </div>
-  
+
           <div class="gna-pagination-row">
-  
+
             <div class="gna-pagination">
-  
+
               @if (dataPaginationResponse) {
                 @if (dataPaginationResponse.pageSize > 0) {
                   <span class="gna-pagination-page-size"
@@ -175,7 +179,7 @@
                   <i class="pi pi-angle-up"></i></span>
               }
             </div>
-  
+
             <div class="gna-pagination">
               @if (dataPaginationResponse) {
                 @if (currentPage > 1) {
@@ -212,13 +216,12 @@
                 <span class="gna-pagination-next gna-pagination-disabled"><i class="pi pi-arrow-right"></i></span>
               }
             </div>
-  
+
           </div>
-  
-  
+
+
         </div>
       </mat-card>
     </div>
-  
+
   </div>
-  

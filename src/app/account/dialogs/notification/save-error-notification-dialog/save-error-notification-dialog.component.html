@@ -8,33 +8,43 @@
     <mat-icon>error</mat-icon>
   </p>
 
-  <div
-       *ngIf="!httpError && dialogMessage || httpError && httpError.error && !httpError.error.message && dialogMessage"
-  class="text-center">
-    <h5 class="gna-text-secondary">
-       {{ dialogMessage }}
-    </h5>
-  </div>
+  @if (httpError && httpError.error && httpError.error.detail)  {
+    <div
+      class="text-center">
+      <h5 class="gna-text-secondary">
+        {{ httpError.error.detail }}
+      </h5>
+    </div>
+  } @else {
+    <div
+      *ngIf="!httpError && dialogMessage || httpError && httpError.error && !httpError.error.message && dialogMessage"
+      class="text-center">
+      <h5 class="gna-text-secondary">
+        {{ dialogMessage }}
+      </h5>
+    </div>
 
     <div
       *ngIf="httpError && httpError.error && !httpError.error.error && httpError.error.message"
-    class="text-center">
-    <h5 class="gna-text-secondary">
-      @if (httpError.status !== 500 && httpError.error) {
-        <span>
+      class="text-center">
+      <h5 class="gna-text-secondary">
+        @if (httpError.status !== 500 && httpError.error) {
+          <span>
         {{ httpError.error.message }}
       </span>
-      } @else if (httpError.status === 500 && httpError.error && httpError.error.message) {
-        <span>
+        } @else if (httpError.status === 500 && httpError.error && httpError.error.message) {
+          <span>
         {{ httpError.error.message }}
       </span>
-      } @else {
-      <span>
+        } @else {
+          <span>
         {{ httpError.error.status }}
       </span>
-    }
-    </h5>
+        }
+      </h5>
     </div>
+  }
+
   <div class="gna-dialog-bar">
   </div>
   <div class="text-center" style="color: #717171; font-size: 12px">

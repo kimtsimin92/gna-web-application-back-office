@@ -49,7 +49,7 @@
             <ng-template pTemplate="header">
               <tr class="gna-table-header">
                 <th pSortableColumn="matricule_cmu">
-                  N° CMU
+                  Code Compte
                   <p-sortIcon field="matricule_cmu" />
 <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                 </th>
@@ -65,12 +65,12 @@
 <!--                  <p-columnFilter type="text" field="genre" display="menu" />-->
                   <p-sortIcon field="genre" />
                 </th>
-                <th pSortableColumn="contact" class="gna-responsive">Téléphone
-<!--                  <p-columnFilter type="text" field="contact" display="menu" />-->
-                  <p-sortIcon field="contact" />
-                <th pSortableColumn="created_at" class="gna-responsive">Enregistrement
-<!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
-                <p-sortIcon field="created_at" />
+            <!--    <th pSortableColumn="is_status" class="gna-responsive">Statut
+&lt;!&ndash;                  <p-columnFilter type="date" field="created_at" display="menu" />&ndash;&gt;
+                <p-sortIcon field="is_status" />-->
+                <th pSortableColumn="created_at" class="gna-responsive">Date de demande
+                  <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
+                  <p-sortIcon field="created_at" />
                 <th></th>
               </tr>
             </ng-template>
@@ -83,8 +83,8 @@
                       <p-button type="button" pRipple [pRowToggler]="element" [text]="true" [rounded]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
                     </div>
                     <div class="col-8 gna-table-td-mt">
-                      @if (element.matricule_cmu ) {
-                        {{ element.matricule_cmu }}
+                      @if (element.numero_compte ) {
+                        {{ element.numero_compte }}
                       } @else {
                         N/A
                       }
@@ -114,13 +114,19 @@
                     N/A
                   }
                 </td>
-                <td class="gna-responsive">
-                  @if (element.contact) {
-                    {{ element.contact }}
+              <!--  <td class="gna-responsive">
+                  @if (element.is_status) {
+                    @if (element.is_status == 1) {
+                      <p-tag severity="warning" value="En attente"></p-tag>
+                    } @else if (element.is_status == 2) {
+                      Validé
+                    }  @else if (element.is_status == 3) {
+                      Rejeté
+                    }
                   } @else {
-                    N/A
+                    <p-tag severity="warning" value="En attente"></p-tag>
                   }
-                </td>
+                </td>-->
                 <td class="gna-responsive">
                   @if (element.created_at) {
                     {{ element.created_at | date: 'dd-MM-YYYY'}} {{ element.created_at | date: 'hh:mm:ss'}}
@@ -145,13 +151,20 @@
 
             <ng-template pTemplate="rowexpansion" let-element>
             <div class="gna-table-files">
-              <span>Documents joints</span>
+              <span class="gna-files-underline">Documents joints</span>
+              <div class="row">
+                <div class="col">
+                  <!--       <span class="gna-element-file-name">CNI</span>
+                   <br>
+                      <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="" class="gna-element-file gna-clickable">
+                      <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="" class="gna-element-file gna-clickable">-->
+                </div>
+              </div>
             </div>
             </ng-template>
 
             <ng-template pTemplate="loadingbody">
               <tr *ngFor="let item of fakeDataList">
-                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
