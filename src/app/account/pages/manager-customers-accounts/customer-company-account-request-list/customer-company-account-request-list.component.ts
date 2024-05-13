@@ -50,7 +50,7 @@ import {RippleModule} from "primeng/ripple";
   styleUrl: './customer-company-account-request-list.component.css'
 })
 export class CustomerCompanyAccountRequestListComponent implements OnInit, AfterViewInit, OnDestroy {
-  
+
 
   loadingPage: boolean = false;
   isSave: boolean = false;
@@ -200,7 +200,7 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
 
       this.pageNumber = this.currentPage;
 
-    let customerAccountType = "1";
+    let customerAccountType = "2";
 
     this.dataList = [];
 

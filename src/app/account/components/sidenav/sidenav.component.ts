@@ -318,9 +318,9 @@ let groupManageCustomerAccounts = {
       name: ' Expertises',
       icon: 'fa-solid fa-user-tie',
       children: [
-        {name: 'Demandes soumises', link: '/account/products/list', class: null},
-        {name: 'Demandes validés', link: '/account/segments/list', class: null},
-        {name: 'Demandes rejetées', link: '/account/segments/list', class: null},
+        {name: 'Demandes soumises', link: '/account/expertise/requests/submits/list', class: null},
+        {name: 'Demandes validés', link: '/account/expertise/requests/validates/list', class: null},
+        {name: 'Demandes rejetées', link: '/account/expertise/requests/rejects/list', class: null},
       ],
     };
 
@@ -331,9 +331,9 @@ let groupManageCustomerAccounts = {
       name: ' Prestations',
       icon: 'fa-solid fa-briefcase',
       children: [
-        {name: 'Demandes soumises', link: '/account/products/list', class: null},
-        {name: 'Demandes validés', link: '/account/segments/list', class: null},
-        {name: 'Demandes rejetées', link: '/account/segments/list', class: null},
+        {name: 'Demandes soumises', link: '/account/prestation/requests/submits/list', class: null},
+        {name: 'Demandes validés', link: '/account/prestation/requests/validates/list', class: null},
+        {name: 'Demandes rejetées', link: '/account/prestation/requests/rejects/list', class: null},
       ],
     };
 

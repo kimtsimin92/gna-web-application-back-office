@@ -151,6 +151,42 @@ import {
 import {
   ReinsuranceRejectViewComponent
 } from "./pages/reinsurance/reinsurance-request-reject/reinsurance-reject-view/reinsurance-reject-view.component";
+import {
+  ExpertiseRejectListComponent
+} from "./pages/expertise/expertise-request-reject/expertise-reject-list/expertise-reject-list.component";
+import {
+  ExpertiseRejectViewComponent
+} from "./pages/expertise/expertise-request-reject/expertise-reject-view/expertise-reject-view.component";
+import {
+  ExpertiseValidateViewComponent
+} from "./pages/expertise/expertise-request-validate/expertise-validate-view/expertise-validate-view.component";
+import {
+  ExpertiseSubmitListComponent
+} from "./pages/expertise/expertise-request-submit/expertise-submit-list/expertise-submit-list.component";
+import {
+  ExpertiseSubmitViewComponent
+} from "./pages/expertise/expertise-request-submit/expertise-submit-view/expertise-submit-view.component";
+import {
+  PrestationSubmitListComponent
+} from "./pages/prestation/prestation-request-submit/prestation-submit-list/prestation-submit-list.component";
+import {
+  PrestationValidateViewComponent
+} from "./pages/prestation/prestation-request-validate/prestation-validate-view/prestation-validate-view.component";
+import {
+  PrestationRejectListComponent
+} from "./pages/prestation/prestation-request-reject/prestation-reject-list/prestation-reject-list.component";
+import {
+  PrestationRejectViewComponent
+} from "./pages/prestation/prestation-request-reject/prestation-reject-view/prestation-reject-view.component";
+import {
+  PrestationSubmitViewComponent
+} from "./pages/prestation/prestation-request-submit/prestation-submit-view/prestation-submit-view.component";
+import {
+  PrestationValidateListComponent
+} from "./pages/prestation/prestation-request-validate/prestation-validate-list/prestation-validate-list.component";
+import {
+  ExpertiseValidateListComponent
+} from "./pages/expertise/expertise-request-validate/expertise-validate-list/expertise-validate-list.component";
 
 
 export const routes: Routes = [
@@ -182,7 +218,7 @@ export const routes: Routes = [
       },
       {
         path: 'coinsurance/requests/submits/list', component: CoinsuranceSubmitListComponent,
-        title: "Coassurance - Demandes soumises | GNA",
+        title: "Coassurances - Demandes soumises | GNA",
       },
       {
         path: 'coinsurance/requests/submits/view', component: CoinsuranceSubmitViewComponent,
@@ -190,44 +226,93 @@ export const routes: Routes = [
       },
       {
         path: 'coinsurance/requests/validates/list', component: CoinsuranceValidateListComponent,
-        title: "Coassurance - Demandes validées | GNA",
+        title: "Coassurances - Demandes validées | GNA",
       },
       {
         path: 'coinsurance/requests/validates/view', component: CoinsuranceValidateViewComponent,
-        title: "Coassurance - Demandes validées | GNA",
+        title: "Coassurances - Demandes validées | GNA",
       },
       {
         path: 'coinsurance/requests/rejects/list', component: CoinsuranceRejectListComponent,
-        title: "Coassurance - Demandes rejetées | GNA",
+        title: "Coassurances - Demandes rejetées | GNA",
       },
       {
         path: 'coinsurance/requests/rejects/view', component: CoinsuranceRejectViewComponent,
-        title: "Coassurance - Demandes rejetées | GNA",
+        title: "Coassurances - Demandes rejetées | GNA",
       },
       {
         path: 'reinsurance/requests/submits/list', component: ReinsuranceSubmitListComponent,
-        title: "Réassurance - Demandes soumises | GNA",
+        title: "Réassurances - Demandes soumises | GNA",
       },
       {
         path: 'reinsurance/requests/submits/view', component: ReinsuranceSubmitViewComponent,
-        title: "Réassurance - Demandes soumises | GNA",
+        title: "Réassurances - Demandes soumises | GNA",
       },
       {
         path: 'reinsurance/requests/validates/list', component: ReinsuranceValidateListComponent,
-        title: "Réassurance - Demandes validées | GNA",
+        title: "Réassurances - Demandes validées | GNA",
       },
       {
         path: 'reinsurance/requests/validates/view', component: ReinsuranceValidateViewComponent,
-        title: "Réassurance - Demandes validées | GNA",
+        title: "Réassurances - Demandes validées | GNA",
       },
       {
         path: 'reinsurance/requests/rejects/list', component: ReinsuranceRejectListComponent,
-        title: "Réassurance - Demandes rejetées | GNA",
+        title: "Réassurances - Demandes rejetées | GNA",
       },
       {
         path: 'reinsurance/requests/rejects/view', component: ReinsuranceRejectViewComponent,
-        title: "Réassurance - Demandes rejetées | GNA",
+        title: "Réassurances - Demandes rejetées | GNA",
       },
+      {
+        path: 'expertise/requests/submits/list', component: ExpertiseSubmitListComponent,
+        title: "Expertises - Demandes soumises | GNA",
+      },
+      {
+        path: 'expertise/requests/submits/view', component: ExpertiseSubmitViewComponent,
+        title: "Expertises - Demandes soumises | GNA",
+      },
+      {
+        path: 'expertise/requests/validates/list', component: ExpertiseValidateListComponent,
+        title: "Expertises - Demandes validées | GNA",
+      },
+      {
+        path: 'expertise/requests/validates/view', component: ExpertiseValidateViewComponent,
+        title: "Expertises - Demandes validées | GNA",
+      },
+      {
+        path: 'expertise/requests/rejects/list', component: ExpertiseRejectListComponent,
+        title: "Expertises - Demandes rejetées | GNA",
+      },
+      {
+        path: 'expertise/requests/rejects/view', component: ExpertiseRejectViewComponent,
+        title: "Expertises - Demandes rejetées | GNA",
+      },
+      {
+        path: 'prestation/requests/submits/list', component: PrestationSubmitListComponent,
+        title: "Expertises - Demandes soumises | GNA",
+      },
+      {
+        path: 'prestation/requests/submits/view', component: PrestationSubmitViewComponent,
+        title: "Expertises - Demandes soumises | GNA",
+      },
+      {
+        path: 'prestation/requests/validates/list', component: PrestationValidateListComponent,
+        title: "Expertises - Demandes validées | GNA",
+      },
+      {
+        path: 'prestation/requests/validates/view', component: PrestationValidateViewComponent,
+        title: "Expertises - Demandes validées | GNA",
+      },
+      {
+        path: 'prestation/requests/rejects/list', component: PrestationRejectListComponent,
+        title: "Expertises - Demandes rejetées | GNA",
+      },
+      {
+        path: 'prestation/requests/rejects/view', component: PrestationRejectViewComponent,
+        title: "Expertises - Demandes rejetées | GNA",
+      },
+
       {
         path: 'partners/list', component: PartnerListComponent,
         title: 'Partenaires - Lister | GNA',
