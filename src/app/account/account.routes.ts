@@ -115,6 +115,42 @@ import {CampaignListComponent} from "./pages/marketing/campaign/campaign-list/ca
 import {CampaignDetailComponent} from "./pages/marketing/campaign/campaign-detail/campaign-detail.component";
 import {CampaignAddComponent} from "./pages/marketing/campaign/campaign-add/campaign-add.component";
 import {CampaignEditComponent} from "./pages/marketing/campaign/campaign-edit/campaign-edit.component";
+import {
+  CoinsuranceSubmitListComponent
+} from "./pages/coinsurance/coinsurance-request-submit/coinsurance-submit-list/coinsurance-submit-list.component";
+import {
+  CoinsuranceSubmitViewComponent
+} from "./pages/coinsurance/coinsurance-request-submit/coinsurance-submit-view/coinsurance-submit-view.component";
+import {
+  CoinsuranceValidateListComponent
+} from "./pages/coinsurance/coinsurance-request-validate/coinsurance-validate-list/coinsurance-validate-list.component";
+import {
+  CoinsuranceValidateViewComponent
+} from "./pages/coinsurance/coinsurance-request-validate/coinsurance-validate-view/coinsurance-validate-view.component";
+import {
+  CoinsuranceRejectListComponent
+} from "./pages/coinsurance/coinsurance-request-reject/coinsurance-reject-list/coinsurance-reject-list.component";
+import {
+  CoinsuranceRejectViewComponent
+} from "./pages/coinsurance/coinsurance-request-reject/coinsurance-reject-view/coinsurance-reject-view.component";
+import {
+  ReinsuranceSubmitListComponent
+} from "./pages/reinsurance/reinsurance-request-submit/reinsurance-submit-list/reinsurance-submit-list.component";
+import {
+  ReinsuranceSubmitViewComponent
+} from "./pages/reinsurance/reinsurance-request-submit/reinsurance-submit-view/reinsurance-submit-view.component";
+import {
+  ReinsuranceValidateListComponent
+} from "./pages/reinsurance/reinsurance-request-validate/reinsurance-validate-list/reinsurance-validate-list.component";
+import {
+  ReinsuranceValidateViewComponent
+} from "./pages/reinsurance/reinsurance-request-validate/reinsurance-validate-view/reinsurance-validate-view.component";
+import {
+  ReinsuranceRejectListComponent
+} from "./pages/reinsurance/reinsurance-request-reject/reinsurance-reject-list/reinsurance-reject-list.component";
+import {
+  ReinsuranceRejectViewComponent
+} from "./pages/reinsurance/reinsurance-request-reject/reinsurance-reject-view/reinsurance-reject-view.component";
 
 
 export const routes: Routes = [
@@ -143,6 +179,54 @@ export const routes: Routes = [
       {
         path: 'manager/accounts/companies/requests/view', component: CustomerCompanyAccountRequestDetailComponent,
         title: "Demmandes d'ouvertures de comptes entreprises - Voir | GNA",
+      },
+      {
+        path: 'coinsurance/requests/submits/list', component: CoinsuranceSubmitListComponent,
+        title: "Coassurance - Demandes soumises | GNA",
+      },
+      {
+        path: 'coinsurance/requests/submits/view', component: CoinsuranceSubmitViewComponent,
+        title: "Coassurance - Demandes soumises | GNA",
+      },
+      {
+        path: 'coinsurance/requests/validates/list', component: CoinsuranceValidateListComponent,
+        title: "Coassurance - Demandes validées | GNA",
+      },
+      {
+        path: 'coinsurance/requests/validates/view', component: CoinsuranceValidateViewComponent,
+        title: "Coassurance - Demandes validées | GNA",
+      },
+      {
+        path: 'coinsurance/requests/rejects/list', component: CoinsuranceRejectListComponent,
+        title: "Coassurance - Demandes rejetées | GNA",
+      },
+      {
+        path: 'coinsurance/requests/rejects/view', component: CoinsuranceRejectViewComponent,
+        title: "Coassurance - Demandes rejetées | GNA",
+      },
+      {
+        path: 'reinsurance/requests/submits/list', component: ReinsuranceSubmitListComponent,
+        title: "Réassurance - Demandes soumises | GNA",
+      },
+      {
+        path: 'reinsurance/requests/submits/view', component: ReinsuranceSubmitViewComponent,
+        title: "Réassurance - Demandes soumises | GNA",
+      },
+      {
+        path: 'reinsurance/requests/validates/list', component: ReinsuranceValidateListComponent,
+        title: "Réassurance - Demandes validées | GNA",
+      },
+      {
+        path: 'reinsurance/requests/validates/view', component: ReinsuranceValidateViewComponent,
+        title: "Réassurance - Demandes validées | GNA",
+      },
+      {
+        path: 'reinsurance/requests/rejects/list', component: ReinsuranceRejectListComponent,
+        title: "Réassurance - Demandes rejetées | GNA",
+      },
+      {
+        path: 'reinsurance/requests/rejects/view', component: ReinsuranceRejectViewComponent,
+        title: "Réassurance - Demandes rejetées | GNA",
       },
       {
         path: 'partners/list', component: PartnerListComponent,

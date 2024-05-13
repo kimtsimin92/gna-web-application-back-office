@@ -289,12 +289,12 @@ let groupManageCustomerAccounts = {
 
     let groupCoinsurance =  {
       id: 5,
-      name: ' Coassurance',
+      name: ' Coassurances',
       icon: 'fa-solid fa-handshake',
       children: [
-        {name: 'Demandes soumises', link: '/account/products/list', class: null},
-        {name: 'Demandes validés', link: '/account/segments/list', class: null},
-        {name: 'Demandes rejetées', link: '/account/segments/list', class: null},
+        {name: 'Demandes soumises', link: '/account/coinsurance/requests/submits/list', class: null},
+        {name: 'Demandes validés', link: '/account/coinsurance/requests/validates/list', class: null},
+        {name: 'Demandes rejetées', link: '/account/coinsurance/requests/rejects/list', class: null},
       ],
     };
 
@@ -302,12 +302,12 @@ let groupManageCustomerAccounts = {
 
     let groupReinsurance =  {
       id: 5,
-      name: ' Réassurance',
+      name: ' Réassurances',
       icon: 'fa-solid fa-handshake',
       children: [
-        {name: 'Demandes soumises', link: '/account/products/list', class: null},
-        {name: 'Demandes validés', link: '/account/segments/list', class: null},
-        {name: 'Demandes rejetées', link: '/account/segments/list', class: null},
+        {name: 'Demandes soumises', link: '/account/reinsurance/requests/submits/list', class: null},
+        {name: 'Demandes validés', link: '/account/reinsurance/requests/validates/list', class: null},
+        {name: 'Demandes rejetées', link: '/account/reinsurance/requests/rejects/list', class: null},
       ],
     };
 
@@ -315,7 +315,7 @@ let groupManageCustomerAccounts = {
 
     let groupExperts =  {
       id: 5,
-      name: ' Expertise',
+      name: ' Expertises',
       icon: 'fa-solid fa-user-tie',
       children: [
         {name: 'Demandes soumises', link: '/account/products/list', class: null},
@@ -328,7 +328,7 @@ let groupManageCustomerAccounts = {
 
     let groupProviders =  {
       id: 5,
-      name: ' Prestation',
+      name: ' Prestations',
       icon: 'fa-solid fa-briefcase',
       children: [
         {name: 'Demandes soumises', link: '/account/products/list', class: null},
