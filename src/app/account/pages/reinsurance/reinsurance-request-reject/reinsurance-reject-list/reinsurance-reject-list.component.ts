@@ -110,11 +110,19 @@ export class ReinsuranceRejectListComponent implements OnInit, AfterViewInit, On
   rows = 0;
   totalRecords: number = 0;
 
+
+  categories: string[] = ['En Attente', 'Validé', 'Refusé'];
+  randomCategory: string=''
+
+  randomIndex:any = 0
+
   constructor(
     private responsive: BreakpointObserver,
     private _router: Router,
     public _dialog: MatDialog,
     private managerCustomerAccountService: ManagerCustomerAccountService,) {
+      
+
   }
 
   ngOnInit(): void {
@@ -179,7 +187,7 @@ export class ReinsuranceRejectListComponent implements OnInit, AfterViewInit, On
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Réassurance";
+    this.headerTitle = "Réassurances";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
   }
@@ -224,6 +232,24 @@ export class ReinsuranceRejectListComponent implements OnInit, AfterViewInit, On
           if (this.dataPaginationResponse.totalPages > 0) {
 
             this.dataList = this.dataPaginationResponse.data;
+           /* this.dataPaginationResponse.data.forEach((el:any)=>{
+              this.dataList.push({
+                adresse: el.adresse,
+                ​​contact: el.contact,
+                created_at: "2024-05-08T15:47:35.322547",​​​​
+                email: "sekeyedraoul@gmail.com",
+                genre: "H",
+                id: el.id,
+                matricule_cmu:el.matricule_cmu,
+                nom:el.nom,
+                prenom:el.prenom,
+                status:this.randomCategory = this.categories[Math.floor(Math.random() * this.categories.length)],
+                status_ind : this.randomCategory
+               })
+            })
+
+console.log("fjnfkvk",this.dataList);*/
+
 
             if (this.currentPage <= 0) {
               this.currentPage++;
@@ -296,7 +322,7 @@ export class ReinsuranceRejectListComponent implements OnInit, AfterViewInit, On
   }
 
   onGoToView(data: any) {
-
+/*
     this.loadingPage = true;
     console.info(data);
 
@@ -307,6 +333,7 @@ export class ReinsuranceRejectListComponent implements OnInit, AfterViewInit, On
       .then(() => {
         this.loadingPage = false;
       });
+      */
 
   }
 

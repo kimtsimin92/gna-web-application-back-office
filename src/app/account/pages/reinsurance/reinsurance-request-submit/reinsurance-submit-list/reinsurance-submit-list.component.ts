@@ -179,7 +179,7 @@ export class ReinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Réassurance";
+    this.headerTitle = "Réassurances";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
   }
@@ -296,7 +296,7 @@ export class ReinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
   }
 
   onGoToView(data: any) {
-
+/*
     this.loadingPage = true;
     console.info(data);
 
@@ -307,7 +307,7 @@ export class ReinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
       .then(() => {
         this.loadingPage = false;
       });
-
+*/
   }
 
   loadCarsLazy(event: any) {

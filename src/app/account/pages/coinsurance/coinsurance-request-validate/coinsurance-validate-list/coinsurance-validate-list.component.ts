@@ -179,7 +179,7 @@ export class CoinsuranceValidateListComponent  implements OnInit, AfterViewInit,
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Coassurance";
+    this.headerTitle = "Coassurances";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
   }
@@ -296,7 +296,7 @@ export class CoinsuranceValidateListComponent  implements OnInit, AfterViewInit,
   }
 
   onGoToView(data: any) {
-
+/*
     this.loadingPage = true;
     console.info(data);
 
@@ -307,7 +307,7 @@ export class CoinsuranceValidateListComponent  implements OnInit, AfterViewInit,
       .then(() => {
         this.loadingPage = false;
       });
-
+*/
   }
 
   loadCarsLazy(event: any) {
