@@ -199,8 +199,8 @@ let groupManageCustomerAccounts = {
         {name: 'Comptes',
           icon: '',
           children: [
-            {name: "Comptes Particuliers", link: '/account/manager/accounts/personals/requests/list', class: null},
-            {name: 'Comptes Entreprises', link: '/account/manager/accounts/companies/requests/list', class: null},
+            {name: "Comptes Particuliers", link: '/account/managements/accounts/personals/list', class: null},
+            {name: 'Comptes Entreprises', link: '/account/managements/accounts/companies/list', class: null},
           ]},
       ],
     };

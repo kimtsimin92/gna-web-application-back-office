@@ -187,6 +187,18 @@ import {
 import {
   ExpertiseValidateListComponent
 } from "./pages/expertise/expertise-request-validate/expertise-validate-list/expertise-validate-list.component";
+import {
+  ManagementCustomerAccountCompanyViewComponent
+} from "./pages/manager-customers-accounts/mangement-customer-account/management-customer-account-company-view/management-customer-account-company-view.component";
+import {
+  ManagementCustomerAccountCompanyListComponent
+} from "./pages/manager-customers-accounts/mangement-customer-account/management-customer-account-company-list/management-customer-account-company-list.component";
+import {
+  ManagementCustomerAccountPersonalListComponent
+} from "./pages/manager-customers-accounts/mangement-customer-account/management-customer-account-personal-list/management-customer-account-personal-list.component";
+import {
+  ManagementCustomerAccountPersonalViewComponent
+} from "./pages/manager-customers-accounts/mangement-customer-account/management-customer-account-personal-view/management-customer-account-personal-view.component";
 
 
 export const routes: Routes = [
@@ -215,6 +227,22 @@ export const routes: Routes = [
       {
         path: 'manager/accounts/companies/requests/view', component: CustomerCompanyAccountRequestDetailComponent,
         title: "Demmandes d'ouvertures de comptes entreprises - Voir | GNA",
+      },
+      {
+        path: 'managements/accounts/personals/list', component: ManagementCustomerAccountPersonalListComponent,
+        title: "Comptes particuliers | GNA",
+      },
+      {
+        path: 'managements/accounts/personals/view', component: ManagementCustomerAccountPersonalViewComponent,
+        title: "Comptes particuliers | GNA",
+      },
+      {
+        path: 'managements/accounts/companies/list', component: ManagementCustomerAccountCompanyListComponent,
+        title: "Comptes entreprises | GNA",
+      },
+      {
+        path: 'managements/accounts/companies/view', component: ManagementCustomerAccountCompanyViewComponent,
+        title: "Comptes entreprises | GNA",
       },
       {
         path: 'coinsurance/requests/submits/list', component: CoinsuranceSubmitListComponent,
