@@ -11,11 +11,19 @@ export class ManagerCustomerAccountService {
     private _http: HttpClient
   ) { }
 
-  onGetCustomerAccountRequestListByType(pageNumber: number, limit: number, filters: string) {
+  onGetCustomerAccountRequestListByType(filter: any, page: number, limit: number, orderBy: string) {
     return this._http
       .get<HttpResponse<any>>(environment.customersService+'/v1/users', {
         observe: 'response',
-        params: new HttpParams({fromString:  `filters={"type_customer_id":${filters}}&page=${pageNumber}&limit=${limit}`})
+        params: new HttpParams({fromString:  `filters={"type_customer_id":${filter.type_customer_id}}&page=${page}&limit=${limit}&order_by=${orderBy}`})
+      });
+  }
+
+  onGetCustomerAccountFilesById(filters: any) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+'/v1/medias', {
+        observe: 'response',
+        params: new HttpParams({fromString:  `filters={"user_id":${filters.user_id}}`})
       });
   }
 

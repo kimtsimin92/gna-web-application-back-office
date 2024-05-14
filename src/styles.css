@@ -330,7 +330,6 @@ a {
   margin-bottom: 10px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
 }
 
 .gna-gi-btn {
@@ -1375,22 +1374,21 @@ th, td {
 .p-tag.p-tag-warning {
   background-color: #1D3592!important;
   color: white!important;
+  width: 60px!important;
 }
 
 .p-tag.p-tag-success {
   background-color: #32BEA6!important;
   color: white!important;
+  width: 60px!important;
 }
 
 .p-tag.p-tag-danger {
   background-color: #c9273a!important;
   color: white!important;
+  width: 60px!important;
 }
 
-.p-tag.p-tag-success {
-  background-color: #32BEA6!important;
-  color: white!important;
-}
 
 
 /* NG Prime Input Switch */
@@ -1457,4 +1455,9 @@ th, td {
 
 .p-editor-container .p-editor-toolbar.ql-snow .ql-picker .ql-picker-label {
   color: white!important;
+}
+
+.gna-table-files-row {
+  margin-top: 5px;
+  flex-wrap: nowrap!important;
 }

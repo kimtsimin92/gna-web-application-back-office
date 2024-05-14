@@ -244,28 +244,28 @@ export class AccountService {
 
   getSegmentListData(page: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/segments?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/segments?page='+page, {observe: 'response'});
   }
 
   saveSegmentToggleEnable(id: number) {
     return this._http
-      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/segments/enabled/'+id, {observe: 'response'});
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/segments/enabled/'+id, {observe: 'response'});
   }
 
 
   saveSegmentAdd(requestData: any) {
     return this._http
-      .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/segments', requestData, {observe: 'response'});
+      .post<HttpResponse<any>>(environment.productsService+'/api/v1/segments', requestData, {observe: 'response'});
   }
 
   saveSegmentEdit(requestData: any, id: number) {
     return this._http
-      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/segments/'+id, requestData, {observe: 'response'});
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/segments/'+id, requestData, {observe: 'response'});
   }
 
   saveSegmentRemove(id: number) {
     return this._http
-      .delete<HttpResponse<any>>(environment.productsService+'/api/v1/products/segments/'+id, {observe: 'response'});
+      .delete<HttpResponse<any>>(environment.productsService+'/api/v1/segments/'+id, {observe: 'response'});
   }
 
   // Guarantees
@@ -535,16 +535,16 @@ console.log(minutes);
       });
   }
 
-  onSaveCustomerAccountValid(userId: any) {
+  onSaveCustomerAccountValid(userId: any, requestData: any) {
     return this._http
-      .put<HttpResponse<any>>(environment.customersService+`/v1/users/switch_activation_user/${userId}`, {}, {
+      .put<HttpResponse<any>>(environment.customersService+`/v1/users/switch_validation/${userId}`, requestData, {
         observe: 'response'
       });
   }
 
-  onSaveCustomerAccountReject(userId: any) {
+  onSaveCustomerAccountReject(userId: any, requestData: any) {
     return this._http
-      .put<HttpResponse<any>>(environment.customersService+`/v1/users/switch_activation_user/${userId}`, {}, {
+      .put<HttpResponse<any>>(environment.customersService+`/v1/users/switch_validation/${userId}`, requestData, {
         observe: 'response'
       });
   }

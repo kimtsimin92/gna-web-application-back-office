@@ -149,14 +149,21 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
 
       let userId = this.elementData.id;
 
-      this.accountService.onSaveCustomerAccountValid(userId)
+    let requestData = {
+      "validation_status": 1
+    };
+
+    this.accountService.onSaveCustomerAccountValid(userId, requestData)
         .subscribe((responseData: HttpResponse<any>) => {
           this.isSave = false;
+          this.accountService.isSave = this.isSave;
           console.log(responseData);
           let message = "L'enregistrement de la validation du compte a reussi."
           this.onSaveNotificationDialog(message);
+          this.closeDialog();
         }, (errorData: HttpErrorResponse) => {
           this.isSave = false;
+          this.accountService.isSave = this.isSave;
           console.log(errorData);
           this.closeDialog();
           let message = "L'enregistrement de la validation du compte a échoué";
@@ -168,19 +175,27 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
   onSaveReject() {
 
     this.isSave = true;
+    this.accountService.isSave = this.isSave;
 
     this.onSaveLoadingDialog();
 
     let userId = this.elementData.id;
 
-    this.accountService.onSaveCustomerAccountReject(userId)
+    let requestData = {
+      "validation_status": 3
+    };
+
+    this.accountService.onSaveCustomerAccountReject(userId, requestData)
       .subscribe((responseData: HttpResponse<any>) => {
         this.isSave = false;
+        this.accountService.isSave = this.isSave;
         console.log(responseData);
         let message = "L'enregistrement du rejet du compte a reussi."
         this.onSaveNotificationDialog(message);
+        this.closeDialog();
       }, (errorData: HttpErrorResponse) => {
         this.isSave = false;
+        this.accountService.isSave = this.isSave;
         console.log(errorData);
         this.closeDialog();
         let message = "L'enregistrement du rejet du compte a échoué";

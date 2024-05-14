@@ -199,11 +199,14 @@ export class CoinsuranceRejectListComponent implements OnInit, AfterViewInit, On
 
       this.pageNumber = this.currentPage;
 
-    let customerAccountType = "1";
+    let filter = {
+      type_customer_id: "1",
+      is_valid: true
+    };
 
     this.dataList = [];
 
-    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(this.pageNumber, this.pageSize, customerAccountType)
+    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(filter, this.pageNumber, this.pageSize, this.pageSort)
       .subscribe((responseData: HttpResponse<any>) => {
 
         this.loadingPage = false;

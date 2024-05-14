@@ -23,30 +23,48 @@
               }
 
             </div>
-            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-6">
 
-              @if (isSave || accountService.pageLoading || accountService.isSave) {
-                <button mat-raised-button
-                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Valider</button>
-              } @else {
-                <button mat-raised-button
-                        class="gna-btn-default gna-btn-save gna-full-width"
-                        [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                        (click)="onValid()">Valider</button>
-              }
-            </div>
-            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+            @if (elementData && elementData.validation_status <= 1) {
 
-              @if (isSave || accountService.pageLoading || accountService.isSave) {
-                <button mat-raised-button
-                        class="gna-btn-default gna-btn-cancel gna-full-width gna-disable">Rejeter</button>
-              } @else {
-                <button mat-raised-button
-                        class="gna-btn-default gna-btn-cancel gna-full-width"
-                        [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                        (click)="onReject()">Rejeter</button>
-              }
-            </div>
+              <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-6">
+
+                @if (isSave || accountService.pageLoading || accountService.isSave) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width gna-disable">Valider</button>
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onValid()">Valider</button>
+                }
+              </div>
+              <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+                @if (isSave || accountService.pageLoading || accountService.isSave) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-cancel gna-full-width gna-disable">Rejeter</button>
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-cancel gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onReject()">Rejeter</button>
+                }
+              </div>
+
+            } @else if (elementData && elementData.validation_status == 3) {
+              <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+                @if (isSave || accountService.pageLoading || accountService.isSave) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width gna-disable">Valider</button>
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onValid()">Valider</button>
+                }
+              </div>
+            }
 
           </div>
         </div>
@@ -59,6 +77,12 @@
             <div class="card">
               <div class="card-body gna-card-body"
                    *ngIf="elementData">
+
+                <div class="row" *ngIf="elementData.validation_status == 3">
+                  <div class="col">
+                    <p-tag severity="danger" value="Rejeté"></p-tag>
+                  </div>
+                </div>
 
                 <div class="row">
 
@@ -219,12 +243,46 @@
             <div class="row gna-files">
               <span class="gna-files-underline">Documents joints</span>
               <div class="row">
-                <div class="col">
-                  <!--      <span class="gna-element-file-name">CNI</span>
-              <br>
-                   <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="" class="gna-element-file gna-clickable">
-                   <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="" class="gna-element-file gna-clickable">-->
-                </div>
+                @if (!isLoadingFiles) {
+
+                  @if (elementData.files && elementData.files.length > 0) {
+
+                    <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1" *ngFor="let file of elementData.files">
+                      <span class="gna-element-file-name">{{ file.libelle }}</span>
+                      <br>
+
+                      @if (file.type == "image/jpeg" ) {
+                        <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                          <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                        </a>
+                      } @else if (file.type == "image/png") {
+                        <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                          <img src="assets/svg/files/png-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                        </a>
+                      } @else if (file.type == "pdf") {
+                        <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                          <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                        </a>
+                      } @else if (file.type == "doc" || "doc") {
+                        <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                          <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                        </a>
+                      }
+
+                    </div>
+
+                  } @else {
+                    <div class="col">
+                      <span class="gna-element-file-name">N/A</span>
+                    </div>
+                  }
+
+
+                } @else {
+                  <div class="col">
+                    <p-skeleton width="2rem" size="5rem" styleClass="mr-2" />
+                  </div>
+                }
               </div>
             </div>
 

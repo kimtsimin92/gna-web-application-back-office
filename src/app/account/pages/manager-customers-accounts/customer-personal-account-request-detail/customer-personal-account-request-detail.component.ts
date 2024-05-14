@@ -7,7 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ManagerCustomerAccountService} from "../manager-customer-account.service";
 import {AccountService} from "../../../account.service";
 import {ChipModule} from "primeng/chip";
-import {DatePipe, NgIf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {
   ConfirmationToggleDialogComponent
 } from "../../../dialogs/confirmation/confirmation-toggle-dialog/confirmation-toggle-dialog.component";
@@ -22,6 +22,9 @@ import {
   SaveErrorNotificationDialogComponent
 } from "../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
 import {SaveLoadingDialogComponent} from "../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component";
+import {TagModule} from "primeng/tag";
+import {environment} from "../../../../../environments/environment";
+import {SkeletonModule} from "primeng/skeleton";
 
 @Component({
   selector: 'app-customer-personal-account-request-detail',
@@ -37,7 +40,10 @@ import {SaveLoadingDialogComponent} from "../../../dialogs/loading/save-loading-
     FormsModule,
     InputTextareaModule,
     ReactiveFormsModule,
-    EditorModule
+    EditorModule,
+    TagModule,
+    NgForOf,
+    SkeletonModule
   ],
   templateUrl: './customer-personal-account-request-detail.component.html',
   styleUrl: './customer-personal-account-request-detail.component.css'
@@ -49,6 +55,9 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
   elementData: any;
   loadingPage: boolean = false;
   loading: boolean = false;
+
+  protected readonly environment = environment;
+  isLoadingFiles: boolean = false;
 
   constructor(
     private responsive: BreakpointObserver,
@@ -64,6 +73,12 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
     if (localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA")) {
       // @ts-ignore
       this.elementData = JSON.parse(localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA"));
+
+
+      if (!this.elementData.files) {
+        this.onGetCustomerAccountFilesById(this.elementData);
+      }
+
     } else {
       this._router.navigateByUrl("/account/manager/accounts/personals/requests")
     }
@@ -149,14 +164,21 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
 
       let userId = this.elementData.id;
 
-      this.accountService.onSaveCustomerAccountValid(userId)
+      let requestData = {
+        "validation_status": 2
+      };
+
+      this.accountService.onSaveCustomerAccountValid(userId, requestData)
         .subscribe((responseData: HttpResponse<any>) => {
           this.isSave = false;
+          this.accountService.isSave = this.isSave;
           console.log(responseData);
           let message = "L'enregistrement de la validation du compte a reussi."
           this.onSaveNotificationDialog(message);
+          this.closeDialog();
         }, (errorData: HttpErrorResponse) => {
           this.isSave = false;
+          this.accountService.isSave = this.isSave;
           console.log(errorData);
           this.closeDialog();
           let message = "L'enregistrement de la validation du compte a échoué";
@@ -168,19 +190,27 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
   onSaveReject() {
 
     this.isSave = true;
+    this.accountService.isSave = this.isSave;
 
     this.onSaveLoadingDialog();
 
     let userId = this.elementData.id;
 
-    this.accountService.onSaveCustomerAccountReject(userId)
+    let requestData = {
+      "validation_status": 3
+    };
+
+    this.accountService.onSaveCustomerAccountReject(userId, requestData)
       .subscribe((responseData: HttpResponse<any>) => {
         this.isSave = false;
+        this.accountService.isSave = this.isSave;
         console.log(responseData);
         let message = "L'enregistrement du rejet du compte a reussi."
         this.onSaveNotificationDialog(message);
+        this.closeDialog();
       }, (errorData: HttpErrorResponse) => {
         this.isSave = false;
+        this.accountService.isSave = this.isSave;
         console.log(errorData);
         this.closeDialog();
         let message = "L'enregistrement du rejet du compte a échoué";
@@ -258,5 +288,31 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
     this._dialog.closeAll();
   }
 
+  onGetCustomerAccountFilesById(elementData: any) {
+
+    this.isLoadingFiles = true;
+
+    let filters = {
+      user_id: elementData.id
+    };
+
+    this.managerCustomerAccountService.onGetCustomerAccountFilesById(filters)
+      .subscribe((responseData: HttpResponse<any>) => {
+
+        this.isLoadingFiles = false;
+        console.log(responseData);
+
+        let responseBody = responseData['body'];
+
+        elementData.files = responseBody.data;
+
+      }, (errorData: HttpErrorResponse) => {
+        this.isLoadingFiles = false;
+
+        console.log(errorData);
+
+      });
+
+  }
 
 }

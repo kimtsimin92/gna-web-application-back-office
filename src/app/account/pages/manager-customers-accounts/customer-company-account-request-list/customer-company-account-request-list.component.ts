@@ -59,8 +59,8 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
 
   scrollHeight: string = "380px";
 
-  pageSort: string = "nom";
-  pageOrder: string = "asc";
+  pageSort: string = "created_at";
+  pageOrder: string = "desc";
   pageNumber: number = 1;
   pageSize: number = 10;
   pageSizeList: any[] = [
@@ -200,11 +200,14 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
 
       this.pageNumber = this.currentPage;
 
-    let customerAccountType = "2";
+        let filter = {
+      type_customer_id: "2",
+      is_valid: true
+    };
 
     this.dataList = [];
 
-    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(this.pageNumber, this.pageSize, customerAccountType)
+    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(filter, this.pageNumber, this.pageSize, this.pageSort)
       .subscribe((responseData: HttpResponse<any>) => {
 
         this.loadingPage = false;

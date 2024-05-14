@@ -5,7 +5,7 @@ import {Router} from "@angular/router";
 import {ManagerCustomerAccountService} from "../manager-customer-account.service";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {ButtonModule} from "primeng/button";
-import {DatePipe, DecimalPipe, NgClass, NgForOf} from "@angular/common";
+import {DatePipe, DecimalPipe, NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {DropdownModule} from "primeng/dropdown";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {InputTextModule} from "primeng/inputtext";
@@ -19,6 +19,7 @@ import {TagModule} from "primeng/tag";
 import {TooltipModule} from "primeng/tooltip";
 import {FormsModule} from "@angular/forms";
 import {RippleModule} from "primeng/ripple";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-customer-personal-account-request-list',
@@ -44,7 +45,9 @@ import {RippleModule} from "primeng/ripple";
     FormsModule,
     MatMenuTrigger,
     NgClass,
-    RippleModule
+    RippleModule,
+    NgIf,
+    NgStyle
   ],
   templateUrl: './customer-personal-account-request-list.component.html',
   styleUrl: './customer-personal-account-request-list.component.css'
@@ -59,8 +62,8 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
 
   scrollHeight: string = "380px";
 
-  pageSort: string = "nom";
-  pageOrder: string = "asc";
+  pageSort: string = "-created_at";
+  pageOrder: string = "desc";
   pageNumber: number = 1;
   pageSize: number = 10;
   pageSizeList: any[] = [
@@ -110,6 +113,8 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
   loading: boolean = false;
   rows = 0;
   totalRecords: number = 0;
+
+  isLoadingFiles: boolean = false;
 
   constructor(
     private responsive: BreakpointObserver,
@@ -200,11 +205,14 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
 
       this.pageNumber = this.currentPage;
 
-    let customerAccountType = "1";
+    let filter = {
+      type_customer_id: "1",
+      is_valid: true
+    };
 
     this.dataList = [];
 
-    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(this.pageNumber, this.pageSize, customerAccountType)
+    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(filter, this.pageNumber, this.pageSize, this.pageSort)
       .subscribe((responseData: HttpResponse<any>) => {
 
         this.loadingPage = false;
@@ -243,6 +251,33 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
 
       });
 
+
+  }
+
+  onGetCustomerAccountFilesById(element: any) {
+
+    this.isLoadingFiles = true;
+
+    let filters = {
+      user_id: element.id
+    };
+
+    this.managerCustomerAccountService.onGetCustomerAccountFilesById(filters)
+      .subscribe((responseData: HttpResponse<any>) => {
+
+        this.isLoadingFiles = false;
+        console.log(responseData);
+
+        let responseBody = responseData['body'];
+
+        element.files = responseBody.data;
+
+      }, (errorData: HttpErrorResponse) => {
+        this.isLoadingFiles = false;
+
+        console.log(errorData);
+
+      });
 
   }
 
@@ -319,4 +354,5 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
     }, Math.random() * 1000 + 250);
   }
 
+  protected readonly environment = environment;
 }

@@ -1,12 +1,12 @@
 <div class="gna-bc">
     <span>Gestion des comptes / Demmandes d'ouvertures de comptes / Entreprises</span>
   </div>
-  
+
   <div class="container-fluid">
-  
+
     <div>
       <mat-card class="gna-card">
-  
+
         <mat-card-header class="gna-card-header">
           <div class="container-fluid">
             <div class="gna-list-header row">
@@ -25,11 +25,11 @@
             </div>
           </div>
         </mat-card-header>
-  
+
         <div class="container-fluid">
-  
+
           <div class="example-table-container mt-4">
-  
+
             <p-table
               #dt
               [value]="dataList"
@@ -65,17 +65,18 @@
   <!--                  <p-columnFilter type="text" field="genre" display="menu" />-->
                     <p-sortIcon field="genre" />
                   </th>
-              <!--    <th pSortableColumn="is_status" class="gna-responsive">Statut
-  &lt;!&ndash;                  <p-columnFilter type="date" field="created_at" display="menu" />&ndash;&gt;
-                  <p-sortIcon field="is_status" />-->
-                  <th pSortableColumn="created_at" class="gna-responsive">Date de demande
+                  <th pSortableColumn="validation_status" class="gna-responsive">Statut
+                    <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
+                    <p-sortIcon field="validation_status" />
+                  <th pSortableColumn="created_at" class="gna-responsive">Enregistrement
                     <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
                     <p-sortIcon field="created_at" />
                   <th></th>
                 </tr>
               </ng-template>
-  
+
               <ng-template pTemplate="body" let-element let-expanded="expanded">
+
                 <tr>
                   <td>
                     <div class="row">
@@ -114,19 +115,19 @@
                       N/A
                     }
                   </td>
-                <!--  <td class="gna-responsive">
-                    @if (element.is_status) {
-                      @if (element.is_status == 1) {
+                  <td class="gna-responsive">
+                    @if (element.validation_status > 0) {
+                      @if (element.validation_status == 1) {
                         <p-tag severity="warning" value="En attente"></p-tag>
-                      } @else if (element.is_status == 2) {
+                      } @else if (element.validation_status == 2) {
                         Validé
-                      }  @else if (element.is_status == 3) {
+                      }  @else if (element.validation_status == 3) {
                         Rejeté
                       }
                     } @else {
                       <p-tag severity="warning" value="En attente"></p-tag>
                     }
-                  </td>-->
+                  </td>
                   <td class="gna-responsive">
                     @if (element.created_at) {
                       {{ element.created_at | date: 'dd-MM-YYYY'}} {{ element.created_at | date: 'hh:mm:ss'}}
@@ -146,9 +147,9 @@
                                      </span>
                   </td>
                 </tr>
-  
+
               </ng-template>
-  
+
               <ng-template pTemplate="rowexpansion" let-element>
               <div class="gna-table-files">
                 <span class="gna-files-underline">Documents joints</span>
@@ -162,9 +163,10 @@
                 </div>
               </div>
               </ng-template>
-  
+
               <ng-template pTemplate="loadingbody">
                 <tr *ngFor="let item of fakeDataList">
+                  <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                   <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                   <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                   <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
@@ -179,15 +181,15 @@
                   </td>
                 </tr>
               </ng-template>
-  
+
             </p-table>
-  
+
           </div>
-  
+
           <div class="gna-pagination-row">
-  
+
             <div class="gna-pagination">
-  
+
               @if (dataPaginationResponse) {
                 @if (dataPaginationResponse.pageSize > 0) {
                   <span class="gna-pagination-page-size"
@@ -209,7 +211,7 @@
                   <i class="pi pi-angle-up"></i></span>
               }
             </div>
-  
+
             <div class="gna-pagination">
               @if (dataPaginationResponse) {
                 @if (currentPage > 1) {
@@ -246,13 +248,12 @@
                 <span class="gna-pagination-next gna-pagination-disabled"><i class="pi pi-arrow-right"></i></span>
               }
             </div>
-  
+
           </div>
-  
-  
+
+
         </div>
       </mat-card>
     </div>
-  
+
   </div>
-  
