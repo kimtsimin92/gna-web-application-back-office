@@ -5,7 +5,7 @@ import {Router} from "@angular/router";
 import {ManagerCustomerAccountService} from "../manager-customer-account.service";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {ButtonModule} from "primeng/button";
-import {DatePipe, DecimalPipe, NgClass, NgForOf} from "@angular/common";
+import {DatePipe, DecimalPipe, NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {DropdownModule} from "primeng/dropdown";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {InputTextModule} from "primeng/inputtext";
@@ -19,6 +19,7 @@ import {TagModule} from "primeng/tag";
 import {TooltipModule} from "primeng/tooltip";
 import {FormsModule} from "@angular/forms";
 import {RippleModule} from "primeng/ripple";
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-customer-company-account-request-list',
@@ -44,12 +45,14 @@ import {RippleModule} from "primeng/ripple";
     FormsModule,
     MatMenuTrigger,
     NgClass,
-    RippleModule
+    RippleModule,
+    NgIf,
+    NgStyle
   ],
   templateUrl: './customer-company-account-request-list.component.html',
   styleUrl: './customer-company-account-request-list.component.css'
 })
-export class CustomerCompanyAccountRequestListComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CustomerCompanyAccountRequestListComponent implements OnInit, AfterViewInit, OnDestroy { 
 
 
   loadingPage: boolean = false;
@@ -59,7 +62,7 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
 
   scrollHeight: string = "380px";
 
-  pageSort: string = "created_at";
+  pageSort: string = "-created_at";
   pageOrder: string = "desc";
   pageNumber: number = 1;
   pageSize: number = 10;
@@ -110,6 +113,8 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
   loading: boolean = false;
   rows = 0;
   totalRecords: number = 0;
+
+  isLoadingFiles: boolean = false;
 
   constructor(
     private responsive: BreakpointObserver,
@@ -200,8 +205,8 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
 
       this.pageNumber = this.currentPage;
 
-        let filter = {
-      type_customer_id: "2",
+    let filter = {
+      type_customer_id: "1",
       is_valid: true
     };
 
@@ -246,6 +251,33 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
 
       });
 
+
+  }
+
+  onGetCustomerAccountFilesById(element: any) {
+
+    this.isLoadingFiles = true;
+
+    let filters = {
+      user_id: element.id
+    };
+
+    this.managerCustomerAccountService.onGetCustomerAccountFilesById(filters)
+      .subscribe((responseData: HttpResponse<any>) => {
+
+        this.isLoadingFiles = false;
+        console.log(responseData);
+
+        let responseBody = responseData['body'];
+
+        element.files = responseBody.data;
+
+      }, (errorData: HttpErrorResponse) => {
+        this.isLoadingFiles = false;
+
+        console.log(errorData);
+
+      });
 
   }
 
@@ -322,4 +354,5 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
     }, Math.random() * 1000 + 250);
   }
 
+  protected readonly environment = environment;
 }

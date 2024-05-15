@@ -65,7 +65,7 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
       // @ts-ignore
       this.elementData = JSON.parse(localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA"));
     } else {
-      this._router.navigateByUrl("/account/manager/accounts/personals/requests")
+      this._router.navigateByUrl("/account/manager/accounts/companies/requests")
     }
 
   }
@@ -82,7 +82,7 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
   }
 
   onGoToBack() {
-    this._router.navigateByUrl("/account/manager/accounts/personals/requests/list");
+    this._router.navigateByUrl("/account/manager/accounts/companies/requests/list");
   }
 
   onValid(): void {
@@ -236,7 +236,7 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/manager/accounts/personals/requests/list")
+      this._router.navigateByUrl("/account/manager/accounts/companies/requests/list")
         .then(() => {
           // @ts-ignore
           this.loadingPage = false;
