@@ -325,18 +325,18 @@ console.log("fjnfkvk",this.dataList);*/
   }
 
   onGoToView(data: any) {
-/*
+
     this.loadingPage = true;
     console.info(data);
 
     // @ts-ignore
     localStorage.setItem("CUSTOMER_ACCOUNT_REQUEST_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/manager/accounts/personals/requests/view")
+    this._router.navigateByUrl("/account/reinsurance/requests/rejects/view")
       .then(() => {
         this.loadingPage = false;
       });
-      */
+      
 
   }
 
