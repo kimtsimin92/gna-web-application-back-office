@@ -255,9 +255,9 @@ let groupManageCustomerAccounts = {
       icon: 'fa-solid fa-bolt',
       children: [
         {name: 'Déclarations physiques', link: '/account/segments/list', class: null},
-        {name: 'Demandes soumises', link: '/account/products/list', class: null},
-        {name: 'Demandes validés', link: '/account/products/list', class: null},
-        {name: 'Demandes rejetées', link: '/account/products/list', class: null},
+        {name: 'Demandes soumises', link: '/account/sinister/requests/submits/list', class: null},
+        {name: 'Demandes validés', link: '/account/sinister/requests/validates/list', class: null},
+        {name: 'Demandes rejetées', link: '/account/sinister/requests/rejects/list', class: null},
       ],
     };
 
@@ -268,8 +268,8 @@ let groupManageCustomerAccounts = {
       name: ' Gestion des indemnisations',
       icon: 'fa-solid fa-hand-holding-dollar',
       children: [
-        {name: 'Sinistres ouverts', link: '/account/marketing/campaigns/list', class: null},
-        {name: 'Sinistres clôturés', link: '/account/marketing/campaigns/list', class: null},
+        {name: 'Sinistres ouverts', link: '/account/compensations/requests/open/list', class: null},
+        {name: 'Sinistres clôturés', link: '/account/compensations/requests/close/list<<', class: null},
       ],
     };
 
@@ -280,8 +280,9 @@ let groupManageCustomerAccounts = {
       name: ' Comptabilité',
       icon: 'fa-solid fa-coins',
       children: [
-        {name: 'Demandes à traiter', link: '/account/products/list', class: null},
-        {name: 'Demandes traitées', link: '/account/segments/list', class: null},
+        {name: 'Demandes soumises', link: '/account/accounting/requests/submits/list', class: null},
+        {name: 'Demandes validés', link: '/account/accounting/requests/validates/list', class: null},
+        {name: 'Demandes rejetées', link: '/account/accounting/requests/rejects/list', class: null},
       ],
     };
 

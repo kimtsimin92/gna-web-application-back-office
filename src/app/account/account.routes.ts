@@ -199,6 +199,48 @@ import {
 import {
   ManagementCustomerAccountPersonalViewComponent
 } from "./pages/manager-customers-accounts/mangement-customer-account/management-customer-account-personal-view/management-customer-account-personal-view.component";
+import {
+  AccountingRequestRejectViewComponent
+} from "./pages/accounting/accounting-request-reject/accounting-request-reject-view/accounting-request-reject-view.component";
+import {
+  AccountingRequestRejectListComponent
+} from "./pages/accounting/accounting-request-reject/accounting-request-reject-list/accounting-request-reject-list.component";
+import {
+  AccountingRequestValidateViewComponent
+} from "./pages/accounting/accounting-request-validate/accounting-request-validate-view/accounting-request-validate-view.component";
+import {
+  AccountingRequestValidateListComponent
+} from "./pages/accounting/accounting-request-validate/accounting-request-validate-list/accounting-request-validate-list.component";
+import {
+  AccountingRequestSubmitViewComponent
+} from "./pages/accounting/accounting-request-submit/accounting-request-submit-view/accounting-request-submit-view.component";
+import {
+  AccountingRequestSubmitListComponent
+} from "./pages/accounting/accounting-request-submit/accounting-request-submit-list/accounting-request-submit-list.component";
+import {
+  SinisterRequestValidateListComponent
+} from "./pages/sinister/sinster-request-validate/sinister-request-validate-list/sinister-request-validate-list.component";
+import {
+  SinisterRequestValidateViewComponent
+} from "./pages/sinister/sinster-request-validate/sinister-request-validate-view/sinister-request-validate-view.component";
+import {
+  SinisterRequestRejectListComponent
+} from "./pages/sinister/sinster-request-reject/sinister-request-reject-list/sinister-request-reject-list.component";
+import {
+  SinisterRequestRejectViewComponent
+} from "./pages/sinister/sinster-request-reject/sinister-request-reject-view/sinister-request-reject-view.component";
+import {
+  SinisterRequestSubmitViewComponent
+} from "./pages/sinister/sinster-request-submit/sinister-request-submit-view/sinister-request-submit-view.component";
+import {
+  SinisterRequestSubmitListComponent
+} from "./pages/sinister/sinster-request-submit/sinister-request-submit-list/sinister-request-submit-list.component";
+import {
+  CompensationRequestOpenListComponent
+} from "./pages/compensation/compensation-request-open/compensation-request-open-list/compensation-request-open-list.component";
+import {
+  CompensationRequestCloseListComponent
+} from "./pages/compensation/compensation-request-close/compensation-request-close-list/compensation-request-close-list.component";
 
 
 export const routes: Routes = [
@@ -318,28 +360,88 @@ export const routes: Routes = [
       },
       {
         path: 'prestation/requests/submits/list', component: PrestationSubmitListComponent,
-        title: "Expertises - Demandes soumises | GNA",
+        title: "Prestation - Demandes soumises | GNA",
       },
       {
         path: 'prestation/requests/submits/view', component: PrestationSubmitViewComponent,
-        title: "Expertises - Demandes soumises | GNA",
+        title: "Prestation - Demandes soumises | GNA",
       },
       {
         path: 'prestation/requests/validates/list', component: PrestationValidateListComponent,
-        title: "Expertises - Demandes validées | GNA",
+        title: "Prestation - Demandes validées | GNA",
       },
       {
         path: 'prestation/requests/validates/view', component: PrestationValidateViewComponent,
-        title: "Expertises - Demandes validées | GNA",
+        title: "Prestation - Demandes validées | GNA",
       },
       {
         path: 'prestation/requests/rejects/list', component: PrestationRejectListComponent,
-        title: "Expertises - Demandes rejetées | GNA",
+        title: "Prestation - Demandes rejetées | GNA",
       },
       {
         path: 'prestation/requests/rejects/view', component: PrestationRejectViewComponent,
-        title: "Expertises - Demandes rejetées | GNA",
+        title: "Prestation - Demandes rejetées | GNA",
       },
+
+      {
+        path: 'sinister/requests/submits/list', component: SinisterRequestSubmitListComponent,
+        title: "Gestion des sinistres - Demandes soumises | GNA",
+      },
+      {
+        path: 'sinister/requests/submits/view', component: SinisterRequestSubmitViewComponent,
+        title: "Gestion des sinistres - Demandes soumises | GNA",
+      },
+      {
+        path: 'sinister/requests/validates/list', component: SinisterRequestValidateListComponent,
+        title: "Gestion des sinistres - Demandes validées | GNA",
+      },
+      {
+        path: 'sinister/requests/validates/view', component: SinisterRequestValidateViewComponent,
+        title: "Gestion des sinistres - Demandes validées | GNA",
+      },
+      {
+        path: 'sinister/requests/rejects/list', component: SinisterRequestRejectListComponent,
+        title: "Gestion des sinistres - Demandes rejetées | GNA",
+      },
+      {
+        path: 'sinister/requests/rejects/view', component: SinisterRequestRejectViewComponent,
+        title: "Gestion des sinistres - Demandes rejetées | GNA",
+      },
+
+      {
+        path: 'compensations/requests/open/list', component: CompensationRequestOpenListComponent,
+        title: "Gestion des indemnisations - Sinsitres ouverts | GNA",
+      },
+      {
+        path: 'compensations/requests/close/view', component: CompensationRequestCloseListComponent,
+        title: "Gestion des indemnisations - Sinistres clôturés | GNA",
+      },
+
+      {
+        path: 'accounting/requests/submits/list', component: AccountingRequestSubmitListComponent,
+        title: "Comptabilité - Demandes soumises | GNA",
+      },
+      {
+        path: 'accounting/requests/submits/view', component: AccountingRequestSubmitViewComponent,
+        title: "Comptabilité - Demandes soumises | GNA",
+      },
+      {
+        path: 'accounting/requests/validates/list', component: AccountingRequestValidateListComponent,
+        title: "Comptabilité - Demandes validées | GNA",
+      },
+      {
+        path: 'accounting/requests/validates/view', component: AccountingRequestValidateViewComponent,
+        title: "Comptabilité - Demandes validées | GNA",
+      },
+      {
+        path: 'accounting/requests/rejects/list', component: AccountingRequestRejectListComponent,
+        title: "Comptabilité - Demandes rejetées | GNA",
+      },
+      {
+        path: 'accounting/requests/rejects/view', component: AccountingRequestRejectViewComponent,
+        title: "Comptabilité - Demandes rejetées | GNA",
+      },
+
 
       {
         path: 'partners/list', component: PartnerListComponent,
