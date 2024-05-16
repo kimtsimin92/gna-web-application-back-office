@@ -1,1 +1,227 @@
-<p>prestation-submit-list works!</p>
+
+<div class="gna-bc">
+  <span>Prestations / Prestations soumises </span>
+</div>
+
+<div class="container-fluid">
+
+  <div>
+    <mat-card class="gna-card">
+
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+          <div class="gna-list-header row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+            <span class="p-input-icon-left gna-full-width">
+                      <i class="pi pi-search"></i>
+                      <input
+                        pInputText
+                        type="text"
+                        (input)="dt.filterGlobal(getValue($event), 'contains')"
+                        placeholder="Rechercher"
+                        class="gna-full-width gna-list-ir"
+                        [disabled]="isSave"/>
+                        </span>
+            </div>
+          </div>
+        </div>
+      </mat-card-header>
+
+      <div class="container-fluid">
+
+        <div class="example-table-container mt-4">
+
+          <p-table
+            #dt
+            [value]="dataList"
+            dataKey="id"
+            styleClass="p-datatable-striped"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [loading]="loading"
+            [rows]="rows"
+            [totalRecords]="totalRecords"
+            [paginator]="false"
+            [first]="first"
+            (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[5, 10, 20, 15, 30, 50, 100]"
+            [globalFilterFields]="['matricule_cmu', 'nom', 'prenom', 'genre']"
+            [scrollable]="true"
+            [resizableColumns]="true" >
+            <ng-template pTemplate="header">
+              <tr class="gna-table-header">
+                <th pSortableColumn="matricule_cmu">
+                  N° de police
+                  <p-sortIcon field="matricule_cmu" />
+                  <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
+                </th>
+                <th pSortableColumn="nom">
+                  Produit
+                  <!--                  <p-columnFilter type="text" field="genre" display="menu" />-->
+                  <p-sortIcon field="genre" />
+                </th>
+                <th pSortableColumn="contact" class="gna-responsive">Montant de la prime
+                  <!--                  <p-columnFilter type="text" field="contact" display="menu" />-->
+                  <p-sortIcon field="contact" />
+                </th>
+                <th pSortableColumn="created_at" class="gna-responsive">Enregistrement
+                  <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
+                  <p-sortIcon field="created_at" />
+
+                </th>
+                <th></th>
+                <th></th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-element let-expanded="expanded">
+              <tr>
+                <td>
+                  <div class="row">
+                    <div class="col-4">
+                      <p-button type="button" pRipple [pRowToggler]="element" [text]="true" [rounded]="true"
+                                [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+                    </div>
+                    <div class="col-8 gna-table-td-mt">
+                      @if (element.matricule_cmu ) {
+                        {{ element.matricule_cmu }}
+                      } @else {
+                        N/A
+                      }
+                    </div>
+                  </div>
+                </td>
+
+                <td>
+                  @if (element.genre) {
+                    {{element.nom +' '+ element.prenom}}
+                  }@else {
+                    N/A
+                  }
+                </td>
+                <td class="gna-responsive">
+                  @if (element.contact) {
+                    {{ element.contact }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td class="gna-responsive">
+                  @if (element.created_at) {
+                    {{ element.created_at | date: 'dd-MM-YYYY'}} {{ element.created_at | date: 'hh:mm:ss'}}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td>
+                  <p-tag severity="warning" value="En attente"></p-tag>
+                </td>
+                <td>
+                    <span class="gna-action-span-div">
+                      <span class="gna-action-span">
+                        <p-button icon="pi pi-eye" class="gna-btn-eye" pTooltip="Afficher" tooltipPosition="bottom"
+                                  (click)="onGoToView(element)" [disabled]="isSave"></p-button>
+                      </span>
+                    </span>
+                </td>
+              </tr>
+
+            </ng-template>
+
+            <ng-template pTemplate="rowexpansion" let-element>
+              <div class="gna-table-files">
+                <span>Documents joints</span>
+              </div>
+            </ng-template>
+
+            <ng-template pTemplate="loadingbody">
+              <tr *ngFor="let item of fakeDataList">
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td>
+                     <span class="gna-action-span-div">
+                        <span class="gna-action-span">
+                           <p-skeleton width="2rem" styleClass="mb-4"></p-skeleton>
+                        </span>
+                     </span>
+                </td>
+              </tr>
+            </ng-template>
+
+          </p-table>
+
+        </div>
+
+        <div class="gna-pagination-row">
+
+          <div class="gna-pagination">
+
+            @if (dataPaginationResponse) {
+              @if (dataPaginationResponse.pageSize > 0) {
+                <span class="gna-pagination-page-size"
+                      [matMenuTriggerFor]="aboveMenu"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ dataPaginationResponse.pageSize }}
+                  <i class="pi pi-angle-up"></i></span>
+                <mat-menu #aboveMenu="matMenu" yPosition="above">
+                  @for (psl of pageSizeList; track psl) {
+                    <button mat-menu-item (click)="onGetPageSize(psl.name)"
+                            [disabled]="isSave">{{ psl.name }}</button>
+                  }
+                </mat-menu>
+              } @else {
+                <span class="gna-pagination-page-size gna-pagination-disabled">0
+                  <i class="pi pi-angle-up"></i></span>
+              }
+            } @else {
+              <span class="gna-pagination-page-size gna-pagination-disabled">0
+                  <i class="pi pi-angle-up"></i></span>
+            }
+          </div>
+
+          <div class="gna-pagination">
+            @if (dataPaginationResponse) {
+              @if (currentPage > 1) {
+                <span class="gna-pagination-previous"
+                      (click)="onGoToPrevious()"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">
+                <i class="pi pi-arrow-left"></i>
+              </span>
+              } @else {
+                <span class="gna-pagination-previous gna-pagination-disabled">
+                <i class="pi pi-arrow-left"></i>
+              </span>
+              }
+              @if (dataPaginationResponse.pageSize > 0) {
+                <span class="gna-pagination-page"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ currentPage }}</span>
+              } @else {
+                <span class="gna-pagination-page gna-pagination-disabled">0</span>
+              }
+              @if (currentPage < dataPaginationResponse.totalPages) {
+                <span class="gna-pagination-next"
+                      (click)="onGoToNext()"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">
+               <i class="pi pi-arrow-right"></i>
+            </span>
+              } @else {
+                <span class="gna-pagination-next gna-pagination-disabled">
+               <i class="pi pi-arrow-right"></i>
+            </span>
+              }
+            } @else {
+              <span class="gna-pagination-previous gna-pagination-disabled"><i class="pi pi-arrow-left"></i></span>
+              <span class="gna-pagination-page gna-pagination-disabled">0</span>
+              <span class="gna-pagination-next gna-pagination-disabled"><i class="pi pi-arrow-right"></i></span>
+            }
+          </div>
+
+        </div>
+
+
+      </div>
+    </mat-card>
+  </div>
+
+</div>
