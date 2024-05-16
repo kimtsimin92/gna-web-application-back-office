@@ -1,1 +1,286 @@
-<p>expertise-reject-view works!</p>
+<div class="gna-bc">
+    <span>Expertises / Expertises rejetées / detail </span>
+  </div>
+  
+  <div class="container-fluid">
+  
+    <div>
+      <mat-card class="gna-card">
+        <mat-card-header class="gna-card-header">
+          <div class="container-fluid">
+  
+            <div class="gna-card-header-btn row">
+              <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+  
+                @if (isSave || accountService.pageLoading || accountService.isSave) {
+                  <button mat-raised-button color="primary"
+                          class="gna-full-width gna-btn-default gna-disable">Retour</button>
+                } @else {
+                  <button mat-raised-button color="primary"
+                          class="gna-full-width gna-btn-default"
+                          (click)="onGoToBack()"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+                }
+  
+              </div>
+              
+  
+            </div>
+          </div>
+        </mat-card-header>
+  
+        <mat-card-content>
+  
+          <div class="container-fluid">
+            <div class="example-table-container mt-4">
+              <div class="card">
+                <div class="card-body gna-card-body"
+                     *ngIf="elementData">
+  
+                  <div class="row">
+  
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label">Type Compte : </span>
+                      <span class="gna-view-value">
+                     Entreprise
+                    </span>
+                    </div>
+  
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label"> Code Compte : </span>
+                      <span class="gna-view-value">
+                         @if (elementData.numero_compte ) {
+                           {{ elementData.numero_compte }}
+                         } @else {
+                           N/A
+                         }
+                    </span>
+                    </div>
+  
+                  </div>
+  
+                  <div class="row">
+  
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label"> N° CNI : </span>
+                      <span class="gna-view-value">
+                         @if (elementData.matricule_cni ) {
+                           {{ elementData.matricule_cni }}
+                         } @else {
+                           N/A
+                         }
+                    </span>
+                    </div>
+  
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label">N° CMU : </span>
+                      <span class="gna-view-value">
+                      @if (elementData.matricule_cmu) {
+                        {{ elementData.matricule_cmu }}
+                      } @else {
+                        N/A
+                      }
+                    </span>
+                    </div>
+  
+                  </div>
+  
+                  <div class="row">
+  
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label"> Nom : </span>
+                      <span class="gna-view-value">
+                         @if (elementData.nom ) {
+                           {{ elementData.nom }}
+                         } @else {
+                           N/A
+                         }
+                    </span>
+                    </div>
+  
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label">Code Segment : </span>
+                      <span class="gna-view-value">
+                        @if (elementData.code_segment ) {
+                          {{ elementData.code_segment }}
+                        } @else {
+                          N/A
+                        }
+                    </span>
+                    </div>
+  
+                  </div>
+  
+                  <div class="row">
+  
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label"> Prénom : </span>
+                      <span class="gna-view-value">
+                         @if (elementData.prenom ) {
+                           {{ elementData.prenom }}
+                         } @else {
+                           N/A
+                         }
+                    </span>
+                    </div>
+  
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label">Email : </span>
+                      <span class="gna-view-value">
+                      @if (elementData.email) {
+                        {{ elementData.email }}
+                      } @else {
+                        N/A
+                      }
+                    </span>
+                    </div>
+  
+                  </div>
+  
+                  <div class="row">
+  
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label"> Genre : </span>
+                      <span class="gna-view-value">
+                          @if (elementData.genre && elementData.genre == "H") {
+                            Homme
+                          } @else if (elementData.genre && elementData.genre == "F") {
+                            Femme
+                          } @else {
+                            N/A
+                          }
+                    </span>
+                    </div>
+  
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label">Téléphone : </span>
+                      <span class="gna-view-value">
+                        @if (elementData.contact ) {
+                          {{ elementData.contact }}
+                        } @else {
+                          N/A
+                        }
+                    </span>
+                    </div>
+  
+                  </div>
+  
+                  <div class="row">
+  
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label"> Date de naissance : </span>
+                      <span class="gna-view-value">
+                        @if (elementData.date_naissance) {
+                          {{ elementData.date_naissance | date: 'dd-MM-YYYY'}}
+                        } @else {
+                          N/A
+                        }
+                    </span>
+                    </div>
+  
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label">Adresse : </span>
+                      <span class="gna-view-value">
+                      @if (elementData.adress) {
+                        {{ elementData.adress }}
+                      } @else {
+                        N/A
+                      }</span>
+                    </div>
+  
+                  </div>
+  
+                </div>
+              </div>
+  
+              <div class="row gna-files">
+                <span class="gna-files-underline">Documents joints</span>
+                <div class="row">
+                  <div class="col">
+                    <!--      <span class="gna-element-file-name">CNI</span>
+                <br>
+                     <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="" class="gna-element-file gna-clickable">
+                     <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="" class="gna-element-file gna-clickable">-->
+                  </div>
+                </div>
+              </div>
+  
+           <!--   <div class="row mt-4">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <label> <strong>Motif</strong></label>
+  
+                  <p-editor [style]="{ height: 'auto' }">
+                    <ng-template pTemplate="header">
+          <span class="ql-formats">
+            <select class="ql-size">
+                <option value="small">Petite</option>
+                <option selected>Normale</option>
+                <option value="large">Grande</option>
+                <option value="huge">Très grande</option>
+              </select>
+          </span>
+                      <span class="ql-formats">
+              <button type="button" class="ql-bold" aria-label="Bold"></button>
+              <button type="button" class="ql-italic" aria-label="Italic"></button>
+              <button type="button" class="ql-underline" aria-label="Underline"></button>
+        </span>
+                      <span class="ql-formats">
+              <select title="Text Alignment" class="ql-align" >
+                <option selected>Gauche</option>
+                <option value="center" label="Center"></option>
+                <option value="right" label="Right"></option>
+                <option value="justify" label="Justify"></option>
+              </select>
+            </span>
+                      <span class="ql-formats">
+              <select title="Text Color" class="ql-color" defaultValue="rgb(0, 0, 0)">
+                <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
+                ...
+                 <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
+                ...
+                   <option value="rgb(255, 0, 0)" label="rgb(255, 0, 0)"></option>
+                    ...
+                   <option value="rgb(0, 128, 0)" label="rgb(0, 128, 0)"></option>
+                ...
+                <option value="rgb(28, 54, 148)" label="rgb(28, 54, 148)"></option>
+                ...
+                <option value="rgb(246, 153, 63)" label="rgb(246, 153, 63)"></option>
+              </select>
+              <span class="ql-format-separator"></span>
+              <select title="Background Color" class="ql-background" defaultValue="rgb(255, 255, 255)">
+               <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
+                ...
+                 <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
+                ...
+                   <option value="rgb(255, 0, 0)" label="rgb(255, 0, 0)"></option>
+                    ...
+                   <option value="rgb(0, 128, 0)" label="rgb(0, 128, 0)"></option>
+                ...
+                <option value="rgb(28, 54, 148)" label="rgb(28, 54, 148)"></option>
+                ...
+                <option value="rgb(246, 153, 63)" label="rgb(246, 153, 63)"></option>
+              </select>
+          </span>
+                      <span class="ql-formats">
+             <button class="ql-list" value="ordered"></button>
+             <button class="ql-list" value="bullet"></button>
+              <button type="button" class="ql-blockquote" aria-label="blockquote"></button>
+              <button type="button" class="ql-link" aria-label="link"></button>
+            </span>
+                    </ng-template>
+                  </p-editor>
+  
+                </div>
+              </div>-->
+  
+            </div>
+  
+          </div>
+        </mat-card-content>
+  
+      </mat-card>
+  
+    </div>
+  
+  </div>
+  
