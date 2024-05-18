@@ -19,6 +19,7 @@ import {TooltipModule} from "primeng/tooltip";
 import {FormsModule} from "@angular/forms";
 import {RippleModule} from "primeng/ripple";
 import { ManagerCustomerAccountService } from '../../../manager-customers-accounts/manager-customer-account.service';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'app-expertise-submit-list',
@@ -58,8 +59,8 @@ export class ExpertiseSubmitListComponent {
 
   scrollHeight: string = "380px";
 
-  pageSort: string = "nom";
-  pageOrder: string = "asc";
+  pageSort: string = "-created_at";
+  pageOrder: string = "desc";
   pageNumber: number = 1;
   pageSize: number = 10;
   pageSizeList: any[] = [
@@ -109,6 +110,8 @@ export class ExpertiseSubmitListComponent {
   loading: boolean = false;
   rows = 0;
   totalRecords: number = 0;
+
+  isLoadingFiles: boolean = false;
 
   constructor(
     private responsive: BreakpointObserver,
@@ -248,6 +251,32 @@ export class ExpertiseSubmitListComponent {
 
   }
 
+  onGetCustomerAccountFilesById(element: any) {
+
+    this.isLoadingFiles = true;
+
+    let filters = {
+      user_id: element.id
+    };
+
+    this.managerCustomerAccountService.onGetCustomerAccountFilesById(filters)
+      .subscribe((responseData: HttpResponse<any>) => {
+
+        this.isLoadingFiles = false;
+        console.log(responseData);
+
+        let responseBody = responseData['body'];
+
+        element.files = responseBody.data;
+
+      }, (errorData: HttpErrorResponse) => {
+        this.isLoadingFiles = false;
+
+        console.log(errorData);
+
+      });
+
+  }
   pageChange(event: any) {
     this.first = event.first;
     this.rows = event.rows;
@@ -320,5 +349,6 @@ export class ExpertiseSubmitListComponent {
       event.forceUpdate();
     }, Math.random() * 1000 + 250);
   }
+  protected readonly environment = environment;
 
 }

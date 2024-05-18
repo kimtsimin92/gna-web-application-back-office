@@ -269,7 +269,7 @@ let groupManageCustomerAccounts = {
       icon: 'fa-solid fa-hand-holding-dollar',
       children: [
         {name: 'Sinistres ouverts', link: '/account/compensations/requests/open/list', class: null},
-        {name: 'Sinistres clôturés', link: '/account/compensations/requests/close/list<<', class: null},
+        {name: 'Sinistres clôturés', link: '/account/compensations/requests/close/list', class: null},
       ],
     };
 

@@ -5,7 +5,7 @@ import {BreakpointObserver} from "@angular/cdk/layout";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ChipModule} from "primeng/chip";
-import {DatePipe, NgIf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {EditorModule} from "primeng/editor";
@@ -16,6 +16,10 @@ import { ConfirmationToggleDialogComponent } from '../../../../dialogs/confirmat
 import { SaveLoadingDialogComponent } from '../../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component';
 import { SaveNotificationDialogComponent } from '../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component';
 import { SaveErrorNotificationDialogComponent } from '../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component';
+
+import { TagModule } from 'primeng/tag';
+import { environment } from '../../../../../../environments/environment';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-coinsurance-validate-view',
@@ -31,7 +35,10 @@ import { SaveErrorNotificationDialogComponent } from '../../../../dialogs/notifi
     FormsModule,
     InputTextareaModule,
     ReactiveFormsModule,
-    EditorModule
+    EditorModule,
+    SkeletonModule,
+    TagModule,
+    NgForOf,
   ],
   templateUrl: './coinsurance-validate-view.component.html',
   styleUrl: './coinsurance-validate-view.component.css'
@@ -44,6 +51,10 @@ export class CoinsuranceValidateViewComponent implements OnInit, AfterViewInit, 
   loadingPage: boolean = false;
   loading: boolean = false;
 
+  
+  protected readonly environment = environment;
+  isLoadingFiles: boolean = false;
+  
   constructor(
     private responsive: BreakpointObserver,
     private _router: Router,
@@ -79,6 +90,30 @@ export class CoinsuranceValidateViewComponent implements OnInit, AfterViewInit, 
     this._router.navigateByUrl("/account/coinsurance/requests/validates/list");
   }
 
+  onGetCustomerAccountFilesById(elementData: any) {
+    this.isLoadingFiles = true;
 
+    let filters = {
+      user_id: elementData.id,
+    };
+
+    this.managerCustomerAccountService
+      .onGetCustomerAccountFilesById(filters)
+      .subscribe(
+        (responseData: HttpResponse<any>) => {
+          this.isLoadingFiles = false;
+          console.log(responseData);
+
+          let responseBody = responseData['body'];
+
+          elementData.files = responseBody.data;
+        },
+        (errorData: HttpErrorResponse) => {
+          this.isLoadingFiles = false;
+
+          console.log(errorData);
+        }
+      );
+  }
 
 }

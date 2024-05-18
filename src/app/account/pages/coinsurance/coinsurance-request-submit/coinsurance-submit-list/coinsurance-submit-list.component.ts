@@ -4,7 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {ButtonModule} from "primeng/button";
-import {DatePipe, DecimalPipe, NgClass, NgForOf} from "@angular/common";
+import {DatePipe, DecimalPipe, NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {DropdownModule} from "primeng/dropdown";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {InputTextModule} from "primeng/inputtext";
@@ -19,6 +19,7 @@ import {TooltipModule} from "primeng/tooltip";
 import {FormsModule} from "@angular/forms";
 import {RippleModule} from "primeng/ripple";
 import { ManagerCustomerAccountService } from '../../../manager-customers-accounts/manager-customer-account.service';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'app-coinsurance-submit-list',
@@ -44,7 +45,9 @@ import { ManagerCustomerAccountService } from '../../../manager-customers-accoun
     FormsModule,
     MatMenuTrigger,
     NgClass,
-    RippleModule
+    RippleModule,
+    NgIf,
+    NgStyle
   ],
   templateUrl: './coinsurance-submit-list.component.html',
   styleUrl: './coinsurance-submit-list.component.css'
@@ -58,8 +61,8 @@ export class CoinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
 
   scrollHeight: string = "380px";
 
-  pageSort: string = "nom";
-  pageOrder: string = "asc";
+  pageSort: string = "-created_at";
+  pageOrder: string = "desc";
   pageNumber: number = 1;
   pageSize: number = 10;
   pageSizeList: any[] = [
@@ -109,6 +112,8 @@ export class CoinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
   loading: boolean = false;
   rows = 0;
   totalRecords: number = 0;
+
+  isLoadingFiles: boolean = false;
 
   constructor(
     private responsive: BreakpointObserver,
@@ -248,6 +253,33 @@ export class CoinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
 
   }
 
+  onGetCustomerAccountFilesById(element: any) {
+
+    this.isLoadingFiles = true;
+
+    let filters = {
+      user_id: element.id
+    };
+
+    this.managerCustomerAccountService.onGetCustomerAccountFilesById(filters)
+      .subscribe((responseData: HttpResponse<any>) => {
+
+        this.isLoadingFiles = false;
+        console.log(responseData);
+
+        let responseBody = responseData['body'];
+
+        element.files = responseBody.data;
+
+      }, (errorData: HttpErrorResponse) => {
+        this.isLoadingFiles = false;
+
+        console.log(errorData);
+
+      });
+
+  }
+
   pageChange(event: any) {
     this.first = event.first;
     this.rows = event.rows;
@@ -321,4 +353,5 @@ export class CoinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
     }, Math.random() * 1000 + 250);
   }
 
+  protected readonly environment = environment;
 }

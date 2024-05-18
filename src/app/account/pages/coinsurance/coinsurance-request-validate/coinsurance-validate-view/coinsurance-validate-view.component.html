@@ -193,15 +193,50 @@
                 </div>
               </div>
   
+              
               <div class="row gna-files">
                 <span class="gna-files-underline">Documents joints</span>
                 <div class="row">
-                  <div class="col">
-                    <!--      <span class="gna-element-file-name">CNI</span>
-                <br>
-                     <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="" class="gna-element-file gna-clickable">
-                     <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="" class="gna-element-file gna-clickable">-->
-                  </div>
+                  @if (!isLoadingFiles) {
+  
+                    @if (elementData.files && elementData.files.length > 0) {
+  
+                      <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1" *ngFor="let file of elementData.files">
+                        <span class="gna-element-file-name">{{ file.libelle }}</span>
+                        <br>
+  
+                        @if (file.type == "image/jpeg" ) {
+                          <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                            <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else if (file.type == "image/png") {
+                          <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                            <img src="assets/svg/files/png-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else if (file.type == "pdf") {
+                          <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                            <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else if (file.type == "doc" || "doc") {
+                          <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                            <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                          </a>
+                        }
+  
+                      </div>
+  
+                    } @else {
+                      <div class="col">
+                        <span class="gna-element-file-name">N/A</span>
+                      </div>
+                    }
+  
+  
+                  } @else {
+                    <div class="col">
+                      <p-skeleton width="2rem" size="5rem" styleClass="mr-2" />
+                    </div>
+                  }
                 </div>
               </div>
   

@@ -410,10 +410,10 @@ export const routes: Routes = [
 
       {
         path: 'compensations/requests/open/list', component: CompensationRequestOpenListComponent,
-        title: "Gestion des indemnisations - Sinsitres ouverts | GNA",
+        title: "Gestion des indemnisations - Sinistres ouverts | GNA",
       },
       {
-        path: 'compensations/requests/close/view', component: CompensationRequestCloseListComponent,
+        path: 'compensations/requests/close/list', component: CompensationRequestCloseListComponent,
         title: "Gestion des indemnisations - Sinistres clôturés | GNA",
       },
 
