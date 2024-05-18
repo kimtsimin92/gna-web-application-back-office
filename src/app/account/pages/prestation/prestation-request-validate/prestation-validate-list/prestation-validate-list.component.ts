@@ -19,6 +19,7 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ManagerCustomerAccountService} from "../../../manager-customers-accounts/manager-customer-account.service";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {environment} from "../../../../../../environments/environment";
 
 @Component({
   selector: 'app-prestation-validate-list',
@@ -53,6 +54,8 @@ export class PrestationValidateListComponent {
 
   loadingPage: boolean = false;
   isSave: boolean = false;
+
+  isLoadingFiles: boolean = false;
 
   headerTitle: string | undefined;
 
@@ -306,7 +309,7 @@ export class PrestationValidateListComponent {
     // @ts-ignore
     localStorage.setItem("CUSTOMER_ACCOUNT_REQUEST_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/expertise/requests/validates/view")
+    this._router.navigateByUrl("/account/prestation/requests/validates/view")
       .then(() => {
         this.loadingPage = false;
       });
@@ -321,4 +324,32 @@ export class PrestationValidateListComponent {
     }, Math.random() * 1000 + 250);
   }
 
+  protected readonly environment = environment;
+
+  onGetCustomerAccountFilesById(element: any) {
+
+    this.isLoadingFiles = true;
+
+    let filters = {
+      user_id: element.id
+    };
+
+    this.managerCustomerAccountService.onGetCustomerAccountFilesById(filters)
+      .subscribe((responseData: HttpResponse<any>) => {
+
+        this.isLoadingFiles = false;
+        console.log(responseData);
+
+        let responseBody = responseData['body'];
+
+        element.files = responseBody.data;
+
+      }, (errorData: HttpErrorResponse) => {
+        this.isLoadingFiles = false;
+
+        console.log(errorData);
+
+      });
+
+  }
 }
