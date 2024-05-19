@@ -25,6 +25,7 @@ import {
 import {SegmentForm} from "../segment-form";
 import {InputTextModule} from "primeng/inputtext";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
+import {CheckboxModule} from "primeng/checkbox";
 
 @Component({
   selector: 'app-segment-edit',
@@ -40,7 +41,8 @@ import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-
         MatInput,
         MatLabel,
         ReactiveFormsModule,
-        InputTextModule
+        InputTextModule,
+        CheckboxModule
     ],
   templateUrl: './segment-edit.component.html',
   styleUrl: './segment-edit.component.css'
@@ -91,6 +93,8 @@ export class SegmentEditComponent implements OnInit, OnDestroy {
       this.segmentData = JSON.parse(localStorage.getItem("SEGMENT_DATA"));
       this.dataForm.code.setValue(this.segmentData.code);
       this.dataForm.name.setValue(this.segmentData.name);
+      this.dataForm.description.setValue(this.segmentData.description);
+      this.dataForm.selected.setValue(this.segmentData.selected);
     } else {
       this._router.navigateByUrl("/account/segments/list")
     }
@@ -108,7 +112,7 @@ export class SegmentEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  onBack() {
+  onGoToBack() {
     this._router.navigateByUrl("/account/segments/list");
   }
 
@@ -119,7 +123,9 @@ export class SegmentEditComponent implements OnInit, OnDestroy {
     this.onSaveLoadingDialog();
 
     let requestData = {
-      name: this.formData.value.name
+      name: this.formData.value.name,
+      description: this.formData.value.description,
+      selected: this.formData.value.selected,
     }
 
     let id = this.segmentData.id;

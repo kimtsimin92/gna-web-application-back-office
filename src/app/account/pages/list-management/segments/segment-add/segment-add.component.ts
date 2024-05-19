@@ -25,23 +25,25 @@ import {
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
 import {SegmentForm} from "../segment-form";
 import {InputTextModule} from "primeng/inputtext";
+import {CheckboxModule} from "primeng/checkbox";
 
 @Component({
   selector: 'app-segment-add',
   standalone: true,
-    imports: [
-        BreadcrumbModule,
-        FormsModule,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        ReactiveFormsModule,
-        InputTextModule
-    ],
+  imports: [
+    BreadcrumbModule,
+    FormsModule,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    ReactiveFormsModule,
+    InputTextModule,
+    CheckboxModule
+  ],
   templateUrl: './segment-add.component.html',
   styleUrl: './segment-add.component.css'
 })
@@ -95,7 +97,7 @@ export class SegmentAddComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
   }
 
-  onBack() {
+  onGoToBack() {
     this._router.navigateByUrl("/account/segments/list");
   }
 
@@ -149,6 +151,8 @@ export class SegmentAddComponent implements OnInit, OnDestroy {
 
     let requestData = {
       name: this.formData.value.name,
+      description: this.formData.value.description,
+      selected: this.formData.value.selected,
     }
 
     this.accountService.saveSegmentAdd(requestData)

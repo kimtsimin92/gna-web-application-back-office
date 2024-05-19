@@ -242,9 +242,10 @@ export class AccountService {
 
   //
 
-  getSegmentListData(page: number) {
+  getSegmentListData(sort: string, order: string, page: number, size: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/segments?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/segments?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
 
   saveSegmentToggleEnable(id: number) {

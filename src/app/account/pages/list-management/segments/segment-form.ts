@@ -6,4 +6,8 @@ export class SegmentForm {
   name = new FormControl(null, [
     Validators.minLength(2),
     Validators.required]);
+
+  description = new FormControl(null);
+  selected = new FormControl(false);
+
 }

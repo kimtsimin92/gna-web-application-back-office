@@ -8,20 +8,24 @@ import {Router} from "@angular/router";
 import {AccountService} from "../../../../account.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
+import {NgIf} from "@angular/common";
+import {TagModule} from "primeng/tag";
 
 @Component({
   selector: 'app-segment-view',
   standalone: true,
-    imports: [
-        BreadcrumbModule,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        FormsModule,
-        InputTextModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BreadcrumbModule,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    FormsModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    NgIf,
+    TagModule
+  ],
   templateUrl: './segment-view.component.html',
   styleUrl: './segment-view.component.css'
 })
@@ -33,7 +37,7 @@ export class SegmentViewComponent implements OnInit, OnDestroy {
   home: MenuItem | undefined;
 
 
-  segmentData: any = null;
+  elementData: any = null;
   loadingPage: boolean = true;
   isDisable: boolean = true;
 
@@ -48,7 +52,7 @@ export class SegmentViewComponent implements OnInit, OnDestroy {
 
     if (localStorage.getItem("SEGMENT_DATA")) {
       // @ts-ignore
-      this.segmentData = JSON.parse(localStorage.getItem("SEGMENT_DATA"));
+      this.elementData = JSON.parse(localStorage.getItem("SEGMENT_DATA"));
     } else {
       this._router.navigateByUrl("/account/segments/list")
     }
@@ -75,7 +79,7 @@ export class SegmentViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  onBack() {
+  onGoToBack() {
     this._router.navigateByUrl("/account/segments/list");
   }
 
@@ -85,7 +89,7 @@ export class SegmentViewComponent implements OnInit, OnDestroy {
     this._router.navigateByUrl("/account/segments/edit")
       .then(() => {
         // @ts-ignore
-        localStorage.setItem("SEGMENT_DATA", JSON.stringify(this.segmentData));
+        localStorage.setItem("SEGMENT_DATA", JSON.stringify(this.elementData));
 
         this.loadingPage = false;
       });

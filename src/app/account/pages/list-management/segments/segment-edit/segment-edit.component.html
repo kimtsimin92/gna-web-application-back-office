@@ -3,7 +3,6 @@
 </div>
 
 
-
 <div class="container-fluid">
 
   <div>
@@ -11,41 +10,67 @@
 
       <mat-card-header class="gna-card-header">
         <div class="container-fluid">
-          <div class="gna-list-header ">
-            <div class=" gna-list-header-1 "></div>
-            <div class="gna-list-header-2 row">
-              <div class="col-md-6 col-sm-6">
-                <button mat-raised-button class="gna-btn-default gna-btn-cancel" (click)="onBack()"
-                  [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
 
-              </div>
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
 
-              <div class="col-md-6 col-sm-6">
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onGoToBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer</button>
+              } @else {
 
                 @if (!formData.valid) {
-                <button mat-raised-button class="gna-btn-default gna-btn-save"
-                  (click)="onGetNotBlankAlert()">Enregistrer</button>
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Enregistrer</button>
+
                 } @else {
-                <button mat-raised-button class="gna-btn-default gna-btn-save"
-                  [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                  (click)="onConfirm()">Enregistrer</button>
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onConfirm()">Enregistrer</button>
                 }
-              </div>
+              }
             </div>
+
           </div>
         </div>
       </mat-card-header>
       <mat-card-content>
         <div class="container-fluid">
-          <form
-            [formGroup]="formData">
+          <form [formGroup]="formData">
             <div class="row pb-2 gna-form">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="name">Nom Segment</label>
-                <input pInputText
-                       type="text" id="name" aria-describedby="name-help" placeholder="Nom Segment *" class="gna-form-input"
-                       required
-                       formControlName="name"/>
+                <label for="name">Nom</label>
+                <input pInputText type="text" id="name" aria-describedby="name-help" placeholder="Nom Segment *"
+                       class="gna-form-input" required formControlName="name" />
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="description">Description</label>
+                <input pInputText type="text" id="description" aria-describedby="name-help" placeholder="Description Segment"
+                       class="gna-form-input" formControlName="description" />
+              </div>
+              <div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label>Par défaut</label>
+                <br>
+                <p-checkbox formControlName="selected" [binary]="true" inputId="selected"
+                            class="gna-form-checkbox"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
               </div>
             </div>
           </form>

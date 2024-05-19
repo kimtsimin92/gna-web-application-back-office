@@ -57,6 +57,7 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 
 import { environment } from '../../../../../../environments/environment';
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 @Component({
   selector: 'app-segment-list',
   standalone: true,
@@ -107,54 +108,10 @@ import { environment } from '../../../../../../environments/environment';
   styleUrl: './segment-list.component.css',
 })
 export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
- 
-  headerTitle: string | undefined;
+
 
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
-
-  loadingPage: boolean = false;
-  loading: boolean = false;
-  dataPaginationResponse: any;
-
-  pageSort: string = '-created_at';
-  pageOrder: string = 'desc';
-  pageNumber: number = 1;
-  pageSize: number = 10;
-  pageSizeList: any[] = [
-    {
-      name: 5,
-    },
-    {
-      name: 10,
-    },
-    {
-      name: 15,
-    },
-    {
-      name: 20,
-    },
-    {
-      name: 30,
-    },
-    {
-      name: 50,
-    },
-    {
-      name: 100,
-    },
-  ];
-
-  first: number = 0;
-
-  
-  totalElements: number = 0;
-  totalPages: number = 0;
-  currentPage: number = 1;
-
-  rows = 0;
-  totalRecords: number = 0;
-  isLoadingFiles: boolean = false;
 
 
 
@@ -172,22 +129,75 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   @Output() newEvent = new EventEmitter<boolean>();
-  isSave: boolean = false;
   filteredList: any[] = [];
 
 
-  
-  fakeDataList: any[] = [
-    { id: 1 },
-    { id: 2 },
-    { id: 3 },
-    { id: 4 },
-    { id: 5 },
-    { id: 6 },
+
+  loadingPage: boolean = false;
+  isSave: boolean = false;
+
+  headerTitle: string | undefined;
+
+  scrollHeight: string = "380px";
+
+  pageSort: string = "createdAt";
+  pageOrder: string = "desc";
+  pageNumber: number = 1;
+  pageSize: number = 10;
+  pageSizeList: any[] = [
+    {
+      name: 5
+    },
+    {
+      name: 10
+    },
+    {
+      name: 15
+    },
+    {
+      name: 20
+    },
+    {
+      name: 30
+    },
+    {
+      name: 50
+    },
+    {
+      name: 100
+    }
   ];
 
-  
+  first = 0;
+
+  totalElements: number = 0;
+  totalPages: number = 0;
+  currentPage: number = 0;
+
+  dataList: any[] = [];
+
+  fakeDataList: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5},  {id: 6}];
+  fakeDataListOne: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}];
+  fakeDataListTwo: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
+
+  statusList: any[] = [
+    { label: 'En Attente', value: '1' },
+    { label: 'Validé', value: '2' },
+    { label: 'Refusé', value: '3' },
+  ];
+
+  dataPaginationResponse: any = null;
+
+  loading: boolean = false;
+  rows = 0;
+  totalRecords: number = 0;
+
+  isLoadingFiles: boolean = false;
+  protected readonly environment = environment;
+  isDisable: boolean = true;
+
   constructor(
+    private responsive: BreakpointObserver,
     public _dialog: MatDialog,
     private _router: Router,
     private _liveAnnouncer: LiveAnnouncer,
@@ -195,6 +205,72 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+
+    this.responsive.observe(Breakpoints.XSmall)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches XSmall : pageSize 5");
+          this.scrollHeight = "390px";
+          this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
+          this.pageNumber = 0;
+          this.currentPage = 0;
+          this.onGetDataList();
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.Small)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches Small : pageSize 5");
+          this.scrollHeight = "390px";
+          this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
+          this.pageNumber = 0;
+          this.currentPage = 0;
+          this.onGetDataList();
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.Large)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches Large : pageSize 5");
+          this.scrollHeight = "390px";
+          this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
+          this.pageNumber = 0;
+          this.currentPage = 0;
+          this.onGetDataList();
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.XLarge)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches XLarge : pageSize 10");
+          this.scrollHeight = "660px";
+          this.pageSize = 10;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListTwo;
+          this.pageNumber = 0;
+          this.currentPage = 0;
+          this.onGetDataList();
+        }
+
+      });
+
+
     if (localStorage.getItem('APP_HEADER_TITLE')) {
       localStorage.removeItem('APP_HEADER_TITLE');
     }
@@ -202,9 +278,6 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.headerTitle = 'Marketing';
     localStorage.setItem('APP_HEADER_TITLE', this.headerTitle);
 
-    this.items = [{ label: 'Gestion Listes' }, { label: 'Segments' }];
-
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
 
     this.onGetDataList();
   }
@@ -294,29 +367,44 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onGetDataList() {
-    let page = 0;
 
-    if (this.currentPage > 0) {
-      page = this.currentPage - 1;
-    } else {
-      page = this.currentPage;
-    }
+    this.loadingPage = true;
+    this.loading = true;
 
-    this.accountService.getSegmentListData(page).subscribe(
+    this.pageNumber = this.currentPage;
+
+    this.dataList = [];
+
+    this.accountService.getSegmentListData(this.pageSort, this.pageOrder, this.pageNumber, this.pageSize).subscribe(
       (responseData: HttpResponse<any>) => {
+
+        this.loadingPage = false;
+        this.loading = false;
+
         console.log(responseData);
+
         this.dataPaginationResponse = responseData['body'];
-        if (
-          this.dataPaginationResponse &&
-          this.dataPaginationResponse.totalPages > 0
-        ) {
-          this.filteredList = this.dataPaginationResponse.segments;
-          if (this.currentPage <= 0) {
-            this.currentPage++;
+
+        if (this.dataPaginationResponse) {
+
+          this.totalRecords = this.dataPaginationResponse.totalElements;
+
+          if (this.dataPaginationResponse.totalPages > 0) {
+
+            this.dataList = this.dataPaginationResponse.items;
+
+            if (this.currentPage <= 0) {
+              this.currentPage++;
+            }
+
           }
+
         }
+
       },
       (errorData: HttpErrorResponse) => {
+        this.loadingPage = false;
+        this.loading = false;
         console.log(errorData);
         this.onGetNotificationErrorDialog();
       }
@@ -340,6 +428,8 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
+        this.pageNumber = 0;
+        this.currentPage = 0;
         this.onSave(data);
       } else {
         this.isSave = false;
@@ -481,8 +571,11 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
+        this.pageNumber = 0;
+        this.currentPage = 0;
         this.onSaveToggleEnable(data);
       } else {
+        data.enabled = !data.enabled;
         this.isSave = false;
         this.accountService.isSave = this.isSave;
       }
@@ -509,7 +602,7 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
   }
-/* 
+/*
   onGoToPrevious() {
     this.currentPage--;
     this.onGetDataList();
@@ -547,13 +640,13 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  
+
   pageChange(event: any) {
     this.first = event.first;
     this.rows = event.rows;
   }
 
-  
+
   onGoToPrevious() {
     if (!this.isSave) {
       this.currentPage--;
@@ -575,11 +668,9 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
   onGetPageSize(name: number) {
     this.pageSize = name;
     this.rows = this.pageSize;
-    this.pageNumber = 1;
-    this.currentPage = 1;
+    this.pageNumber = 0;
+    this.currentPage = 0;
     this.onGetDataList();
   }
-
-  protected readonly environment = environment;
 
 }

@@ -605,19 +605,19 @@ export const routes: Routes = [
       },
       {
         path: 'marketing/campaigns/list', component: CampaignListComponent,
-        title: 'Marketing Campaign List | GNA',
+        title: 'Marketing Campagnes | GNA',
       },
       {
-        path: 'marketing/campaigns/details', component: CampaignDetailComponent,
-        title: 'Marketing Campaign Details | GNA',
+        path: 'marketing/campaigns/view', component: CampaignDetailComponent,
+        title: 'Marketing Campagnes | GNA',
       },
       {
         path: 'marketing/campaigns/add', component: CampaignAddComponent,
-        title: 'Marketing Campaign Créer | GNA',
+        title: 'Marketing Campagnes Créer | GNA',
       },
       {
         path: 'marketing/campaigns/edit', component: CampaignEditComponent,
-        title: 'Marketing Campaign Modifier | GNA',
+        title: 'Marketing Campagnes Modifier | GNA',
       },
       {
         path: 'profile', component: ProfileComponent,
