@@ -19,6 +19,7 @@ import {TooltipModule} from "primeng/tooltip";
 import {FormsModule} from "@angular/forms";
 import {RippleModule} from "primeng/ripple";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {environment} from "../../../../../../environments/environment";
 
 @Component({
   selector: 'app-prestation-submit-list',
@@ -49,10 +50,12 @@ import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
   templateUrl: './prestation-submit-list.component.html',
   styleUrl: './prestation-submit-list.component.css'
 })
-export class PrestationSubmitListComponent  {
+export class PrestationSubmitListComponent   {
 
   loadingPage: boolean = false;
   isSave: boolean = false;
+
+  isLoadingFiles: boolean = false;
 
   headerTitle: string | undefined;
 
@@ -306,7 +309,7 @@ export class PrestationSubmitListComponent  {
     // @ts-ignore
     localStorage.setItem("CUSTOMER_ACCOUNT_REQUEST_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/expertise/requests/submits/view")
+    this._router.navigateByUrl("/account/prestation/requests/submits/view")
       .then(() => {
         this.loadingPage = false;
       });
@@ -321,5 +324,33 @@ export class PrestationSubmitListComponent  {
     }, Math.random() * 1000 + 250);
   }
 
+  protected readonly environment = environment;
+
+  onGetCustomerAccountFilesById(element: any) {
+
+    this.isLoadingFiles = true;
+
+    let filters = {
+      user_id: element.id
+    };
+
+    this.managerCustomerAccountService.onGetCustomerAccountFilesById(filters)
+      .subscribe((responseData: HttpResponse<any>) => {
+
+        this.isLoadingFiles = false;
+        console.log(responseData);
+
+        let responseBody = responseData['body'];
+
+        element.files = responseBody.data;
+
+      }, (errorData: HttpErrorResponse) => {
+        this.isLoadingFiles = false;
+
+        console.log(errorData);
+
+      });
+
+  }
 }
 

@@ -19,6 +19,7 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ManagerCustomerAccountService} from "../../../manager-customers-accounts/manager-customer-account.service";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {environment} from "../../../../../../environments/environment";
 
 @Component({
   selector: 'app-prestation-reject-list',
@@ -49,10 +50,12 @@ import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
   templateUrl: './prestation-reject-list.component.html',
   styleUrl: './prestation-reject-list.component.css'
 })
-export class PrestationRejectListComponent {
+export class PrestationRejectListComponent   {
 
   loadingPage: boolean = false;
   isSave: boolean = false;
+
+  isLoadingFiles: boolean = false;
 
   headerTitle: string | undefined;
 
@@ -94,14 +97,14 @@ export class PrestationRejectListComponent {
 
   dataList: any[] = [];
 
-  fakeDataList: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}];
+  fakeDataList: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5},  {id: 6}];
   fakeDataListOne: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}];
   fakeDataListTwo: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
 
   statusList: any[] = [
-    {label: 'En Attente', value: '1'},
-    {label: 'Validé', value: '2'},
-    {label: 'Refusé', value: '3'},
+    { label: 'En Attente', value: '1' },
+    { label: 'Validé', value: '2' },
+    { label: 'Refusé', value: '3' },
   ];
 
   dataPaginationResponse: any = null;
@@ -110,14 +113,11 @@ export class PrestationRejectListComponent {
   rows = 0;
   totalRecords: number = 0;
 
-  private responsive: BreakpointObserver;
-
   constructor(
-    responsive: BreakpointObserver,
+    private responsive: BreakpointObserver,
     private _router: Router,
     public _dialog: MatDialog,
     private managerCustomerAccountService: ManagerCustomerAccountService,) {
-    this.responsive = responsive;
   }
 
   ngOnInit(): void {
@@ -309,7 +309,7 @@ export class PrestationRejectListComponent {
     // @ts-ignore
     localStorage.setItem("CUSTOMER_ACCOUNT_REQUEST_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/expertise/requests/rejects/view")
+    this._router.navigateByUrl("/account/prestation/requests/rejects/view")
       .then(() => {
         this.loadingPage = false;
       });
@@ -324,4 +324,33 @@ export class PrestationRejectListComponent {
     }, Math.random() * 1000 + 250);
   }
 
+
+  onGetCustomerAccountFilesById(element: any) {
+
+    this.isLoadingFiles = true;
+
+    let filters = {
+      user_id: element.id
+    };
+
+    this.managerCustomerAccountService.onGetCustomerAccountFilesById(filters)
+      .subscribe((responseData: HttpResponse<any>) => {
+
+        this.isLoadingFiles = false;
+        console.log(responseData);
+
+        let responseBody = responseData['body'];
+
+        element.files = responseBody.data;
+
+      }, (errorData: HttpErrorResponse) => {
+        this.isLoadingFiles = false;
+
+        console.log(errorData);
+
+      });
+
+  }
+
+  protected readonly environment = environment;
 }
