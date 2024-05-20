@@ -60,7 +60,7 @@ import { environment } from '../../../../../../environments/environment';
   styleUrl: './compensation-request-open-list.component.css',
 })
 export class CompensationRequestOpenListComponent implements OnInit, AfterViewInit, OnDestroy {
-  
+
   loadingPage: boolean = false;
   isSave: boolean = false;
 
