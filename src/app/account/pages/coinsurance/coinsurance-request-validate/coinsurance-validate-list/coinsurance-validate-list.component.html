@@ -1,12 +1,12 @@
 <div class="gna-bc">
-    <span>Coassurances / Souscriptions validées</span>
+    <span>Coassurances / Coassurances validées</span>
   </div>
 
   <div class="container-fluid">
 
     <div>
       <mat-card class="gna-card">
-  
+
         <mat-card-header class="gna-card-header">
           <div class="container-fluid">
             <div class="gna-list-header row">
@@ -20,17 +20,17 @@
                         class="gna-full-width gna-list-ir"
                         (input)="dt.filterGlobal(getValue($event), 'contains')"
                         [disabled]="isSave"/>
-                        </span> 
+                        </span>
               </div>
             </div>
           </div>
         </mat-card-header>
-  
+
         <div class="container-fluid">
-  
+
           <div class="example-table-container mt-4">
-  
-  
+
+
               <p-table
                 #dt
                 [value]="dataList"
@@ -66,13 +66,13 @@
                     <th pSortableColumn="created_at" class="gna-responsive">Enregistrement
                       <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
                       <p-sortIcon field="created_at" />
-  
+
                     </th>
                     <th></th>
                     <th></th>
                   </tr>
                 </ng-template>
-  
+
                 <ng-template pTemplate="body" let-element let-expanded="expanded">
                   <tr>
                     <td>
@@ -104,7 +104,7 @@
                         N/A
                       }
                     </td>
-                    
+
                     <td class="gna-responsive">
                       @if (element.created_at) {
                         {{ element.created_at | date: 'dd-MM-YYYY'}} {{ element.created_at | date: 'hh:mm:ss'}}
@@ -127,24 +127,24 @@
                                      </span>
                     </td>
                   </tr>
-  
+
                 </ng-template>
-  
+
                 <ng-template pTemplate="rowexpansion" let-element>
                   <div class="container">
-  
+
                     <div class="gna-table-files">
-  
+
                       <span class="gna-files-underline">Documents joints</span>
                       <div class="row gna-table-files-row">
-  
+
                         @if (!isLoadingFiles) {
-  
+
                           @if (element.files && element.files.length > 0) {
                             <div class="col" *ngFor="let file of element.files">
                               <span class="gna-element-file-name">{{ file.libelle }}</span>
                               <br>
-  
+
                               @if (file.type == "image/jpeg" ) {
                                 <a href="{{ environment.customersService+file.lien }}" download target="_blank">
                                   <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
@@ -162,28 +162,28 @@
                                   <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
                                 </a>
                               }
-  
+
                             </div>
                           } @else {
                             <div class="col">
                               <span class="gna-element-file-name">N/A</span>
                             </div>
                           }
-  
+
                         } @else {
                           <div class="col">
                             <p-skeleton width="2rem" size="5rem" styleClass="mr-2" />
                           </div>
                         }
-  
+
                       </div>
                     </div>
-  
-  
+
+
                   </div>
-  
+
                 </ng-template>
-  
+
                 <ng-template pTemplate="loadingbody">
                   <tr *ngFor="let item of fakeDataList">
                     <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
@@ -201,15 +201,15 @@
                     </td>
                   </tr>
                 </ng-template>
-  
+
               </p-table>
-  
+
           </div>
-  
+
           <div class="gna-pagination-row">
-  
+
             <div class="gna-pagination">
-  
+
               @if (dataPaginationResponse) {
                 @if (dataPaginationResponse.pageSize > 0) {
                   <span class="gna-pagination-page-size"
@@ -231,7 +231,7 @@
                   <i class="pi pi-angle-up"></i></span>
               }
             </div>
-  
+
             <div class="gna-pagination">
               @if (dataPaginationResponse) {
                 @if (currentPage > 1) {
@@ -268,12 +268,12 @@
                 <span class="gna-pagination-next gna-pagination-disabled"><i class="pi pi-arrow-right"></i></span>
               }
             </div>
-  
+
           </div>
-  
-  
+
+
         </div>
       </mat-card>
     </div>
-  
+
   </div>
