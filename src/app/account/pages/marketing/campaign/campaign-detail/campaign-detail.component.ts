@@ -21,6 +21,8 @@ import { SaveErrorNotificationDialogComponent } from '../../../../dialogs/notifi
 import { TagModule } from 'primeng/tag';
 import { environment } from '../../../../../../environments/environment';
 import { SkeletonModule } from 'primeng/skeleton';
+import { CampaignService } from '../campaign.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-campaign-detail',
@@ -46,6 +48,10 @@ import { SkeletonModule } from 'primeng/skeleton';
 })
 export class CampaignDetailComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  headerTitle: string | undefined;
+  home: MenuItem | undefined;
+  items: MenuItem[] | undefined;
+
   isSave: boolean = false;
 
   elementData: any;
@@ -60,19 +66,34 @@ export class CampaignDetailComponent implements OnInit, AfterViewInit, OnDestroy
     private _router: Router,
     public _dialog: MatDialog,
     public accountService: AccountService,
-    private managerCustomerAccountService: ManagerCustomerAccountService,) {
+    private managerCustomerAccountService: ManagerCustomerAccountService,
+    private campaignService: CampaignService,
+  ) {
   }
 
 
   ngOnInit(): void {
 
-    if (localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA")) {
+    if (localStorage.getItem("CAMPAIGN_DATA")) {
       // @ts-ignore
-      this.elementData = JSON.parse(localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA"));
+      this.elementData = JSON.parse(localStorage.getItem("CAMPAIGN_DATA"));
     } else {
       this._router.navigateByUrl("/account/marketing/campaigns/list")
     }
 
+    if (localStorage.getItem("APP_HEADER_TITLE")) {
+      localStorage.removeItem("APP_HEADER_TITLE");
+    }
+
+    this.headerTitle = "Marketing";
+    localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
+
+    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
+
+    this.items = [{ label: 'Gestion Listes' }, { label: 'campagne'}];
+
+
+    this.getCampaignById(this.elementData.id)
   }
 
 
@@ -80,9 +101,11 @@ export class CampaignDetailComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngOnDestroy(): void {
-    if (localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA")) {
-      // @ts-ignore
-      localStorage.removeItem("CUSTOMER_ACCOUNT_REQUEST_DATA");
+    if (localStorage.getItem("APP_HEADER_TITLE")) {
+      localStorage.removeItem("APP_HEADER_TITLE");
+    }
+    if (localStorage.getItem("CAMPAIGN_DATA")) {
+      localStorage.removeItem("CAMPAIGN_DATA");
     }
   }
 
@@ -90,23 +113,29 @@ export class CampaignDetailComponent implements OnInit, AfterViewInit, OnDestroy
     this._router.navigateByUrl("/account/marketing/campaigns/list");
   }
 
-  onGetCustomerAccountFilesById(elementData: any) {
+  onGoToEdit() {
+    this.loadingPage = true;
+
+    this._router.navigateByUrl("/account/marketing/campaigns/add")
+      .then(() => {
+        // @ts-ignore
+        localStorage.setItem("CAMPAIGN_DATA", JSON.stringify(this.elementData));
+
+        this.loadingPage = false;
+      });
+
+  }
+  
+  getCampaignById(id: any) {
     this.isLoadingFiles = true;
 
-    let filters = {
-      user_id: elementData.id,
-    };
-
-    this.managerCustomerAccountService
-      .onGetCustomerAccountFilesById(filters)
-      .subscribe(
+    this.campaignService.getCampaignById(id).subscribe(
         (responseData: HttpResponse<any>) => {
           this.isLoadingFiles = false;
           console.log(responseData);
 
           let responseBody = responseData['body'];
 
-          elementData.files = responseBody.data;
         },
         (errorData: HttpErrorResponse) => {
           this.isLoadingFiles = false;

@@ -39,25 +39,25 @@
                         [resizableColumns]="true">
                         <ng-template pTemplate="header">
                             <tr class="gna-table-header">
-                                <th pSortableColumn="nom">
+                                <th pSortableColumn="libelle">
                                     Nom de campagne
-                                    <p-sortIcon field="nom" />
+                                    <p-sortIcon field="libelle" />
                                     <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                                 </th>
-                                <th pSortableColumn="nom">
+                                <th pSortableColumn="segment_id">
                                     Segments concernés
                                     <!--                  <p-columnFilter type="text" field="genre" display="menu" />-->
-                                    <p-sortIcon field="nom" />
+                                    <p-sortIcon field="segment_id" />
                                 </th>
                                 
-                                <th pSortableColumn="created_at" class="gna-responsive">Debut d'effet
+                                <th pSortableColumn="date_debut" class="gna-responsive">Debut d'effet
                                     <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
-                                    <p-sortIcon field="created_at" />
+                                    <p-sortIcon field="date_debut" />
 
                                 </th>
-                                <th pSortableColumn="created_at" class="gna-responsive">Fin d'effet
+                                <th pSortableColumn="date_fin" class="gna-responsive">Fin d'effet
                                     <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
-                                    <p-sortIcon field="created_at" />
+                                    <p-sortIcon field="date_fin" />
 
                                 </th>
 
@@ -74,41 +74,47 @@
                                             <p-button type="button" pRipple [pRowToggler]="element" [text]="true"
                                                 [rounded]="true" [plain]="true"
                                                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-                                                (onClick)="onGetCustomerAccountFilesById(element)" />
+                                              />
                                         </div>
                                         <div class="col-8 gna-table-td-mt">
-                                            @if (element.nom ) {
-                                            {{ element.nom }}
+                                            @if (element.libelle ) {
+                                                {{ element.libelle }}
                                             } @else {
-                                            N/A
+                                                N/A
                                             }
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    @if (element.genre) {
-                                    {{element.nom +' '+ element.prenom}}
+                                    @if (element.segment_id) {
+                                        {{ getSegment(element.segment_id) }}  
                                     }@else {
-                                    N/A
+                                        N/A
                                     }
                                 </td>
                                 <td class="gna-responsive">
-                                    @if (element.created_at) {
-                                        {{ element.created_at | date: 'dd-MM-YYYY'}}
+                                    @if (element.date_debut) {
+                                        {{ element.date_debut | date: 'dd-MM-YYYY'}}
                                     } @else {
                                         N/A
                                     }
                                 </td>
 
                                 <td class="gna-responsive">
-                                    @if (element.created_at) {
-                                        {{ element.created_at | date: 'dd-MM-YYYY'}}
+                                    @if (element.date_debut) {
+                                        {{ element.date_fin | date: 'dd-MM-YYYY'}}
                                     } @else {
                                         N/A
                                     }
                                 </td>
                                 <td>
-                                    <p-tag severity="success" value="Ouverte"></p-tag>
+                                    @if (element.is_active) {
+                                        <p-tag severity="success" value="Ouverte"></p-tag>
+
+                                    } @else {
+                                        <p-tag severity="danger" value="Cloruré"></p-tag>
+                                    }
+
                                 </td>
                                 <td>
                                     <span class="gna-action-span-div">

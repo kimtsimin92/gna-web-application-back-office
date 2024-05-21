@@ -20,6 +20,7 @@ import {FormsModule} from "@angular/forms";
 import {RippleModule} from "primeng/ripple";
 import { ManagerCustomerAccountService } from '../../../manager-customers-accounts/manager-customer-account.service';
 import { environment } from '../../../../../../environments/environment';
+import { CampaignService } from '../campaign.service';
 
 @Component({
   selector: 'app-campaign-list',
@@ -115,11 +116,52 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
 
   isLoadingFiles: boolean = false;
 
+  data :any = [
+    {
+      id: 1,
+      code: '001',
+      name: 'S1'
+    },
+    {
+      id: 2,
+      code: '002',
+      name: 'S2'
+    },
+    {
+      id: 3,
+      code: '003',
+      name: 'S3'
+    },
+    {
+      id: 4,
+      code: '004',
+      name: 'S4'
+    },
+    {
+      id: 5,
+      code: '005',
+      name: 'S5'
+    },
+    {
+      id: 6,
+      code: '006',
+      name: 'S6'
+    },
+
+    {
+      id: 7,
+      code: '007',
+      name: 'S7'
+    },
+    ]
+
+    segment:any
+
   constructor(
     private responsive: BreakpointObserver,
     private _router: Router,
     public _dialog: MatDialog,
-    private managerCustomerAccountService: ManagerCustomerAccountService,  ) {
+    private campaignService: CampaignService,  ) {
   }
 
   ngOnInit(): void {
@@ -211,7 +253,7 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
 
     this.dataList = [];
 
-    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(filter, this.pageNumber, this.pageSize, this.pageSort)
+    this.campaignService.getCampaignList(filter, this.pageNumber, this.pageSize, this.pageSort)
       .subscribe((responseData: HttpResponse<any>) => {
 
         this.loadingPage = false;
@@ -231,6 +273,7 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
 
           if (this.dataPaginationResponse.totalPages > 0) {
 
+            
             this.dataList = this.dataPaginationResponse.data;
 
             if (this.currentPage <= 0) {
@@ -253,6 +296,16 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
 
   }
 
+
+  getSegment(id:any) {
+    this.data.forEach((element:any) => {
+      if (element.id  == id) {
+        this.segment = element
+      }
+    });
+    return this.segment.name
+  }
+/*
   onGetCustomerAccountFilesById(element: any) {
 
     this.isLoadingFiles = true;
@@ -278,11 +331,11 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
 
       });
 
-  }
+  }*/
 
   
   onGoToSave() {
-    // this._router.navigateByUrl("/account/segments/add");
+    this._router.navigateByUrl("/account/marketing/campaigns/add");
   }
 
   pageChange(event: any) {
@@ -341,9 +394,9 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
     console.info(data);
 
     // @ts-ignore
-    localStorage.setItem("CUSTOMER_ACCOUNT_REQUEST_DATA", JSON.stringify(data));
+    localStorage.setItem("CAMPAIGN_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/marketing/campaigns/details")
+    this._router.navigateByUrl("/account/marketing/campaigns/view")
       .then(() => {
         this.loadingPage = false;
       });
