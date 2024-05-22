@@ -229,7 +229,7 @@ let groupManageCustomerAccounts = {
         {name: 'Produits', link: '/account/products/list', class: null},
         {name: 'Segmentation', link: '/account/segments/list', class: null},
         {name: 'Campagne', link: '/account/marketing/campaigns/list', class: null},
-        {name: 'Communication', link: '/account/marketing/campaigns/list', class: null},
+        // {name: 'Communication', link: '/account/marketing/campaigns/list', class: null},
       ],
     };
 
@@ -241,9 +241,9 @@ let groupManageCustomerAccounts = {
       name: ' Gestion des souscriptions',
       icon: 'fa-solid fa-umbrella',
       children: [
-        {name: 'Souscriptions soumises', link: '/account/products/list', class: null},
-        {name: 'Souscriptions validées', link: '/account/segments/list', class: null},
-        {name: 'Souscriptions rejetées', link: '/account/marketing/campaigns/list', class: null},
+        {name: 'Demandes soumises', link: '/account/subscriptions/requests/submits/list', class: null},
+        {name: 'Demandes validés', link: '/account/subscriptions/requests/validates/list', class: null},
+        {name: 'Demandes rejetées', link: '/account/subscriptions/requests/rejects/list', class: null},
       ],
     };
 
@@ -254,7 +254,7 @@ let groupManageCustomerAccounts = {
       name: ' Gestion des sinistres',
       icon: 'fa-solid fa-bolt',
       children: [
-        {name: 'Déclarations physiques', link: '/account/segments/list', class: null},
+        // {name: 'Déclarations physiques', link: '/account/segments/list', class: null},
         {name: 'Demandes soumises', link: '/account/sinister/requests/submits/list', class: null},
         {name: 'Demandes validés', link: '/account/sinister/requests/validates/list', class: null},
         {name: 'Demandes rejetées', link: '/account/sinister/requests/rejects/list', class: null},
@@ -340,7 +340,7 @@ let groupManageCustomerAccounts = {
 
     this.menuData.push(groupProviders);
 
-    let groupPartners =  {
+  /*  let groupPartners =  {
       id: 5,
       name: ' Partenariat',
       icon: 'fa-solid fa-handshake-angle',
@@ -352,7 +352,7 @@ let groupManageCustomerAccounts = {
     };
 
     this.menuData.push(groupPartners);
-
+*/
 
 
     let groupSettings =

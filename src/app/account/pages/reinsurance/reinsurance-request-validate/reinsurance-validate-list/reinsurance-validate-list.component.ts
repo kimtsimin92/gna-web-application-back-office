@@ -45,7 +45,7 @@ import { environment } from '../../../../../../environments/environment';
     FormsModule,
     MatMenuTrigger,
     NgClass,
-    RippleModule, 
+    RippleModule,
     NgIf,
     NgStyle
   ],
@@ -205,8 +205,7 @@ export class ReinsuranceValidateListComponent {
       this.pageNumber = this.currentPage;
 
     let filter = {
-      type_customer_id: "1",
-      is_valid: true
+      type_customer_id: "0",
     };
 
     this.dataList = [];

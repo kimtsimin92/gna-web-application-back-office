@@ -75,9 +75,9 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
       this.elementData = JSON.parse(localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA"));
 
 
-      if (!this.elementData.files) {
+     /* if (!this.elementData.files) {
         this.onGetCustomerAccountFilesById(this.elementData);
-      }
+      }*/
 
     } else {
       this._router.navigateByUrl("/account/manager/accounts/personals/requests")

@@ -40,19 +40,20 @@
                                     <p-sortIcon field="matricule_cmu" />
                                     <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                                 </th>
-                                <th pSortableColumn="nom">Nom
+                              <th pSortableColumn="matricule_cmu">
+                                Code Assuré
+                                <p-sortIcon field="matricule_cmu" />
+                                <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
+                              </th>
+                                <th pSortableColumn="nom">Nom et Prénom
                                     <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                                     <p-sortIcon field="nom" />
                                 </th>
-                                <th pSortableColumn="prenom">Prénom
+                                <th pSortableColumn="code_segment" class="gna-responsive">Segment
                                     <!--                  <p-columnFilter type="text" field="prenom" display="menu" />-->
-                                    <p-sortIcon field="prenom" />
+                                    <p-sortIcon field="code_segment" />
                                 </th>
-                                <th pSortableColumn="genre">Genre
-                                    <!--                  <p-columnFilter type="text" field="genre" display="menu" />-->
-                                    <p-sortIcon field="genre" />
-                                </th>
-                                <th pSortableColumn="validation_status" class="gna-responsive">Statut
+                                <th pSortableColumn="validation_status">Statut
                                     <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
                                     <p-sortIcon field="validation_status" />
                                 <th pSortableColumn="created_at" class="gna-responsive">Enregistrement
@@ -81,40 +82,32 @@
                                         </div>
                                     </div>
                                 </td>
+                              <td>
+                                @if (element.numero_compte) {
+                                  {{ element.numero_compte }}
+                                } @else {
+                                  N/A
+                                }
+                              </td>
                                 <td>
                                     @if (element.nom) {
-                                    {{ element.nom }}
-                                    } @else {
-                                    N/A
-                                    }
-                                </td>
-                                <td>
-                                    @if (element.prenom) {
-                                    {{ element.prenom }}
-                                    } @else {
-                                    N/A
-                                    }
-                                </td>
-                                <td>
-                                    @if (element.genre && element.genre == "H") {
-                                    Homme
-                                    } @else if (element.genre && element.genre == "F") {
-                                    Femme
+                                    {{ element.nom }} {{ element.prenom }}
                                     } @else {
                                     N/A
                                     }
                                 </td>
                                 <td class="gna-responsive">
-                                    @if (element.validation_status > 0) {
-                                    @if (element.validation_status == 1) {
-                                    <p-tag severity="warning" value="En attente"></p-tag>
-                                    } @else if (element.validation_status == 2) {
-                                    <p-tag severity="success" value="Validé"></p-tag>
-                                    } @else if (element.validation_status == 3) {
-                                    <p-tag severity="danger" value="Rejeté"></p-tag>
-                                    }
+                                    @if (element.code_segment) {
+                                    {{ element.code_segment }}
                                     } @else {
-                                    <p-tag severity="warning" value="En attente"></p-tag>
+                                    N/A
+                                    }
+                                </td>
+                                <td>
+                                    @if (element.is_active) {
+                                    <p-tag severity="success" value="Activé"></p-tag>
+                                    } @else {
+                                    <p-tag severity="danger" value="Désactivé"></p-tag>
                                     }
                                 </td>
                                 <td class="gna-responsive">
@@ -127,6 +120,14 @@
                                 </td>
                                 <td>
                                     <span class="gna-action-span-div">
+                                      <span class="gna-action-span">
+                          <p-inputSwitch
+                            [(ngModel)]="element.is_active"
+                            pTooltip="Désactiver"
+                            tooltipPosition="bottom"
+                            [disabled]="isSave"/>
+
+                  </span>
                                         <span class="gna-action-span">
                                             <p-button icon="pi pi-eye" class="gna-btn-eye" pTooltip="Afficher"
                                                 tooltipPosition="bottom" (click)="onGoToView(element)"
@@ -205,11 +206,14 @@
                                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                                <td class="gna-responsive"><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
-                                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
-                                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                                <td class="gna-responsive"><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                                 <td>
                                     <span class="gna-action-span-div">
+                                       <span class="gna-action-span">
+                                            <p-skeleton size="2rem" styleClass="mr-2" />
+                                        </span>
                                         <span class="gna-action-span">
                                             <p-skeleton size="2rem" styleClass="mr-2" />
                                         </span>

@@ -20,7 +20,7 @@ import {FormsModule} from "@angular/forms";
 import {RippleModule} from "primeng/ripple";
 import { ManagerCustomerAccountService } from '../../../manager-customers-accounts/manager-customer-account.service';
 import { environment } from '../../../../../../environments/environment';
- 
+
 @Component({
   selector: 'app-reinsurance-submit-list',
   standalone: true,
@@ -114,7 +114,7 @@ export class ReinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
   totalRecords: number = 0;
 
   isLoadingFiles: boolean = false;
- 
+
   constructor(
     private responsive: BreakpointObserver,
     private _router: Router,
@@ -205,8 +205,7 @@ export class ReinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
       this.pageNumber = this.currentPage;
 
     let filter = {
-      type_customer_id: "1",
-      is_valid: true
+      type_customer_id: "0",
     };
 
     this.dataList = [];
@@ -351,5 +350,5 @@ export class ReinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
     }, Math.random() * 1000 + 250);
   }
   protected readonly environment = environment;
- 
+
 }

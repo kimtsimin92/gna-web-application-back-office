@@ -227,13 +227,13 @@ export class ManagementCustomerAccountPersonalListComponent
 
     let filter = {
       type_customer_id: '1',
-      is_valid: true,
+      validation_status: 2,
     };
 
     this.dataList = [];
 
     this.managerCustomerAccountService
-      .onGetCustomerAccountRequestListByType(
+      .onGetCustomerAccountListByType(
         filter,
         this.pageNumber,
         this.pageSize,

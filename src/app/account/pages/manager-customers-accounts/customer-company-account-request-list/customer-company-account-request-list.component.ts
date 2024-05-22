@@ -52,7 +52,7 @@ import { environment } from '../../../../../environments/environment';
   templateUrl: './customer-company-account-request-list.component.html',
   styleUrl: './customer-company-account-request-list.component.css'
 })
-export class CustomerCompanyAccountRequestListComponent implements OnInit, AfterViewInit, OnDestroy { 
+export class CustomerCompanyAccountRequestListComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   loadingPage: boolean = false;
@@ -206,8 +206,8 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
       this.pageNumber = this.currentPage;
 
     let filter = {
-      type_customer_id: "1",
-      is_valid: true
+      type_customer_id: "2",
+      validation_status: "[1,3]"
     };
 
     this.dataList = [];

@@ -161,10 +161,11 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
 
   totalPages: number = 0;
   currentPage: number = 0;
-  isLoadingResults = false;
-  isRateLimitReached = false;
 
-  fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
+
+  fakeDataList: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5},  {id: 6}];
+  fakeDataListOne: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}];
+  fakeDataListTwo: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
 
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -263,6 +264,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
           console.log("screens matches XSmall : pageSize 5");
           this.scrollHeight = "390px";
           this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
           this.onGetDataList();
         }
 
@@ -275,6 +278,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
           console.log("screens matches Small : pageSize 5");
           this.scrollHeight = "390px";
           this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
           this.onGetDataList();
         }
 
@@ -287,6 +292,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
           console.log("screens matches Large : pageSize 5");
           this.scrollHeight = "390px";
           this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
           this.onGetDataList();
         }
 
@@ -299,6 +306,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
           console.log("screens matches XLarge : pageSize 10");
           this.scrollHeight = "660px";
           this.pageSize = 10;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
           this.onGetDataList();
         }
 
@@ -472,6 +481,11 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
   }*/
   onGetDataList() {
 
+    this.loadingPage = true;
+    this.loading = true;
+
+    this.dataList = [];
+
     if (this.currentPage > 0) {
       this.pageNumber = this.currentPage - 1;
     } else {
@@ -480,6 +494,9 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.accountService.onGetGuaranteeList(this.pageSort, this.pageOrder, this.pageNumber, this.pageSize)
       .subscribe((responseData: HttpResponse<any>) => {
+
+        this.loadingPage = false;
+        this.loading = false;
 
         console.log(responseData);
         this.dataPaginationResponse =  responseData["body"];
@@ -496,7 +513,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
         }
 
       }, (errorData: HttpErrorResponse) => {
-
+        this.loadingPage = false;
+        this.loading = false;
         console.log(errorData);
         this.dataPaginationResponse = {};
         this.onGetNotificationErrorDialog();

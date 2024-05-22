@@ -81,8 +81,7 @@
                   <td>
                     <div class="row">
                       <div class="col-4">
-                        <p-button type="button" pRipple [pRowToggler]="element" [text]="true" [rounded]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-                                  (onClick)="onGetCustomerAccountFilesById(element)"/>
+                        <p-button type="button" pRipple [pRowToggler]="element" [text]="true" [rounded]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
                       </div>
                       <div class="col-8 gna-table-td-mt">
                         @if (element.numero_compte ) {
@@ -159,10 +158,8 @@
                     <span class="gna-files-underline">Documents joints</span>
                     <div class="row gna-table-files-row">
 
-                      @if (!isLoadingFiles) {
-
-                        @if (element.files && element.files.length > 0) {
-                          <div class="col" *ngFor="let file of element.files">
+                        @if (element.medias && element.medias.length > 0) {
+                          <div class="col" *ngFor="let file of element.medias">
                             <span class="gna-element-file-name">{{ file.libelle }}</span>
                             <br>
 
@@ -190,12 +187,6 @@
                             <span class="gna-element-file-name">N/A</span>
                           </div>
                         }
-
-                      } @else {
-                        <div class="col">
-                          <p-skeleton width="2rem" size="5rem" styleClass="mr-2" />
-                        </div>
-                      }
 
                     </div>
                   </div>

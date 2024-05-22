@@ -207,8 +207,7 @@ export class ReinsuranceRejectListComponent implements OnInit, AfterViewInit, On
       this.pageNumber = this.currentPage;
 
     let filter = {
-      type_customer_id: "1",
-      is_valid: true
+      type_customer_id: "0",
     };
 
     this.dataList = [];
@@ -361,7 +360,7 @@ console.log("fjnfkvk",this.dataList);*/
       .then(() => {
         this.loadingPage = false;
       });
-      
+
 
   }
 
@@ -373,5 +372,5 @@ console.log("fjnfkvk",this.dataList);*/
     }, Math.random() * 1000 + 250);
   }
   protected readonly environment = environment;
- 
+
 }

@@ -31,18 +31,6 @@
         </div>
         </div>
       </mat-card-header>
-      @if (isLoadingResults || isRateLimitReached) {
-        <div class="example-loading-shade">
-          @if (isLoadingResults) {
-            <mat-spinner></mat-spinner>
-          }
-          @if (isRateLimitReached) {
-            <div class="example-rate-limit-reached">
-              GNA API rate limit has been reached. It will be reset in one minute.
-            </div>
-          }
-        </div>
-      }
 
       <div class="container-fluid">
 
@@ -51,51 +39,40 @@
           <p-table
             #dt
             [value]="dataList"
-                   styleClass="p-datatable-striped"
-            [tableStyle]="{ 'min-width': '60rem' }"
-                   [paginator]="false"
-                   [rows]="10"
-                   [first]="first"
-                   [showCurrentPageReport]="true"
-                   (onPage)="pageChange($event)"
-                   [rowsPerPageOptions]="[5, 10, 20, 15, 30, 50, 100]"
+            dataKey="id"
+            styleClass="p-datatable-striped"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [loading]="loading"
+            [rows]="rows"
+            [totalRecords]="totalRecords"
+            [paginator]="false"
+            [first]="first"
+            (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[5, 10, 20, 15, 30, 50, 100]"
             [globalFilterFields]="['code', 'name', 'premiumMinimum', 'taxRate']"
-            [scrollable]="true">
+            [scrollable]="true"
+            [resizableColumns]="true" >
             <ng-template pTemplate="header">
               <tr>
-                <th pSortableColumn="code" style="width:15%">
+                <th pSortableColumn="code">
                   Code Garantie
-                  <p-columnFilter type="text" field="code" display="menu" />
+                  <p-sortIcon field="code" />
                 </th>
-                <th pSortableColumn="name" style="width:30%">Nom Garantie
-                  <p-columnFilter type="text" field="name" display="menu" />
+                <th pSortableColumn="name">Nom Garantie
+                  <p-sortIcon field="name" />
                 </th>
-                <th pSortableColumn="premiumMinimum" style="width:15%"
+                <th pSortableColumn="premiumMinimum"
                     class="gna-responsive">Prime Minimum
-                <p-columnFilter type="numeric" field="premiumMinimum" display="menu" />
-                <th pSortableColumn="taxRate" style="width:10%"
+                  <p-sortIcon field="premiumMinimum" />
+                <th pSortableColumn="taxRate"
                     class="gna-responsive">Taux Taxe
-                <p-columnFilter type="numeric" field="taxRate" display="menu" />
-                <th pSortableColumn="enabled" style="width:10%">Statut
-                  <p-columnFilter field="enabled" matchMode="equals" display="menu">
-                    <ng-template pTemplate="filter" let-filter="filterCallback">
-                      <p-dropdown
-                        [options]="statusList"
-                        (onChange)="filter($event.value)"
-                        placeholder="Statut"
-                        [showClear]="true">
-                        <ng-template let-option pTemplate="item">
-                          <p-tag
-                            [value]="option.label"
-                            [severity]="getSeverity(option.value)" />
-                        </ng-template>
-                      </p-dropdown>
-                    </ng-template>
-                  </p-columnFilter>
+                <p-sortIcon field="taxRate" />
+                <th pSortableColumn="enabled">Statut
+                <p-sortIcon field="enabled" />
                 </th>
-                <th pSortableColumn="createdAt" style="width:20%" class="gna-responsive">Enregistrement
-                <p-columnFilter type="date" field="createdAt" display="menu" />
-                <th style="width:10%"></th>
+                <th pSortableColumn="createdAt" class="gna-responsive">Enregistrement
+                  <p-sortIcon field="createdAt" />
+                <th></th>
               </tr>
             </ng-template>
 
@@ -189,17 +166,31 @@
                 </ng-template>
 
             <ng-template pTemplate="loadingbody">
-              <tr>
-                <td *ngFor="let item of fakeItems">
-                <td><p-skeleton width="5rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="8rem" styleClass="mb-2"></p-skeleton></td>
+              <tr *ngFor="let item of fakeDataList">
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td>
+                   <span class="gna-action-span-div">
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                      <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                   </span>
+                </td>
               </tr>
             </ng-template>
-
           </p-table>
 
         </div>

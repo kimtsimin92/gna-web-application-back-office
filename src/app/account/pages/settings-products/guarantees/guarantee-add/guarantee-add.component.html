@@ -9,27 +9,44 @@
       <mat-card-header class="gna-card-header">
         <div class="container-fluid">
 
-        <div class="gna-card-header-btn row">
-          <div class="col-12 col-sm-6 col-md-4 offset-md-4 col-lg-4 offset-lg-4 col-xl-2 offset-xl-8">
-            <button mat-raised-button
-                    class="gna-btn-default gna-btn-cancel gna-full-width"
-                    (click)="onBack()"
-                    [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
-          </div>
-          <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
-            @if (!formData.valid) {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save gna-full-width"
-                      (click)="onGetNotBlankAlert()">Enregistrer</button>
-            } @else {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save gna-full-width"
-                      [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                      (click)="onConfirm()">Enregistrer</button>
-            }
-          </div>
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
 
-        </div>
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer</button>
+              } @else {
+
+                @if (!formData.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Enregistrer</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onConfirm()">Enregistrer</button>
+                }
+              }
+            </div>
+
+          </div>
         </div>
       </mat-card-header>
       <div class="container-fluid">

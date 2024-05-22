@@ -207,7 +207,7 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
 
     let filter = {
       type_customer_id: "1",
-      is_valid: true
+      validation_status: "[1,3]"
     };
 
     this.dataList = [];
