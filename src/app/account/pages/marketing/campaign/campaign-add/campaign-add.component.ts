@@ -30,6 +30,7 @@ import { SaveLoadingDialogComponent } from '../../../../dialogs/loading/save-loa
 import { CampaignForm, dateRangeValidator } from '../campaign-form';
 import { ImageModule } from 'primeng/image';
 import { CalendarModule } from 'primeng/calendar';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-campaign-add',
@@ -62,7 +63,8 @@ import { CalendarModule } from 'primeng/calendar';
     InputTextareaModule,
     DecimalPipe,
     ImageModule,
-    CalendarModule
+    CalendarModule,
+    CheckboxModule
   ],
   templateUrl: './campaign-add.component.html',
   styleUrl: './campaign-add.component.css'
@@ -142,6 +144,11 @@ export class CampaignAddComponent  implements OnInit, OnDestroy, AfterViewInit{
     if (localStorage.getItem("CAMPAIGN_DATA")) {
       // @ts-ignore
       this.segmentData = JSON.parse(localStorage.getItem("CAMPAIGN_DATA"));
+    }
+    if (localStorage.getItem("USER_PROFILE_DATA")) {
+      // @ts-ignore
+      this.userData = JSON.parse(localStorage.getItem("USER_PROFILE_DATA"));
+      console.log(this.userData);
     }
 
     
@@ -343,6 +350,7 @@ export class CampaignAddComponent  implements OnInit, OnDestroy, AfterViewInit{
     this.isSave = true;
     console.log(this.formData.value);
 
+    this.getcampaignImageFile()
 
     let requestData = {
       segment_id: this.formData.value.segment_id.id,
@@ -352,9 +360,11 @@ export class CampaignAddComponent  implements OnInit, OnDestroy, AfterViewInit{
       date_debut: this.formData.value.date_debut,
       date_fin: this.formData.value.date_fin,
       message: this.formData.value.message,
-      created_user: this.userData.id,
-      is_active: true,
-      statut: true
+      image: this.campaignImageUrl,
+      created_user: 1,
+      is_active: this.formData.value.selected,
+      statut: 1
+
     }
 
     console.log(requestData);
