@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Configuration des produits/ Groupes Produits / Modification</span>
+  <span>Configuration des produits / Groupes Produits / Modifier</span>
 </div>
 
 
@@ -8,26 +8,46 @@
   <div class="container-fluid gna-main-div-card">
     <mat-card class="gna-card">
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-btn row">
-          <div class="col-12 col-sm-6">
-            <button mat-raised-button
-                    class="gna-btn-default gna-btn-cancel"
-                    (click)="onBack()"
-                    [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
-          </div>
-          <div class="col-12 col-sm-6">
-            @if (!formData.valid) {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      (click)="onGetNotBlankAlert()">Modifier</button>
-            } @else {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                      (click)="onConfirm()">Modifier</button>
-            }
-          </div>
+        <div class="container-fluid">
 
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer</button>
+              } @else {
+
+                @if (!formData.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Enregistrer</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onConfirm()">Enregistrer</button>
+                }
+              }
+            </div>
+
+          </div>
         </div>
       </mat-card-header>
       <mat-card-content>
@@ -35,6 +55,14 @@
           <form
             [formGroup]="formData">
             <div class="row pb-2 gna-form">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">Code Groupe produit</label>
+                <br>
+                <input pInputText
+                       type="text" id="code" aria-describedby="name-help" placeholder="Code Groupe produit *" class="gna-form-input"
+                       required
+                       formControlName="code"/>
+              </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <label for="name">Nom Groupe produit</label>
                 <br>
@@ -47,12 +75,13 @@
                 @if (branchList && branchList.length > 0) {
                   <label>Branche</label>
                   <br>
-                  <p-dropdown [options]="branchList" optionValue="name"
+                  <p-dropdown [options]="branchList"
+                              optionValue="name"
                               optionLabel="name" placeholder="Branche *"
                               class="gna-form-dropdown"
                               formControlName="branchId"
                               [readonly]="isSave || accountService.pageLoading || accountService.isSave">
-                    <ng-template let-branch pTemplate="item">
+                    <ng-template let-branch pTemplate="branch">
                       <div class="flex align-items-center gap-2">
                         <div>{{ branch.name }}</div>
                       </div>
@@ -123,57 +152,65 @@
                             class="gna-form-dropdown"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
               </div>
+              <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
+                <label>Mode gestion</label>
+                <p-dropdown formControlName="managementMode" [options]="yesOrNoList" optionLabel="name" placeholder="Selectionner"
+                            optionValue="name"
+                            class="gna-form-dropdown"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
+              </div>
+              <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
+                <label>Bénéficiaires</label>
+                <p-dropdown formControlName="beneficiaries" [options]="yesOrNoList" optionLabel="name" placeholder="Selectionner"
+                            optionValue="name"
+                            class="gna-form-dropdown"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
+              </div>
+              <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
+                <label>Taux couverture</label>
+                <p-dropdown formControlName="coverageRate" [options]="yesOrNoList" optionLabel="name" placeholder="Selectionner"
+                            optionValue="name"
+                            class="gna-form-dropdown"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
+              </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                 <!-- <label>APIs</label>
-                  <br>
-                  <p-multiSelect [options]="apiList"
-                                 optionLabel="name"
-                                 optionValue="name"
-                                 placeholder="APIs"
-                                 class="gna-form-multiselect"
-                                 formControlName="apiIds"
-                                 [filter]="false"
-                                 [readonly]="isSave || accountService.pageLoading || accountService.isSave">
-                    <ng-template let-api pTemplate="item">
-                      <div class="flex align-items-center gap-2">
-                        <div>{{ api.name }}</div>
-                      </div>
-                    </ng-template>
-                  </p-multiSelect>-->
+                <!--       <label>APIs</label>
+                       <br>
+                       <p-multiSelect [options]="apiList"
+                                   optionLabel="name" placeholder="APIs"
+                                   class="gna-form-multiselect"
+                                   formControlName="apiIds"
+                                      [filter]="false"
+                                      [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                         <ng-template let-api pTemplate="api">
+                           <div class="flex align-items-center gap-2">
+                             <div>{{ api.name }}</div>
+                           </div>
+                         </ng-template>
+                       </p-multiSelect>-->
                 <label>Description</label>
                 <textarea rows="2" pInputTextarea formControlName="description"
                           class="gna-form-input"></textarea>
               </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <div class="row">
-                  <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <label>Mode gestion</label>
-                    <br>
-                    <p-checkbox formControlName="managementMode" [binary]="true" inputId="managementMode"
-                                class="gna-form-checkbox"
-                                [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
-                  </div>
-                  <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <label>Assurés multiples</label>
-                    <br>
-                    <p-checkbox formControlName="insuredMultiple" [binary]="true" inputId="insuredMultiple"
-                                class="gna-form-checkbox"
-                                [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label>Taux couverture</label>
-                <br>
-                <p-checkbox formControlName="coverageRate" [binary]="true" inputId="coverageRate"
-                            class="gna-form-checkbox"
-                            [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
-              </div>
-           <!--   <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <!--<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <label>Description</label>
                 <textarea rows="2" pInputTextarea formControlName="description"
                           class="gna-form-input"></textarea>
               </div>-->
+              <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
+                <label>Clauses contractuelles</label>
+                <button
+                  type="button"
+                  mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
+                  (click)="openClauseEditorDialog()">Ajouter</button>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label>Avis d'échéance</label>
+                <br>
+                <p-checkbox formControlName="maturityNotice" [binary]="true" inputId="maturityNotice"
+                            class="gna-form-checkbox"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
+              </div>
             </div>
           </form>
           <mat-divider class="mt-2"></mat-divider>
@@ -184,10 +221,15 @@
                 <label>Garantie</label>
                 <br>
                 <p-dropdown [options]="guaranteeList"
-                            optionLabel="name" placeholder="Garantie *"
+                            optionLabel="name"
+                            [editable]="true"
+                            placeholder="Garantie *"
                             class="gna-form-dropdown"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"
                             [(ngModel)]="selectGuarantee">
+                  <ng-template let-guarantee pTemplate="item">
+                    {{ guarantee.name }}
+                  </ng-template>
                 </p-dropdown>
               } @else {
                 <label>Garantie</label>
@@ -210,12 +252,12 @@
             </div>
 
           </div>
-          <div class="example-table-con">
-            <table class="table table-borderless gi-table gpg-table">
+          <div>
+            <table class="table table-borderless gpg-table">
               <thead>
               <tr>
-                <th>Code garantie</th>
-                <th>Nom de la garantie</th>
+                <th>Code Garantie</th>
+                <th>Nom Garantie</th>
                 <th></th>
               </tr>
               </thead>
@@ -244,13 +286,13 @@
                                        class="gna-table-checkbox"></p-checkbox>
                       </span>
                                         <span class="gna-action-span">
-                                          @if (isSave || accountService.pageLoading || accountService.isSave) {
-                                            <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2">
-                                          } @else {
-                                            <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2"
-                                                 (click)="onRemoveGuaranteeFromList(sg.value)">
-                                          }
-                                      </span>
+                                    @if (isSave || accountService.pageLoading || accountService.isSave) {
+                                      <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2">
+                                    } @else {
+                                      <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2"
+                                           (click)="onRemoveGuaranteeFromList(sg.value)">
+                                    }
+                                        </span>
                               </span>
                     </td>
                   </tr>

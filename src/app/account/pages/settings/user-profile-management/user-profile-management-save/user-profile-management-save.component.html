@@ -1,34 +1,54 @@
 <div class="gna-bc">
-  <span>Paramètres / Profils / Créer</span>
+  <span>Administration / Gestion des utilisateurs internes / Profils / Créer</span>
 </div>
 
 
-<div class="gna-main-content">
+<div class="container-fluid">
 
-  <div class="container-fluid gna-main-div-card">
+  <div>
     <mat-card class="gna-card">
 
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-btn row">
-          <div class="col-12 col-sm-6">
-            <button mat-raised-button
-                    class="gna-btn-default gna-btn-cancel"
-                    (click)="onBack()"
-                    [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
-          </div>
-          <div class="col-12 col-sm-6">
-            @if (!formProfile.valid) {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      (click)="onGetNotBlankAlert()">Enregistrer</button>
-            } @else {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                      (click)="openConfirmAdd()">Enregistrer</button>
-            }
-          </div>
+        <div class="container-fluid">
 
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer</button>
+              } @else {
+
+                @if (!formProfile.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Enregistrer</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="openConfirmAdd()">Enregistrer</button>
+                }
+              }
+            </div>
+
+          </div>
         </div>
       </mat-card-header>
 
@@ -40,7 +60,7 @@
             [formGroup]="formProfile">
             <div class="row pb-2 gna-form">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="name">Nom Profil
+                <label for="name">Nom
                   <span class="gna-text-red gna-text-bold">*</span>
                 </label>
                 <input pInputText
@@ -48,52 +68,34 @@
                        required
                        formControlName="name"/>
               </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label>Type Utilisateur
-                  <span class="gna-text-red gna-text-bold">*</span>
-                </label>
-
-                <p-dropdown [options]="userTypes"
-                            optionLabel="viewValue"
-                            emptyMessage="Aucun résultat trouvé"
-                            placeholder="Sélectionner un type d'utilisateur"
-                            class="gna-form-dropdown"
-                            formControlName="userType"
-                            [readonly]="isSave || accountService.pageLoading || accountService.isSave">
-                  <ng-template let-item pTemplate="item">
-                    <div class="flex align-items-center gap-2">
-                      <div>{{ item.viewValue }}</div>
-                    </div>
-                  </ng-template>
-                </p-dropdown>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                <label>Description</label>
+                <textarea pInputTextarea formControlName="description"
+                          class="gna-form-input"></textarea>
               </div>
             </div>
           </form>
             <div class="gna-profiles-table container-fluid m-2">
 
-              <div class="row">
 
-                  <div class="col-3"
+                  <div class="row mb-2"
                        *ngFor="let fug of formUserGroupList">
                  <!--   <form
                     [formGroup]="fug">
 -->
-                      <div class="position-fixed">
+
                       <div class="gna-pdh">
-                        <div>
-                          <mat-icon>{{ fug.icon }}</mat-icon>
-                        </div>
                         <div>
                           {{ fug.label }}
                         </div>
                       </div>
-                      </div>
 
-                    <div class="gna-pr container-fluid">
+
+                    <div class="gna-pr container-fluid row">
                       <ng-container *ngIf="fug && fug['roles'] && fug.roles.length > 0">
 
                         @for (role of fug["roles"]; track role) {
-                          <div>
+                          <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                             <span class="gna-psh">{{ role.label }}</span>
 
                             <ng-container
@@ -104,7 +106,9 @@
 
                                   <div class="row">
                                     <div class="col-2 gna-pis-mr">
-                                      <p-inputSwitch formControlName="permissionStatus"></p-inputSwitch>
+                                      <p-inputSwitch
+                                        formControlName="permissionStatus"
+                                        [disabled]="isSave"/>
                                     </div>
                                     <div class="col-8">
                                       {{ permission.label }}
@@ -126,8 +130,6 @@
 
               </div>
 
-
-            </div>
         </div>
       </mat-card-content>
 

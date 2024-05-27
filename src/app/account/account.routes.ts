@@ -541,35 +541,35 @@ export const routes: Routes = [
       },
       {
         path: 'settings-products/premium-calculation/list', component: PremiumCalculationListComponent,
-        title: 'Calculs de primes - Lister | GNA',
+        title: 'Tarification des primes - Lister | GNA',
       },
       {
         path: 'settings-products/premium-calculation/add', component: PremiumCalculationAddComponent,
-        title: 'Calculs de primes - Créer | GNA',
+        title: 'Tarification des primes - Créer | GNA',
       },
       {
         path: 'settings-products/premium-calculation/edit', component: PremiumCalculationEditComponent,
-        title: 'Calculs de primes - Modifier | GNA',
+        title: 'Tarification des primes - Modifier | GNA',
       },
       {
         path: 'settings-products/premium-calculation/view', component: PremiumCalculationDetailComponent,
-        title: 'Calculs de primes - Voir | GNA',
+        title: 'Tarification des primes - Voir | GNA',
       },
       {
-        path: 'guarantees/list', component: GuaranteeListComponent,
+        path: 'settings-products/guarantees/list', component: GuaranteeListComponent,
         title: 'Garantie - Lister | GNA',
       },
       {
-        path: 'guarantees/add', component: GuaranteeAddComponent,
-        title: 'Garantie - Créer | GNA',
+        path: 'settings-products/guarantees/add', component: GuaranteeAddComponent,
+        title: 'Garanties - Créer | GNA',
       },
       {
-        path: 'guarantees/edit', component: GuaranteeEditComponent,
-        title: 'Garantie - Modifier | GNA',
+        path: 'settings-products/guarantees/edit', component: GuaranteeEditComponent,
+        title: 'Garanties - Modifier | GNA',
       },
       {
-        path: 'guarantees/view', component: GuaranteeViewComponent,
-        title: 'Garantie | GNA',
+        path: 'settings-products/guarantees/view', component: GuaranteeViewComponent,
+        title: 'Garanties - Voir | GNA',
       },
       {
         path: 'products-groups/list', component: ProductGroupListComponent,

@@ -18,7 +18,7 @@ import {ProfileSaveForm} from "../user-profile-management-save/profile-save-form
 import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {AccountService} from "../../../../account.service";
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {
   ConfirmationEditDialogComponent
 } from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
@@ -31,31 +31,36 @@ import {
 import {
   SaveErrorNotificationDialogComponent
 } from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
+import {InputTextModule} from "primeng/inputtext";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
 
 @Component({
   selector: 'app-user-profile-management-edit',
   standalone: true,
-    imports: [
-        BreadcrumbModule,
-        InputSwitchModule,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatError,
-        MatFormField,
-        MatIcon,
-        MatInput,
-        MatLabel,
-        MatOption,
-        MatRadioButton,
-        MatRadioGroup,
-        MatSelect,
-        NgForOf,
-        NgIf,
-        PaginatorModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BreadcrumbModule,
+    InputSwitchModule,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatError,
+    MatFormField,
+    MatIcon,
+    MatInput,
+    MatLabel,
+    MatOption,
+    MatRadioButton,
+    MatRadioGroup,
+    MatSelect,
+    NgForOf,
+    NgIf,
+    PaginatorModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    InputTextareaModule
+  ],
   templateUrl: './user-profile-management-edit.component.html',
   styleUrl: './user-profile-management-edit.component.css'
 })
@@ -131,309 +136,19 @@ export class UserProfileManagementEditComponent implements OnInit, OnDestroy, Af
     this.headerTitle = "Gestion Profiles";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
-
-    this.items = [{label: 'Paramètres'}, {label: 'Profils'}, {label: 'Modification'}];
-
-    this.home = {icon: 'pi pi-home', routerLink: '/account/home'};
+    this.onGetUserGroupList();
 
     if (localStorage.getItem("PROFILE_DATA")) {
       // @ts-ignore
       this.profileData = JSON.parse(localStorage.getItem("PROFILE_DATA"));
       this.profileForm.name.setValue(this.profileData.name);
-      this.profileForm.userType.setValue(this.profileData.type.code);
+      this.profileForm.description.setValue(this.profileData.description);
     } else {
-     this._router.navigateByUrl("/account/settings/profiles")
+     this._router.navigateByUrl("/account/settings/profiles/list")
     }
 
     this.formProfile = this._fb.group(this.profileForm);
 
-    this.userGroups = [
-      {
-        id: 1,
-        name: "GROUP_LIST",
-        label: "Gestion Listes",
-        icon: "tune",
-        roles: []
-      },
-      {
-        id: 2,
-        name: "GROUP_PRODUCT",
-        label: "Configuration Produits",
-        icon: "sell",
-        roles: []
-      },
-      {
-        id: 3,
-        name: "GROUP_SETTINGS",
-        label: "Paramètres",
-        icon: "settings",
-        roles: []
-      }
-    ];
-    /*this.userGroups = [
-      {
-        id: 1,
-        name: "GROUP_LIST",
-        label: "Gestion Listes",
-        icon: "tune",
-        roles: [
-          {
-            id: 1,
-            name: "ROLE_PARTNER",
-            label: "Partenaires",
-            icon: null,
-            permissions: [
-              {
-                id: 1,
-                name: "PERMISSION_READ",
-                label: "Lister",
-                icon: null,
-              },
-              {
-                id: 2,
-                name: "PERMISSION_CREATE",
-                label: "Créer",
-                icon: null,
-              } ,
-              {
-                id: 3,
-                name: "PERMISSION_UPDATE",
-                label: "Modifier",
-                icon: null,
-              },
-              {
-                id: 4,
-                name: "PERMISSION_DELETE",
-                label: "Supprimer",
-                icon: null,
-              }
-            ]
-          },
-          {
-            id: 2,
-            name: "ROLE_BRANCH",
-            label: "Branches",
-            icon: null,
-            permissions: [
-              {
-                id: 5,
-                name: "PERMISSION_READ",
-                label: "Lister",
-                icon: null,
-              },
-              {
-                id: 6,
-                name: "PERMISSION_CREATE",
-                label: "Créer",
-                icon: null,
-              } ,
-              {
-                id: 7,
-                name: "PERMISSION_UPDATE",
-                label: "Modifier",
-                icon: null,
-              },
-              {
-                id: 8,
-                name: "PERMISSION_DELETE",
-                label: "Supprimer",
-                icon: null,
-              }
-            ]
-          },
-          {
-            id: 3,
-            name: "ROLE_TERRITORY",
-            label: "Territoires",
-            icon: null,
-            permissions: [
-              {
-                id: 9,
-                name: "PERMISSION_READ",
-                label: "Lister",
-                icon: null,
-              },
-              {
-                id: 10,
-                name: "PERMISSION_CREATE",
-                label: "Créer",
-                icon: null,
-              } ,
-              {
-                id: 11,
-                name: "PERMISSION_UPDATE",
-                label: "Modifier",
-                icon: null,
-              },
-              {
-                id: 12,
-                name: "PERMISSION_DELETE",
-                label: "Supprimer",
-                icon: null,
-              }
-            ]
-          },
-          {
-            id: 4,
-            name: "ROLE_SEGMENT",
-            label: "Segments",
-            icon: null,
-            permissions: [
-              {
-                id: 10,
-                name: "PERMISSION_READ",
-                label: "Lister",
-                icon: null,
-              },
-              {
-                id: 11,
-                name: "PERMISSION_CREATE",
-                label: "Créer",
-                icon: null,
-              } ,
-              {
-                id: 12,
-                name: "PERMISSION_UPDATE",
-                label: "Modifier",
-                icon: null,
-              },
-              {
-                id: 13,
-                name: "PERMISSION_DELETE",
-                label: "Supprimer",
-                icon: null,
-              }
-            ]
-          }
-        ]
-      },
-      {
-        id: 2,
-        name: "GROUP_PRODUCT",
-        label: "Configuration Produits",
-        icon: "sell",
-        roles: [
-          {
-            id: 4,
-            name: "ROLE_GUARANTEE",
-            label: "Garanties",
-            icon: null,
-            permissions: [
-              {
-                id: 14,
-                name: "PERMISSION_READ",
-                label: "Lister",
-                icon: null,
-              },
-              {
-                id: 15,
-                name: "PERMISSION_CREATE",
-                label: "Créer",
-                icon: null,
-              } ,
-              {
-                id: 16,
-                name: "PERMISSION_UPDATE",
-                label: "Modifier",
-                icon: null,
-              },
-              {
-                id: 17,
-                name: "PERMISSION_DELETE",
-                label: "Supprimer",
-                icon: null,
-              }
-            ]
-          },
-        ]
-      }
-    ];*/
-
-    if (this.userGroups && this.userGroups.length > 0) {
-
-      this.userGroups.forEach((userGroup: any) => {
-
-        let furList: any[] = [];
-
-        if (userGroup.roles && userGroup.roles.length > 0) {
-
-          userGroup.roles.forEach((userRole: any) => {
-
-            let fupList: any[] = [];
-
-            if (userRole.permissions && userRole.permissions.length > 0) {
-
-              userRole.permissions.forEach((userPermission: any) => {
-
-                let permissionStatus = false;
-
-                if (this.profileData && this.profileData.groups && this.profileData.groups.length > 0) {
-                  this.profileData.groups.forEach((g: any) => {
-                    if (g.roles && g.roles.length > 0) {
-                      g.roles.forEach((r: any) => {
-                        if (r.permissions && r.permissions.length > 0) {
-                          r.permissions.forEach((p: any) => {
-                            if (p.id === userPermission.id) {
-                              permissionStatus = true;
-                            }
-                          });
-                        }
-                      });
-                    }
-                  });
-
-                }
-
-                let fup= {
-                  id: userPermission.id,
-                  name: userPermission.name,
-                  label: userPermission.label,
-                  formPermission: this._fb.group({
-                    permissionId: new FormControl(userPermission.id),
-                    permissionStatus: new FormControl(permissionStatus)
-                  })
-                };
-
-                fupList.push(fup);
-
-              });
-
-            }
-
-            let fur = {
-              id: userRole.id,
-              name: userRole.name,
-              label: userRole.label,
-              permissions: fupList,
-            };
-
-            furList.push(fur);
-
-          });
-
-        }
-
-        /*  let fug = this._fb.group({
-            groupId: this._fb.control(userGroup.id),
-            groupName: this._fb.control(userGroup.name),
-            label: this._fb.control(userGroup.label),
-            icon: this._fb.control(userGroup.icon),
-            roles: this._fb.array(furList),
-          }); */
-
-        let fug = {
-          groupId: userGroup.id,
-          groupName: userGroup.name,
-          label: userGroup.label,
-          icon: userGroup.icon,
-          roles: furList,
-        }
-
-
-        this.formUserGroupList.push(fug);
-
-      });
-    }
 
     console.log(this.formUserGroupList);
 
@@ -564,8 +279,7 @@ export class UserProfileManagementEditComponent implements OnInit, OnDestroy, Af
 
     let requestData = {
       name: this.formProfile.value.name,
-      userType: this.formProfile.value.userType,
-      enabled: this.formProfile.value.enabled,
+      description: this.formProfile.value.description,
       groups: groupsData
     };
 
@@ -589,7 +303,7 @@ export class UserProfileManagementEditComponent implements OnInit, OnDestroy, Af
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings/profiles");
+    this._router.navigateByUrl("/account/settings/profiles/list");
   }
 
   openConfirmEdit(): void {
@@ -599,8 +313,8 @@ export class UserProfileManagementEditComponent implements OnInit, OnDestroy, Af
 
     const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
-      width: '360px',
-      height: '200px',
+      width: '400px',
+      height: '340px',
       data: {
         dialogMessage: "de ce profil utilisateur"
       },
@@ -678,6 +392,118 @@ export class UserProfileManagementEditComponent implements OnInit, OnDestroy, Af
 
   closeDialog() {
     this._dialog.closeAll();
+  }
+
+  onGetNotBlankAlert() {
+    const dialogRef = this._dialog.open(NotBlankDialogComponent, {
+      width: '440px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  onGetUserGroupList() {
+
+    this.accountService.onGetUserGroupList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        console.log(responseData);
+
+        this.userGroups = responseData["body"];
+
+        if (this.userGroups && this.userGroups.length > 0) {
+
+          this.userGroups.forEach((userGroup: any) => {
+
+            let furList: any[] = [];
+
+            if (userGroup.roles && userGroup.roles.length > 0) {
+
+              userGroup.roles.forEach((userRole: any) => {
+
+                let fupList: any[] = [];
+
+                if (userRole.permissions && userRole.permissions.length > 0) {
+
+                  userRole.permissions.forEach((userPermission: any) => {
+
+                    let permissionStatus = false;
+
+                    if (this.profileData && this.profileData.groups && this.profileData.groups.length > 0) {
+                      this.profileData.groups.forEach((g: any) => {
+                        if (g.roles && g.roles.length > 0) {
+                          if (userGroup.id === g.groupId) {
+                            g.roles.forEach((r: any) => {
+                              if (userRole.id === r.roleId) {
+                                if (r.permissions && r.permissions.length > 0) {
+                                  r.permissions.forEach((p: any) => {
+                                    if (p.permissionId === userPermission.id) {
+                                      permissionStatus = true;
+                                    }
+                                  });
+                                }
+                              }
+                            });
+                          }
+                        }
+                      });
+
+                    }
+
+                    let fup= {
+                      id: userPermission.id,
+                      name: userPermission.name,
+                      label: userPermission.label,
+                      formPermission: this._fb.group({
+                        permissionId: new FormControl(userPermission.id),
+                        permissionStatus: new FormControl(permissionStatus)
+                      })
+                    };
+
+                    fupList.push(fup);
+
+                  });
+
+                }
+
+                let fur = {
+                  id: userRole.id,
+                  name: userRole.name,
+                  label: userRole.label,
+                  permissions: fupList,
+                };
+
+                furList.push(fur);
+
+              });
+
+            }
+
+            /*  let fug = this._fb.group({
+                groupId: this._fb.control(userGroup.id),
+                groupName: this._fb.control(userGroup.name),
+                label: this._fb.control(userGroup.label),
+                icon: this._fb.control(userGroup.icon),
+                roles: this._fb.array(furList),
+              }); */
+
+            let fug = {
+              groupId: userGroup.id,
+              groupName: userGroup.name,
+              label: userGroup.label,
+              icon: userGroup.icon,
+              roles: furList,
+            }
+
+
+            this.formUserGroupList.push(fug);
+
+          });
+        }
+
+      }, (errorResponseData: HttpErrorResponse) => {
+        console.log(errorResponseData);
+      })
+
   }
 
 

@@ -38,6 +38,9 @@ import {CheckboxModule} from "primeng/checkbox";
 import {MatDivider} from "@angular/material/divider";
 import {MultiSelectModule} from "primeng/multiselect";
 import {InputTextareaModule} from "primeng/inputtextarea";
+import {
+  GuaranteeClauseEditorDialogComponent
+} from "../../guarantees/guarantee-clause-editor-dialog/guarantee-clause-editor-dialog.component";
 
 @Component({
   selector: 'app-product-group-add',
@@ -164,6 +167,17 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
   branchCode: any = null;
   guaranteeCode: any = null;
 
+  yesOrNoList: any[] = [
+    {
+      value: true,
+      name: "Oui",
+    },
+    {
+      value: false,
+      name: "Non",
+    },
+  ];
+
   constructor(
     private _fb: FormBuilder,
     public _dialog: MatDialog,
@@ -255,21 +269,37 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     this.onSaveLoadingDialog();
 
     let requestData = {
+      code: this.formData.value.code,
       name: this.formData.value.name,
       accessoryTaxRate: this.formData.value.accessoryTaxRate,
       accessoryAmountCompany: this.formData.value.accessoryAmountCompany,
       accessoryAmountIntermediate: this.formData.value.accessoryAmountIntermediate,
-      coverageRate: this.formData.value.coverageRate,
-      managementMode: this.formData.value.managementMode,
-      insuredMultiple: this.formData.value.insuredMultiple,
+      coverageRate: null,
+      managementMode: null,
+      beneficiaries: null,
+      maturityNotice: this.formData.value.maturityNotice,
       paymentMethodId: null,
       periodicityId: null,
       insuranceSectorId: null,
       apiIds: [],
       guarantees: [],
       branchId: null,
-      description: this.formData.value.description
+      description: this.formData.value.description,
+      clauses: this.guaranteeClauses
     }
+
+    if (this.formData.value.coverageRate) {
+      requestData.coverageRate = this.formData.value.coverageRate.value;
+    }
+
+    if (this.formData.value.managementMode) {
+      requestData.managementMode = this.formData.value.managementMode.value;
+    }
+
+    if (this.formData.value.beneficiaries) {
+      requestData.beneficiaries = this.formData.value.beneficiaries.value;
+    }
+
 
     if (this.selectGuaranteeList && this.selectGuaranteeList.length > 0) {
       // @ts-ignore
@@ -440,13 +470,30 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     } */
 
   onAddGuaranteeToTable() {
-    if (!this.selectGuaranteeList[this.guaranteeCode.id]) {
+    console.log(this.selectGuarantee);
+    if (!this.selectGuaranteeList[this.selectGuarantee.id]) {
+      this.guaranteeCode = this.selectGuarantee
       this.guaranteeCode.mandatory = false;
       this.selectGuaranteeList[this.guaranteeCode.id] = this.guaranteeCode;
         // @ts-ignore
         this.dataForm.guarantees.setValue(new FormControl(this.selectGuaranteeList));
-    }
 
+      if (this.guaranteeList && this.guaranteeList.length > 0 && this.selectGuaranteeList && this.selectGuaranteeList.length > 0) {
+        let guaranteeList: any[] = [];
+        this.guaranteeList.forEach((gl: any) => {
+          if (!this.selectGuaranteeList[gl.id]) {
+            guaranteeList.push(gl);
+          }
+        });
+        this.guaranteeList = guaranteeList;
+      }
+
+      this.selectGuarantee = null;
+
+    } else {
+      this.selectGuarantee = null;
+
+  }
   }
 
   onSelectGuarantee(guarantee: any) {
@@ -457,6 +504,30 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
   onRemoveGuaranteeFromList(selectGuarantee: any) {
     if (this.selectGuaranteeList[selectGuarantee.id]) {
       delete this.selectGuaranteeList[selectGuarantee.id];
+      let gl = {
+        id: selectGuarantee.id,
+        code: selectGuarantee.code,
+        name: selectGuarantee.name,
+        mandatory: false,
+      }
+      this.guaranteeList.push(gl);
     }
   }
+
+  openClauseEditorDialog() {
+    const dialogRef = this._dialog.open(GuaranteeClauseEditorDialogComponent, {
+      hasBackdrop: false,
+      data: {clauses: this.guaranteeClauses},
+      width: '900px',
+      height: '900'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result && result.length > 0) {
+        this.guaranteeClauses = result;
+      }
+    });
+  }
+
 }

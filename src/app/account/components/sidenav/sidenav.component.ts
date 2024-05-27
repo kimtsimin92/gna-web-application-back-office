@@ -15,6 +15,9 @@ import {NgClass, NgIf} from "@angular/common";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AccountService} from "../../account.service";
 import {AuthService} from "../../../auth/auth.service";
+import {MenuItem} from "primeng/api";
+import {PanelMenuModule} from "primeng/panelmenu";
+import {RippleModule} from "primeng/ripple";
 
 /** Flat node with expandable and level information */
 interface ExampleFlatNode {
@@ -40,7 +43,9 @@ interface ExampleFlatNode {
     NgIf,
     RouterLink,
     NgClass,
-    RouterLinkActive
+    RouterLinkActive,
+    PanelMenuModule,
+    RippleModule
   ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.css'
@@ -177,6 +182,11 @@ export class SidenavComponent implements OnInit {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
+
+  menuItems: MenuItem[] = [];
+
+  userProfileData: any = null;
+
   constructor(
     private _router: Router,
     public authService: AuthService,
@@ -186,220 +196,183 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
 
-let groupManageCustomerAccounts = {
-      id: 3,
-      name: ' Gestion des comptes',
-      icon: 'fa-solid fa-users',
-      children: [
-        { name: "Demandes d'ouvertures de comptes", icon: '',
-          children: [
-            {name: "Comptes Particuliers", link: '/account/manager/accounts/personals/requests/list', class: null},
-            {name: 'Comptes Entreprises', link: '/account/manager/accounts/companies/requests/list', class: null},
-          ],},
-        {name: 'Comptes',
-          icon: '',
-          children: [
-            {name: "Comptes Particuliers", link: '/account/managements/accounts/personals/list', class: null},
-            {name: 'Comptes Entreprises', link: '/account/managements/accounts/companies/list', class: null},
-          ]},
-      ],
-    };
-
-    this.menuData.push(groupManageCustomerAccounts);
-
-     let groupSettingsProducts = {
-          id: 4,
-          name: ' Configuration des produits',
-          icon: 'fa-solid fa-sliders',
-          children: [
-               {name: 'Garanties', link: '/account/guarantees/list', class: null},
-        {name: 'Groupes de produits', link: '/account/products-groups/list', class: null},
-            {name: 'Formulaires de cotations', link: '/account/settings-products/forms/quotations/list', class: null},
-           {name: 'Calculs de primes', link: '/account/settings-products/premium-calculation/list', class: null}
-          ],
-        };
-
-        this.menuData.push(groupSettingsProducts);
-
-    let groupMarketing =  {
-      id: 5,
-      name: ' Marketing',
-      icon: 'fa-solid fa-bullhorn',
-      children: [
-        {name: 'Produits', link: '/account/products/list', class: null},
-        {name: 'Segmentation', link: '/account/segments/list', class: null},
-        {name: 'Campagne', link: '/account/marketing/campaigns/list', class: null},
-        // {name: 'Communication', link: '/account/marketing/campaigns/list', class: null},
-      ],
-    };
-
-    this.menuData.push(groupMarketing);
-
-
-    let groupSubscriptions =  {
-      id: 5,
-      name: ' Gestion des souscriptions',
-      icon: 'fa-solid fa-umbrella',
-      children: [
-        {name: 'Demandes soumises', link: '/account/subscriptions/requests/submits/list', class: null},
-        {name: 'Demandes validés', link: '/account/subscriptions/requests/validates/list', class: null},
-        {name: 'Demandes rejetées', link: '/account/subscriptions/requests/rejects/list', class: null},
-      ],
-    };
-
-    this.menuData.push(groupSubscriptions);
-
-    let groupSinisters =  {
-      id: 5,
-      name: ' Gestion des sinistres',
-      icon: 'fa-solid fa-bolt',
-      children: [
-        // {name: 'Déclarations physiques', link: '/account/segments/list', class: null},
-        {name: 'Demandes soumises', link: '/account/sinister/requests/submits/list', class: null},
-        {name: 'Demandes validés', link: '/account/sinister/requests/validates/list', class: null},
-        {name: 'Demandes rejetées', link: '/account/sinister/requests/rejects/list', class: null},
-      ],
-    };
-
-    this.menuData.push(groupSinisters);
-
-    let groupCompensations =  {
-      id: 5,
-      name: ' Gestion des indemnisations',
-      icon: 'fa-solid fa-hand-holding-dollar',
-      children: [
-        {name: 'Sinistres ouverts', link: '/account/compensations/requests/open/list', class: null},
-        {name: 'Sinistres clôturés', link: '/account/compensations/requests/close/list', class: null},
-      ],
-    };
-
-    this.menuData.push(groupCompensations);
-
-    let groupAccounting =  {
-      id: 5,
-      name: ' Comptabilité',
-      icon: 'fa-solid fa-coins',
-      children: [
-        {name: 'Demandes soumises', link: '/account/accounting/requests/submits/list', class: null},
-        {name: 'Demandes validés', link: '/account/accounting/requests/validates/list', class: null},
-        {name: 'Demandes rejetées', link: '/account/accounting/requests/rejects/list', class: null},
-      ],
-    };
-
-    this.menuData.push(groupAccounting);
-
-    let groupCoinsurance =  {
-      id: 5,
-      name: ' Coassurances',
-      icon: 'fa-solid fa-handshake',
-      children: [
-        {name: 'Demandes soumises', link: '/account/coinsurance/requests/submits/list', class: null},
-        {name: 'Demandes validés', link: '/account/coinsurance/requests/validates/list', class: null},
-        {name: 'Demandes rejetées', link: '/account/coinsurance/requests/rejects/list', class: null},
-      ],
-    };
-
-    this.menuData.push(groupCoinsurance);
-
-    let groupReinsurance =  {
-      id: 5,
-      name: ' Réassurances',
-      icon: 'fa-solid fa-handshake',
-      children: [
-        {name: 'Demandes soumises', link: '/account/reinsurance/requests/submits/list', class: null},
-        {name: 'Demandes validés', link: '/account/reinsurance/requests/validates/list', class: null},
-        {name: 'Demandes rejetées', link: '/account/reinsurance/requests/rejects/list', class: null},
-      ],
-    };
-
-    this.menuData.push(groupReinsurance);
-
-    let groupExperts =  {
-      id: 5,
-      name: ' Expertises',
-      icon: 'fa-solid fa-user-tie',
-      children: [
-        {name: 'Demandes soumises', link: '/account/expertise/requests/submits/list', class: null},
-        {name: 'Demandes validés', link: '/account/expertise/requests/validates/list', class: null},
-        {name: 'Demandes rejetées', link: '/account/expertise/requests/rejects/list', class: null},
-      ],
-    };
-
-    this.menuData.push(groupExperts);
-
-    let groupProviders =  {
-      id: 5,
-      name: ' Prestations',
-      icon: 'fa-solid fa-briefcase',
-      children: [
-        {name: 'Demandes soumises', link: '/account/prestation/requests/submits/list', class: null},
-        {name: 'Demandes validés', link: '/account/prestation/requests/validates/list', class: null},
-        {name: 'Demandes rejetées', link: '/account/prestation/requests/rejects/list', class: null},
-      ],
-    };
-
-    this.menuData.push(groupProviders);
-
-  /*  let groupPartners =  {
-      id: 5,
-      name: ' Partenariat',
-      icon: 'fa-solid fa-handshake-angle',
-      children: [
-        {name: 'Souscription', link: '/account/products/list', class: null},
-        {name: 'Offres', link: '/account/segments/list', class: null},
-        {name: 'Rendez-vous', link: '/account/segments/list', class: null},
-      ],
-    };
-
-    this.menuData.push(groupPartners);
-*/
-
-
-    let groupSettings =
+    this.menuItems =  [
       {
-        id: 6,
-        name: ' Paramètres',
-        icon: 'fa-solid fa-gear',
-        children: [],
+        label: 'Tableau de bord',
+        route: '/account/dashboard'
+      },
+    ];
+
+
+    // GROUP MANAGEMENT CUSTOMERS
+
+    let groupManagementCustomers = {
+        label: 'Gestion des comptes',
+        items: []
       };
 
-  //  if (this.authService.getAuthGroups() && this.authService.getAuthGroups().length > 0 && this.authService.getAuthGroups().indexOf('GROUP_LIST') >= 0) {
+   let roleManagementCustomersRequest = {
+      label: "Demandes d'ouvertures de comptes",
+        items: [
+      {
+        label: "Particuliers",
+        route: '/account/manager/accounts/personals/requests/list'
+      },
+      {
+        label: "Entreprises",
+        route: '/account/manager/accounts/companies/requests/list'
+      }
+    ]
+    };
 
-      let groupSettingsListManagement = {name: 'Gestion Listes', icon: "i", class: null, children: []};
+    let roleManagementCustomersAccount = {
+      label: 'Comptes',
+        items: [
+      {
+        label: "Particuliers",
+        route: '/account/managements/accounts/personals/list'
+      },
+      {
+        label: "Entreprises",
+        route: '/account/managements/accounts/companies/list'
+      }
+    ]
+    }
 
-    //  if (this.authService.getAuthRoles() && this.authService.getAuthRoles().length > 0 && this.authService.getAuthRoles().indexOf('ROLE_PARTNER') >= 0) {
+    //
 
-        let rolePartner = {name: ' Partenaires', link: '/account/partners/list', class: null};
-        // @ts-ignore
-        groupSettingsListManagement.children.push(rolePartner);
+    let managementProducts =  {
+        label: 'Configuration des produits',
+        items: [
+          {
+            label: "Garanties",
+            route: '/account/settings-products/guarantees/list'
+          },
+          {
+            label: "Groupes de produits",
+            route: '/account/products-groups/list'
+          },
+          {
+            label: "Formulaires de cotations",
+            route: '/account/settings-products/forms/quotations/list'
+          },
+          {
+            label: "Tarification des primes",
+            route: '/account/settings-products/premium-calculation/list'
+          },
+          /* {
+             label: "Capitaux",
+             route: '/'
+           }*/
+        ]
+      };
 
-     // }
+    let managementMarketing =  {
+        label: 'Marketing',
+        items: [
+          {
+            label: "Segmentation",
+            route: '/account/segments/list'
+          },
+          {
+            label: "Produits",
+            route: '/account/products/list'
+          },
+          {
+            label: "Campagnes",
+            route: '/'
+          }
+        ]
+      };
 
-      let roleBranch =  {name: ' Branches', link: '/account/branches/list', class: null};
-      // @ts-ignore
-      groupSettingsListManagement.children.push(roleBranch);
+    let managementSubscriptions =  {
+        label: 'Gestion des souscriptions',
+        items: [
+          {
+            label: "Cotations prospects",
+            route: '/'
+          },
+          {
+            label: "Demandes soumises",
+            route: '/'
+          },
+          {
+            label: "Demandes validées",
+            route: '/'
+          },
+          {
+            label: "Demandes rejetées",
+            route: '/'
+          }
+        ]
+      };
 
-      let roleZone =   {name: ' Territoires', link: '/account/zones/list', class: null};
-      // @ts-ignore
-      groupSettingsListManagement.children.push(roleZone);
+    let managementSettings =  {
+        label: 'Paramètres',
+        items: [
+          {
+            label: "Paramètres des listes",
+            items: [
+              {
+                label: "Branches",
+                route: '/'
+              },
+              {
+                label: "Catégories",
+                route: '/'
+              },
+              {
+                label: "Territorialités",
+                route: '/'
+              },
+              {
+                label: "Incentives",
+                route: '/'
+              },
+              {
+                label: "Partenaires",
+                route: '/'
+              }
+            ]
+          },
+        ]
+      };
 
-      // @ts-ignore
-      groupSettings.children.push(groupSettingsListManagement);
+    let managementAdmin =  {
+      label: 'Administration',
+      items: [
+        {
+          label: "Gestion des utilisateurs internes",
+          items: [
+            {
+              label: "Profils",
+              route: '/account/settings/profiles/list'
+            },
+            {
+              label: "Utilisateurs",
+              route: '/account/settings/users'
+            }
+          ]
+        },
+        {
+          label: "Gestion des utilisateurs externes",
+          route: '/'
+        },
+      ]
+    };
 
-  //  }
-
-    let roleManageProfiles =       {name: 'Gestion Profils', link: '/account/settings/profiles/list', class: null};
-    let roleManageUsers =        {name: 'Gestion Utilisateurs', link: '/account/settings/users', class: null};
 
 
-    // @ts-ignore
-    groupSettings.children.push(roleManageProfiles);
-    // @ts-ignore
-    groupSettings.children.push(roleManageUsers);
+    if (this.authService.userProfileData && this.authService.userProfileData.groups && this.authService.userProfileData.groups.length > 0) {
 
-    this.menuData.push(groupSettings);
+      if (this.authService.userProfileData.groups.find((group: any) => group.name === 'GROUP_MANAGEMENT_CUSTOMER')) {
 
-    this.dataSource.data = this.menuData;
+        this.menuItems.push(groupManagementCustomers);
+
+      }
+
+    }
+
 
   }
 

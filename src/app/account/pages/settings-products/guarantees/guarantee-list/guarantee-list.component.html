@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Configuration des produits / Garanties</span>
+  <span>Configuration des produits / Garanties / Lister</span>
 </div>
 
 <div class="container-fluid">
@@ -64,11 +64,11 @@
                 <th pSortableColumn="premiumMinimum"
                     class="gna-responsive">Prime Minimum
                   <p-sortIcon field="premiumMinimum" />
-                <th pSortableColumn="taxRate"
-                    class="gna-responsive">Taux Taxe
-                <p-sortIcon field="taxRate" />
                 <th pSortableColumn="enabled">Statut
                 <p-sortIcon field="enabled" />
+                </th>
+                <th pSortableColumn="enabled">Etat
+                  <p-sortIcon field="enabled" />
                 </th>
                 <th pSortableColumn="createdAt" class="gna-responsive">Enregistrement
                   <p-sortIcon field="createdAt" />
@@ -91,20 +91,20 @@
                         0
                       }
                     </td>
-                    <td class="gna-responsive">
-                      @if (element.taxRate) {
-                        {{ element.taxRate | number : "2.0"}}%
+                    <td>
+                      @if (element.enabled) {
+                        @if (element.statusCode && element.statusCode === 1) {
+                          <p-tag severity="warning" value="Enregistré"></p-tag>
+                        } @else {
+                          <p-tag severity="danger" value="Désactivé"></p-tag>
+                        }
                       } @else {
-                        0
+                        <p-tag severity="danger" value="Désactivé"></p-tag>
                       }
                     </td>
                     <td>
                       @if (element.enabled) {
-                        @if (element.statusCode && element.statusCode === 1) {
-                          <p-tag severity="warning" value="En Attente"></p-tag>
-                        } @else {
-                          <p-tag severity="danger" value="Désactivé"></p-tag>
-                        }
+                        <p-tag severity="success" value="Activé"></p-tag>
                       } @else {
                         <p-tag severity="danger" value="Désactivé"></p-tag>
                       }
@@ -115,39 +115,21 @@
                     <td>
                         <span class="gna-action-span-div">
                           <span class="gna-action-span">
-                        @if (element.enabled) {
+                      <!--  @if (element.enabled) {
                           <p-inputSwitch [(ngModel)]="element.enabled"
                                          pTooltip="Désactiver"
                                          tooltipPosition="bottom"
                                          [disabled]="isSave"/>
-                        } @else {
-                          <p-inputSwitch [(ngModel)]="element.enabled"
-                                         pTooltip="Activer"
-                                         tooltipPosition="bottom"
-                                         [disabled]="isSave"/>
-                        }
-
-                  </span>
-                      <span class="gna-action-span">
-                        @if (element.removable) {
-                          <p-button icon="pi pi-trash"
-                                    pTooltip="Supprimer"
-                                    tooltipPosition="bottom"
-                                    class="gna-btn-delete"
-                                    [disabled]="isSave"
-                                    (click)="onConfirm(element)"></p-button>
-                        } @else {
-                          <p-button icon="pi pi-trash"
-                                    pTooltip="Supprimer"
-                                    tooltipPosition="bottom"
-                                    class="gna-btn-delete"
-                                    [disabled]="isDisable"></p-button>
-                        }
+                        } @else {-->
+                          <p-inputSwitch
+                            class="gna-disable"
+                            [(ngModel)]="!isSave"/>
+                     <!--   }-->
 
                   </span>
                       <span class="gna-action-span">
                     <p-button icon="pi pi-eye" class="gna-btn-eye"
-                              pTooltip="Afficher"
+                              pTooltip="Voir"
                               tooltipPosition="bottom"
                               (click)="onView(element)"
                               [disabled]="isSave"></p-button>
@@ -158,6 +140,23 @@
                               tooltipPosition="bottom"
                               (click)="onViewEdit(element)"
                               [disabled]="isSave"></p-button>
+                  </span>
+                                       <span class="gna-action-span">
+                       <!-- @if (element.removable) {
+                          <p-button icon="pi pi-trash"
+                                    pTooltip="Supprimer"
+                                    tooltipPosition="bottom"
+                                    class="gna-btn-delete"
+                                    [disabled]="isSave"
+                                    (click)="onConfirm(element)"></p-button>
+                        } @else {-->
+                          <p-button icon="pi pi-trash"
+                                    pTooltip="Supprimer"
+                                    tooltipPosition="bottom"
+                                    class="gna-btn-delete"
+                                    [disabled]="isDisable"></p-button>
+                                         <!--     }-->
+
                   </span>
                   </span>
                     </td>

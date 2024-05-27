@@ -1,13 +1,35 @@
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl"
+<div class="gna-panelMenu">
+
+  <p-panelMenu [model]="menuItems" styleClass="w-full md:w-20rem">
+    <ng-template pTemplate="item" let-item>
+      <ng-container *ngIf="item.route; else noLink">
+        <a [routerLink]="item.route" class="flex align-items-center
+                cursor-pointer text-color px-3 py-2">
+          <span [class]="item.icon"></span>
+          <span class="ml-2 text-color">{{ item.label }}</span>
+        </a>
+      </ng-container>
+        <ng-template #noLink>
+                <span class="flex align-items-center cursor-pointer text-color px-3 py-2 gna-primary-hover">
+                    <span [class]="item.icon"></span>
+                    <span class="ml-2 gna-white">{{ item.label }}</span>
+                </span>
+        </ng-template>
+      </ng-template>
+  </p-panelMenu>
+
+</div>
+
+<!--<mat-tree [dataSource]="dataSource" [treeControl]="treeControl"
 >
-            <!-- This is the tree node template for leaf nodes -->
+            &lt;!&ndash; This is the tree node template for leaf nodes &ndash;&gt;
             <mat-tree-node *matTreeNodeDef="let node"
                            (click)="onGetNodeToToggle(node)"
                            [class.mtn-mh]="!node.name.icon"
                            [disabled]="accountService.isSave"
                            [ngClass]="{'mtn-selected': node.name.class}">
-         <!-- <mat-icon *ngIf="node.name.icon" class="gna-icon-ml gna-tree-node"
-                        (click)="onGoTo(node)">{{node.name.icon}}</mat-icon>-->
+         &lt;!&ndash; <mat-icon *ngIf="node.name.icon" class="gna-icon-ml gna-tree-node"
+                        (click)="onGoTo(node)">{{node.name.icon}}</mat-icon>&ndash;&gt;
          <i class="gna-icon-ml gna-tree-node"
                   [ngClass]="node.name.icon"
                  (click)="onGoTo(node)"
@@ -15,12 +37,12 @@
                <span class="gna-tree-node"
                      (click)="onGoTo(node)">{{node.name.name}}</span>
             </mat-tree-node>
-            <!-- This is the tree node template for expandable nodes -->
+            &lt;!&ndash; This is the tree node template for expandable nodes &ndash;&gt;
             <mat-tree-node *matTreeNodeDef="let node;when: hasChild"
             (click)="onGetNodeToToggle(node)"
                            [disabled]="accountService.isSave"
                            [ngClass]="{'mtn-selected': node.name.class}">
-              <!--<mat-icon *ngIf="node.name.icon" class="gna-icon-ml gna-tree-node">{{node.name.icon}}</mat-icon>-->
+              &lt;!&ndash;<mat-icon *ngIf="node.name.icon" class="gna-icon-ml gna-tree-node">{{node.name.icon}}</mat-icon>&ndash;&gt;
            <i class="gna-icon-ml gna-tree-node"
                  [ngClass]="node.name.icon"
                  *ngIf="node.name.icon"></i>
@@ -38,4 +60,4 @@
               </button>
               </span>
             </mat-tree-node>
-        </mat-tree>
+        </mat-tree>-->

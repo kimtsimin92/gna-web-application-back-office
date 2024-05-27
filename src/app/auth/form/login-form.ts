@@ -4,6 +4,7 @@ export class LoginForm {
 
   username = new FormControl(null, [
     Validators.email,
+    Validators.minLength(5),
     Validators.required]);
 
   password = new FormControl(null, [

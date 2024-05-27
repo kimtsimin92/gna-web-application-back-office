@@ -25,7 +25,7 @@ import {
 import {BreadcrumbModule} from "primeng/breadcrumb";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
-import {DecimalPipe, NgIf} from "@angular/common";
+import {DatePipe, DecimalPipe, LowerCasePipe, NgForOf, NgIf} from "@angular/common";
 import {ChipModule} from "primeng/chip";
 import {MatChipListbox, MatChipOption} from "@angular/material/chips";
 import {DropdownModule} from "primeng/dropdown";
@@ -34,6 +34,8 @@ import {InputTextareaModule} from "primeng/inputtextarea";
 import {KeyFilterModule} from "primeng/keyfilter";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {MultiSelectModule} from "primeng/multiselect";
+import {environment} from "../../../../../../environments/environment";
+import {TagModule} from "primeng/tag";
 
 @Component({
   selector: 'app-guarantee-view',
@@ -57,7 +59,11 @@ import {MultiSelectModule} from "primeng/multiselect";
     MatTab,
     MatTabGroup,
     MultiSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DatePipe,
+    NgForOf,
+    TagModule,
+    LowerCasePipe
   ],
   templateUrl: './guarantee-view.component.html',
   styleUrl: './guarantee-view.component.css'
@@ -148,7 +154,7 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/guarantees/list");
+    this._router.navigateByUrl("/account/settings-products/guarantees/list");
   }
 
   private onSave() {
@@ -313,7 +319,7 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
-        this.onSave();
+       // this.onSave();
       } else {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
@@ -355,4 +361,6 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
       });
 
   }
+
+  protected readonly environment = environment;
 }

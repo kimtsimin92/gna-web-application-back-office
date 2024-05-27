@@ -26,24 +26,26 @@ import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-
 import {SegmentForm} from "../segment-form";
 import {InputTextModule} from "primeng/inputtext";
 import {CheckboxModule} from "primeng/checkbox";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 @Component({
   selector: 'app-segment-add',
   standalone: true,
-  imports: [
-    BreadcrumbModule,
-    FormsModule,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    ReactiveFormsModule,
-    InputTextModule,
-    CheckboxModule
-  ],
+    imports: [
+        BreadcrumbModule,
+        FormsModule,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        ReactiveFormsModule,
+        InputTextModule,
+        CheckboxModule,
+        InputTextareaModule
+    ],
   templateUrl: './segment-add.component.html',
   styleUrl: './segment-add.component.css'
 })

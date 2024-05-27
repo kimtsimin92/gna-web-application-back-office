@@ -83,40 +83,43 @@
                   [formGroup]="formData">
                   <div class="row pb-2 gna-form">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="name">Code Garantie</label>
+                      <label for="name">Code Garantie
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <input pInputText
-                             type="text" id="code" aria-describedby="name-help" placeholder="Code Garantie *" class="gna-form-input"
+                             type="text" id="code" aria-describedby="name-help" placeholder="Code" class="gna-form-input"
                              required
                              formControlName="code"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="name">Nom Garantie</label>
+                      <label for="name">Nom Garantie
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <input pInputText
-                             type="text" id="name" aria-describedby="name-help" placeholder="Nom Garantie *" class="gna-form-input"
+                             type="text" id="name" aria-describedby="name-help" placeholder="Nom" class="gna-form-input"
                              required
                              formControlName="name"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="name">Taux de taxe</label>
+                      <label for="name">Taux Taxe Assurance
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <input pInputText pKeyFilter="money"
-                             id="taxRate" aria-describedby="name-help" placeholder="Taux de taxe *" class="gna-form-input"
+                             id="taxRate" aria-describedby="name-help" placeholder="Pourcentage" class="gna-form-input"
                              type="text"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              required
                              formControlName="taxRate"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="name">Taux franchise</label>
+                      <label for="name">Taux Franchise</label>
                       <input pInputText pKeyFilter="money"
-                             id="franchiseRate" aria-describedby="name-help" placeholder="Taux franchise" class="gna-form-input"
+                             id="franchiseRate" aria-describedby="name-help" placeholder="Pourcentage" class="gna-form-input"
                              type="text"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="franchiseRate"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="franchiseMinimum">Franchise minimum</label>
+                      <label for="franchiseMinimum">Franchise Minimum</label>
                       <input pInputText pKeyFilter="money"
-                             id="franchiseMinimum" aria-describedby="accessory-amount-company-help" placeholder="Franchise minimum" class="gna-form-input"
+                             id="franchiseMinimum" aria-describedby="accessory-amount-company-help" placeholder="Montant" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="franchiseMinimum"
@@ -125,9 +128,9 @@
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="franchiseMinimum">Franchise maximum</label>
+                      <label for="franchiseMinimum">Franchise Maximum</label>
                       <input pInputText pKeyFilter="money"
-                             id="franchiseMaximum" aria-describedby="accessory-amount-company-help" placeholder="Franchise maximum" class="gna-form-input"
+                             id="franchiseMaximum" aria-describedby="accessory-amount-company-help" placeholder="Montant" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="franchiseMaximum"
@@ -135,9 +138,10 @@
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="subscriptionMinimumPeriod">Durée minimum souscription</label>
+                      <label for="subscriptionMinimumPeriod">Durée Minimum Souscription
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <input pInputText pKeyFilter="int"
-                             id="subscriptionMinimumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée minimum souscription *" class="gna-form-input"
+                             id="subscriptionMinimumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Jours" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
@@ -149,9 +153,10 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="subscriptionMaximumPeriod">Durée maximum souscription</label>
+                      <label for="subscriptionMaximumPeriod">Durée Maximum Souscription
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <input pInputText pKeyFilter="int"
-                             id="subscriptionMaximumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée maximum souscription *" class="gna-form-input"
+                             id="subscriptionMaximumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Jours" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              min="{{subscriptionMinimumPeriod.value}}"
@@ -161,9 +166,10 @@
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="premiumMinimum">Prime minimum</label>
+                      <label for="premiumMinimum">Prime Minimum
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <input pInputText pKeyFilter="money"
-                             id="premiumMinimum" aria-describedby="accessory-amount-company-help" placeholder="Prime minimum *" class="gna-form-input"
+                             id="premiumMinimum" aria-describedby="accessory-amount-company-help" placeholder="Monatnt" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
@@ -174,25 +180,28 @@
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label>Délai de carence</label>
                       <input pInputText pKeyFilter="int"
-                             id="deficiencyDeadline" aria-describedby="accessory-amount-company-help" placeholder="Délai de carence" class="gna-form-input"
+                             id="deficiencyDeadline" aria-describedby="accessory-amount-company-help" placeholder="Nombre" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              #deficiencyDeadline
+                             [required]="deficiencyDeadlineUnit.value != null"
                              formControlName="deficiencyDeadline"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label>Unité délai de carence</label>
                       <p-dropdown formControlName="deficiencyDeadlineUnit" [options]="periodList" optionLabel="name" optionValue="name"
-                                  placeholder="Unité délai de carence"
+                                  placeholder="Selectionner"
                                   class="gna-form-dropdown"
+                                  #deficiencyDeadlineUnit
+                                  [required]="deficiencyDeadline.value != null"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label for="guaranteeFloor">Plancher de garantie</label>
 
                       <input pInputText pKeyFilter="money"
-                             id="guaranteeFloor" aria-describedby="accessory-amount-company-help" placeholder="Plancher de garantie" class="gna-form-input"
+                             id="guaranteeFloor" aria-describedby="accessory-amount-company-help" placeholder="Montant" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="guaranteeFloor"
@@ -201,33 +210,35 @@
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label for="guaranteeCeiling">Plafond de garantie</label>
                       <input pInputText pKeyFilter="money"
-                             id="guaranteeCeiling" aria-describedby="accessory-amount-company-help" placeholder="Plafond de garantie" class="gna-form-input"
+                             id="guaranteeCeiling" aria-describedby="accessory-amount-company-help" placeholder="Montant" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="guaranteeCeiling"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Réduction applicable</label>
+                      <label>Réduction Applicable
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <p-dropdown formControlName="discountApplicable" [options]="yesOrNoList" optionLabel="name" optionValue="name"
-                                  placeholder="Réduction applicable *"
+                                  placeholder="Selectionner"
                                   class="gna-form-dropdown"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Territoire</label>
+                      <label>Territorialité
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <br>
                       <p-dropdown formControlName="zone" [options]="zoneList" optionLabel="name"
                                   optionValue="name"
-                                  placeholder="Territoire *"
+                                  placeholder="Selectionner"
                                   class="gna-form-dropdown"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Partenaires techniques</label>
+                      <label>Partenaires Techniques</label>
                       <p-multiSelect [options]="partnerList"
                                      optionLabel="name"  optionValue="name"
-                                     placeholder="Partenaires techniques"
+                                     placeholder="Selectionner"
                                      class="gna-form-multiselect"
                                      formControlName="partners"
                                      [filter]="false"
@@ -262,17 +273,19 @@
                   [formGroup]="formDataItem">
                   <div class="row pb-2 gna-form">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Nom Sous garantie</label>
+                      <label>Nom Sous Garantie
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <input pInputText
-                             type="text" aria-describedby="name-help" placeholder="Nom sous garantie *" class="gna-form-input"
+                             type="text" aria-describedby="name-help" placeholder="Nom" class="gna-form-input"
                              required
                              formControlName="name"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Capital</label>
+                      <label>Capital
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <input pInputText pKeyFilter="money"
-                             aria-describedby="accessory-amount-company-help" placeholder="Capital *" class="gna-form-input"
+                             aria-describedby="accessory-amount-company-help" placeholder="Capital" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
@@ -281,9 +294,9 @@
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="franchiseMinimum">Franchise minimum</label>
+                      <label for="franchiseMinimum">Franchise Minimum</label>
                       <input pInputText pKeyFilter="money"
-                             aria-describedby="accessory-amount-company-help" placeholder="Franchise minimum" class="gna-form-input"
+                             aria-describedby="accessory-amount-company-help" placeholder="Montant" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="franchiseMinimum"
@@ -291,9 +304,9 @@
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="franchiseMinimum">Franchise maximum</label>
+                      <label for="franchiseMinimum">Franchise Maximum</label>
                       <input pInputText pKeyFilter="money"
-                             aria-describedby="accessory-amount-company-help" placeholder="Franchise maximum" class="gna-form-input"
+                             aria-describedby="accessory-amount-company-help" placeholder="Montant" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="franchiseMaximum"
@@ -301,9 +314,9 @@
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Taux franchise</label>
+                      <label>Taux Franchise</label>
                       <input pInputText pKeyFilter="money"
-                             aria-describedby="name-help" placeholder="Taux franchise" class="gna-form-input"
+                             aria-describedby="name-help" placeholder="Pourcentage" class="gna-form-input"
                              type="text"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="franchiseRate"/>
@@ -326,12 +339,12 @@
                   <table class="table table-borderless gi-table">
                     <thead>
                     <tr>
-                      <th>Code</th>
-                      <th>Nom</th>
+                      <th>Code Sous Garantie</th>
+                      <th>Nom Sous Garantie</th>
                       <th>Capital</th>
-                      <th>Taux franchise</th>
-                      <th>Franchise minimum</th>
-                      <th>Franchise maximum</th>
+                      <th>Taux Franchise</th>
+                      <th>Franchise Minimum</th>
+                      <th>Franchise Maximum</th>
                       <th></th>
                     </tr>
                     </thead>
@@ -343,9 +356,9 @@
                           <td>{{ item.capital | number : "2.0" }}</td>
                           <td>
                             @if (item.franchiseRate) {
-                              {{ item.franchiseRate | number : "2.0" }}%
+                              {{ item.franchiseRate | number : "2.0" }}Pourcentage
                             } @else {
-                              0%
+                              0Pourcentage
                             }
                           </td>
                           <td>
@@ -656,9 +669,9 @@
                         <td>{{ item.capital | number : "2.0" }}</td>
                         <td>
                           @if (item.franchiseRate) {
-                            {{ item.franchiseRate | number : "2.0" }}%
+                            {{ item.franchiseRate | number : "2.0" }}Pourcentage
                           } @else {
-                            0%
+                            0Pourcentage
                           }
                         </td>
                         <td>

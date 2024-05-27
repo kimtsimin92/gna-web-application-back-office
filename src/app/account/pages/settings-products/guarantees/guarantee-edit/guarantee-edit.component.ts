@@ -222,12 +222,14 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/guarantees/list");
+    this._router.navigateByUrl("/account/settings-products/guarantees/list");
   }
 
   private onSave() {
 
     this.isSave = true;
+
+    console.log(this.formData.value.deficiencyDeadlineUnit);
 
     this.onSaveLoadingDialog();
 
@@ -238,7 +240,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
       franchiseRate: this.formData.value.franchiseRate,
       franchiseMinimum: this.formData.value.franchiseMinimum,
       franchiseMaximum: this.formData.value.franchiseMaximum,
-      deficiencyDeadlineUnitCode: this.formData.value.deficiencyDeadlineUnit,
+      deficiencyDeadlineUnitId: null,
       deficiencyDeadline: this.formData.value.deficiencyDeadline,
       subscriptionMinimumPeriod: this.formData.value.subscriptionMinimumPeriod,
       subscriptionMaximumPeriod: this.formData.value.subscriptionMaximumPeriod,
@@ -258,6 +260,18 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
     } else {
       // @ts-ignore
       requestData.discountApplicable = false;
+    }
+
+    if (this.formData.value.deficiencyDeadlineUnit) {
+
+      if (this.periodList && this.periodList.length > 0) {
+        this.periodList.forEach((p: any) => {
+              if (p.name === this.formData.value.deficiencyDeadlineUnit) {
+                // @ts-ignore
+                requestData.deficiencyDeadlineUnitId = p.id;
+              }
+            });
+      }
     }
 
     if (this.formData.value.partners) {
@@ -354,7 +368,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/guarantees/list")
+      this._router.navigateByUrl("/account/settings-products/guarantees/list")
         .then(() => {
       this.guarantee = null;
         });

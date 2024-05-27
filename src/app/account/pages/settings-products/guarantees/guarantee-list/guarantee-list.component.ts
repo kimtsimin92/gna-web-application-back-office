@@ -388,7 +388,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   onGoToSave() {
-    this._router.navigateByUrl("/account/guarantees/add");
+    this._router.navigateByUrl("/account/settings-products/guarantees/add");
   }
 
 
@@ -400,7 +400,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     // @ts-ignore
     localStorage.setItem("GUARANTEE_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/guarantees/view")
+    this._router.navigateByUrl("/account/settings-products/guarantees/view")
       .then(() => {
         this.loadingPage = false;
       });
@@ -414,7 +414,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     // @ts-ignore
     localStorage.setItem("GUARANTEE_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/guarantees/edit")
+    this._router.navigateByUrl("/account/settings-products/guarantees/edit")
       .then(() => {
         this.loadingPage = false;
       });

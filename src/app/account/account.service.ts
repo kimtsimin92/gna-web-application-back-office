@@ -71,10 +71,16 @@ export class AccountService {
         .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles/getList', {observe: 'response'});
   }
 
+  getProfileData(id: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.usersService+`/api/v1/users/profiles/${id}`, {observe: 'response'});
+  }
 
-  getProfiles(page: number) {
+
+  getProfiles(sort: string, order: string, page: number, size: number) {
       return this._http
-        .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles?page='+page, {observe: 'response'});
+        .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles?pageNumber='
+          +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
 
   userProfileSave(requestData: any) {
@@ -84,7 +90,7 @@ export class AccountService {
 
   userProfileEdit(requestData: any, id: number) {
       return this._http
-        .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles/save/edit/'+id, requestData, {observe: 'response'});
+        .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles/save/'+id, requestData, {observe: 'response'});
   }
 
   getUserProfile(requestData: any) {
@@ -277,6 +283,11 @@ export class AccountService {
         +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
   }
 
+  onGetUserGroupList() {
+    return this._http
+      .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/groups', {observe: 'response'});
+  }
+
   onGetGuarantees(page: number) {
     return this._http
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/guarantees?page='+page, {observe: 'response'});
@@ -312,9 +323,10 @@ export class AccountService {
       .delete<HttpResponse<any>>(environment.productsService+'/api/v1/products/guarantees/'+guaranteeId+'/items/'+itemId, {observe: 'response'});
   }
 
-  getProductGroups(page: number) {
+  getProductGroups(sort: string, order: string, page: number, size: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/productGroups?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/productGroups?sort='
+        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
   }
 
   getProductGroupsGuarantees() {

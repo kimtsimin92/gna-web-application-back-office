@@ -37,16 +37,16 @@
           <mat-icon>account_circle</mat-icon>
         </button>
         <span class="btn-hmr gna-responsive">
-        <span *ngIf="auth.getUserFullName()">
-         <span class="gna-cursor">{{ auth.getUserFullName() }}</span>
+        <span *ngIf="auth.getUsername()">
+         <span class="gna-cursor">{{ auth.getUsername() }}</span>
         </span>
         </span>
         <mat-menu #menu="matMenu">
-                    <button mat-menu-item
+                   <!-- <button mat-menu-item
                       (click)="onGoToProfile('/account/profile')">
                       <mat-icon>person</mat-icon>
                       <span class="gna-header-text">Profil</span>
-                    </button>
+                    </button>-->
           <button mat-menu-item
           (click)="auth.loadingLogout()">
             <mat-icon>logout</mat-icon>

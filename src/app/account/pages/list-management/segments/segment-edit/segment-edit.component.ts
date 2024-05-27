@@ -26,6 +26,7 @@ import {SegmentForm} from "../segment-form";
 import {InputTextModule} from "primeng/inputtext";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
 import {CheckboxModule} from "primeng/checkbox";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 @Component({
   selector: 'app-segment-edit',
@@ -42,7 +43,8 @@ import {CheckboxModule} from "primeng/checkbox";
         MatLabel,
         ReactiveFormsModule,
         InputTextModule,
-        CheckboxModule
+        CheckboxModule,
+        InputTextareaModule
     ],
   templateUrl: './segment-edit.component.html',
   styleUrl: './segment-edit.component.css'

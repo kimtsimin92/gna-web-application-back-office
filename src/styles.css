@@ -183,6 +183,10 @@ a {
   margin-right: 10px;
 }
 
+.span-mr {
+  margin-right: 5px;
+}
+
 .gna-color {
   color: #1d3593;
 }
@@ -648,7 +652,7 @@ a {
 }
 
 .gna-full-width {
-  width: 100%!important;
+  width: 110%!important;
 }
 
 .example-form {
@@ -1060,7 +1064,7 @@ th, td {
 }
 
 .gna-form {
-  color: #1d3593;
+  color: #1D3592;;
 }
 
 .gna-form label {
@@ -1084,7 +1088,7 @@ th, td {
 
 .gna-form-input {
   width: 100%!important;
-  border: 1px solid rgba(29, 53, 146, 0.5) !important;
+  border: 1px solid rgba(29, 53, 146, 0.26) !important;
   border-radius: 3px!important;
 }
 
@@ -1159,7 +1163,7 @@ th, td {
 
 .gna-form-dropdown .p-dropdown {
   width: 100%!important;
-  border: 1px solid rgba(29, 53, 146, 0.5);
+  border: 1px solid rgba(29, 53, 146, 0.26) !important;
   border-radius: 3px!important;
 }
 
@@ -1233,7 +1237,7 @@ th, td {
 .gna-table-btn-2 {
   width: 13px!important;
   height: 13px!important;
-  margin-bottom: 5px!important;
+  margin-bottom: 2px!important;
 }
 
 .img-ml {
@@ -1274,7 +1278,7 @@ th, td {
 }
 
 .gna-btn-clauses {
-  border: 1px solid rgba(29, 53, 146, 0.5)!important;
+  border: 1px solid rgba(29, 53, 146, 0.26) !important;
   height: 34px!important;
 }
 
@@ -1460,4 +1464,47 @@ th, td {
 .gna-table-files-row {
   margin-top: 5px;
   flex-wrap: nowrap!important;
+}
+
+/*** ***/
+
+.gna-panelMenu {
+  margin-top: 60px!important;
+}
+
+.gna-panelMenu a {
+  color: white!important;
+}
+
+.gna-panelMenu .p-panelmenu .p-panelmenu-header .p-panelmenu-header-content {
+  border: none!important;
+  background: none!important;
+  transition: box-shadow 0.2s;
+}
+
+.gna-panelMenu .p-panelmenu .p-panelmenu-content {
+  padding: 0!important;
+  border: none!important;
+  background: none!important;
+}
+
+.gna-panelMenu .p-panelmenu .p-panelmenu-header:hover {
+  border: none!important;
+  background: white!important;
+  transition: box-shadow 0.2s;
+}
+
+.gna-panelMenu .p-panelmenu .p-panelmenu-content {
+  border: none!important;
+  background: none!important;
+  transition: box-shadow 0.2s;
+}
+
+.gna-panelMenu a:hover {
+  color: #1C3694!important;
+}
+
+.gna-panelMenu .gna-white:hover {
+  color: #1C3694!important;
+  cursor: pointer;
 }

@@ -39,6 +39,8 @@ export class AuthService {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   durationInSeconds = 10;
 
+  userProfileData: any = null;
+
   constructor(private _http: HttpClient,
               private _router: Router,
               private _snackBar: MatSnackBar,
@@ -74,7 +76,7 @@ export class AuthService {
 
     this.authJwt = new JwtHelperService().decodeToken(token);
 
-    // @ts-ignore
+  /*  // @ts-ignore
     if (this.authJwt.groups) {
       // @ts-ignore
       if (this.authJwt.groups.length > 0) {
@@ -120,7 +122,7 @@ export class AuthService {
         // @ts-ignore
         this.authJwt.permissions = permissions;
       }
-    }
+    }*/
   }
 
   getJWT(): AuthJwt | undefined | null {
@@ -184,13 +186,41 @@ export class AuthService {
               });
             }, 500);
           } else {
-            setTimeout(() => {
-              this._router.navigateByUrl(redirect).then(() => {
-                this.loading = false;
-               this.closeDialog();
-              // this.openSnackBar();
+
+            let requestData = {
+              jwt: this.getAuthorizationToken(),
+              username: this.authJwt.username,
+            }
+
+            this.getProfileData(requestData)
+              .subscribe((responseData: HttpResponse<any>) => {
+                console.log(responseData);
+
+                if (responseData['body']) {
+                  this.userProfileData = responseData['body'];
+                }
+
+                setTimeout(() => {
+                  this._router.navigateByUrl(redirect).then(() => {
+                    this.loading = false;
+                    this.closeDialog();
+                    // this.openSnackBar();
+                  });
+                }, 1);
+
+              }, (errorResponse: HttpErrorResponse) => {
+                console.log(errorResponse);
+
+                setTimeout(() => {
+                  this._router.navigateByUrl(redirect).then(() => {
+                    this.loading = false;
+                    this.closeDialog();
+                    // this.openSnackBar();
+                  });
+                }, 1);
+
               });
-            }, 500);
+
           }
 
         } else {
@@ -397,6 +427,74 @@ export class AuthService {
   getAuthPermissions(): any {
     // @ts-ignore
     return this.authJwt.permissions;
+  }
+
+  getProfileData(requestData: any) {
+    return this._http
+      .post<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles/data', requestData, {observe: 'response'});
+  }
+
+  //
+
+ /* onGetGroupManagementCustomers(): boolean {
+
+    if (localStorage.getItem("USER_PROFILE_DATA")) {
+
+      // @ts-ignore
+      this.userProfileData = JSON.parse(localStorage.getItem("USER_PROFILE_DATA"));
+
+      if (this.userProfileData && this.userProfileData.groups && this.userProfileData.groups.length > 0) {
+
+        // @ts-ignore
+        this.userProfileData.groups.forEach((group: any) => {
+
+          if (group.name === "GROUP_MANAGEMENT_CUSTOMER") {
+            return true;
+          }
+
+        })
+
+      }
+
+    }
+
+    return false;
+
+
+  }*/
+
+  onGetUserProfileData() {
+
+    this.loading = true;
+
+    if(this.isAuth()) {
+
+      let requestData = {
+        jwt: this.getAuthorizationToken(),
+        // @ts-ignore
+        username: this.authJwt.username,
+      }
+
+      this.getProfileData(requestData)
+        .subscribe((responseData: HttpResponse<any>) => {
+
+          this.loading = false;
+          this.closeDialog();
+
+          console.log(responseData);
+
+          if (responseData['body']) {
+            this.userProfileData = responseData['body'];
+          }
+
+        }, (errorResponse: HttpErrorResponse) => {
+          this.loading = false;
+          this.closeDialog();
+          console.log(errorResponse);
+        });
+
+    }
+
   }
 
 }
