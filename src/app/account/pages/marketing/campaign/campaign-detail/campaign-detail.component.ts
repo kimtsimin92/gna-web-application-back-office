@@ -61,6 +61,9 @@ export class CampaignDetailComponent implements OnInit, AfterViewInit, OnDestroy
   protected readonly environment = environment;
   isLoadingFiles: boolean = false;
 
+  minDate: Date = new Date()
+
+
   constructor(
     private responsive: BreakpointObserver,
     private _router: Router,
@@ -72,7 +75,16 @@ export class CampaignDetailComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
 
+  setStatus( dateFin: any) {
+    const endDate = new Date(dateFin);
+    if (endDate > this.minDate) {
+      return  true
+    } else {
+      return false
+    }
+  }
   ngOnInit(): void {
+    this.minDate = new Date();
 
     if (localStorage.getItem("CAMPAIGN_DATA")) {
       // @ts-ignore
@@ -144,4 +156,15 @@ export class CampaignDetailComponent implements OnInit, AfterViewInit, OnDestroy
         }
       );
   }
+  
+  onGetCampaignFilesById(element: any) {
+    this.isLoadingFiles = true;
+    
+    if (element && element.image) {
+      this.isLoadingFiles = false;
+    } 
+    this.isLoadingFiles = false
+
+  }
+
 }

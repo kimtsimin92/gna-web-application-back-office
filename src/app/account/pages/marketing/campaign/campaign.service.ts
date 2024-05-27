@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {JwtHelperService} from "@auth0/angular-jwt";
-import {HttpClient, HttpParams, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
 import {environment} from "../../../../../environments/environment";
 import {SessionAlertDialogComponent} from "../../../dialogs/session-alert-dialog/session-alert-dialog.component";
 
@@ -17,7 +17,7 @@ export class CampaignService {
   constructor(private _http: HttpClient,
               public _dialog: MatDialog) {
   }
-
+  
   getToken() {
 
     let token = null;
@@ -49,8 +49,13 @@ export class CampaignService {
   }
 
   onSaveCampaign(data:any) {
+    const headers = new HttpHeaders({
+      'enctype': 'multipart/form-data'
+    });
+    
     return this._http
     .post<HttpResponse<any>>(environment.customersService+'/v1/campagnes',data, {
+      headers: headers,
       observe: 'response'
     });
   }

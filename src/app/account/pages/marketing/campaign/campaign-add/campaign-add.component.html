@@ -60,7 +60,7 @@
                                 <label for="name">Image </label>
                                 }
                                 <div class="input-group mt-2">
-                                    <input type="file" accept="image/*" class="gna-form-input" id="campaignImageFile">
+                                    <input type="file" accept="image/*" class="gna-form-input" id="campaignImageFile" (change)="onFileSelected($event)">
                                 </div>
                                 <small class="gna-text-red" *ngIf="imageErrorMessage">{{ imageErrorMessage }}</small>
                             </div>
@@ -89,11 +89,13 @@
                             <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                                 <label for="lien">lien</label>
                                 <input pInputText type="text" id="lien" aria-describedby="name-help"
-                                    placeholder="lien Segment" class="gna-form-input" formControlName="lien" />
+                                    placeholder="lien " class="gna-form-input" formControlName="lien" />
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3 mt-2">
                                 <label for="date_debut">Date Début</label>
-                                <p-calendar id="date_debut" formControlName="date_debut" [showIcon]="true" dateFormat="dd-mm-yy"></p-calendar>
+                                <p-calendar id="date_debut" formControlName="date_debut" [showIcon]="true" 
+                                [minDate]="minDate" 
+                                dateFormat="dd-mm-yy"></p-calendar>
                             </div>
                             <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3 mt-2">
                                 <label for="date_fin">Date Fin</label>
@@ -117,7 +119,7 @@
                                     class="gna-form-input"></textarea>
                             </div>
                             <div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                                <label>Activé</label>
+                                <label>Activé la campagne ? </label>
                                 <br>
                                 <p-checkbox formControlName="selected" [binary]="true" inputId="selected"
                                             class="gna-form-checkbox"

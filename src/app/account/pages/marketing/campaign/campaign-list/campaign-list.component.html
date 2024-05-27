@@ -74,6 +74,7 @@
                                             <p-button type="button" pRipple [pRowToggler]="element" [text]="true"
                                                 [rounded]="true" [plain]="true"
                                                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                                                (onClick)="onGetCampaignFilesById(element)"
                                               />
                                         </div>
                                         <div class="col-8 gna-table-td-mt">
@@ -108,7 +109,7 @@
                                     }
                                 </td>
                                 <td>
-                                    @if (element.is_active) {
+                                    @if (setStatus(element.date_fin)) {
                                         <p-tag severity="success" value="Ouverte"></p-tag>
 
                                     } @else {
@@ -119,10 +120,28 @@
                                 <td>
                                     <span class="gna-action-span-div">
                                         <span class="gna-action-span">
+                                            <p-button icon="pi pi-pencil" class="gna-btn-edit"
+                                                      pTooltip="Modifier"
+                                                      tooltipPosition="bottom"
+                                                      (click)="onViewEdit(element)"
+                                                      [disabled]="isSave"></p-button>
+                                        </span>
+                                        <span class="gna-action-span">
                                             <p-button icon="pi pi-eye" class="gna-btn-eye" pTooltip="Afficher"
                                                 tooltipPosition="bottom" (click)="onGoToView(element)"
                                                 [disabled]="isSave"></p-button>
                                         </span>
+
+                                        <span class="gna-action-span">
+                                              <p-button icon="pi pi-trash"
+                                                        pTooltip="Supprimer"
+                                                        tooltipPosition="bottom"
+                                                        class="gna-btn-delete"
+                                                        [disabled]="isSave"
+                                                        (click)="onConfirm(element)"></p-button>
+                                           
+                    
+                                      </span>
                                     </span>
                                 </td>
                             </tr>
@@ -139,43 +158,24 @@
 
                                         @if (!isLoadingFiles) {
 
-                                        @if (element.files && element.files.length > 0) {
-                                        <div class="col" *ngFor="let file of element.files">
-                                            <span class="gna-element-file-name">{{ file.libelle }}</span>
-                                            <br>
+                                            @if (element.image ) {
+                                            <div class="col" >
+                                                <span class="gna-element-file-name">Documents </span>
+                                                <br>
 
-                                            @if (file.type == "image/jpeg" ) {
-                                            <a href="{{ environment.customersService+file.lien }}" download
-                                                target="_blank">
-                                                <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}"
-                                                    class="gna-element-file gna-clickable">
-                                            </a>
-                                            } @else if (file.type == "image/png") {
-                                            <a href="{{ environment.customersService+file.lien }}" download
-                                                target="_blank">
-                                                <img src="assets/svg/files/png-svgrepo-com.svg" alt="{{ file.libelle }}"
-                                                    class="gna-element-file gna-clickable">
-                                            </a>
-                                            } @else if (file.type == "pdf") {
-                                            <a href="{{ environment.customersService+file.lien }}" download
-                                                target="_blank">
-                                                <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ file.libelle }}"
-                                                    class="gna-element-file gna-clickable">
-                                            </a>
-                                            } @else if (file.type == "doc" || "doc") {
-                                            <a href="{{ environment.customersService+file.lien }}" download
-                                                target="_blank">
-                                                <img src="assets/svg/files/word-svgrepo-com.svg"
-                                                    alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
-                                            </a>
+                                                <a href="{{ environment.customersService+element.image }}" download
+                                                    target="_blank">
+                                                    <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="image"
+                                                        class="gna-element-file gna-clickable">
+                                                </a>
+                                                
+
+                                            </div>
+                                            } @else {
+                                            <div class="col">
+                                                <span class="gna-element-file-name">N/A</span>
+                                            </div>
                                             }
-
-                                        </div>
-                                        } @else {
-                                        <div class="col">
-                                            <span class="gna-element-file-name">N/A</span>
-                                        </div>
-                                        }
 
                                         } @else {
                                         <div class="col">

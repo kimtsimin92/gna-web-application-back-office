@@ -21,6 +21,11 @@ import {RippleModule} from "primeng/ripple";
 import { ManagerCustomerAccountService } from '../../../manager-customers-accounts/manager-customer-account.service';
 import { environment } from '../../../../../../environments/environment';
 import { CampaignService } from '../campaign.service';
+import { ConfirmationRemoveDialogComponent } from '../../../../dialogs/confirmation/confirmation-remove-dialog/confirmation-remove-dialog.component';
+import { AccountService } from '../../../../account.service';
+import { RemoveLoadingDialogComponent } from '../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component';
+import { SaveNotificationDialogComponent } from '../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component';
+import { SaveErrorNotificationDialogComponent } from '../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component';
 
 @Component({
   selector: 'app-campaign-list',
@@ -114,18 +119,18 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
   rows = 0;
   totalRecords: number = 0;
 
-  isLoadingFiles: boolean = false;
+  isLoadingFiles: boolean = true;
 
   data :any = [
     {
       id: 1,
       code: '001',
-      name: 'S1'
+      name: 'Segment 1'
     },
     {
       id: 2,
       code: '002',
-      name: 'S2'
+      name: 'Segment2'
     },
     {
       id: 3,
@@ -156,15 +161,22 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
     ]
 
     segment:any
+    minDate: Date = new Date()
+    isDisable: boolean = true;
+  filteredList:any[] = [];
+
 
   constructor(
     private responsive: BreakpointObserver,
     private _router: Router,
     public _dialog: MatDialog,
-    private campaignService: CampaignService,  ) {
+    private campaignService: CampaignService, 
+    public accountService: AccountService
+   ) {
   }
 
   ngOnInit(): void {
+    this.minDate = new Date();
 
     this.responsive.observe(Breakpoints.XSmall)
       .subscribe(result => {
@@ -296,7 +308,7 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
 
   }
 
-
+  // to remove after   
   getSegment(id:any) {
     this.data.forEach((element:any) => {
       if (element.id  == id) {
@@ -305,34 +317,34 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
     });
     return this.segment.name
   }
-/*
-  onGetCustomerAccountFilesById(element: any) {
 
+  setStatus( dateFin: any) {
+    const endDate = new Date(dateFin);
+    if (endDate > this.minDate) {
+      return  true
+    } else {
+      return false
+    }
+  }
+  onGetCampaignFilesById(element: any) {
     this.isLoadingFiles = true;
+    
+    if (element && element.image) {
+      this.isLoadingFiles = false;
+    } 
+    this.isLoadingFiles = false
 
-    let filters = {
-      user_id: element.id
-    };
+  }
+  onViewEdit(data: any) {
+    this.loadingPage = true;
 
-    this.managerCustomerAccountService.onGetCustomerAccountFilesById(filters)
-      .subscribe((responseData: HttpResponse<any>) => {
+    // @ts-ignore
+    localStorage.setItem('CAMPAIGN_DATA', JSON.stringify(data));
 
-        this.isLoadingFiles = false;
-        console.log(responseData);
-
-        let responseBody = responseData['body'];
-
-        element.files = responseBody.data;
-
-      }, (errorData: HttpErrorResponse) => {
-        this.isLoadingFiles = false;
-
-        console.log(errorData);
-
-      });
-
-  }*/
-
+    this._router.navigateByUrl('/account/marketing/campaigns/edit').then(() => {
+      this.loadingPage = false;
+    });
+  }
   
   onGoToSave() {
     this._router.navigateByUrl("/account/marketing/campaigns/add");
@@ -412,4 +424,122 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
   }
   protected readonly environment = environment;
 
+
+  
+  onSaveLoadingDialog(): void {
+    const dialogRef = this._dialog.open(RemoveLoadingDialogComponent, {
+      hasBackdrop: false,
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  
+  closeDialog() {
+    this._dialog.closeAll();
+  }
+
+  private onSave(data: any) {
+    this.isSave = true;
+
+    this.onSaveLoadingDialog();
+
+    this.campaignService.onDeleteCampaign(data.id).subscribe(
+      (responseData) => {
+        this.isSave = false;
+        this.closeDialog();
+        this.filteredList = [];
+        this.onGetDataList();
+        this.onSaveNotificationDialog();
+      },
+      (error: HttpErrorResponse) => {
+        this.isSave = false;
+        console.log(error);
+        this.closeDialog();
+        this.onSaveErrorNotificationDialog(error);
+      }
+    );
+  }
+
+  
+  onSaveErrorNotificationDialog(error: HttpErrorResponse): void {
+    const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '440px',
+      data: {
+        httpError: error,
+        dialogMessage: 'La suppression de la campagne a échoué.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+
+  
+  onSaveNotificationDialog(): void {
+    const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '440px',
+      data: {
+        dialogMessage: 'La suppression de la campagne a réussi.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+  onConfirm(data: any): void {
+    this.isSave = true;
+    this.accountService.isSave = this.isSave;
+
+    const dialogRef = this._dialog.open(ConfirmationRemoveDialogComponent, {
+      hasBackdrop: false,
+      width: '380px',
+      height: '350px',
+      data: {
+        dialogMessage: "de la campagne '" + data.libelle +" '",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.pageNumber = 0;
+        this.currentPage = 0;
+        this.onSave(data);
+      } else {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+
+  filterResults(text: string) {
+    if (!text) {
+      this.filteredList = this.dataPaginationResponse.zones;
+      return;
+    }
+
+    console.log(text);
+
+    if (this.dataPaginationResponse && this.dataPaginationResponse.zones) {
+      this.filteredList = this.dataPaginationResponse.zones.filter(
+        // @ts-ignore
+        (data) => data?.name.toLowerCase().includes(text.toLowerCase())
+      );
+    }
+  }
+  
 }

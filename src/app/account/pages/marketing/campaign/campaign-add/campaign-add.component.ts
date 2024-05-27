@@ -32,6 +32,8 @@ import { ImageModule } from 'primeng/image';
 import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
 
+import { format } from 'date-fns';
+
 @Component({
   selector: 'app-campaign-add',
   standalone: true,
@@ -117,6 +119,9 @@ export class CampaignAddComponent  implements OnInit, OnDestroy, AfterViewInit{
 
 
   userData: any = null;
+  selectedFile:  File | null = null;
+  minDate: Date | undefined
+
 
   constructor(
     private _fb: FormBuilder,
@@ -160,8 +165,10 @@ export class CampaignAddComponent  implements OnInit, OnDestroy, AfterViewInit{
     this.items = [{ label: 'Campagne ' }, { label: 'Campagne'}, {label: "Création"}];
 
 
-    this.formData = this._fb.group(this.dataForm, { validators: dateRangeValidator() });
+    this.formData = this._fb.group(this.dataForm, { validators: dateRangeValidator('date_debut', 'date_fin') });
     //this.formDataItem = this._fb.group(this.dataItemForm);
+    this.minDate = new Date();
+
     this.onGetSegmentList()
   }
 
@@ -345,28 +352,42 @@ export class CampaignAddComponent  implements OnInit, OnDestroy, AfterViewInit{
 
   }
 
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+    console.log(this.selectedFile);
+    
+  }
+  
   private onSave() {
 
     this.isSave = true;
-    console.log(this.formData.value);
+    console.log(this.formData.value.value);
 
-    this.getcampaignImageFile()
+    //this.getcampaignImageFile()
+    const segmentId = parseInt(this.formData.value.segment_id.id as string, 10);
 
-    let requestData = {
-      segment_id: this.formData.value.segment_id.id,
-      lien: this.formData.value.lien,
-      texte_lien: this.formData.value.texte_lien,
-      libelle: this.formData.value.libelle,
-      date_debut: this.formData.value.date_debut,
-      date_fin: this.formData.value.date_fin,
-      message: this.formData.value.message,
-      image: this.campaignImageUrl,
-      created_user: 1,
-      is_active: this.formData.value.selected,
-      statut: 1
+    // Format dates to 'YYYY-MM-DD'
+    const dateDebut = format(new Date(this.formData.value.date_debut), 'yyyy-MM-dd');
+    const dateFin = format(new Date(this.formData.value.date_fin), 'yyyy-MM-dd');
 
+    let requestData =  new FormData();
+    requestData.append('segment_id', segmentId.toString());
+    requestData.append('lien', this.formData.value.lien);
+    requestData.append('texte_lien', this.formData.value.texte_lien);
+    requestData.append('libelle', this.formData.value.libelle);
+    requestData.append('date_debut', dateDebut);
+    requestData.append('date_fin', dateFin);
+    requestData.append('message', this.formData.value.message);
+    if (this.selectedFile) {
+      requestData.append('image', this.selectedFile, this.selectedFile.name);
     }
-
+    requestData.append('statut', (1).toString());
+    requestData.append('is_active', this.formData.value.is_active);
+    requestData.append('created_user', (1).toString());
+    
     console.log(requestData);
     this.campaignService.onSaveCampaign(requestData)
       .subscribe((responseData) => {

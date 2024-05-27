@@ -30,9 +30,10 @@ export class CampaignForm {
   ]);
   image = new FormControl(null); // Pas de validation pour le moment
   
+  selected = new FormControl(null);
 }
 
-
+/*
 export function dateRangeValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const startDate = control.get('date_debut')?.value;
@@ -43,5 +44,19 @@ export function dateRangeValidator(): ValidatorFn {
     }
 
     return endDate > startDate ? null : { dateRange: true };
+  };
+}*/
+
+
+export function dateRangeValidator(startDateKey: string, endDateKey: string): ValidatorFn {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
+    const startDate = formGroup.get(startDateKey)?.value;
+    const endDate = formGroup.get(endDateKey)?.value;
+
+    if (startDate && endDate && new Date(startDate) >= new Date(endDate)) {
+      return { dateRangeInvalid: true };
+    }
+
+    return null;
   };
 }
