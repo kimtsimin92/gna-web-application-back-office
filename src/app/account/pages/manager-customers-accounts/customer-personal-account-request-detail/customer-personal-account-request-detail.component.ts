@@ -97,7 +97,7 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
   }
 
   onGoToBack() {
-    this._router.navigateByUrl("/account/manager/accounts/personals/requests/list");
+    this._router.navigateByUrl("/account/management/customers/requests/personals/list");
   }
 
   onValid(): void {
@@ -251,7 +251,7 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/manager/accounts/personals/requests/list")
+      this._router.navigateByUrl("/account/management/customers/requests/personals/list")
         .then(() => {
           // @ts-ignore
           this.loadingPage = false;

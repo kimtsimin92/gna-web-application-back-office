@@ -43,7 +43,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatTooltip} from "@angular/material/tooltip";
 import {TooltipModule} from "primeng/tooltip";
 import {ChipModule} from "primeng/chip";
-import {DatePipe, DecimalPipe, NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe, NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {SkeletonModule} from "primeng/skeleton";
 import {MatFormField, MatInput} from "@angular/material/input";
 import {MatLabel} from "@angular/material/form-field";
@@ -55,6 +55,7 @@ import {InputSwitchModule} from "primeng/inputswitch";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {Breakpoints} from '@angular/cdk/layout';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {AuthService} from "../../../../../auth/auth.service";
 
 interface PageEvent {
   first: number;
@@ -110,6 +111,7 @@ interface PageEvent {
     MatMenu,
     MatMenuItem,
     NgClass,
+    CurrencyPipe,
   ],
   templateUrl: './guarantee-list.component.html',
   styleUrl: './guarantee-list.component.css'
@@ -252,6 +254,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     public _dialog: MatDialog,
     private _router: Router,
     private _liveAnnouncer: LiveAnnouncer,
+    public authService: AuthService,
     public accountService: AccountService) {
 
   }
@@ -388,7 +391,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   onGoToSave() {
-    this._router.navigateByUrl("/account/settings-products/guarantees/add");
+    this._router.navigateByUrl("/account/settings/products/guarantees/add");
   }
 
 
@@ -400,7 +403,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     // @ts-ignore
     localStorage.setItem("GUARANTEE_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/settings-products/guarantees/view")
+    this._router.navigateByUrl("/account/settings/products/guarantees/view")
       .then(() => {
         this.loadingPage = false;
       });
@@ -414,7 +417,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     // @ts-ignore
     localStorage.setItem("GUARANTEE_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/settings-products/guarantees/edit")
+    this._router.navigateByUrl("/account/settings/products/guarantees/edit")
       .then(() => {
         this.loadingPage = false;
       });

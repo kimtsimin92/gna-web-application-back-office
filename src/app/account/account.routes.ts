@@ -241,6 +241,32 @@ import {
 import {
   CompensationRequestCloseListComponent
 } from "./pages/compensation/compensation-request-close/compensation-request-close-list/compensation-request-close-list.component";
+import {profileGroupGuard} from "../auth/profile/profile-group.guard";
+import {profileRoleGuard} from "../auth/profile/profile-role.guard";
+import {profilePermissionGuard} from "../auth/profile/profile-permission.guard";
+
+const PROFILE_GROUPS: any = {
+  managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
+  managementProducts: "GROUP_MANAGEMENT_PRODUCTS",
+  managementMarketing: "GROUP_MANAGEMENT_MARKETING",
+}
+
+const PROFILE_ROLES: any = {
+  managementCustomerRequests: "ROLE_MANAGEMENT_CUSTOMER_REQUESTS",
+  managementCustomerAccounts: "ROLE_MANAGEMENT_CUSTOMER_ACCOUNTS",
+  managementProductGuarantees: "ROLE_MANAGEMENT_PRODUCT_GUARANTEES",
+  managementProductGroups: "ROLE_MANAGEMENT_PRODUCT_GROUPS",
+}
+
+const PROFILE_PERMISSION: any = {
+  PERMISSION_LIST: "PERMISSION_LIST",
+  PERMISSION_VIEW: "PERMISSION_VIEW",
+  PERMISSION_ADD: "PERMISSION_ADD",
+  PERMISSION_EDIT: "PERMISSION_EDIT",
+  PERMISSION_REMOVE: "PERMISSION_REMOVE",
+  PERMISSION_ENABLE: "PERMISSION_ENABLE",
+  PERMISSION_VALIDATE: "PERMISSION_VALIDATE",
+}
 
 
 export const routes: Routes = [
@@ -255,37 +281,154 @@ export const routes: Routes = [
         title: 'Dashboard | GNA',
       },
       {
-        path: 'manager/accounts/personals/requests/list', component: CustomerPersonalAccountRequestListComponent,
-        title: "Demmandes d'ouvertures de comptes particuliers - Lister | GNA",
+        path: 'management/customers',
+        title: "Gestion des comptes | GNA",
+        canActivate: [profileGroupGuard],
+        data: {
+          groups: [PROFILE_GROUPS.managementCustomers]
+        },
+        children: [
+          {
+            path: 'requests',
+            title: "Demmandes d'ouvertures de comptes | GNA",
+            canActivate: [profileRoleGuard],
+            data: {
+              roles: [PROFILE_ROLES.managementCustomerRequests]
+            },
+            children: [
+              {
+                path: 'personals/list', component: CustomerPersonalAccountRequestListComponent,
+                title: "Demmandes d'ouvertures de comptes particuliers - Lister | GNA",
+              },
+              {
+                path: 'personals/view', component: CustomerPersonalAccountRequestDetailComponent,
+                title: "Demmandes d'ouvertures de comptes particuliers - Voir | GNA",
+              },
+              {
+                path: 'companies/list', component: CustomerCompanyAccountRequestListComponent,
+                title: "Demmandes d'ouvertures de comptes entreprises - Lister | GNA",
+              },
+              {
+                path: 'companies/view', component: CustomerCompanyAccountRequestDetailComponent,
+                title: "Demmandes d'ouvertures de comptes entreprises - Voir | GNA",
+              },
+            ]
+          },
+          {
+            path: 'accounts',
+            title: "Comptes | GNA",
+            canActivate: [profileRoleGuard],
+            data: {
+              roles: [PROFILE_ROLES.managementCustomerAccounts]
+            },
+            children: [
+              {
+                path: 'personals/list', component: ManagementCustomerAccountPersonalListComponent,
+                title: "Comptes particuliers | GNA",
+              },
+              {
+                path: 'personals/view', component: ManagementCustomerAccountPersonalViewComponent,
+                title: "Comptes particuliers | GNA",
+              },
+              {
+                path: 'companies/list', component: ManagementCustomerAccountCompanyListComponent,
+                title: "Comptes entreprises | GNA",
+              },
+              {
+                path: 'companies/view', component: ManagementCustomerAccountCompanyViewComponent,
+                title: "Comptes entreprises | GNA",
+              },
+            ]
+          },
+        ]
       },
       {
-        path: 'manager/accounts/personals/requests/view', component: CustomerPersonalAccountRequestDetailComponent,
-        title: "Demmandes d'ouvertures de comptes particuliers - Voir | GNA",
+        path: 'settings/products',
+        title: 'Configuration des produits | GNA',
+        canActivate: [profileGroupGuard],
+        data: {
+          groups: [PROFILE_GROUPS.managementProducts]
+        },
+        children: [
+          {
+            path: 'guarantees',
+            title: 'Garanties | GNA',
+            canActivate: [profileRoleGuard],
+            data: {
+              roles: [PROFILE_ROLES.managementProductGuarantees]
+            },
+            children: [
+              {
+                path: 'list', component: GuaranteeListComponent,
+                title: 'Garanties - Lister | GNA',
+                canActivate: [profilePermissionGuard],
+                data: {
+                  groups: [PROFILE_GROUPS.managementProducts],
+                  roles: [PROFILE_ROLES.managementProductGuarantees],
+                  permissions: [PROFILE_PERMISSION.PERMISSION_LIST],
+                },
+              },
+              {
+                path: 'add', component: GuaranteeAddComponent,
+                title: 'Garanties - Créer | GNA',
+                canActivate: [profilePermissionGuard],
+                data: {
+                  groups: [PROFILE_GROUPS.managementProducts],
+                  roles: [PROFILE_ROLES.managementProductGuarantees],
+                  permissions: [PROFILE_PERMISSION.PERMISSION_ADD],
+                },
+              },
+              {
+                path: 'edit', component: GuaranteeEditComponent,
+                title: 'Garanties - Modifier | GNA',
+                canActivate: [profilePermissionGuard],
+                data: {
+                  groups: [PROFILE_GROUPS.managementProducts],
+                  roles: [PROFILE_ROLES.managementProductGuarantees],
+                  permissions: [PROFILE_PERMISSION.PERMISSION_EDIT],
+                },
+              },
+              {
+                path: 'view', component: GuaranteeViewComponent,
+                title: 'Garanties - Voir | GNA',
+                canActivate: [profilePermissionGuard],
+                data: {
+                  groups: [PROFILE_GROUPS.managementProducts],
+                  roles: [PROFILE_ROLES.managementProductGuarantees],
+                  permissions: [PROFILE_PERMISSION.PERMISSION_VIEW],
+                },
+              },
+            ]
+          },
+          {
+            path: 'groups',
+            title: 'Groupes de produits | GNA',
+            canActivate: [profileRoleGuard],
+            data: {
+              roles: [PROFILE_ROLES.managementProductGroups]
+            },
+            children: [
+              {
+                path: 'list', component: ProductGroupListComponent,
+                title: 'Groupes de produits - Lister | GNA',
+              },
+              {
+                path: 'add', component: ProductGroupAddComponent,
+                title: 'Groupes de produits - Créer | GNA',
+              },
+              {
+                path: 'edit', component: ProductGroupEditComponent,
+                title: 'Groupes de produits - Modifier | GNA',
+              },
+              {
+                path: 'view', component: ProductGroupViewComponent,
+                title: 'Groupes de produits | GNA',
+              },
+            ]
+          },
+        ]
       },
-      {
-        path: 'manager/accounts/companies/requests/list', component: CustomerCompanyAccountRequestListComponent,
-        title: "Demmandes d'ouvertures de comptes entreprises - Lister | GNA",
-      },
-      {
-        path: 'manager/accounts/companies/requests/view', component: CustomerCompanyAccountRequestDetailComponent,
-        title: "Demmandes d'ouvertures de comptes entreprises - Voir | GNA",
-      },
-      {
-        path: 'managements/accounts/personals/list', component: ManagementCustomerAccountPersonalListComponent,
-        title: "Comptes particuliers | GNA",
-      },
-      {
-        path: 'managements/accounts/personals/view', component: ManagementCustomerAccountPersonalViewComponent,
-        title: "Comptes particuliers | GNA",
-      },
-      {
-        path: 'managements/accounts/companies/list', component: ManagementCustomerAccountCompanyListComponent,
-        title: "Comptes entreprises | GNA",
-      },
-      {
-        path: 'managements/accounts/companies/view', component: ManagementCustomerAccountCompanyViewComponent,
-        title: "Comptes entreprises | GNA",
-      },
+
       {
         path: 'coinsurance/requests/submits/list', component: CoinsuranceSubmitListComponent,
         title: "Coassurances - Demandes soumises | GNA",
@@ -554,38 +697,6 @@ export const routes: Routes = [
       {
         path: 'settings-products/premium-calculation/view', component: PremiumCalculationDetailComponent,
         title: 'Tarification des primes - Voir | GNA',
-      },
-      {
-        path: 'settings-products/guarantees/list', component: GuaranteeListComponent,
-        title: 'Garantie - Lister | GNA',
-      },
-      {
-        path: 'settings-products/guarantees/add', component: GuaranteeAddComponent,
-        title: 'Garanties - Créer | GNA',
-      },
-      {
-        path: 'settings-products/guarantees/edit', component: GuaranteeEditComponent,
-        title: 'Garanties - Modifier | GNA',
-      },
-      {
-        path: 'settings-products/guarantees/view', component: GuaranteeViewComponent,
-        title: 'Garanties - Voir | GNA',
-      },
-      {
-        path: 'products-groups/list', component: ProductGroupListComponent,
-        title: 'Groupe Produit - Lister | GNA',
-      },
-      {
-        path: 'products-groups/add', component: ProductGroupAddComponent,
-        title: 'Groupe Produit - Créer | GNA',
-      },
-      {
-        path: 'products-groups/edit', component: ProductGroupEditComponent,
-        title: 'Groupe Produit - Modifier | GNA',
-      },
-      {
-        path: 'products-groups/view', component: ProductGroupViewComponent,
-        title: 'Groupe Produit | GNA',
       },
       {
         path: 'products/list', component: ProductListComponent,

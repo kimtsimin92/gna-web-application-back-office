@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
@@ -18,11 +18,13 @@ import {
 } from "./auth-dialog/auth-password-forgot-email-error-dialog/auth-password-forgot-email-error-dialog.component";
 import {SessionAlertDialogComponent} from "../account/dialogs/session-alert-dialog/session-alert-dialog.component";
 import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {group} from "@angular/animations";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService implements OnInit{
 
   isError: boolean = false;
   response: HttpResponse<any> | undefined;
@@ -45,6 +47,18 @@ export class AuthService {
               private _router: Router,
               private _snackBar: MatSnackBar,
               public _dialog: MatDialog,) {
+
+
+      if (this.isAuth()) {
+        if (typeof sessionStorage !== 'undefined') {
+            // @ts-ignore
+          this.userProfileData = JSON.parse(sessionStorage.getItem("USER_PROFILE_DATA"));
+        } else {
+          this.onGetUserProfileData();
+        }
+
+      }
+
     this.isError = false;
   }
 
@@ -198,6 +212,7 @@ export class AuthService {
 
                 if (responseData['body']) {
                   this.userProfileData = responseData['body'];
+                  sessionStorage.setItem('USER_PROFILE_DATA', JSON.stringify(this.userProfileData));
                 }
 
                 setTimeout(() => {
@@ -485,6 +500,7 @@ export class AuthService {
 
           if (responseData['body']) {
             this.userProfileData = responseData['body'];
+            sessionStorage.setItem('USER_PROFILE_DATA', JSON.stringify(this.userProfileData));
           }
 
         }, (errorResponse: HttpErrorResponse) => {
@@ -495,6 +511,115 @@ export class AuthService {
 
     }
 
+  }
+
+  //
+
+  onGetProfileGroup(name: string): boolean {
+
+    let isRole: boolean = false;
+
+    if (this.userProfileData && this.userProfileData.groups && this.userProfileData.groups.length > 0) {
+      if (this.userProfileData.groups.find((group: any) => group.name === name)) {
+        isRole = true;
+      }
+    }
+
+    return isRole;
+
+  }
+
+  onGetProfileRole(name: string): boolean {
+
+    let isRole: boolean = false;
+
+    if (this.userProfileData && this.userProfileData.groups && this.userProfileData.groups.length > 0) {
+        // @ts-ignore
+      this.userProfileData.groups.forEach((group: any) => {
+
+          if (group.roles && group.roles.length > 0) {
+            if (group.roles.find((role: any) => role.name === name)) {
+              isRole = true;
+            }
+          }
+        });
+    }
+    return isRole;
+  }
+
+  onGetProfilePermission(groupName: string, roleName: string, permissionName: string): any {
+
+    let isPermission: boolean = false;
+
+    if (this.userProfileData && this.userProfileData.groups && this.userProfileData.groups.length > 0) {
+      // @ts-ignore
+      this.userProfileData.groups.forEach((group: any) => {
+
+        if (group.name === groupName) {
+
+          if (group.roles && group.roles.length > 0) {
+
+            group.roles.forEach((role: any) => {
+
+              if (role.name === roleName) {
+
+                if (role.permissions && role.permissions.length > 0) {
+                  if (role.permissions.find((permission: any) => permission.name === permissionName)) {
+                    isPermission = true;
+                  }
+                }
+
+              }
+
+            });
+
+          }
+
+        }
+
+      });
+    }
+    return isPermission;
+
+  }
+
+  getProfilePermission(groupName: string, roleName: string, permissionName: string): any {
+
+    let isPermission: boolean = false;
+
+    if (this.userProfileData && this.userProfileData.groups && this.userProfileData.groups.length > 0) {
+      // @ts-ignore
+      this.userProfileData.groups.forEach((group: any) => {
+
+        if (group.name === groupName) {
+
+          if (group.roles && group.roles.length > 0) {
+
+            group.roles.forEach((role: any) => {
+
+              if (role.name === roleName) {
+
+                if (role.permissions && role.permissions.length > 0) {
+                  if (role.permissions.find((permission: any) => permission.name === permissionName)) {
+                    isPermission = true;
+                  }
+                }
+
+              }
+
+            });
+
+          }
+
+        }
+
+      });
+    }
+    return isPermission;
+
+  }
+
+  ngOnInit(): void {
   }
 
 }

@@ -46,6 +46,10 @@ import {
   RemoveLoadingDialogComponent
 } from "../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
 import {AddLoadingDialogComponent} from "../../../../dialogs/loading/add-loading-dialog/add-loading-dialog.component";
+import {InputIconModule} from "primeng/inputicon";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputNumberModule} from "primeng/inputnumber";
+import {AuthService} from "../../../../../auth/auth.service";
 
 @Component({
   selector: 'app-guarantee-add',
@@ -76,7 +80,10 @@ import {AddLoadingDialogComponent} from "../../../../dialogs/loading/add-loading
     DropdownModule,
     MultiSelectModule,
     InputTextareaModule,
-    DecimalPipe
+    DecimalPipe,
+    InputIconModule,
+    IconFieldModule,
+    InputNumberModule
   ],
   templateUrl: './guarantee-add.component.html',
   styleUrl: './guarantee-add.component.css'
@@ -131,6 +138,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
     private _fb: FormBuilder,
     public _dialog: MatDialog,
     private _router: Router,
+    public authService: AuthService,
     public accountService: AccountService) {
 
   }
@@ -172,7 +180,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings-products/guarantees/list");
+    this._router.navigateByUrl("/account/settings/products/guarantees/list");
   }
 
   onConfirm(): void {
@@ -309,7 +317,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
 
-      this._router.navigateByUrl("/account/settings-products/guarantees/edit")
+      this._router.navigateByUrl("/account/settings/products/guarantees/edit")
         .then(() => {
           // @ts-ignore
           localStorage.setItem("GUARANTEE_DATA", JSON.stringify(this.guaranteeData));

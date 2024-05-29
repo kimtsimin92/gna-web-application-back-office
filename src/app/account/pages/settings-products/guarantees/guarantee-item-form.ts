@@ -8,20 +8,20 @@ export class GuaranteeItemForm {
     Validators.minLength(2),
     Validators.required]);
 
-  capital = new FormControl(null,
+  capital = new FormControl(0,
     [Validators.min(1),
       Validators.required,
       Validators.pattern(/^\d+$/)]);
 
-  franchiseMinimum = new FormControl(null,
+  franchiseMinimum = new FormControl(0,
     [Validators.min(0),
       Validators.pattern(/^\d+$/)]);
 
-  franchiseMaximum = new FormControl(null,
+  franchiseMaximum = new FormControl(0,
     [Validators.min(0),
       Validators.pattern(/^\d+$/)]);
 
-  franchiseRate = new FormControl(null, [
+  franchiseRate = new FormControl(0, [
     Validators.pattern(/^\d+(\.\d+)?$/)]);
 
 }

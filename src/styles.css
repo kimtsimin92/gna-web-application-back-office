@@ -1092,6 +1092,17 @@ th, td {
   border-radius: 3px!important;
 }
 
+.gna-form p-inputnumber, .p-inputnumber {
+  width: 100% !important;
+}
+
+.gna-form p-inputnumber .p-inputtext {
+  border: 1px solid rgba(29, 53, 146, 0.26) !important;
+  border-radius: 3px!important;
+}
+
+
+
 .gna-form .p-inputtext.ng-dirty.ng-invalid {
   border-color: #e24c4c!important;
 }
@@ -1507,4 +1518,8 @@ th, td {
 .gna-panelMenu .gna-white:hover {
   color: #1C3694!important;
   cursor: pointer;
+}
+
+.gna-form .pi {
+  margin-top: 8px!important;
 }

@@ -25,7 +25,7 @@
 
             </div>
 
-            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+            <!--<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
 
               @if (isSave || accountService.pageLoading || accountService.isSave) {
                 <button mat-raised-button
@@ -45,7 +45,7 @@
                           (click)="onConfirm()">Soumettre</button>
                 }
               }
-            </div>
+            </div>-->
 
           </div>
         </div>
@@ -122,7 +122,7 @@
                     <span class="gna-view-label"> Franchise Minimum : </span>
                     <span class="gna-view-value">
                        @if (guaranteeData.franchiseMinimum) {
-                         {{ guaranteeData.franchiseMinimum | number : "2.0"}}
+                         {{ guaranteeData.franchiseMinimum | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
                        } @else {
                          N/A
                        }
@@ -133,7 +133,7 @@
                     <span class="gna-view-label"> Franchise Maximum : </span>
                     <span class="gna-view-value">
                        @if (guaranteeData.franchiseMaximum) {
-                         {{ guaranteeData.franchiseMaximum | number : "2.0"}}
+                         {{ guaranteeData.franchiseMaximum  | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
                        } @else {
                          N/A
                        }
@@ -166,7 +166,7 @@
                     <span class="gna-view-label"> Prime Minimum : </span>
                     <span class="gna-view-value">
                        @if (guaranteeData.premiumMinimum) {
-                         {{ guaranteeData.premiumMinimum | number : "2.0"}}
+                         {{ guaranteeData.premiumMinimum  | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
                        } @else {
                          N/A
                        }
@@ -194,7 +194,7 @@
                     <span class="gna-view-label"> Plancher de garantrie : </span>
                     <span class="gna-view-value">
                        @if (guaranteeData.guaranteeFloor) {
-                         {{ guaranteeData.guaranteeFloor | number : "2.0"}}
+                         {{ guaranteeData.guaranteeFloor  | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
                        } @else {
                          N/A
                        }
@@ -205,7 +205,7 @@
                     <span class="gna-view-label"> Plafond de garantrie : </span>
                     <span class="gna-view-value">
                        @if (guaranteeData.guaranteeCeiling) {
-                         {{ guaranteeData.guaranteeCeiling | number : "2.0"}}
+                         {{ guaranteeData.guaranteeCeiling  | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
                        } @else {
                          N/A
                        }
@@ -292,7 +292,7 @@
                     <tr>
                       <td>{{ item.code }}</td>
                       <td>{{ item.name }}</td>
-                      <td>{{ item.capital | number : "2.0" }}</td>
+                      <td>{{ item.capital | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
                       <td>
                         @if (item.franchiseRate) {
                           {{ item.franchiseRate | number : "2.0" }}%
@@ -302,14 +302,14 @@
                       </td>
                       <td>
                         @if (item.franchiseMinimum) {
-                          {{ item.franchiseMinimum | number : "2.0" }}
+                          {{ item.franchiseMinimum | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
                         } @else {
                           0
                         }
                       </td>
                       <td>
                         @if (item.franchiseMaximum) {
-                          {{ item.franchiseMaximum | number : "2.0" }}
+                          {{ item.franchiseMaximum | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
                         } @else {
                           0
                         }

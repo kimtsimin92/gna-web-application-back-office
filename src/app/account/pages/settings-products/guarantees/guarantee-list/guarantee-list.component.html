@@ -23,10 +23,15 @@
                       </span>
           </div>
           <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
-            <button mat-raised-button color="primary"
-                    class="gna-full-width gna-btn-default"
-                    (click)="onGoToSave()"
-            [disabled]="isSave">Créer Garantie</button>
+            @if (authService.getProfilePermission(
+              'GROUP_MANAGEMENT_PRODUCTS',
+              'ROLE_MANAGEMENT_PRODUCT_GUARANTEES',
+              'PERMISSION_ADD')) {
+              <button mat-raised-button color="primary"
+                      class="gna-full-width gna-btn-default"
+                      (click)="onGoToSave()"
+                      [disabled]="isSave">Créer Garantie</button>
+            }
           </div>
         </div>
         </div>
@@ -86,7 +91,7 @@
                     </td>
                     <td class="gna-responsive">
                       @if (element.premiumMinimum) {
-                        {{ element.premiumMinimum | number : "2.0"}}
+                        {{ element.premiumMinimum  | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
                       } @else {
                         0
                       }
@@ -115,6 +120,10 @@
                     <td>
                         <span class="gna-action-span-div">
                           <span class="gna-action-span">
+                             @if (authService.getProfilePermission(
+                               'GROUP_MANAGEMENT_PRODUCTS',
+                               'ROLE_MANAGEMENT_PRODUCT_GUARANTEES',
+                               'PERMISSION_ENABLE')) {
                       <!--  @if (element.enabled) {
                           <p-inputSwitch [(ngModel)]="element.enabled"
                                          pTooltip="Désactiver"
@@ -125,23 +134,38 @@
                             class="gna-disable"
                             [(ngModel)]="!isSave"/>
                      <!--   }-->
+                             }
 
                   </span>
                       <span class="gna-action-span">
+                         @if (authService.getProfilePermission(
+                           'GROUP_MANAGEMENT_PRODUCTS',
+                           'ROLE_MANAGEMENT_PRODUCT_GUARANTEES',
+                           'PERMISSION_VIEW')) {
                     <p-button icon="pi pi-eye" class="gna-btn-eye"
                               pTooltip="Voir"
                               tooltipPosition="bottom"
                               (click)="onView(element)"
                               [disabled]="isSave"></p-button>
+                         }
                   </span>
                   <span class="gna-action-span">
+                     @if (authService.getProfilePermission(
+                       'GROUP_MANAGEMENT_PRODUCTS',
+                       'ROLE_MANAGEMENT_PRODUCT_GUARANTEES',
+                       'PERMISSION_EDIT')) {
                     <p-button icon="pi pi-pencil" class="gna-btn-edit"
                               pTooltip="Modifier"
                               tooltipPosition="bottom"
                               (click)="onViewEdit(element)"
                               [disabled]="isSave"></p-button>
+                     }
                   </span>
                                        <span class="gna-action-span">
+                                          @if (authService.getProfilePermission(
+                                            'GROUP_MANAGEMENT_PRODUCTS',
+                                            'ROLE_MANAGEMENT_PRODUCT_GUARANTEES',
+                                            'PERMISSION_REMOVE')) {
                        <!-- @if (element.removable) {
                           <p-button icon="pi pi-trash"
                                     pTooltip="Supprimer"
@@ -156,6 +180,7 @@
                                     class="gna-btn-delete"
                                     [disabled]="isDisable"></p-button>
                                          <!--     }-->
+                                          }
 
                   </span>
                   </span>

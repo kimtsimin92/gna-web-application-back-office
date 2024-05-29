@@ -52,6 +52,10 @@ import {InputTextModule} from "primeng/inputtext";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {KeyFilterModule} from "primeng/keyfilter";
 import {MultiSelectModule} from "primeng/multiselect";
+import {InputNumberModule} from "primeng/inputnumber";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {AuthService} from "../../../../../auth/auth.service";
 
 @Component({
   selector: 'app-guarantee-edit',
@@ -80,7 +84,10 @@ import {MultiSelectModule} from "primeng/multiselect";
         InputTextModule,
         InputTextareaModule,
         KeyFilterModule,
-        MultiSelectModule
+        MultiSelectModule,
+        InputNumberModule,
+        IconFieldModule,
+        InputIconModule
     ],
   templateUrl: './guarantee-edit.component.html',
   styleUrl: './guarantee-edit.component.css'
@@ -126,6 +133,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
     private _fb: FormBuilder,
     public _dialog: MatDialog,
     private _router: Router,
+    public authService: AuthService,
     public accountService: AccountService) {
   }
 
@@ -222,7 +230,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings-products/guarantees/list");
+    this._router.navigateByUrl("/account/settings/products/guarantees/list");
   }
 
   private onSave() {
@@ -368,7 +376,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/settings-products/guarantees/list")
+      this._router.navigateByUrl("/account/settings/products/guarantees/list")
         .then(() => {
       this.guarantee = null;
         });

@@ -187,6 +187,18 @@ export class SidenavComponent implements OnInit {
 
   userProfileData: any = null;
 
+  profileGroups: any = {
+    managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
+    managementProducts: "GROUP_MANAGEMENT_PRODUCTS",
+    managementMarketing: "GROUP_MANAGEMENT_MARKETING",
+  };
+
+  profileRoles: any = {
+    managementCustomerRequests: "ROLE_MANAGEMENT_CUSTOMER_REQUESTS",
+    managementCustomerAccounts: "ROLE_MANAGEMENT_CUSTOMER_ACCOUNTS",
+    managementMarketing: "ROLE_MANAGEMENT_MARKETING_SEGMENTATION",
+  };
+
   constructor(
     private _router: Router,
     public authService: AuthService,
@@ -196,7 +208,7 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.menuItems =  [
+    this.menuItems = [
       {
         label: 'Tableau de bord',
         route: '/account/dashboard'
@@ -207,138 +219,140 @@ export class SidenavComponent implements OnInit {
     // GROUP MANAGEMENT CUSTOMERS
 
     let groupManagementCustomers = {
-        label: 'Gestion des comptes',
-        items: []
-      };
-
-   let roleManagementCustomersRequest = {
-      label: "Demandes d'ouvertures de comptes",
-        items: [
-      {
-        label: "Particuliers",
-        route: '/account/manager/accounts/personals/requests/list'
-      },
-      {
-        label: "Entreprises",
-        route: '/account/manager/accounts/companies/requests/list'
-      }
-    ]
+      label: 'Gestion des comptes',
+      items: []
     };
 
-    let roleManagementCustomersAccount = {
-      label: 'Comptes',
-        items: [
-      {
-        label: "Particuliers",
-        route: '/account/managements/accounts/personals/list'
-      },
-      {
-        label: "Entreprises",
-        route: '/account/managements/accounts/companies/list'
-      }
-    ]
-    }
+    let roleManagementCustomerRequests = {
+      label: "Demandes d'ouvertures de comptes",
+      items: [
+        {
+          label: "Particuliers",
+          route: '/account/management/customers/requests/personals/list'
+        },
+        {
+          label: "Entreprises",
+          route: '/account/management/customers/requests/companies/list'
+        }
+      ]
+    };
+
+    let roleManagementCustomerAccounts = {
+      label: "Comptes",
+      items: [
+        {
+          label: "Particuliers",
+          route: '/account/management/customers/accounts/personals/list'
+        },
+        {
+          label: "Entreprises",
+          route: '/account/management/customers/accounts/companies/list'
+        }
+      ]
+    };
 
     //
 
-    let managementProducts =  {
-        label: 'Configuration des produits',
-        items: [
-          {
-            label: "Garanties",
-            route: '/account/settings-products/guarantees/list'
-          },
-          {
-            label: "Groupes de produits",
-            route: '/account/products-groups/list'
-          },
-          {
-            label: "Formulaires de cotations",
-            route: '/account/settings-products/forms/quotations/list'
-          },
-          {
-            label: "Tarification des primes",
-            route: '/account/settings-products/premium-calculation/list'
-          },
-          /* {
-             label: "Capitaux",
-             route: '/'
-           }*/
-        ]
-      };
+    //
 
-    let managementMarketing =  {
-        label: 'Marketing',
-        items: [
-          {
-            label: "Segmentation",
-            route: '/account/segments/list'
-          },
-          {
-            label: "Produits",
-            route: '/account/products/list'
-          },
-          {
-            label: "Campagnes",
+    let groupManagementProducts = {
+      label: 'Configuration des produits',
+      items: [
+        {
+          label: "Garanties",
+          route: '/account/settings/products/guarantees/list'
+        },
+        {
+          label: "Groupes de produits",
+          route: '/account/settings/products/groups/list'
+        },
+        {
+           label: "Formulaires de cotations",
+           route: '/account/settings/products/quotes/forms/list'
+         },
+         {
+           label: "Tarification des primes",
+           route: '/account/settings/products/pricing/list'
+         },
+        /* {
+            label: "Capitaux",
             route: '/'
-          }
-        ]
-      };
+          }*/
+      ]
+    };
 
-    let managementSubscriptions =  {
-        label: 'Gestion des souscriptions',
-        items: [
-          {
-            label: "Cotations prospects",
-            route: '/'
-          },
-          {
-            label: "Demandes soumises",
-            route: '/'
-          },
-          {
-            label: "Demandes validées",
-            route: '/'
-          },
-          {
-            label: "Demandes rejetées",
-            route: '/'
-          }
-        ]
-      };
+    let groupManagementMarketing = {
+      label: 'Marketing',
+      items: [
+        {
+          label: "Segmentation",
+          route: '/account/marketing/segments/list'
+        },
+        {
+          label: "Produits",
+          route: '/account/marketing/products/list'
+        },
+        {
+          label: "Campagnes",
+          route: '/account/marketing/companies/list'
+        }
+      ]
+    };
 
-    let managementSettings =  {
-        label: 'Paramètres',
-        items: [
-          {
-            label: "Paramètres des listes",
-            items: [
-              {
-                label: "Branches",
-                route: '/'
-              },
-              {
-                label: "Catégories",
-                route: '/'
-              },
-              {
-                label: "Territorialités",
-                route: '/'
-              },
-              {
-                label: "Incentives",
-                route: '/'
-              },
-              {
-                label: "Partenaires",
-                route: '/'
-              }
-            ]
-          },
-        ]
-      };
+    let managementSubscriptions = {
+      label: 'Gestion des souscriptions',
+      items: [
+        {
+          label: "Cotations prospects",
+          route: '/'
+        },
+        {
+          label: "Demandes soumises",
+          route: '/'
+        },
+        {
+          label: "Demandes validées",
+          route: '/'
+        },
+        {
+          label: "Demandes rejetées",
+          route: '/'
+        }
+      ]
+    };
 
-    let managementAdmin =  {
+    let groupManagementSettings = {
+      label: 'Paramètres',
+      items: [
+        {
+          label: "Paramètres des listes",
+          items: [
+            {
+              label: "Branches",
+              route: '/'
+            },
+            {
+              label: "Catégories",
+              route: '/'
+            },
+            {
+              label: "Territorialités",
+              route: '/'
+            },
+            {
+              label: "Incentives",
+              route: '/'
+            },
+            {
+              label: "Partenaires",
+              route: '/'
+            }
+          ]
+        },
+      ]
+    };
+
+    let groupManagementAdmin = {
       label: 'Administration',
       items: [
         {
@@ -356,96 +370,118 @@ export class SidenavComponent implements OnInit {
         },
         {
           label: "Gestion des utilisateurs externes",
-          route: '/'
         },
       ]
     };
 
 
+    if (this.authService.onGetProfileGroup(this.profileGroups.managementCustomers)) {
 
-    if (this.authService.userProfileData && this.authService.userProfileData.groups && this.authService.userProfileData.groups.length > 0) {
-
-      if (this.authService.userProfileData.groups.find((group: any) => group.name === 'GROUP_MANAGEMENT_CUSTOMER')) {
-
-        this.menuItems.push(groupManagementCustomers);
-
+      if (this.authService.onGetProfileRole(this.profileRoles.managementCustomerRequests)) {
+        // @ts-ignore
+        groupManagementCustomers.items.push(roleManagementCustomerRequests);
       }
 
+      if (this.authService.onGetProfileRole(this.profileRoles.managementCustomerAccounts)) {
+        // @ts-ignore
+        groupManagementCustomers.items.push(roleManagementCustomerAccounts);
+      }
+
+      this.menuItems.push(groupManagementCustomers);
+
+    }
+
+    if (this.authService.onGetProfileGroup(this.profileGroups.managementProducts)) {
+      this.menuItems.push(groupManagementProducts);
     }
 
 
-  }
+      this.menuItems.push(groupManagementMarketing);
+      this.menuItems.push(groupManagementSettings);
+      this.menuItems.push(groupManagementAdmin);
 
-  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
-  onGoTo(node: any) {
-    if (!this.accountService.isSave) {
-      node.name.class = "mtn-selected";
-      setTimeout(() => {
-        this._router.navigateByUrl(node.name.link).then(() => {
-        });
-      }, 200);
     }
-  }
 
-  onGetNodeToToggle(node: any) {
 
-    if (!this.accountService.isSave) {
-      console.log(this.currentNode);
-      console.log(node);
+    hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
-      if (!node.expandable) {
-        let nodes = this.treeControl.dataNodes
-
-        if (nodes.length > 0) {
-
-          nodes.forEach(n => {
-            // @ts-ignore
-            if (n.name.class && node !== n) {
-              // @ts-ignore
-              n.name.class = null;
-            }
+    onGoTo(node
+  :
+    any
+  )
+    {
+      if (!this.accountService.isSave) {
+        node.name.class = "mtn-selected";
+        setTimeout(() => {
+          this._router.navigateByUrl(node.name.link).then(() => {
           });
-        }
+        }, 200);
       }
+    }
 
-      if (this.currentNode == node) {
-        if (node.isExpandable && !node.expandable) {
-          this.treeControl.expand(this.currentNode);
-        } else {
-          this.treeControl.collapseAll();
-          this.currentNode = null;
-        }
-      } else {
+    onGetNodeToToggle(node
+  :
+    any
+  )
+    {
+
+      if (!this.accountService.isSave) {
+        console.log(this.currentNode);
+        console.log(node);
 
         if (!node.expandable) {
+          let nodes = this.treeControl.dataNodes
 
-          if (this.currentNode) {
-            if (this.currentNode.name && this.currentNode.name.children && this.currentNode.name.children.length > 0) {
-              this.currentNode.name.children.forEach((c: any) => {
-                if (c.name && c.name.name === node.name.name) {
-                  this.treeControl.collapseAll();
-                  this.treeControl.expand(this.currentNode);
-                }
-              });
-            }
-          }
+          if (nodes.length > 0) {
 
-        } else {
-
-          if (node.expandable && node.level > 0) {
-            this.treeControl.collapseAll();
-            this.treeControl.expand(this.currentNode);
-            this.treeControl.expand(node);
-          } else {
-            this.treeControl.collapseAll();
-            this.treeControl.expand(node);
+            nodes.forEach(n => {
+              // @ts-ignore
+              if (n.name.class && node !== n) {
+                // @ts-ignore
+                n.name.class = null;
+              }
+            });
           }
         }
 
-      }
-      this.currentNode = node;
-    }
+        if (this.currentNode == node) {
+          if (node.isExpandable && !node.expandable) {
+            this.treeControl.expand(this.currentNode);
+          } else {
+            this.treeControl.collapseAll();
+            this.currentNode = null;
+          }
+        } else {
 
+          if (!node.expandable) {
+
+            if (this.currentNode) {
+              if (this.currentNode.name && this.currentNode.name.children && this.currentNode.name.children.length > 0) {
+                this.currentNode.name.children.forEach((c: any) => {
+                  if (c.name && c.name.name === node.name.name) {
+                    this.treeControl.collapseAll();
+                    this.treeControl.expand(this.currentNode);
+                  }
+                });
+              }
+            }
+
+          } else {
+
+            if (node.expandable && node.level > 0) {
+              this.treeControl.collapseAll();
+              this.treeControl.expand(this.currentNode);
+              this.treeControl.expand(node);
+            } else {
+              this.treeControl.collapseAll();
+              this.treeControl.expand(node);
+            }
+          }
+
+        }
+        this.currentNode = node;
+      }
+
+    }
   }
-}

@@ -25,7 +25,7 @@ import {
 import {BreadcrumbModule} from "primeng/breadcrumb";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
-import {DatePipe, DecimalPipe, LowerCasePipe, NgForOf, NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe, LowerCasePipe, NgForOf, NgIf} from "@angular/common";
 import {ChipModule} from "primeng/chip";
 import {MatChipListbox, MatChipOption} from "@angular/material/chips";
 import {DropdownModule} from "primeng/dropdown";
@@ -63,7 +63,8 @@ import {TagModule} from "primeng/tag";
     DatePipe,
     NgForOf,
     TagModule,
-    LowerCasePipe
+    LowerCasePipe,
+    CurrencyPipe
   ],
   templateUrl: './guarantee-view.component.html',
   styleUrl: './guarantee-view.component.css'
@@ -154,7 +155,7 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings-products/guarantees/list");
+    this._router.navigateByUrl("/account/settings/products/guarantees/list");
   }
 
   private onSave() {
