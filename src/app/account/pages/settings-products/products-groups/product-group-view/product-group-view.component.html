@@ -77,11 +77,11 @@
 
                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label">Statut : </span>
-                    @if (productGroupData.statusCode && productGroupData.statusCode === 1) {
+                    @if (productGroupData.statusCode && productGroupData.statusCode === 10) {
                       <p-tag severity="warning" value="Enregistré"></p-tag>
-                    } @else if (productGroupData.statusCode && productGroupData.statusCode === 2) {
+                    } @else if (productGroupData.statusCode && productGroupData.statusCode === 11) {
                       <p-tag severity="success" value="Validé"></p-tag>
-                    } @else if (productGroupData.statusCode && productGroupData.statusCode === 3) {
+                    } @else if (productGroupData.statusCode && productGroupData.statusCode === 12) {
                       <p-tag severity="success" value="Approuvé"></p-tag>
                     }
                   </div>

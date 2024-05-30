@@ -82,11 +82,11 @@
 
                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label">Statut : </span>
-                    @if (guaranteeData.statusCode && guaranteeData.statusCode === 1) {
+                    @if (guaranteeData.statusCode && guaranteeData.statusCode === 10) {
                       <p-tag severity="warning" value="Enregistré"></p-tag>
-                    } @else if (guaranteeData.statusCode && guaranteeData.statusCode === 2) {
+                    } @else if (guaranteeData.statusCode && guaranteeData.statusCode === 11) {
                       <p-tag severity="success" value="Validé"></p-tag>
-                    } @else if (guaranteeData.statusCode && guaranteeData.statusCode === 3) {
+                    } @else if (guaranteeData.statusCode && guaranteeData.statusCode === 12) {
                       <p-tag severity="success" value="Approuvé"></p-tag>
                     }
                   </div>

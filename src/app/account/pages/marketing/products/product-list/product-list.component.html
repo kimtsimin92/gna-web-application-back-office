@@ -103,14 +103,12 @@
                   }
                 </td>
                 <td>
-                  @if (element.enabled) {
-                    @if (element.statusCode && element.statusCode === 1) {
-                      <p-tag severity="warning" value="En Attente"></p-tag>
-                    } @else {
-                      <p-tag severity="danger" value="Désactivé"></p-tag>
-                    }
-                  } @else {
-                    <p-tag severity="danger" value="Désactivé"></p-tag>
+                  @if (element.statusCode && element.statusCode === 10) {
+                    <p-tag severity="warning" value="Enregistré"></p-tag>
+                  } @else if (element.statusCode && element.statusCode === 11) {
+                    <p-tag severity="success" value="Validé"></p-tag>
+                  } @else if (element.statusCode && element.statusCode === 12) {
+                    <p-tag severity="success" value="Approuvé"></p-tag>
                   }
                 </td>
                 <td>
