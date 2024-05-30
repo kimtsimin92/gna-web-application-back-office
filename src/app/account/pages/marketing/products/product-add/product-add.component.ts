@@ -37,32 +37,38 @@ import {
 } from "../../../settings-products/guarantees/guarantee-clause-editor-dialog/guarantee-clause-editor-dialog.component";
 import {ImageModule} from "primeng/image";
 import {MatInput} from "@angular/material/input";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {InputNumberModule} from "primeng/inputnumber";
 
 @Component({
   selector: 'app-product-add',
   standalone: true,
-    imports: [
-        CheckboxModule,
-        DropdownModule,
-        FormsModule,
-        InputTextModule,
-        InputTextareaModule,
-        KeyFilterModule,
-        KeyValuePipe,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatDivider,
-        MultiSelectModule,
-        ReactiveFormsModule,
-        SharedModule,
-        TabViewModule,
-        ImageModule,
-        NgIf,
-        DecimalPipe,
-        MatInput
-    ],
+  imports: [
+    CheckboxModule,
+    DropdownModule,
+    FormsModule,
+    InputTextModule,
+    InputTextareaModule,
+    KeyFilterModule,
+    KeyValuePipe,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatDivider,
+    MultiSelectModule,
+    ReactiveFormsModule,
+    SharedModule,
+    TabViewModule,
+    ImageModule,
+    NgIf,
+    DecimalPipe,
+    MatInput,
+    IconFieldModule,
+    InputIconModule,
+    InputNumberModule
+  ],
   templateUrl: './product-add.component.html',
   styleUrl: './product-add.component.css'
 })
@@ -226,7 +232,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/products/list");
+    this._router.navigateByUrl("account/marketing/products/list");
   }
 
   onConfirm(): void {
@@ -237,7 +243,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         dialogMessage: "de ce produit"
       },
@@ -278,6 +284,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     this.onSaveLoadingDialog();
 
     let requestData = {
+      code: this.formData.value.code,
       name: this.formData.value.name,
       description: this.formData.value.description,
       groupId: null,
@@ -445,7 +452,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/products/list")
+      this._router.navigateByUrl("account/marketing/products/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -558,6 +565,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
               code: p.code,
               name: p.name,
               accessoryAmount: this.formProductPartner.value.partnerAccessoryAmount,
+              accessoryTaxRate: this.formProductPartner.value.partnerAccessoryTaxRate,
               commissionRate: this.formProductPartner.value.partnerCommissionRate,
               sponsorshipCode: this.formProductPartner.value.sponsorshipCode,
             };
@@ -580,6 +588,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
   onEditItem(item: any) {
     this.productPartnerForm.partnerId.setValue(item.name);
     this.productPartnerForm.partnerAccessoryAmount.setValue(item.accessoryAmount);
+    this.productPartnerForm.partnerAccessoryTaxRate.setValue(item.accessoryTaxRate);
     this.productPartnerForm.partnerCommissionRate.setValue(item.commissionRate);
     this.productPartnerForm.sponsorshipCode.setValue(item.sponsorshipCode);
   }

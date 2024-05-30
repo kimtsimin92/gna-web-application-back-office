@@ -15,8 +15,8 @@ export class UserSaveForm {
     Validators.maxLength(1),
     Validators.required]);
 
-  address = new FormControl(null, [
-    Validators.minLength(2)]);
+ /* address = new FormControl(null, [
+    Validators.minLength(2)]);*/
 
   email = new FormControl(null, [
     Validators.email,
@@ -28,8 +28,6 @@ export class UserSaveForm {
     Validators.pattern(/^\d{10}$/),
     Validators.required]);
 
-  userType = new FormControl(null,  [Validators.required]);
   userProfile = new FormControl(null,[Validators.required]);
-  enabled = new FormControl(null, [Validators.required]);
 
 }

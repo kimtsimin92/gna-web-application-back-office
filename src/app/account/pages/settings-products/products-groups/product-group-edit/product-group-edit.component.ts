@@ -37,28 +37,32 @@ import {MatInput} from "@angular/material/input";
 import {
   GuaranteeClauseEditorDialogComponent
 } from "../../guarantees/guarantee-clause-editor-dialog/guarantee-clause-editor-dialog.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
 
 @Component({
   selector: 'app-product-group-edit',
   standalone: true,
-    imports: [
-        CheckboxModule,
-        DropdownModule,
-        InputTextModule,
-        KeyFilterModule,
-        KeyValuePipe,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatDivider,
-        MultiSelectModule,
-        PaginatorModule,
-        ReactiveFormsModule,
-        SharedModule,
-        InputTextareaModule,
-        MatInput
-    ],
+  imports: [
+    CheckboxModule,
+    DropdownModule,
+    InputTextModule,
+    KeyFilterModule,
+    KeyValuePipe,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatDivider,
+    MultiSelectModule,
+    PaginatorModule,
+    ReactiveFormsModule,
+    SharedModule,
+    InputTextareaModule,
+    MatInput,
+    IconFieldModule,
+    InputIconModule
+  ],
   templateUrl: './product-group-edit.component.html',
   styleUrl: './product-group-edit.component.css'
 })
@@ -180,7 +184,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       // @ts-ignore
       this.productGroup = JSON.parse(localStorage.getItem("PRODUCT_GROUP_DATA"));
     } else {
-      this._router.navigateByUrl("/account/products-groups/list")
+      this._router.navigateByUrl("/account/management/products/groups/list")
     }
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
@@ -290,7 +294,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
 
 
     } else {
-      this._router.navigateByUrl("/account/products-groups/list");
+      this._router.navigateByUrl("/account/management/products/groups/list");
     }
 
     this.formData = this._fb.group(this.dataForm);
@@ -311,7 +315,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/products-groups/list");
+    this._router.navigateByUrl("/account/management/products/groups/list");
   }
 
   onConfirm(): void {
@@ -322,7 +326,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         dialogMessage: "de ce groupe produit"
       },
@@ -445,7 +449,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         dialogMessage: "La modification de ce groupe produit a réussi."
       },
@@ -458,7 +462,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/products-groups/list")
+      this._router.navigateByUrl("/account/management/products/groups/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -472,7 +476,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "La modification de ce groupe produit a échoué."
@@ -500,7 +504,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     this.formData.markAllAsTouched();
     const dialogRef = this._dialog.open(NotBlankDialogComponent, {
       width: '400px',
-      height: '340px',
+      height: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

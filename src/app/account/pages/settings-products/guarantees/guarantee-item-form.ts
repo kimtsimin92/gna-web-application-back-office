@@ -8,20 +8,21 @@ export class GuaranteeItemForm {
     Validators.minLength(2),
     Validators.required]);
 
-  capital = new FormControl(0,
+  capital = new FormControl(null,
     [Validators.min(1),
       Validators.required,
       Validators.pattern(/^\d+$/)]);
 
-  franchiseMinimum = new FormControl(0,
-    [Validators.min(0),
-      Validators.pattern(/^\d+$/)]);
+  // @ts-ignore
+  franchiseMinimum = new FormControl(null,
+    [
+      Validators.pattern(/^\d+(\.\d+)?$/)]);
 
-  franchiseMaximum = new FormControl(0,
-    [Validators.min(0),
-      Validators.pattern(/^\d+$/)]);
+  franchiseMaximum = new FormControl(null,
+    [
+      Validators.pattern(/^\d+(\.\d+)?$/)]);
 
-  franchiseRate = new FormControl(0, [
+  franchiseRate = new FormControl(null, [
     Validators.pattern(/^\d+(\.\d+)?$/)]);
 
 }

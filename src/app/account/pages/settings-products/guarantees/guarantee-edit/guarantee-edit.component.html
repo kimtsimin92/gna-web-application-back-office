@@ -124,6 +124,7 @@
                         suffix="%"
                         required
                         formControlName="taxRate"
+                        placeholder="Pourcentage"
                         [minFractionDigits]="2"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -137,6 +138,7 @@
                         inputId="percent"
                         suffix="%"
                         formControlName="franchiseRate"
+                        placeholder="Pourcentage"
                         [minFractionDigits]="2"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -158,14 +160,14 @@
                         locale="ci-CI"
                         [minFractionDigits]="2"
                         formControlName="franchiseMinimum"
-                        max="{{franchiseMaximum.value}}"
+                        placeholder="Montant"
                         #franchiseMinimum
                         [readonly]="isSave || accountService.pageLoading"/>
 
 
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="franchiseMinimum">Franchise Maximum</label>
+                      <label for="franchiseMaximum">Franchise Maximum</label>
                      <!-- <input pInputText pKeyFilter="money"
                              id="franchiseMaximum" aria-describedby="accessory-amount-company-help" placeholder="Montant" class="gna-form-input"
                              type="number"
@@ -181,7 +183,7 @@
                         locale="ci-CI"
                         [minFractionDigits]="2"
                         formControlName="franchiseMaximum"
-                        min="{{franchiseMinimum.value}}"
+                        placeholder="Montant"
                         #franchiseMaximum
                         [readonly]="isSave || accountService.pageLoading"/>
                     </div>
@@ -239,6 +241,7 @@
                         [minFractionDigits]="2"
                         required
                         formControlName="premiumMinimum"
+                        placeholder="Montant"
                         [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -261,6 +264,7 @@
                                   placeholder="Selectionner"
                                   class="gna-form-dropdown"
                                   #deficiencyDeadlineUnit
+                                  [showClear]="true"
                                   [required]="deficiencyDeadline.value != null"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
@@ -281,6 +285,7 @@
                         locale="ci-CI"
                         [minFractionDigits]="2"
                         formControlName="guaranteeFloor"
+                        placeholder="Montant"
                         [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -299,6 +304,7 @@
                         locale="ci-CI"
                         [minFractionDigits]="2"
                         formControlName="guaranteeCeiling"
+                        placeholder="Montant"
                         [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -317,6 +323,7 @@
                                   optionValue="name"
                                   placeholder="Selectionner"
                                   class="gna-form-dropdown"
+                                  [showClear]="true"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -380,6 +387,7 @@
                         locale="ci-CI"
                         [minFractionDigits]="2"
                         formControlName="capital"
+                        placeholder="Montant"
                         required
                         [readonly]="isSave || accountService.pageLoading"/>
                     </div>
@@ -393,8 +401,8 @@
                         locale="ci-CI"
                         [minFractionDigits]="2"
                         formControlName="franchiseMinimum"
+                        placeholder="Montant"
                         #franchiseMinimumS
-                        max="{{franchiseMaximumS.value}}"
                         [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -407,7 +415,7 @@
                         locale="ci-CI"
                         [minFractionDigits]="2"
                         formControlName="franchiseMaximum"
-                        min="{{franchiseMinimumS.value}}"
+                        placeholder="Montant"
                         #franchiseMaximumS
                         [readonly]="isSave || accountService.pageLoading"/>
                     </div>
@@ -417,6 +425,7 @@
                         inputId="percent"
                         suffix="%"
                         formControlName="franchiseRate"
+                        placeholder="Pourcentage"
                         [minFractionDigits]="2"/>
                     </div>
                     <div class="col-12 btn-new mb-3">
@@ -454,9 +463,9 @@
                           <td>{{ item.capital | number : "2.0" }}</td>
                           <td>
                             @if (item.franchiseRate) {
-                              {{ item.franchiseRate | number : "2.0" }}Pourcentage
+                              {{ item.franchiseRate | number : "2.0" }}%
                             } @else {
-                              0Pourcentage
+                              0%
                             }
                           </td>
                           <td>
@@ -486,9 +495,9 @@
                   </span>
                   <span>
                            @if (isSave || accountService.pageLoading || accountService.isSave) {
-                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2">
+                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-4">
                            } @else {
-                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2"
+                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-4"
                                   (click)="onConfirmRemove(item)">
                            }
 

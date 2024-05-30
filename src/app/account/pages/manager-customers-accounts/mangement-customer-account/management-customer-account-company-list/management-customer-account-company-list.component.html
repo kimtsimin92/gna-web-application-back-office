@@ -35,17 +35,18 @@
                    [resizableColumns]="true">
             <ng-template pTemplate="header">
               <tr class="gna-table-header">
-                <th pSortableColumn="matricule_cmu">
+                <th pSortableColumn="numero_compte">
                   Code Compte
-                  <p-sortIcon field="matricule_cmu" />
+                  <p-sortIcon field="numero_compte" />
                   <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                 </th>
-                <th pSortableColumn="matricule_cmu">
+                <th pSortableColumn="numero_assure">
                   Code Assuré
-                  <p-sortIcon field="matricule_cmu" />
+                  <p-sortIcon field="numero_assure" />
                   <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                 </th>
                 <th pSortableColumn="nom">Raison Social
+                  <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <p-sortIcon field="nom" />
                 </th>
@@ -53,9 +54,9 @@
                   <!--                  <p-columnFilter type="text" field="prenom" display="menu" />-->
                   <p-sortIcon field="code_segment" />
                 </th>
-                <th pSortableColumn="validation_status">Statut
+                <th pSortableColumn="is_active">Etat
                   <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
-                  <p-sortIcon field="validation_status" />
+                  <p-sortIcon field="is_active" />
                 <th pSortableColumn="created_at" class="gna-responsive">Enregistrement
                   <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
                   <p-sortIcon field="created_at" />
@@ -83,8 +84,8 @@
                   </div>
                 </td>
                 <td>
-                  @if (element.numero_compte) {
-                    {{ element.numero_compte }}
+                  @if (element.numero_assure) {
+                    {{ element.numero_assure }}
                   } @else {
                     N/A
                   }

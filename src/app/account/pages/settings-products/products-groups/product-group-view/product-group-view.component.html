@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Configuration des produits / Groupes Produits / Voir / En Attente</span>
+  <span>Configuration des produits / Groupes de produits / Voir</span>
 </div>
 
 
@@ -8,211 +8,321 @@
   <div class="container-fluid gna-main-div-card">
     <mat-card class="gna-card">
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-btn row">
-          <div class="col-12 col-sm-6">
-            <button mat-raised-button
-                    class="gna-btn-default gna-btn-cancel"
-                    (click)="onBack()"
-                    [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
-          </div>
-          <div class="col-12 col-sm-6">
+        <div class="container-fluid">
 
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      [disabled]="isSave || accountService.pageLoading || accountService.isSave">Soumettre</button>
-          </div>
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
 
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+                @if (isSave || accountService.pageLoading || accountService.isSave) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-full-width gna-disable">Modifier</button>
+                } @else {
+
+                  <button mat-raised-button
+                          color="primary"
+                          class="gna-btn-default gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onViewEdit()">Modifier</button>
+                }
+            </div>
+
+            <!--<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Soumettre</button>
+              } @else {
+
+                @if (!formData.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Soumettre</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onConfirm()">Soumettre</button>
+                }
+              }
+            </div>-->
+
+          </div>
         </div>
       </mat-card-header>
       <mat-card-content>
+
         <div class="container-fluid">
-          <form>
-            <div class="row pb-2 gna-form">
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="name">Nom Groupe produit</label>
+          <div class="mt-4">
+            <div class="card">
+              <div class="card-body gna-card-body"
+                   *ngIf="productGroupData">
 
-                <input pInputText
-                       type="text" id="name" class="gna-form-input"
-                       [disabled]="isDisable"
-                       [value]="productGroup.name"/>
-              </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                  <label>Branche</label>
-
-                  <p-dropdown
-                              class="gna-form-dropdown"
-                              [disabled]="isDisable"
-                              [options]="branchList">
-                  </p-dropdown>
-              </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="accessoryAmountCompany">Montant accessoires Compagnie</label>
-
-                <input pInputText pKeyFilter="money"
-                       id="accessoryAmountCompany" class="gna-form-input"
-                       [disabled]="isDisable"
-                       [value]="productGroup.accessoryAmountCompany"/>
-              </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="accessoryAmountCompany">Montant accessoires Intermédiaire</label>
-
-                <input pInputText pKeyFilter="money"
-                       id="accessoryAmountIntermediate"  class="gna-form-input"
-                       [disabled]="isDisable"
-                       [value]="productGroup.accessoryAmountIntermediate"/>
-              </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="accessoryAmountCompany">Taux taxe accessoires</label>
-                <input pInputText pKeyFilter="money"
-                       id="accessoryTaxRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux taxe accessoires *" class="gna-form-input"
-                       [disabled]="isDisable"
-                       [value]="productGroup.accessoryTaxRate"/>
-              </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label>Règlement</label>
-                @if (productGroup.paymentMethod) {
-                  <p-dropdown [disabled]="isDisable"
-                              [options]="paymentMethodList"
-                              class="gna-form-dropdown"></p-dropdown>
-                } @else {
-                  <p-dropdown [disabled]="isDisable"
-                              [options]="paymentMethodList" placeholder="Règlement"
-                              class="gna-form-dropdown"></p-dropdown>
-                }
-              </div>
-
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label>Périodicité</label>
-
-                @if (productGroup.periodicity) {
-                  <p-dropdown [disabled]="isDisable"
-                              [options]="periodicityList"
-                              class="gna-form-dropdown"></p-dropdown>
-                } @else {
-                  <p-dropdown [disabled]="isDisable"
-                              [options]="periodicityList" placeholder="Périodicité"
-                              class="gna-form-dropdown"></p-dropdown>
-                }
-              </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label>Secteur d'assurance</label>
-
-                @if (productGroup.periodicity) {
-                  <p-dropdown [disabled]="isDisable"
-                              [options]="insuranceSectorList"
-                              class="gna-form-dropdown"></p-dropdown>
-                } @else {
-                  <p-dropdown [disabled]="isDisable"
-                              [options]="insuranceSectorList" placeholder="Secteur d'assurance"
-                              class="gna-form-dropdown"></p-dropdown>
-                }
-              </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-<!--                  <label>APIs</label>
-
-                  <p-multiSelect [options]="selectApiList"
-                                 class="gna-form-multiselect"
-                                 [filter]="false"
-                                 [disabled]="isDisable"
-                                 [(ngModel)]="selectApiList" name="apis"
-                                 [showClear]="false">
-                    <ng-template let-api pTemplate="api">
-                      <div class="flex align-items-center gap-2">
-                        <div>{{ api }}</div>
-                      </div>
-                    </ng-template>
-                  </p-multiSelect>-->
-                <label>Description</label>
-                <textarea rows="2" pInputTextarea [value]="productGroup.description"
-                          [disabled]="isDisable"
-                          class="gna-form-input"></textarea>
-              </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <div class="row">
-                  <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <label>Mode gestion</label>
-                    <br>
-                    <p-checkbox inputId="managementMode"
-                                class="gna-form-checkbox"
-                                [binary]="true"
-                                 [disabled]="isDisable"
-                                [(ngModel)]="productGroup.managementMode" name="managementMode"></p-checkbox>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Statut : </span>
+                    @if (productGroupData.statusCode && productGroupData.statusCode === 1) {
+                      <p-tag severity="warning" value="Enregistré"></p-tag>
+                    } @else if (productGroupData.statusCode && productGroupData.statusCode === 2) {
+                      <p-tag severity="success" value="Validé"></p-tag>
+                    } @else if (productGroupData.statusCode && productGroupData.statusCode === 3) {
+                      <p-tag severity="success" value="Approuvé"></p-tag>
+                    }
                   </div>
-                  <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <label>Assurés multiples</label>
-                    <br>
-                    <p-checkbox [binary]="true"
-                                [disabled]="isDisable"
-                                [(ngModel)]="productGroup.insuredMultiple" name="insuredMultiple"
-                                inputId="insuredMultiple"
-                                class="gna-form-checkbox"></p-checkbox>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Etat : </span>
+                    @if (productGroupData.enabled) {
+                      <p-tag severity="success" value="Activé"></p-tag>
+                    } @else  {
+                      <p-tag severity="danger" value="Désactivé"></p-tag>
+                    }
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Enregistrement : </span>
+                    @if (productGroupData.createdAt) {
+                      {{ productGroupData.createdAt | date: 'dd-MM-YYYY'}} {{ productGroupData.createdAt | date: 'hh:mm:ss'}}
+                    } @else  {
+                     N/A
+                    }
                   </div>
                 </div>
+
+                <div class="row">
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Code Groupe Produit : </span>
+                    <span class="gna-view-value">
+                    @if (productGroupData.code ) {
+                      {{ productGroupData.code }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Nom Groupe Produit : </span>
+                    <span class="gna-view-value">
+                    @if (productGroupData.name ) {
+                      {{ productGroupData.name }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Branche : </span>
+                    <span class="gna-view-value">
+                       @if (productGroupData.branch) {
+                         {{ productGroupData.branch.name }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Montant Accessoires Compagnie : </span>
+                    <span class="gna-view-value">
+                       @if (productGroupData.accessoryAmountCompany) {
+                         {{ productGroupData.accessoryAmountCompany | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Montant Accessoires Intermédiaire : </span>
+                    <span class="gna-view-value">
+                       @if (productGroupData.accessoryAmountIntermediate) {
+                         {{ productGroupData.accessoryAmountIntermediate  | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                      <span class="gna-view-label"> Taux Taxe Accessoires : </span>
+                      <span class="gna-view-value">
+                       @if (productGroupData.accessoryTaxRate ) {
+                         {{ productGroupData.accessoryTaxRate | number : "2.0"}}%
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                    </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Règlegment : </span>
+                    <span class="gna-view-value">
+                       @if (productGroupData.paymentMethod) {
+                         {{ productGroupData.paymentMethod.name }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Périodicité : </span>
+                    <span class="gna-view-value">
+                       @if (productGroupData.periodicity) {
+                         {{ productGroupData.periodicity.name }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Seteur d'assurance : </span>
+                    <span class="gna-view-value">
+                       @if (productGroupData.insuranceSector) {
+                         {{ productGroupData.insuranceSector.name }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Mode de gestion : </span>
+                    <span class="gna-view-value">
+                       @if (productGroupData.managementMode) {
+                       Oui
+                       } @else {
+                     Non
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Bénéficiaires : </span>
+                    <span class="gna-view-value">
+                       @if (productGroupData.beneficiaries) {
+                         Oui
+                       } @else {
+                         Non
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Taux de couverture : </span>
+                    <span class="gna-view-value">
+                       @if (productGroupData.coverageRate) {
+                         Oui
+                       } @else {
+                         Non
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12">
+                    <span class="gna-view-label"> Description : </span>
+                    <span class="gna-view-value">
+                       @if (productGroupData.description) {
+                         {{ productGroupData.description }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <span class="gna-view-label"> Description : </span>
+                    <span class="gna-view-value">
+                       @if (productGroupData.description) {
+                         {{ productGroupData.description }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Avis d'échéance : </span>
+                    <span class="gna-view-value">
+                       @if (productGroupData.maturityNotice) {
+                         Oui
+                       } @else {
+                         Non
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12">
+                    <div class="gna-view-label text-center"> Clauses Contractuelles</div>
+                    <span class="gna-view-value">
+                       @if (productGroupData.clauses) {
+                         <div [innerHTML]="productGroupData.clauses"></div>
+                       } @else {
+                         <div>N/A</div>
+                       }
+                  </span>
+                  </div>
+
+                </div>
+
+
               </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label>Taux couverture</label>
-                <br>
-                <p-checkbox  [disabled]="isDisable"
-                             [binary]="true" inputId="coverageRate"
-                             [(ngModel)]="productGroup.coverageRate" name="coverageRate"
-                            class="gna-form-checkbox"></p-checkbox>
-              </div>
-             <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <label>Description</label>
-                <textarea rows="2" pInputTextarea [value]="productGroup.description"
-                          [disabled]="isDisable"
-                          class="gna-form-input"></textarea>
-              </div>-->
-            </div>
-          </form>
-          <mat-divider class="mt-2"></mat-divider>
-          <div class="row gna-form mb-3">
-
-            <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label>Garantie</label>
-
-                <p-dropdown [options]="guaranteeList"
-                            optionLabel="name" placeholder="Garantie"
-                            class="gna-form-dropdown"
-                            [disabled]="isDisable">
-                </p-dropdown>
             </div>
 
-            <div class="col-12 col-sm-6 col-md-6 col-lg-9 col-xl-9 mt-5 btn-new">
-                <button mat-raised-button
-                        class="gna-btn-default gna-btn-add gna-disable">Ajouter</button>
+            <div *ngIf="productGroupData && productGroupData.guarantees && productGroupData.guarantees.length > 0">
+              <table class="table table-borderless gi-table mt-2">
+                <thead>
+                <tr>
+                  <th>Code Garantie</th>
+                  <th>Nom Garantie</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th>Obligatoire</th>
+                  <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                  @for (item of productGroupData.guarantees; track item) {
+                    <tr>
+                      <td>{{ item.guaranteeCode }}</td>
+                      <td>{{ item.guaranteeName }}</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        @if (item.mandatory) {
+                          Oui
+                        } @else {
+                          Nom
+                        }
+                      <td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
             </div>
 
-          </div>
-          <div class="example-table-con">
-            <table class="table table-borderless gi-table gpg-table">
-              <thead>
-              <tr>
-                <th>Code garantie</th>
-                <th>Nom de la garantie</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-                @for (selectGuarantee of selectGuaranteeList | keyvalue; track selectGuarantee) {
-                  <tr class="gna-disable">
-                    <td>{{ selectGuarantee.value.guaranteeCode }}</td>
-                    <td>{{ selectGuarantee.value.guaranteeName }}</td>
-                    <td>
-                              <span class="gna-action-span-div">
-                      <span class="gna-action-span">
-                          <p-checkbox  [binary]="true" [(ngModel)]="selectGuarantee.value.mandatory"
-                                       class="gna-table-checkbox"></p-checkbox>
-                      </span>
-                                        <span class="gna-action-span">
-                                    <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2">
-                                        </span>
-                              </span>
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
           </div>
 
         </div>

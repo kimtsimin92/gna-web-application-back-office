@@ -140,8 +140,8 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   scrollHeight: string = "380px";
 
-  pageSort: string = "createdAt";
-  pageOrder: string = "desc";
+  pageSort: string = "name";
+  pageOrder: string = "asc";
   pageNumber: number = 1;
   pageSize: number = 10;
   pageSizeList: any[] = [
@@ -327,7 +327,7 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onGoToSave() {
-    this._router.navigateByUrl('/account/segments/add');
+    this._router.navigateByUrl('/account/marketing/segments/add');
   }
 
   onGetNotificationErrorDialog(): void {
@@ -350,7 +350,7 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ts-ignore
     localStorage.setItem('SEGMENT_DATA', JSON.stringify(data));
 
-    this._router.navigateByUrl('/account/segments/view').then(() => {
+    this._router.navigateByUrl('/account/marketing/segments/view').then(() => {
       this.loadingPage = false;
     });
   }
@@ -361,7 +361,7 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ts-ignore
     localStorage.setItem('SEGMENT_DATA', JSON.stringify(data));
 
-    this._router.navigateByUrl('/account/segments/edit').then(() => {
+    this._router.navigateByUrl('/account/marketing/segments/edit').then(() => {
       this.loadingPage = false;
     });
   }

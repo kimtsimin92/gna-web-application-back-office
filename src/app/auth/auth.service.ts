@@ -517,7 +517,7 @@ export class AuthService implements OnInit{
 
   onGetProfileGroup(name: string): boolean {
 
-    let isRole: boolean = false;
+    let isRole: boolean = true;
 
     if (this.userProfileData && this.userProfileData.groups && this.userProfileData.groups.length > 0) {
       if (this.userProfileData.groups.find((group: any) => group.name === name)) {
@@ -531,7 +531,7 @@ export class AuthService implements OnInit{
 
   onGetProfileRole(name: string): boolean {
 
-    let isRole: boolean = false;
+    let isRole: boolean = true;
 
     if (this.userProfileData && this.userProfileData.groups && this.userProfileData.groups.length > 0) {
         // @ts-ignore
@@ -549,7 +549,7 @@ export class AuthService implements OnInit{
 
   onGetProfilePermission(groupName: string, roleName: string, permissionName: string): any {
 
-    let isPermission: boolean = false;
+    let isPermission: boolean = true;
 
     if (this.userProfileData && this.userProfileData.groups && this.userProfileData.groups.length > 0) {
       // @ts-ignore
@@ -585,7 +585,7 @@ export class AuthService implements OnInit{
 
   getProfilePermission(groupName: string, roleName: string, permissionName: string): any {
 
-    let isPermission: boolean = false;
+    let isPermission: boolean = true;
 
     if (this.userProfileData && this.userProfileData.groups && this.userProfileData.groups.length > 0) {
       // @ts-ignore

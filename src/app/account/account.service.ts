@@ -147,10 +147,11 @@ export class AccountService {
         +sort+'&order='+order+'&page='+page+'&size='+size, requestData, {observe: 'response'});
   }*/
 
-  getUsersListData(page: number) {
+  getUsersListData(sort: string, order: string, page: number, size: number) {
     let requestData = {};
     return this._http
-      .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
 
   /*** ***/
@@ -349,9 +350,10 @@ export class AccountService {
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/productGroups/'+id, requestData, {observe: 'response'});
   }
 
-  getProducts(page: number) {
+  getProducts(sort: string, order: string, page: number, size: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products?sort='
+        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
   }
 
   //

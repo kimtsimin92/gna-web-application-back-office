@@ -39,40 +39,44 @@ import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-
 import {InputTextModule} from "primeng/inputtext";
 import {DropdownModule} from "primeng/dropdown";
 import {InputTextareaModule} from "primeng/inputtextarea";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
 
 @Component({
   selector: 'app-user-profile-management-save',
   standalone: true,
-  imports: [
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatButton,
-    MatDivider,
-    MatList,
-    MatListItem,
-    MatError,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    ReactiveFormsModule,
-    NgIf,
-    MatSelect,
-    MatOption,
-    BreadcrumbModule,
-    MatSlideToggle,
-    FormsModule,
-    MatCheckbox,
-    MatRadioGroup,
-    MatRadioButton,
-    CheckboxModule,
-    InputSwitchModule,
-    MatIcon,
-    NgForOf,
-    InputTextModule,
-    DropdownModule,
-    InputTextareaModule
-  ],
+    imports: [
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatButton,
+        MatDivider,
+        MatList,
+        MatListItem,
+        MatError,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        ReactiveFormsModule,
+        NgIf,
+        MatSelect,
+        MatOption,
+        BreadcrumbModule,
+        MatSlideToggle,
+        FormsModule,
+        MatCheckbox,
+        MatRadioGroup,
+        MatRadioButton,
+        CheckboxModule,
+        InputSwitchModule,
+        MatIcon,
+        NgForOf,
+        InputTextModule,
+        DropdownModule,
+        InputTextareaModule,
+        IconFieldModule,
+        InputIconModule
+    ],
   templateUrl: './user-profile-management-save.component.html',
   styleUrl: './user-profile-management-save.component.css'
 })
@@ -558,7 +562,7 @@ export class UserProfileManagementSaveComponent implements OnInit, OnDestroy, Af
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings/profiles/list");
+    this._router.navigateByUrl("/account/admin/users/interns/profiles/list");
   }
 
   openConfirmAdd(): void {
@@ -619,7 +623,7 @@ export class UserProfileManagementSaveComponent implements OnInit, OnDestroy, Af
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/settings/profiles/list").then(() => {
+      this._router.navigateByUrl("/account/admin/users/interns/profiles/list").then(() => {
         this.loadingPage = false;
       });
 

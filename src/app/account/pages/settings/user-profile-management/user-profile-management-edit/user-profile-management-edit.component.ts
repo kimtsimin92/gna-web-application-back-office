@@ -34,33 +34,37 @@ import {
 import {InputTextModule} from "primeng/inputtext";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
 
 @Component({
   selector: 'app-user-profile-management-edit',
   standalone: true,
-  imports: [
-    BreadcrumbModule,
-    InputSwitchModule,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatError,
-    MatFormField,
-    MatIcon,
-    MatInput,
-    MatLabel,
-    MatOption,
-    MatRadioButton,
-    MatRadioGroup,
-    MatSelect,
-    NgForOf,
-    NgIf,
-    PaginatorModule,
-    ReactiveFormsModule,
-    InputTextModule,
-    InputTextareaModule
-  ],
+    imports: [
+        BreadcrumbModule,
+        InputSwitchModule,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatError,
+        MatFormField,
+        MatIcon,
+        MatInput,
+        MatLabel,
+        MatOption,
+        MatRadioButton,
+        MatRadioGroup,
+        MatSelect,
+        NgForOf,
+        NgIf,
+        PaginatorModule,
+        ReactiveFormsModule,
+        InputTextModule,
+        InputTextareaModule,
+        IconFieldModule,
+        InputIconModule
+    ],
   templateUrl: './user-profile-management-edit.component.html',
   styleUrl: './user-profile-management-edit.component.css'
 })
@@ -144,7 +148,7 @@ export class UserProfileManagementEditComponent implements OnInit, OnDestroy, Af
       this.profileForm.name.setValue(this.profileData.name);
       this.profileForm.description.setValue(this.profileData.description);
     } else {
-     this._router.navigateByUrl("/account/settings/profiles/list")
+     this._router.navigateByUrl("/account/admin/users/interns/profiles/list")
     }
 
     this.formProfile = this._fb.group(this.profileForm);
@@ -303,7 +307,7 @@ export class UserProfileManagementEditComponent implements OnInit, OnDestroy, Af
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings/profiles/list");
+    this._router.navigateByUrl("/account/admin/users/interns/profiles/list");
   }
 
   openConfirmEdit(): void {

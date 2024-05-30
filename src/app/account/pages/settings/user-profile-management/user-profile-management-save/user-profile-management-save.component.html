@@ -63,15 +63,20 @@
                 <label for="name">Nom
                   <span class="gna-text-red gna-text-bold">*</span>
                 </label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
                 <input pInputText
-                       type="text" id="name" aria-describedby="name-help" placeholder="Nom du profil" class="gna-form-input"
+                       type="text" id="name" aria-describedby="name-help"  class="gna-form-input"
                        required
-                       formControlName="name"/>
+                       formControlName="name"
+                       [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                 <label>Description</label>
                 <textarea pInputTextarea formControlName="description"
-                          class="gna-form-input"></textarea>
+                          class="gna-form-input"
+                          [readonly]="isSave || accountService.pageLoading || accountService.isSave"></textarea>
               </div>
             </div>
           </form>

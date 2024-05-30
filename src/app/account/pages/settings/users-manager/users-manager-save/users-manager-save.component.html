@@ -1,140 +1,163 @@
-<div class="gna-main-content">
+<div class="gna-bc">
+  <span>Administration / Gestion des utilisateurs internes / Utilisateurs / Créer</span>
+</div>
 
-  <div class="gna-content-header">
-    <p-breadcrumb [model]="items" [home]="home" class="gna-breadcrumb"></p-breadcrumb>
-  </div>
+<div class="container-fluid">
 
-  <div class="container-fluid gna-main-div-card">
+  <div>
     <mat-card class="gna-card">
+
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-title">
-          Utilisateur
-        </div>
-        <div class="gna-card-header-btn">
-          <div class="gna-card-header-btn-1">
-            <button mat-raised-button
-                    class="gna-btn-default gna-btn-cancel"
-                    (click)="onBack()">Annuler</button>
-          </div>
-          <div class="gna-card-header-btn-2">
-            @if (!formProfile.valid) {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      (click)="onGetNotBlankAlert()">Enregistrer</button>
-            } @else {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      (click)="openConfirmAdd()"
-                      [disabled]="!formProfile.valid || isSave">Enregistrer</button>
-            }
+        <div class="container-fluid">
+
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer</button>
+              } @else {
+
+                @if (!formProfile.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Enregistrer</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="openConfirmAdd()">Enregistrer</button>
+                }
+              }
+            </div>
+
           </div>
         </div>
       </mat-card-header>
+
       <mat-card-content>
         <div class="mt-4">
 
           <form
                 [formGroup]="formProfile">
-            <div class="row pb-2">
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Nom</mat-label>
-                  <input matInput
-                         required
-                         formControlName="lastName"
-                         [readonly]="isSave">
-                  <mat-error *ngIf="profileForm.firstName.invalid">{{getErrorMessageFirstNane()}}</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Prénom</mat-label>
-                  <input matInput
+
+
+            <div class="row pb-2 gna-form">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="firstName">Prénom
+                  <span class="gna-text-red gna-text-bold">*</span>
+                </label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         type="text" id="firstName" aria-describedby="name-help" class="gna-form-input"
                          required
                          formControlName="firstName"
-                         [readonly]="isSave">
-                  <mat-error *ngIf="profileForm.lastName.invalid">{{getErrorMessageLastNane()}}</mat-error>
-                </mat-form-field>
+                         [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
               </div>
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Genre</mat-label>
-                  <mat-select formControlName="gender">
-                    @for (gender of genders; track gender) {
-                      <mat-option [value]="gender.value"
-                                  [disabled]="isSave">{{gender.viewValue}}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Adresse</mat-label>
-                  <input matInput
-                         formControlName="address"
-                         [readonly]="isSave">
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>E-mail</mat-label>
-                  <input matInput
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="lastName">Nom
+                  <span class="gna-text-red gna-text-bold">*</span>
+                </label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         type="text" id="lastName" aria-describedby="name-help" class="gna-form-input"
                          required
-                         formControlName="email"
-                         [readonly]="isSave">
-                  <mat-error *ngIf="profileForm.email.invalid">{{getErrorMessageEmail()}}</mat-error>
-                </mat-form-field>
+                         formControlName="lastName"
+                         [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
               </div>
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Téléphone</mat-label>
-                  <input matInput
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label>Genre
+                  <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-dropdown
+                  emptyMessage="Aucun résultat trouvé"
+                  formControlName="gender" [options]="genders" optionLabel="viewValue"
+                  placeholder="Selectionner"
+                  [showClear]="true"
+                  class="gna-form-dropdown"
+                  [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
+              </div>
+
+         <!--     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="address">Adresse
+                </label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         type="text" id="address" aria-describedby="name-help" class="gna-form-input"
+                         formControlName="address"
+                         [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
+              </div>-->
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="phone">Téléphone
+                  <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         id="phone"
+                         class="gna-form-input"
                          inputmode="numeric"
                          pattern="^\d{10}$"
                          required
                          formControlName="phone"
-                         [readonly]="isSave">
-                  <mat-error *ngIf="profileForm.phone.invalid">{{getErrorMessagePhone()}}</mat-error>
-                </mat-form-field>
+                    [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
               </div>
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Type Utilisateur</mat-label>
-                  <mat-select formControlName="userType">
-                    @for (type of userTypes; track type) {
-                      <mat-option [value]="type.value"
-                                  [disabled]="isSave || profileList.length <= 0"
-                      (click)="onGetProfileByUserType(type)">{{type.viewValue}}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="email">Nom d'utilisateur
+                  <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         type="email" id="email" aria-describedby="name-help" class="gna-form-input"
+                         formControlName="email"
+                         [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
               </div>
-              <div class="col-3">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Profil Utilisateur</mat-label>
-                  <mat-select formControlName="userProfile">
-                    @for (profile of profilesByUserType; track profile) {
-                      <mat-option [value]="profile.id"
-                                  [disabled]="isSave">{{profile.name}}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label>Profil
+                  <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-dropdown [options]="profileList"
+                            optionLabel="name"
+                            emptyMessage="Aucun résultat trouvé"
+                            placeholder="Selectionner"
+                            class="gna-form-dropdown"
+                            formControlName="userProfile"
+                            [filter]="true"
+                            filterBy="name"
+                            [showClear]="true"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                  <ng-template let-item pTemplate="item">
+                    <div class="flex align-items-center gap-2">
+                      <div>{{ item.name }}</div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
               </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <section class="example-section">
-                  <label class="example-margin">Statut:</label>
-                  <mat-radio-group formControlName="enabled">
-                    <mat-radio-button class="example-margin" value="true" color="primary"
-                                      [disabled]="isSave">Activé</mat-radio-button>
-                    <mat-radio-button class="example-margin" value="false" color="primary"
-                                      [disabled]="isSave">Désactivé</mat-radio-button>
-                  </mat-radio-group>
-                </section>
-              </div>
+
             </div>
           </form>
 

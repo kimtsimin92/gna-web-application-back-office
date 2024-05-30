@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Marketing / Produits</span>
+  <span>Marketing / Produits / Lister</span>
 </div>
 
 <div class="container-fluid">
@@ -9,19 +9,24 @@
 
       <mat-card-header class="gna-card-header">
         <div class="container-fluid">
-          <div class="gna-list-header">
-            <div class="gna-list-header-1">
-          <span class="p-input-icon-left">
+          <div class="gna-list-header row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <span class="p-input-icon-left gna-full-width">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (keyup)="filterResults(filter.value)" placeholder="Recherche..."
-                           class="example-full-width gna-list-ir"
-                           #filter/>
+                    <input
+                      pInputText
+                      type="text"
+                      (input)="dt.filterGlobal(getValue($event), 'contains')"
+                      placeholder="Rechercher"
+                      class="gna-full-width gna-list-ir"
+                      [disabled]="isSave"/>
                       </span>
             </div>
-            <div class="gna-list-header-2">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
               <button mat-raised-button color="primary"
-                      class="gna-btn-default"
-                      (click)="onAdd()">Créer Produit</button>
+                      class="gna-full-width gna-btn-default"
+                      (click)="onAdd()"
+                      [disabled]="isSave">Créer Produit</button>
             </div>
           </div>
         </div>
@@ -30,141 +35,237 @@
       <div class="container-fluid">
 
         <div class="example-table-container mt-4">
-          <table class="gna-table">
-            <thead>
-            <tr>
-              <th>Image produit</th>
-              <th>Code produit</th>
-              <th>Nom produit</th>
-              <th>Groupe produit</th>
-              <th>Date de création</th>
-              <th>Statut</th>
-              <th></th>
-            </tr>
-            </thead>
-            @defer (when dataPaginationResponse) {
-              <tbody>
-                @for (element of filteredList; track element) {
-                  <tr>
-                    <td>
-                      @if (element.image) {
-                        <p-image src="{{ element.image.url }}" alt="Product Image" width="50" height="30"
-                                 [preview]="true"></p-image>
-                      } @else {
-                        <img src="assets/gna/images/gna-logo.png" alt="Product Image" width="50" height="30">
-                      }
-                    <!--  <p-overlayPanel #op>
-                        <img src="https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg" alt="product" />
-                      </p-overlayPanel>
-                      <p-button (click)="op.toggle($event)" icon="pi pi-image" label="Show"></p-button>-->
-                    </td>
-                    <td>
-                      {{ element.code }}
-                    </td>
-                    <td>
-                      {{ element.name }}
-                    </td>
-                    <td>
-                      @if (element.group) {
-                        {{ element.group.name }}
-                      } @else {
-                      }
-                    </td>
-                    <td>
-                      {{ element.createdAt | date: 'dd-MM-YYYY'}}
-                    </td>
-                    <td>
-                      @if (element.enabled) {
-                        @if (element.statusCode && element.statusCode === 1) {
-                          <span class="gna-list-status">En Attente</span>
-                        } @else {
-                          <span class="gna-list-status">Désactivé</span>
-                        }
-                      } @else {
-                        <span class="gna-list-status">Désactivé</span>
-                      }
-                    </td>
-                    <td>
-                    <span class="gna-action-span-div">
+
+          <p-table
+            #dt
+            [value]="dataList"
+            dataKey="id"
+            styleClass="p-datatable-striped"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [loading]="loading"
+            [rows]="rows"
+            [totalRecords]="totalRecords"
+            [paginator]="false"
+            [first]="first"
+            (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[5, 10, 20, 15, 30, 50, 100]"
+            [globalFilterFields]="['code', 'name', 'premiumMinimum', 'taxRate']"
+            [scrollable]="true"
+            [resizableColumns]="true" >
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="code">
+                  Image
+                </th>
+                <th pSortableColumn="code">
+                  Code Produit
+                  <p-sortIcon field="code" />
+                </th>
+                <th pSortableColumn="name">Nom Produit
+                  <p-sortIcon field="name" />
+                </th>
+                <th pSortableColumn="branch"
+                    class="gna-responsive">Groupe Produit
+                  <p-sortIcon field="branch" />
+                <th pSortableColumn="enabled">Statut
+                  <p-sortIcon field="enabled" />
+                </th>
+                <th pSortableColumn="enabled">Etat
+                  <p-sortIcon field="enabled" />
+                </th>
+                <th pSortableColumn="createdAt" class="gna-responsive">Enregistrement
+                  <p-sortIcon field="createdAt" />
+                <th></th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-element>
+              <tr>
+                <td>
+                  @if (element.image) {
+                    <p-image src="{{ element.image.url }}" alt="Product Image" width="50" height="30"
+                             [preview]="true"></p-image>
+                  } @else {
+                    <img src="assets/gna/images/gna-logo.png" alt="Product Image" width="50" height="30">
+                  }
+                </td>
+                <td>
+                  {{ element.code }}
+                </td>
+                <td>
+                  {{ element.name }}
+                </td>
+                <td class="gna-responsive">
+                  @if (element.group) {
+                    {{ element.group.name }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td>
+                  @if (element.enabled) {
+                    @if (element.statusCode && element.statusCode === 1) {
+                      <p-tag severity="warning" value="En Attente"></p-tag>
+                    } @else {
+                      <p-tag severity="danger" value="Désactivé"></p-tag>
+                    }
+                  } @else {
+                    <p-tag severity="danger" value="Désactivé"></p-tag>
+                  }
+                </td>
+                <td>
+                  @if (element.enabled) {
+                    <p-tag severity="success" value="Activé"></p-tag>
+                  } @else {
+                    <p-tag severity="danger" value="Désactivé"></p-tag>
+                  }
+                </td>
+                <td class="gna-responsive">
+                  {{ element.createdAt | date: 'dd-MM-YYYY'}} {{ element.createdAt | date: 'hh:mm:ss'}}
+                </td>
+                <td>
+                        <span class="gna-action-span-div">
+                        <span class="gna-action-span">
+                      <!--  @if (element.enabled) {
+                          <p-inputSwitch [(ngModel)]="element.enabled"
+                                         pTooltip="Désactiver"
+                                         tooltipPosition="bottom"
+                                         [disabled]="isSave"/>
+                        } @else {-->
+                          <p-inputSwitch
+                            class="gna-disable"
+                            [(ngModel)]="!isSave"/>
+                          <!--   }-->
+
+                  </span>
                       <span class="gna-action-span">
-                        <img src="assets/images/table-eye.svg" alt="" class="gna-table-btn"
-                             (click)="onView(element)">
+                    <p-button icon="pi pi-eye" class="gna-btn-eye"
+                              pTooltip="Voir"
+                              tooltipPosition="bottom"
+                              (click)="onView(element)"
+                              [disabled]="isSave"></p-button>
                   </span>
                   <span class="gna-action-span">
-                      <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn"
-                           (click)="onEdit(element)">
+                    <p-button icon="pi pi-pencil" class="gna-btn-edit"
+                              pTooltip="Modifier"
+                              tooltipPosition="bottom"
+                              (click)="onEdit(element)"
+                              [disabled]="isSave"></p-button>
+                  </span>
+                                       <span class="gna-action-span">
+                       <!-- @if (element.removable) {
+                          <p-button icon="pi pi-trash"
+                                    pTooltip="Supprimer"
+                                    tooltipPosition="bottom"
+                                    class="gna-btn-delete"
+                                    [disabled]="isSave"
+                                    (click)="onConfirm(element)"></p-button>
+                        } @else {-->
+                          <p-button icon="pi pi-trash"
+                                    pTooltip="Supprimer"
+                                    tooltipPosition="bottom"
+                                    class="gna-btn-delete"
+                                    [disabled]="isDisable"></p-button>
+                                         <!--     }-->
+
                   </span>
                   </span>
-                    </td>
-                  </tr>
-                } @empty {
-                   <tr>
-                     <td>
-                       <span class="gna-text-primary">Aucun résultat trouvé</span>
-                     </td>
-                   </tr>
-                }
-              </tbody>
-            } @placeholder {
-              <tbody>
-                @for (item of fakeItems; track item) {
-                  <tr>
-                    <td> <p-skeleton size="3rem" styleClass="mr-2"></p-skeleton></td>
-                    <td><p-skeleton width="5rem" styleClass="mb-2"></p-skeleton></td>
-                    <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                    <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                    <td><p-skeleton width="8rem" styleClass="mb-2"></p-skeleton></td>
-                    <td><p-skeleton width="8rem" styleClass="mb-2"></p-skeleton></td>
-                    <td>
-                          <span class="gna-action-span-div-s">
-                            <div class="row">
-                              <div class="col">
-                                <p-skeleton shape="circle" size="2rem"></p-skeleton>
-                              </div>
-                              <div class="col">
-                                <p-skeleton size="2rem"></p-skeleton>
-                              </div>
-                            </div>
-                          </span></td>
-                  </tr>
-                }
-              </tbody>
-            }
-          </table>
+                </td>
+              </tr>
+
+            </ng-template>
+
+            <ng-template pTemplate="loadingbody">
+              <tr *ngFor="let item of fakeDataList">
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td>
+                   <span class="gna-action-span-div">
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                      <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                   </span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+
         </div>
-        <div class="gna-pagination">
-          @if (dataPaginationResponse) {
-            @if (currentPage > 1) {
-              <span class="gna-pagination-previous"
-                    (click)="onGoToPrevious()">
-              <i class="pi pi-arrow-left"></i>
-            </span>
-            } @else {
-              <span class="gna-pagination-previous gna-pagination-disabled">
-              <i class="pi pi-arrow-left"></i>
-            </span>
+
+        <div class="gna-pagination-row">
+
+          <div class="gna-pagination">
+            @if (dataPaginationResponse) {
+              @if (dataPaginationResponse.pageSize > 0) {
+                <span class="gna-pagination-page-size"
+                      [matMenuTriggerFor]="aboveMenu"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ pageSize }}
+                  <i class="pi pi-angle-up"></i></span>
+                <mat-menu #aboveMenu="matMenu" yPosition="above">
+                  @for (psl of pageSizeList; track psl) {
+                    <button mat-menu-item (click)="onGetPageSize(psl.name)"
+                            [disabled]="isSave">{{ psl.name }}</button>
+                  }
+                </mat-menu>
+              } @else {
+                <span class="gna-pagination-page-size gna-pagination-disabled">0
+                <i class="pi pi-angle-up"></i></span>
+              }
             }
-            @if (dataPaginationResponse.sizePages > 0) {
-              <span class="gna-pagination-page">{{ currentPage }}</span>
+          </div>
+
+          <div class="gna-pagination">
+            @if (dataPaginationResponse) {
+              @if (currentPage > 1) {
+                <span class="gna-pagination-previous"
+                      (click)="onGoToPrevious()"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">
+              <i class="pi pi-arrow-left"></i>
+            </span>
+              } @else {
+                <span class="gna-pagination-previous gna-pagination-disabled">
+              <i class="pi pi-arrow-left"></i>
+            </span>
+              }
+              @if (dataPaginationResponse.pageSize > 0) {
+                <span class="gna-pagination-page"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ currentPage }}</span>
+              } @else {
+                <span class="gna-pagination-page gna-pagination-disabled">0</span>
+              }
+              @if (currentPage < dataPaginationResponse.totalPages) {
+                <span class="gna-pagination-next"
+                      (click)="onGoToNext()"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">
+             <i class="pi pi-arrow-right"></i>
+          </span>
+              } @else {
+                <span class="gna-pagination-next gna-pagination-disabled">
+             <i class="pi pi-arrow-right"></i>
+          </span>
+              }
             } @else {
+              <span class="gna-pagination-previous gna-pagination-disabled"><i class="pi pi-arrow-left"></i></span>
               <span class="gna-pagination-page gna-pagination-disabled">0</span>
+              <span class="gna-pagination-next gna-pagination-disabled"><i class="pi pi-arrow-right"></i></span>
             }
-            @if (currentPage < dataPaginationResponse.totalPages) {
-              <span class="gna-pagination-next"
-                    (click)="onGoToNext()">
-             <i class="pi pi-arrow-right"></i>
-          </span>
-            } @else {
-              <span class="gna-pagination-next gna-pagination-disabled">
-             <i class="pi pi-arrow-right"></i>
-          </span>
-            }
-          } @else {
-            <span class="gna-pagination-previous gna-pagination-disabled"><i class="pi pi-arrow-left"></i></span>
-            <span class="gna-pagination-page gna-pagination-disabled">0</span>
-            <span class="gna-pagination-next gna-pagination-disabled"><i class="pi pi-arrow-right"></i></span>
-          }
+          </div>
+
         </div>
+
       </div>
     </mat-card>
   </div>

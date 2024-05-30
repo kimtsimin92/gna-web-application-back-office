@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {CheckboxModule} from "primeng/checkbox";
-import {DecimalPipe, KeyValuePipe, NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe, KeyValuePipe, NgIf} from "@angular/common";
 import {DropdownModule} from "primeng/dropdown";
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ImageModule} from "primeng/image";
@@ -33,29 +33,33 @@ import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-
 import {
   GuaranteeClauseEditorDialogComponent
 } from "../../../settings-products/guarantees/guarantee-clause-editor-dialog/guarantee-clause-editor-dialog.component";
+import {TagModule} from "primeng/tag";
 
 @Component({
   selector: 'app-product-view',
   standalone: true,
-    imports: [
-        CheckboxModule,
-        DecimalPipe,
-        DropdownModule,
-        FormsModule,
-        ImageModule,
-        InputTextModule,
-        InputTextareaModule,
-        KeyFilterModule,
-        KeyValuePipe,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MultiSelectModule,
-        NgIf,
-        ReactiveFormsModule,
-        SharedModule
-    ],
+  imports: [
+    CheckboxModule,
+    DecimalPipe,
+    DropdownModule,
+    FormsModule,
+    ImageModule,
+    InputTextModule,
+    InputTextareaModule,
+    KeyFilterModule,
+    KeyValuePipe,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MultiSelectModule,
+    NgIf,
+    ReactiveFormsModule,
+    SharedModule,
+    CurrencyPipe,
+    DatePipe,
+    TagModule
+  ],
   templateUrl: './product-view.component.html',
   styleUrl: './product-view.component.css'
 })
@@ -203,7 +207,7 @@ export class ProductViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
     } else {
-      this._router.navigateByUrl("/account/products/list");
+      this._router.navigateByUrl("account/marketing/products/list");
     }
 
   }
@@ -215,16 +219,12 @@ export class ProductViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
 
-    if (localStorage.getItem("PRODUCT_DATA")) {
-      localStorage.removeItem("PRODUCT_DATA");
-    }
-
     this.productClauses = null;
 
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/products/list");
+    this._router.navigateByUrl("account/marketing/products/list");
   }
 
   onConfirm(): void {
@@ -475,7 +475,7 @@ export class ProductViewComponent implements OnInit, OnDestroy, AfterViewInit {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/products/list")
+      this._router.navigateByUrl("account/marketing/products/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -785,4 +785,15 @@ export class ProductViewComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  onViewEdit() {
+    this.loadingPage = true;
+
+    // @ts-ignore
+    localStorage.setItem("PRODUCT_DATA", JSON.stringify(this.productData));
+
+    this._router.navigateByUrl("account/marketing/products/edit")
+      .then(() => {
+        this.loadingPage = false;
+      });
+  }
 }

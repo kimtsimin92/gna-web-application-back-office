@@ -311,7 +311,7 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   onGoToSave() {
-    this._router.navigateByUrl("/account/products-groups/add");
+    this._router.navigateByUrl("/account/management/products/groups/add");
   }
 
   onGetNotificationErrorDialog(): void {
@@ -337,7 +337,7 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
     // @ts-ignore
     localStorage.setItem("PRODUCT_GROUP_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/products-groups/view")
+    this._router.navigateByUrl("/account/management/products/groups/view")
       .then(() => {
         this.loadingPage = false;
       });
@@ -352,7 +352,7 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
     // @ts-ignore
     localStorage.setItem("PRODUCT_GROUP_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/products-groups/edit")
+    this._router.navigateByUrl("/account/management/products/groups/edit")
       .then(() => {
         this.loadingPage = false;
       });

@@ -306,7 +306,7 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
       }
 
     } else {
-      this._router.navigateByUrl("/account/settings-products/forms/quotations/list");
+      this._router.navigateByUrl("/account/management/products/quotes/forms/list");
     }
 
   }
@@ -321,7 +321,7 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings-products/forms/quotations/list");
+    this._router.navigateByUrl("/account/management/products/quotes/forms/list");
   }
 
   closeDialog() {
@@ -574,7 +574,7 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/settings-products/forms/quotations/list")
+      this._router.navigateByUrl("/account/management/products/quotes/forms/list")
         .then(() => {
           this.loadingPage = false;
         });

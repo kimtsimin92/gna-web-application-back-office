@@ -2,6 +2,10 @@ import {FormControl, Validators} from "@angular/forms";
 
 export class ProductForm {
 
+  code = new FormControl(null, [
+    Validators.minLength(2),
+    Validators.required]);
+
   name = new FormControl(null, [
     Validators.minLength(2),
     Validators.required]);

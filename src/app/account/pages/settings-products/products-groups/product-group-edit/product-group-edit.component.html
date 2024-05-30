@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Configuration des produits / Groupes Produits / Modifier</span>
+  <span>Configuration des produits / Groupes de produits / Modifier</span>
 </div>
 
 
@@ -56,30 +56,41 @@
             [formGroup]="formData">
             <div class="row pb-2 gna-form">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="name">Code Groupe produit</label>
-                <br>
-                <input pInputText
-                       type="text" id="code" aria-describedby="name-help" placeholder="Code Groupe produit *" class="gna-form-input"
-                       required
-                       formControlName="code"/>
+                <label for="name">Code Groupe produit
+                  <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         type="text" id="code" aria-describedby="name-help"  class="gna-form-input"
+                         required
+                         formControlName="code"/>
+                </p-iconField>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="name">Nom Groupe produit</label>
-                <br>
-                <input pInputText
-                       type="text" id="name" aria-describedby="name-help" placeholder="Nom Groupe produit *" class="gna-form-input"
-                       required
-                       formControlName="name"/>
+                <label for="name">Nom Groupe produit <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         type="text" id="name" aria-describedby="name-help" class="gna-form-input"
+                         required
+                         formControlName="name"/>
+                </p-iconField>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 @if (branchList && branchList.length > 0) {
-                  <label>Branche</label>
-                  <br>
+                  <label>Branche
+                    <span class="gna-text-red gna-text-bold">*</span>
+                  </label>
+
                   <p-dropdown [options]="branchList"
+                              optionLabel="name"
                               optionValue="name"
-                              optionLabel="name" placeholder="Branche *"
+                              placeholder="Selectionner"
                               class="gna-form-dropdown"
                               formControlName="branchId"
+                              [filter]="true"
+                              filterBy="name"
+                              [showClear]="true"
                               [readonly]="isSave || accountService.pageLoading || accountService.isSave">
                     <ng-template let-branch pTemplate="branch">
                       <div class="flex align-items-center gap-2">
@@ -88,88 +99,105 @@
                     </ng-template>
                   </p-dropdown>
                 } @else {
-                  <label>Branche</label>
-                  <br>
-                  <p-dropdown placeholder="Branche *"
+                  <label>Branche
+                    <span class="gna-text-red gna-text-bold">*</span>
+                  </label>
+                  <p-dropdown placeholder="Selectionner"
                               class="gna-form-dropdown" [disabled]="isDisable"></p-dropdown>
                 }
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="accessoryAmountCompany">Montant accessoires Compagnie</label>
-                <br>
-                <input pInputText pKeyFilter="money"
-                       id="accessoryAmountCompany" aria-describedby="accessory-amount-company-help" placeholder="Montant accessoires Compagnie *" class="gna-form-input"
-                       type="number"
-                       pattern="^[0-9]+(\.[0-9]+)?$"
-                       min="1"
-                       formControlName="accessoryAmountCompany"
-                       [readonly]="isSave || accountService.pageLoading"/>
+                <label for="accessoryAmountCompany">Montant Accessoires Compagnie
+                  <span class="gna-text-red gna-text-bold">*</span>
+                </label>
+                <p-inputNumber
+                  id="accessoryAmountCompany" aria-describedby="accessory-amount-company-help"
+                  placeholder="Montant"
+                  mode="currency"
+                  inputId="currency-ivory-cost"
+                  currency="XOF"
+                  locale="ci-CI"
+                  [minFractionDigits]="2"
+                  class="gna-form-inputNumber"
+                  formControlName="accessoryAmountCompany"
+                  [readonly]="isSave || accountService.pageLoading"/>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="accessoryAmountCompany">Montant accessoires Intermédiaire</label>
-                <br>
-                <input pInputText pKeyFilter="money"
-                       id="accessoryAmountIntermediate" aria-describedby="accessory-amount-intermediate-help" placeholder="Montant accessoires Intermédiaire *" class="gna-form-input"
-                       type="number"
-                       pattern="^[0-9]+(\.[0-9]+)?$"
-                       min="1"
-                       formControlName="accessoryAmountIntermediate"
-                       [readonly]="isSave || accountService.pageLoading"/>
+                <label for="accessoryAmountCompany">Montant Accessoires Intermédiaire
+                  <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-inputNumber
+                  id="accessoryAmountIntermediate"
+                  aria-describedby="accessory-amount-intermediate-help"
+                  placeholder="Montant"
+                  mode="currency"
+                  inputId="currency-ivory-cost"
+                  currency="XOF"
+                  locale="ci-CI"
+                  [minFractionDigits]="2"
+                  class="gna-form-inputNumber"
+                  formControlName="accessoryAmountIntermediate"
+                  [readonly]="isSave || accountService.pageLoading"/>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="accessoryAmountCompany">Taux taxe accessoires</label>
-                <br>
-                <input pInputText pKeyFilter="money"
-                       id="accessoryTaxRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux taxe accessoires *" class="gna-form-input"
-                       type="text"
-                       pattern="^[0-9]+(\.[0-9]+)?$"
-                       formControlName="accessoryTaxRate"
-                       [readonly]="isSave || accountService.pageLoading"/>
+                <label for="accessoryTaxRate">Taux Taxe Accessoires
+                  <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-inputNumber
+                  id="accessoryTaxRate"
+                  placeholder="Pourcentage" class="gna-form-input"
+                  inputId="percent"
+                  suffix="%"
+                  required
+                  formControlName="accessoryTaxRate"
+                  [readonly]="isSave || accountService.pageLoading"/>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <label>Règlement</label>
-                <br>
-                <p-dropdown formControlName="paymentMethodId" [options]="paymentMethodList" optionLabel="name" optionValue="name"
-                            placeholder="Règlement"
+                <p-dropdown formControlName="paymentMethodId" [options]="paymentMethodList"
+                            optionLabel="name"
+                              optionValue="name" placeholder="Selectionner"
                             class="gna-form-dropdown"
+                            [showClear]="true"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
               </div>
 
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <label>Périodicité</label>
                 <br>
-                <p-dropdown formControlName="periodicityId" [options]="periodicityList" optionLabel="name"  optionValue="name"
-                            placeholder="Périodicité"
+                <p-dropdown formControlName="periodicityId" [options]="periodicityList"
+                            optionLabel="name"
+                              optionValue="name" placeholder="Selectionner"
                             class="gna-form-dropdown"
+                            [showClear]="true"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <label>Secteur d'assurance</label>
                 <br>
-                <p-dropdown formControlName="insuranceSectorId" [options]="insuranceSectorList" optionLabel="name"
-                            optionValue="name"
-                            placeholder="Secteur d'assurance"
+                <p-dropdown formControlName="insuranceSectorId" [options]="insuranceSectorList"
+                            optionLabel="name"
+                              optionValue="name" placeholder="Selectionner"
                             class="gna-form-dropdown"
+                            [showClear]="true"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
               </div>
               <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
-                <label>Mode gestion</label>
-                <p-dropdown formControlName="managementMode" [options]="yesOrNoList" optionLabel="name" placeholder="Selectionner"
-                            optionValue="name"
+                <label>Mode de gestion</label>
+                <p-dropdown formControlName="managementMode" [options]="yesOrNoList" optionLabel="name"
+                              optionValue="name" placeholder="Selectionner"
                             class="gna-form-dropdown"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
               </div>
               <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                 <label>Bénéficiaires</label>
-                <p-dropdown formControlName="beneficiaries" [options]="yesOrNoList" optionLabel="name" placeholder="Selectionner"
-                            optionValue="name"
+                <p-dropdown formControlName="beneficiaries" [options]="yesOrNoList" optionLabel="name"
+                              optionValue="name" placeholder="Selectionner"
                             class="gna-form-dropdown"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
               </div>
               <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
-                <label>Taux couverture</label>
-                <p-dropdown formControlName="coverageRate" [options]="yesOrNoList" optionLabel="name" placeholder="Selectionner"
-                            optionValue="name"
+                <label>Taux de couverture</label>
+                <p-dropdown formControlName="coverageRate" [options]="yesOrNoList" optionLabel="name"
+                              optionValue="name" placeholder="Selectionner"
                             class="gna-form-dropdown"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
               </div>
@@ -177,7 +205,8 @@
                 <!--       <label>APIs</label>
                        <br>
                        <p-multiSelect [options]="apiList"
-                                   optionLabel="name" placeholder="APIs"
+                                   optionLabel="name"
+                              optionValue="name" placeholder="APIs"
                                    class="gna-form-multiselect"
                                    formControlName="apiIds"
                                       [filter]="false"
@@ -198,7 +227,7 @@
                           class="gna-form-input"></textarea>
               </div>-->
               <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
-                <label>Clauses contractuelles</label>
+                <label>Clauses Contractuelles</label>
                 <button
                   type="button"
                   mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
@@ -218,12 +247,15 @@
 
             <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
               @if (guaranteeList && guaranteeList.length > 0) {
-                <label>Garantie</label>
-                <br>
+                <label>Garantie
+                  <span class="gna-text-red gna-text-bold">*</span></label>
                 <p-dropdown [options]="guaranteeList"
                             optionLabel="name"
-                            [editable]="true"
-                            placeholder="Garantie *"
+                              optionValue="name"
+                            [filter]="true"
+                            filterBy="name"
+                            [showClear]="true"
+                            placeholder="Selectionner"
                             class="gna-form-dropdown"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"
                             [(ngModel)]="selectGuarantee">
@@ -232,9 +264,8 @@
                   </ng-template>
                 </p-dropdown>
               } @else {
-                <label>Garantie</label>
-                <br>
-                <p-dropdown placeholder="Garantie"
+                <label>Garantie <span class="gna-text-red gna-text-bold">*</span></label> <br>
+                <p-dropdown placeholder="Selectionner"
                             class="gna-form-dropdown" [disabled]="isDisable"></p-dropdown>
               }
             </div>

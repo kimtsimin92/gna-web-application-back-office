@@ -41,30 +41,34 @@ import {
   ConfirmationEditDialogComponent
 } from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
 import {MatInput} from "@angular/material/input";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
 
 @Component({
   selector: 'app-product-edit',
   standalone: true,
-    imports: [
-        CheckboxModule,
-        DecimalPipe,
-        DropdownModule,
-        ImageModule,
-        InputTextModule,
-        InputTextareaModule,
-        KeyFilterModule,
-        KeyValuePipe,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MultiSelectModule,
-        NgIf,
-        PaginatorModule,
-        ReactiveFormsModule,
-        SharedModule,
-        MatInput
-    ],
+  imports: [
+    CheckboxModule,
+    DecimalPipe,
+    DropdownModule,
+    ImageModule,
+    InputTextModule,
+    InputTextareaModule,
+    KeyFilterModule,
+    KeyValuePipe,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MultiSelectModule,
+    NgIf,
+    PaginatorModule,
+    ReactiveFormsModule,
+    SharedModule,
+    MatInput,
+    IconFieldModule,
+    InputIconModule
+  ],
   templateUrl: './product-edit.component.html',
   styleUrl: './product-edit.component.css'
 })
@@ -158,7 +162,8 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
       // @ts-ignore
       this.productData = JSON.parse(localStorage.getItem("PRODUCT_DATA"));
 
-      this.dataForm.name.setValue(this.productData.name);
+      this.dataForm.code.setValue(this.productData.code);
+      this.dataForm.name.setValue(this.productData.code);
 
       this.dataForm.cashBackRate.setValue(this.productData.cashBackRate);
       this.dataForm.commercialDiscountRate.setValue(this.productData.commercialDiscountRate);
@@ -223,6 +228,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
               code: ps.partner.code,
               name: ps.partner.name,
               accessoryAmount: ps.accessoryAmount,
+              accessoryTaxRate: ps.accessoryTaxRate,
               commissionRate: ps.commissionRate,
               sponsorshipCode: ps.sponsorshipCode,
             }
@@ -244,7 +250,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.formProductPartner = this._fb.group(this.productPartnerForm);
 
     } else {
-      this._router.navigateByUrl("/account/products/list");
+      this._router.navigateByUrl("account/marketing/products/list");
     }
 
   }
@@ -265,7 +271,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/products/list");
+    this._router.navigateByUrl("account/marketing/products/list");
   }
 
   onConfirm(): void {
@@ -275,8 +281,8 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
-      width: '405px',
-      height: '340px',
+      width: '400px',
+      height: '400px',
       data: {
         dialogMessage: "de ce produit"
       },
@@ -317,6 +323,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.onSaveLoadingDialog();
 
     let requestData = {
+      code: this.formData.value.code,
       name: this.formData.value.name,
       description: this.formData.value.description,
       groupId: null,
@@ -516,7 +523,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/products/list")
+      this._router.navigateByUrl("account/marketing/products/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -629,6 +636,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
               code: p.code,
               name: p.name,
               accessoryAmount: this.formProductPartner.value.partnerAccessoryAmount,
+              accessoryTaxRate: this.formProductPartner.value.partnerAccessoryTaxRate,
               commissionRate: this.formProductPartner.value.partnerCommissionRate,
               sponsorshipCode: this.formProductPartner.value.sponsorshipCode,
             };
@@ -652,6 +660,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.productPartnerForm.partnerId.setValue(item.name);
     this.productPartnerForm.partnerAccessoryAmount.setValue(item.accessoryAmount);
     this.productPartnerForm.partnerCommissionRate.setValue(item.commissionRate);
+    this.productPartnerForm.partnerAccessoryTaxRate.setValue(item.accessoryTaxRate);
     this.productPartnerForm.sponsorshipCode.setValue(item.sponsorshipCode);
   }
 

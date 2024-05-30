@@ -25,6 +25,26 @@
 
             </div>
 
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (authService.getProfilePermission(
+                'GROUP_MANAGEMENT_PRODUCTS',
+                'ROLE_MANAGEMENT_PRODUCT_GUARANTEES',
+                'PERMISSION_EDIT')) {
+
+                @if (isSave || accountService.pageLoading || accountService.isSave) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-full-width gna-disable">Modifier</button>
+                } @else {
+
+                    <button mat-raised-button
+                            color="primary"
+                            class="gna-btn-default gna-full-width"
+                            [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                            (click)="onViewEdit()">Modifier</button>
+                  }
+              }
+            </div>
             <!--<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
 
               @if (isSave || accountService.pageLoading || accountService.isSave) {
@@ -60,8 +80,8 @@
 
                 <div class="row">
 
-                  <div class="col"></div>
-                  <div class="col offset-10">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Statut : </span>
                     @if (guaranteeData.statusCode && guaranteeData.statusCode === 1) {
                       <p-tag severity="warning" value="Enregistré"></p-tag>
                     } @else if (guaranteeData.statusCode && guaranteeData.statusCode === 2) {
@@ -70,8 +90,23 @@
                       <p-tag severity="success" value="Approuvé"></p-tag>
                     }
                   </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Etat : </span>
+                    @if (guaranteeData.enabled) {
+                      <p-tag severity="success" value="Activé"></p-tag>
+                    } @else  {
+                      <p-tag severity="danger" value="Désactivé"></p-tag>
+                    }
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Enregistrement : </span>
+                    @if (guaranteeData.createdAt) {
+                      {{ guaranteeData.createdAt | date: 'dd-MM-YYYY'}} {{ guaranteeData.createdAt | date: 'hh:mm:ss'}}
+                    } @else  {
+                      N/A
+                    }
+                  </div>
                 </div>
-
                 <div class="row">
 
                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
@@ -234,7 +269,7 @@
                   </span>
                   </div>
 
-                  <div class="col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <span class="gna-view-label"> Description : </span>
                     <span class="gna-view-value">
                        @if (guaranteeData.description) {

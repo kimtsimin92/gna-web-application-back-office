@@ -8,26 +8,46 @@
   <div class="container-fluid gna-main-div-card">
     <mat-card class="gna-card">
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-btn row">
-          <div class="col-12 col-sm-6">
-            <button mat-raised-button
-                    class="gna-btn-default gna-btn-cancel"
-                    (click)="onBack()"
-                    [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
-          </div>
-          <div class="col-12 col-sm-6">
-            @if (!formData.valid) {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      (click)="onGetNotBlankAlert()">Enregistrer</button>
-            } @else {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                      (click)="onConfirm()">Enregistrer</button>
-            }
-          </div>
+        <div class="container-fluid">
 
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer</button>
+              } @else {
+
+                @if (!formData.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Enregistrer</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onConfirm()">Enregistrer</button>
+                }
+              }
+            </div>
+
+          </div>
         </div>
       </mat-card-header>
       <mat-card-content>
@@ -68,7 +88,7 @@
                       @if (productImageUrl) {
                         <p-image src="{{ productImageUrl }}" alt="Product Image" width="50" height="30"></p-image>
                       } @else {
-                        <label for="name">Image produit</label>
+                        <label for="name">Image Produit</label>
                       }
                       <div class="input-group mt-2">
                         <input type="file" accept="image/*" class="form-control"
@@ -78,22 +98,41 @@
                              *ngIf="imageErrorMessage">{{ imageErrorMessage }}</small>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="name">Nom produit</label>
+                      <label for="name">Code Produit
+                        <span class="gna-text-red gna-text-bold">*</span></label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-info" />
+                        <input pInputText
+                               type="text" id="code" aria-describedby="name-help"  class="gna-form-input"
+                               required
+                               formControlName="code"/>
+                      </p-iconField>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <label for="name">Nom Produit    <span class="gna-text-red gna-text-bold">*</span></label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-info" />
                       <input pInputText
-                             type="text" id="name" aria-describedby="name-help" placeholder="Nom Produit *" class="gna-form-input"
+                             type="text" id="name" aria-describedby="name-help"
+                              class="gna-form-input"
                              required
                              formControlName="name"
                              [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                      </p-iconField>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                        <label>Groupe produit</label>
+                        <label>Groupe Produit
+                          <span class="gna-text-red gna-text-bold">*</span></label>
 
                         <p-dropdown [options]="productGroupList"
                                     optionLabel="name"
                                     emptyMessage="Aucun résultat trouvé"
-                                    placeholder="Groupe produit *"
+                                    placeholder="Selectionner"
                                     class="gna-form-dropdown"
                                     formControlName="group"
+                                    [filter]="true"
+                                    filterBy="name"
+                                    [showClear]="true"
                                     [readonly]="isSave || accountService.pageLoading || accountService.isSave">
                           <ng-template let-group pTemplate="group">
                             <div class="flex align-items-center gap-2">
@@ -103,13 +142,17 @@
                         </p-dropdown>
                         </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Segement</label>
+                      <label>Segement
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <p-dropdown [options]="segmentList"
                                   optionLabel="name"
                                   emptyMessage="Aucun résultat trouvé"
-                                  placeholder="Segment *"
+                                  placeholder="Selectionner"
                                   class="gna-form-dropdown"
                                   formControlName="segment"
+                                  [filter]="true"
+                                  filterBy="name"
+                                  [showClear]="true"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave">
                         <ng-template let-item pTemplate="item">
                           <div class="flex align-items-center gap-2">
@@ -119,91 +162,91 @@
                       </p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Renouvelable</label>
+                      <label>Renouvelable
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <p-dropdown
                         emptyMessage="Aucun résultat trouvé"
-                        formControlName="renewable" [options]="yesOrNoList" optionLabel="name" placeholder="Renouvelable *"
+                        formControlName="renewable" [options]="yesOrNoList" optionLabel="name"
+                        placeholder="Selectionner"
+                        [showClear]="true"
                                   class="gna-form-dropdown"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Tacite reconduction</label>
+                      <label>Tacite Reconduction
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <p-dropdown formControlName="tacitAgreement" [options]="yesOrNoList"
                                   emptyMessage="Aucun résultat trouvé"
-                                  optionLabel="name" placeholder="Tacite reconduction *"
+                                  optionLabel="name" placeholder="Selectionner"
                                   class="gna-form-dropdown"
+                                  [showClear]="true"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="cashBackRate">Taux de cash-back %</label>
-                      <input pInputText pKeyFilter="money"
-                             id="cashBackRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux de cash-back" class="gna-form-input"
-                             type="text"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
+                      <label for="cashBackRate">Taux Cash-Back</label>
+                      <p-inputNumber
+                             id="cashBackRate" aria-describedby="accessory-amount-intermediate-help"
+                            class="gna-form-input"
                              formControlName="cashBackRate"
+                             placeholder="Pourcentage"
+                             inputId="percent"
+                             suffix="%"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="cashBackRate">Taux de réduction commerciale %</label>
-                      <input pInputText pKeyFilter="money"
-                             id="commercialDiscountRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux de réduction commerciale" class="gna-form-input"
-                             type="text"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
+                      <label for="cashBackRate">Taux Réduction Commerciale</label>
+                      <p-inputNumber
+                        placeholder="Pourcentage"
+                        inputId="percent"
+                        suffix="%" class="gna-form-input"
+                             id="commercialDiscountRate" aria-describedby="accessory-amount-intermediate-help"
                              formControlName="commercialDiscountRate"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="cashBackRate">Taux de majoration de la prime %</label>
-                      <input pInputText pKeyFilter="money"
-                             id="premiumIncreaseRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux de majoration de la prime" class="gna-form-input"
-                             type="text"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
+                      <label for="cashBackRate">Taux Majoration Prime</label>
+                      <p-inputNumber
+                        placeholder="Pourcentage"
+                        inputId="percent"
+                        suffix="%"
+                             id="premiumIncreaseRate" aria-describedby="accessory-amount-intermediate-help" class="gna-form-input"
                              formControlName="premiumIncreaseRate"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="name">Code produit cross selling</label>
-                      <input pInputText
-                             type="text" id="crossSellingProductCode" aria-describedby="name-help" placeholder="Code produit cross selling" class="gna-form-input"
-                             formControlName="crossSellingProductCode"
-                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="cashBackRate">Taux de réduction cross selling %</label>
-                      <input pInputText pKeyFilter="money"
-                             id="crossSellingDiscountRate" aria-describedby="accessory-amount-intermediate-help" placeholder="Taux de réduction cross selling" class="gna-form-input"
-                             type="text"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
+                      <label for="cashBackRate">Taux Réduction Cross Selling</label>
+                      <p-inputNumber
+                        placeholder="Pourcentage"
+                        inputId="percent"
+                        suffix="%"
+                             id="crossSellingDiscountRate"
+                       class="gna-form-input"
                              formControlName="crossSellingDiscountRate"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="cashBackRate">Point de fidélité</label>
-                      <input pInputText pKeyFilter="num"
-                             id="loyaltyPoint" aria-describedby="accessory-amount-intermediate-help"
-                             placeholder="Point de fidélité" class="gna-form-input"
-                             type="number"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
-                             formControlName="loyaltyPoint"
-                             [readonly]="isSave || accountService.pageLoading"/>
+                      <label for="name">Code Produit Cross Selling</label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-info" />
+                      <input pInputText
+                             type="text" id="crossSellingProductCode" aria-describedby="name-help" class="gna-form-input"
+                             formControlName="crossSellingProductCode"
+                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                      </p-iconField>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Incentives client</label>
-                      <p-multiSelect [options]="incentiveList"
-                                     optionLabel="name"
-                                     emptyMessage="Aucun résultat trouvé"
-                                     placeholder="Incentives client"
-                                     class="gna-form-multiselect"
-                                     formControlName="incentives"
-                                     [filter]="false"
-                                     [readonly]="isSave || accountService.pageLoading || accountService.isSave">
-                        <ng-template let-item pTemplate="item">
-                          <div class="flex align-items-center gap-2">
-                            <div>{{ item.name }}</div>
-                          </div>
-                        </ng-template>
-                      </p-multiSelect>
+                      <label for="cashBackRate">Points de fidélité</label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-info" />
+                      <input pInputText pKeyFilter="int"
+                             id="loyaltyPoint" aria-describedby="accessory-amount-intermediate-help"
+                             class="gna-form-input"
+                             pattern="[0-9]*"
+                             formControlName="loyaltyPoint"
+                             [readonly]="isSave || accountService.pageLoading"/>
+                      </p-iconField>
                     </div>
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label>Objet publi</label>
                       <p-dropdown formControlName="advertisementObject"
@@ -227,7 +270,7 @@
                              *ngIf="objectFileErrorMessage">{{ objectFileErrorMessage }}</small>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Clauses</label>
+                      <label>Clauses Commerciales</label>
                       <button
                         type="button"
                         mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
@@ -239,7 +282,7 @@
                                 class="gna-form-input"></textarea>
                     </div>
                     <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                      <label>Validation back office</label>
+                      <label>Validation Back-Office</label>
                       <br>
                       <p-checkbox formControlName="backOfficeValidation" [binary]="true" inputId="backOfficeValidation"
                                   class="gna-form-checkbox"
@@ -259,10 +302,10 @@
                   <div class="row pb-2 gna-form">
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Partnaire commercial</label>
+                      <label>Partnaire Commercial</label>
 
                       <p-dropdown [options]="partnerList"
-                                  optionLabel="name" optionValue="name" placeholder="Partnaire commercial"
+                                  optionLabel="name" optionValue="name" placeholder="Selectionner"
                                   class="gna-form-dropdown"
                                   formControlName="partnerId"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave">
@@ -275,29 +318,53 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="partnerAccessoryAmount">Montant forfaitaire des accessoires</label>
-                      <input pInputText pKeyFilter="money"
-                             id="partnerAccessoryAmount" aria-describedby="accessory-amount-company-help" placeholder="Montant forfaitaire des accessoires partenaire" class="gna-form-input"
-                             type="number"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
+                      <label for="partnerAccessoryAmount">Montant Forfaitaire Accessoires</label>
+                      <p-inputNumber
+                             id="partnerAccessoryAmount" aria-describedby="accessory-amount-company-help"
+                             placeholder="Montant"
+                             mode="currency"
+                             inputId="currency-ivory-cost"
+                             currency="XOF"
+                             locale="ci-CI"
+                             [minFractionDigits]="2"
+                             class="gna-form-inputNumber"
                              formControlName="partnerAccessoryAmount"
                              [readonly]="isSave || accountService.pageLoading"/>
                     </div>
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="partnerCommissionRate">Taux de commission %</label>
-                      <input pInputText pKeyFilter="money"
-                             id="partnerCommissionRate" aria-describedby="name-help" placeholder="Taux de commission partenaire" class="gna-form-input"
+                      <label for="partnerAccessoryTaxRate">Taux Taxe Accessoires </label>
+                      <p-inputNumber
+                        placeholder="Pourcentage"
+                        inputId="percent"
+                        suffix="%"
+                        id="partnerAccessoryTaxRate" aria-describedby="name-help"  class="gna-form-input"
+                        type="text"
+                        pattern="^[0-9]+(\.[0-9]+)?$"
+                        formControlName="partnerAccessoryTaxRate"/>
+                    </div>
+
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <label for="partnerCommissionRate">Taux Commission </label>
+                      <p-inputNumber
+                        placeholder="Pourcentage"
+                        inputId="percent"
+                        suffix="%"
+                             id="partnerCommissionRate" aria-describedby="name-help"  class="gna-form-input"
                              type="text"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="partnerCommissionRate"/>
                     </div>
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="sponsorshipCode">Code parainage</label>
+                      <label for="sponsorshipCode">Code Parainage</label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-info" />
                       <input pInputText
                              type="text" id="sponsorshipCode" aria-describedby="name-help" placeholder="Code parainage Partenaire" class="gna-form-input"
                              formControlName="sponsorshipCode"/>
+                      </p-iconField>
                     </div>
 
                   </div>
@@ -324,11 +391,12 @@
                   <table class="table table-borderless gi-table">
                     <thead>
                     <tr>
-                      <th>Code partnaire</th>
-                      <th>Nom partnaire</th>
-                      <th>Montant forfaitaire</th>
-                      <th>Taux commission</th>
-                      <th>Code parainage</th>
+                      <th>Code Partnaire</th>
+                      <th>Nom Partnaire</th>
+                      <th>Montant Forfaitaire</th>
+                      <th>Taux Taxe Accessoires</th>
+                      <th>Taux Commission</th>
+                      <th>Code Parainage</th>
                       <th></th>
                     </tr>
                     </thead>
@@ -341,6 +409,11 @@
                             <span *ngIf="selectPartner.value.accessoryAmount">
                               {{ selectPartner.value.accessoryAmount | number : "2.0" }}
                             </span>
+                          </td>
+                          <td>
+                           <span *ngIf="selectPartner.value.accessoryTaxRate">
+                             {{ selectPartner.value.accessoryTaxRate | number : "2.0" }}%
+                           </span>
                           </td>
                           <td>
                            <span *ngIf="selectPartner.value.commissionRate">

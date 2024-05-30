@@ -253,7 +253,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings-products/forms/quotations/list");
+    this._router.navigateByUrl("/account/management/products/quotes/forms/list");
   }
 
   closeDialog() {
@@ -486,7 +486,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/settings-products/forms/quotations/list")
+      this._router.navigateByUrl("/account/management/products/quotes/forms/list")
         .then(() => {
           this.loadingPage = false;
         });

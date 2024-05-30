@@ -41,6 +41,8 @@ import {InputTextareaModule} from "primeng/inputtextarea";
 import {
   GuaranteeClauseEditorDialogComponent
 } from "../../guarantees/guarantee-clause-editor-dialog/guarantee-clause-editor-dialog.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
 
 @Component({
   selector: 'app-product-group-add',
@@ -73,7 +75,9 @@ import {
     NgIf,
     NgClass,
     MultiSelectModule,
-    InputTextareaModule
+    InputTextareaModule,
+    IconFieldModule,
+    InputIconModule
   ],
   templateUrl: './product-group-add.component.html',
   styleUrl: './product-group-add.component.css'
@@ -217,7 +221,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/products-groups/list");
+    this._router.navigateByUrl("/account/management/products/groups/list");
   }
 
   onConfirm(): void {
@@ -371,7 +375,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/products-groups/list")
+      this._router.navigateByUrl("/account/management/products/groups/list")
         .then(() => {
           this.loadingPage = false;
         });

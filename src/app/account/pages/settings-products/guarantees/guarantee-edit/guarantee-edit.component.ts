@@ -230,7 +230,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings/products/guarantees/list");
+    this._router.navigateByUrl("/account/management/products/guarantees/list");
   }
 
   private onSave() {
@@ -335,7 +335,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(EditLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -376,7 +376,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/settings/products/guarantees/list")
+      this._router.navigateByUrl("/account/management/products/guarantees/list")
         .then(() => {
       this.guarantee = null;
         });
@@ -390,7 +390,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "La modification de la garantie a échoué."
@@ -564,7 +564,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         dialogMessage: "de cette sous garantie"
       },
@@ -588,7 +588,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(AddLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -601,7 +601,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
       data: {
         dialogMessage: "L'enregistrement de la sous garantie a réussi."
       },

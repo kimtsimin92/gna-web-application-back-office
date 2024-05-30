@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Marketing / Segmentation</span>
+  <span>Marketing / Segmentation / Lister</span>
 </div>
 
 <div class="container-fluid">
@@ -68,7 +68,7 @@
                   <!--                  <p-columnFilter type="text" field="prenom" display="menu" />-->
                   <p-sortIcon field="description" />
                 </th>
-                <th pSortableColumn="enabled">Statut
+                <th pSortableColumn="enabled">Etat
                   <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
                   <p-sortIcon field="enabled" />
                 <th pSortableColumn="createdAt" class="gna-responsive">Enregistrement
@@ -119,16 +119,14 @@
                         <span class="gna-action-span-div">
                           <span class="gna-action-span">
                           <p-inputSwitch
-                                          [(ngModel)]="element.enabled"
-                                         pTooltip="Désactiver"
-                                         tooltipPosition="bottom"
-                                         (click)="onConfirmToggleEnabled(element, !element.enabled)"
-                                         [disabled]="isSave"/>
+                            [(ngModel)]="element.enabled"
+                            (click)="onConfirmToggleEnabled(element, !element.enabled)"
+                            [disabled]="isSave"/>
 
                   </span>
                       <span class="gna-action-span">
                     <p-button icon="pi pi-eye" class="gna-btn-eye"
-                              pTooltip="Afficher"
+                              pTooltip="Voir"
                               tooltipPosition="bottom"
                               (click)="onView(element)"
                               [disabled]="isSave"></p-button>
@@ -172,6 +170,15 @@
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td>
                    <span class="gna-action-span-div">
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
                       <span class="gna-action-span">
                           <p-skeleton size="2rem" styleClass="mr-2" />
                       </span>

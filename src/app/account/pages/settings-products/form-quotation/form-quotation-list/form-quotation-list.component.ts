@@ -96,7 +96,7 @@ export class FormQuotationListComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   onAdd() {
-    this._router.navigateByUrl("/account/settings-products/forms/quotations/add");
+    this._router.navigateByUrl("/account/management/products/quotes/forms/add");
   }
 
   onView(element: any) {
@@ -194,7 +194,7 @@ export class FormQuotationListComponent implements OnInit, OnDestroy, AfterViewI
     // @ts-ignore
     localStorage.setItem("FORM_QUOTATION_DATA", JSON.stringify(item));
 
-    this._router.navigateByUrl("/account/settings-products/forms/quotations/edit")
+    this._router.navigateByUrl("/account/management/products/quotes/forms/edit")
       .then(() => {
         this.loadingPage = false;
       });

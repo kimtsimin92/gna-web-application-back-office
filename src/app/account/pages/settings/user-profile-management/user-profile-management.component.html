@@ -106,21 +106,19 @@
                 <td>
                         <span class="gna-action-span-div">
                           <span class="gna-action-span">
-                          <p-inputSwitch
-                            [(ngModel)]="element.enabled"
-                            pTooltip="Désactiver"
-                            tooltipPosition="bottom"
-                            (click)="onConfirmToggleEnabled(element, !element.enabled)"
-                            [disabled]="isSave"/>
+                           <p-inputSwitch
+                             [(ngModel)]="element.enabled"
+                             (click)="onConfirmToggleEnabled(element, !element.enabled)"
+                             [disabled]="isSave"/>
 
                   </span>
-                   <!--   <span class="gna-action-span">
-                    <p-button icon="pi pi-eye" class="gna-btn-eye"
-                              pTooltip="Afficher"
-                              tooltipPosition="bottom"
-                              (click)="onView(element)"
-                              [disabled]="isSave"></p-button>
-                  </span>-->
+                             <span class="gna-action-span">
+                           <p-button icon="pi pi-eye" class="gna-btn-eye"
+                                     pTooltip="Voir"
+                                     tooltipPosition="bottom"
+                                     [disabled]="isDisable"></p-button>
+                         </span>
+
                            <span class="gna-action-span">
                     <p-button icon="pi pi-pencil" class="gna-btn-edit"
                               pTooltip="Modifier"
@@ -134,8 +132,7 @@
                                     pTooltip="Supprimer"
                                     tooltipPosition="bottom"
                                     class="gna-btn-delete"
-                                    [disabled]="isSave"
-                                    (click)="onConfirmToggleEnabled(element, !element.enabled)"></p-button>
+                                    [disabled]="isSave"></p-button>
                         } @else {
                           <p-button icon="pi pi-trash"
                                     pTooltip="Supprimer"

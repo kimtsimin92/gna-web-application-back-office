@@ -180,7 +180,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings/products/guarantees/list");
+    this._router.navigateByUrl("/account/management/products/guarantees/list");
   }
 
   onConfirm(): void {
@@ -215,7 +215,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -305,7 +305,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
       data: {
         dialogMessage: "L'enregistrement de cette garantie a réussi."
       },
@@ -317,7 +317,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
 
-      this._router.navigateByUrl("/account/settings/products/guarantees/edit")
+      this._router.navigateByUrl("/account/management/products/guarantees/edit")
         .then(() => {
           // @ts-ignore
           localStorage.setItem("GUARANTEE_DATA", JSON.stringify(this.guaranteeData));
@@ -333,7 +333,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "L'enregistrement de cette garantie a échoué."
@@ -597,7 +597,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
       data: {
         dialogMessage: "L'enregistrement de la sous garantie a réussi."
       },
@@ -645,7 +645,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(AddLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -118,6 +118,7 @@
                         suffix="%"
                         required
                         formControlName="taxRate"
+                        placeholder="Pourcentage"
                         [minFractionDigits]="2"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -126,6 +127,7 @@
                         inputId="percent"
                         suffix="%"
                         formControlName="franchiseRate"
+                        placeholder="Pourcentage"
                         [minFractionDigits]="2"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -150,9 +152,9 @@
                         locale="ci-CI"
                         [minFractionDigits]="2"
                         formControlName="franchiseMinimum"
-                        max="{{franchiseMaximum.value}}"
                         #franchiseMinimum
                         class="gna-form-inputNumber"
+                        placeholder="Montant"
                         [readonly]="isSave || accountService.pageLoading"/>
 
                     </div>
@@ -178,12 +180,12 @@
                         locale="ci-CI"
                         [minFractionDigits]="2"
                         formControlName="franchiseMaximum"
-                        min="{{franchiseMinimum.value}}"
+                        placeholder="Montant"
                         #franchiseMaximum
                         [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="franchiseMinimum">Durée Minimum Souscription
+                      <label for="subscriptionMinimumPeriod">Durée Minimum Souscription
                         <span class="gna-text-red gna-text-bold">*</span></label>
                       <p-iconField iconPosition="right">
                         <p-inputIcon styleClass="pi pi-calendar-minus" />
@@ -243,6 +245,7 @@
                         [minFractionDigits]="2"
                         required
                         formControlName="premiumMinimum"
+                        placeholder="Montant"
                         [readonly]="isSave || accountService.pageLoading"/>
                       </p-iconField>
                     </div>
@@ -268,6 +271,7 @@
                                   optionLabel="name" placeholder="Selectionner"
                                   class="gna-form-dropdown"
                                   #deficiencyDeadlineUnit
+                                  [showClear]="true"
                                   [required]="deficiencyDeadline.value != null"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
@@ -288,6 +292,7 @@
                         locale="ci-CI"
                         [minFractionDigits]="2"
                         formControlName="guaranteeFloor"
+                        placeholder="Montant"
                         [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -306,6 +311,7 @@
                         locale="ci-CI"
                         [minFractionDigits]="2"
                         formControlName="guaranteeCeiling"
+                        placeholder="Montant"
                         [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -337,6 +343,7 @@
                                      optionLabel="name" placeholder="Selectionner"
                                      class="gna-form-multiselect"
                                      formControlName="partners"
+                                     emptyMessage="Aucun résultat trouvé"
                                      display="chip"
                                      [filter]="true"
                                      filterBy="name"

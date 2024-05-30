@@ -260,20 +260,20 @@ export class SidenavComponent implements OnInit {
       items: [
         {
           label: "Garanties",
-          route: '/account/settings/products/guarantees/list'
+          route: '/account/management/products/guarantees/list'
         },
         {
           label: "Groupes de produits",
-          route: '/account/settings/products/groups/list'
+          route: '/account/management/products/groups/list'
         },
-        {
+      /*  {
            label: "Formulaires de cotations",
-           route: '/account/settings/products/quotes/forms/list'
+           route: '/account/management/products/quotes/forms/list'
          },
          {
            label: "Tarification des primes",
-           route: '/account/settings/products/pricing/list'
-         },
+           route: '/account/management/products/pricing/list'
+         },*/
         /* {
             label: "Capitaux",
             route: '/'
@@ -292,10 +292,10 @@ export class SidenavComponent implements OnInit {
           label: "Produits",
           route: '/account/marketing/products/list'
         },
-        {
+       /* {
           label: "Campagnes",
           route: '/account/marketing/companies/list'
-        }
+        }*/
       ]
     };
 
@@ -329,23 +329,23 @@ export class SidenavComponent implements OnInit {
           items: [
             {
               label: "Branches",
-              route: '/'
+              route: '/account/branches/list'
             },
-            {
+           /* {
               label: "Catégories",
               route: '/'
-            },
+            },*/
             {
               label: "Territorialités",
-              route: '/'
+              route: '/account/zones/list'
             },
-            {
+           /* {
               label: "Incentives",
               route: '/'
-            },
+            },*/
             {
               label: "Partenaires",
-              route: '/'
+              route: '/account/partners/list'
             }
           ]
         },
@@ -360,17 +360,17 @@ export class SidenavComponent implements OnInit {
           items: [
             {
               label: "Profils",
-              route: '/account/settings/profiles/list'
+              route: '/account/admin/users/interns/profiles/list'
             },
             {
               label: "Utilisateurs",
-              route: '/account/settings/users'
+              route: '/account/admin/users/interns/list'
             }
           ]
         },
-        {
+     /*   {
           label: "Gestion des utilisateurs externes",
-        },
+        },*/
       ]
     };
 

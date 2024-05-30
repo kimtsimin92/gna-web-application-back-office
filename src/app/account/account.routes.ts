@@ -283,18 +283,18 @@ export const routes: Routes = [
       {
         path: 'management/customers',
         title: "Gestion des comptes | GNA",
-        canActivate: [profileGroupGuard],
+      /*  canActivate: [profileGroupGuard],
         data: {
           groups: [PROFILE_GROUPS.managementCustomers]
-        },
+        },*/
         children: [
           {
             path: 'requests',
             title: "Demmandes d'ouvertures de comptes | GNA",
-            canActivate: [profileRoleGuard],
+         /*   canActivate: [profileRoleGuard],
             data: {
               roles: [PROFILE_ROLES.managementCustomerRequests]
-            },
+            },*/
             children: [
               {
                 path: 'personals/list', component: CustomerPersonalAccountRequestListComponent,
@@ -317,10 +317,10 @@ export const routes: Routes = [
           {
             path: 'accounts',
             title: "Comptes | GNA",
-            canActivate: [profileRoleGuard],
+           /* canActivate: [profileRoleGuard],
             data: {
               roles: [PROFILE_ROLES.managementCustomerAccounts]
-            },
+            },*/
             children: [
               {
                 path: 'personals/list', component: ManagementCustomerAccountPersonalListComponent,
@@ -343,70 +343,70 @@ export const routes: Routes = [
         ]
       },
       {
-        path: 'settings/products',
+        path: 'management/products',
         title: 'Configuration des produits | GNA',
-        canActivate: [profileGroupGuard],
+      /*  canActivate: [profileGroupGuard],
         data: {
           groups: [PROFILE_GROUPS.managementProducts]
-        },
+        },*/
         children: [
           {
             path: 'guarantees',
             title: 'Garanties | GNA',
-            canActivate: [profileRoleGuard],
+          /*  canActivate: [profileRoleGuard],
             data: {
               roles: [PROFILE_ROLES.managementProductGuarantees]
-            },
+            },*/
             children: [
               {
                 path: 'list', component: GuaranteeListComponent,
                 title: 'Garanties - Lister | GNA',
-                canActivate: [profilePermissionGuard],
+              /*  canActivate: [profilePermissionGuard],
                 data: {
                   groups: [PROFILE_GROUPS.managementProducts],
                   roles: [PROFILE_ROLES.managementProductGuarantees],
                   permissions: [PROFILE_PERMISSION.PERMISSION_LIST],
-                },
+                },*/
               },
               {
                 path: 'add', component: GuaranteeAddComponent,
                 title: 'Garanties - Créer | GNA',
-                canActivate: [profilePermissionGuard],
+               /* canActivate: [profilePermissionGuard],
                 data: {
                   groups: [PROFILE_GROUPS.managementProducts],
                   roles: [PROFILE_ROLES.managementProductGuarantees],
                   permissions: [PROFILE_PERMISSION.PERMISSION_ADD],
-                },
+                },*/
               },
               {
                 path: 'edit', component: GuaranteeEditComponent,
                 title: 'Garanties - Modifier | GNA',
-                canActivate: [profilePermissionGuard],
+             /*   canActivate: [profilePermissionGuard],
                 data: {
                   groups: [PROFILE_GROUPS.managementProducts],
                   roles: [PROFILE_ROLES.managementProductGuarantees],
                   permissions: [PROFILE_PERMISSION.PERMISSION_EDIT],
-                },
+                },*/
               },
               {
                 path: 'view', component: GuaranteeViewComponent,
                 title: 'Garanties - Voir | GNA',
-                canActivate: [profilePermissionGuard],
+               /* canActivate: [profilePermissionGuard],
                 data: {
                   groups: [PROFILE_GROUPS.managementProducts],
                   roles: [PROFILE_ROLES.managementProductGuarantees],
                   permissions: [PROFILE_PERMISSION.PERMISSION_VIEW],
-                },
+                },*/
               },
             ]
           },
           {
             path: 'groups',
             title: 'Groupes de produits | GNA',
-            canActivate: [profileRoleGuard],
+          /*  canActivate: [profileRoleGuard],
             data: {
               roles: [PROFILE_ROLES.managementProductGroups]
-            },
+            },*/
             children: [
               {
                 path: 'list', component: ProductGroupListComponent,
@@ -635,36 +635,36 @@ export const routes: Routes = [
         title: 'Territoires | GNA',
       },
       {
-        path: 'segments/list', component: SegmentListComponent,
+        path: 'marketing/segments/list', component: SegmentListComponent,
         title: 'Segmentation - Lister | GNA',
       },
       {
-        path: 'segments/add', component: SegmentAddComponent,
+        path: 'marketing/segments/add', component: SegmentAddComponent,
         title: 'Segmentation - Créer | GNA',
       },
       {
-        path: 'segments/edit', component: SegmentEditComponent,
+        path: 'marketing/segments/edit', component: SegmentEditComponent,
         title: 'Segmentation - Modifier | GNA',
       },
       {
-        path: 'segments/view', component: SegmentViewComponent,
+        path: 'marketing/segments/view', component: SegmentViewComponent,
         title: 'Segmentation | GNA',
       },
       {
-        path: 'settings-products/forms/quotations/list', component: FormQuotationListComponent,
-        title: 'Formulaires Cotations - Lister | GNA',
+        path: 'management/products/quotes/forms/list', component: FormQuotationListComponent,
+        title: 'Formulaires de cotations - Lister | GNA',
       },
       {
-        path: 'settings-products/forms/quotations/add', component: FormQuotationAddComponent,
-        title: 'Formulaires Cotations - Créer | GNA',
+        path: 'management/products/quotes/forms/add', component: FormQuotationAddComponent,
+        title: 'Formulaires de cotations - Créer | GNA',
       },
       {
-        path: 'settings-products/forms/quotations/edit', component: FormQuotationEditComponent,
-        title: 'Formulaires Cotations - Modifier | GNA',
+        path: 'management/products/quotes/forms/edit', component: FormQuotationEditComponent,
+        title: 'Formulaires de cotations - Modifier | GNA',
       },
       {
-        path: 'settings-products/forms/quotations/view', component: FormQuotationViewComponent,
-        title: 'Formulaires Cotations | GNA',
+        path: 'management/products/quotes/forms/view', component: FormQuotationViewComponent,
+        title: 'Formulaires de cotations - Voir | GNA',
       },
       {
         path: 'settings-products/forms/subscriptions/list', component: FormSubscriptionListComponent,
@@ -699,19 +699,19 @@ export const routes: Routes = [
         title: 'Tarification des primes - Voir | GNA',
       },
       {
-        path: 'products/list', component: ProductListComponent,
+        path: 'marketing/products/list', component: ProductListComponent,
         title: 'Produit - Lister | GNA',
       },
       {
-        path: 'products/add', component: ProductAddComponent,
+        path: 'marketing/products/add', component: ProductAddComponent,
         title: 'Produit - Créer | GNA',
       },
       {
-        path: 'products/edit', component: ProductEditComponent,
+        path: 'marketing/products/edit', component: ProductEditComponent,
         title: 'Produit - Modifier | GNA',
       },
       {
-        path: 'products/view', component: ProductViewComponent,
+        path: 'marketing/products/view', component: ProductViewComponent,
         title: 'Produit | GNA',
       },
       {
@@ -735,35 +735,35 @@ export const routes: Routes = [
         title: 'Compte - Mon Profil | GNA',
       },
       {
-        path: 'settings/profiles/list', component: UserProfileManagementComponent,
+        path: 'admin/users/interns/profiles/list', component: UserProfileManagementComponent,
         title: 'Gestion Profils | GNA',
       },
       {
-        path: 'settings/profiles/add', component: UserProfileManagementSaveComponent,
+        path: 'admin/users/interns/profiles/add', component: UserProfileManagementSaveComponent,
         title: 'Gestion Profils - Créer | GNA',
       },
       {
-        path: 'settings/profiles/view', component: UserProfileManagementViewComponent,
+        path: 'admin/users/interns/profiles/view', component: UserProfileManagementViewComponent,
         title: 'Gestion Profils | GNA',
       },
       {
-        path: 'settings/profiles/edit', component: UserProfileManagementEditComponent,
+        path: 'admin/users/interns/profiles/edit', component: UserProfileManagementEditComponent,
         title: 'Gestion Profils - Modifier | GNA',
       },
       {
-        path: 'settings/users', component: UsersManagerComponent,
+        path: 'admin/users/interns/list', component: UsersManagerComponent,
         title: 'Gestion Utilisateurs | GNA',
       },
       {
-        path: 'settings/users/add', component: UsersManagerSaveComponent,
+        path: 'admin/users/interns/add', component: UsersManagerSaveComponent,
         title: 'Gestion Utilisateurs - Créer | GNA',
       },
       {
-        path: 'settings/users/edit', component: UserManagementEditComponent,
+        path: 'admin/users/interns/edit', component: UserManagementEditComponent,
         title: 'Gestion Utilisateurs - Modifier | GNA',
       },
       {
-        path: 'settings/users/view', component: UserManagementViewComponent,
+        path: 'admin/users/interns/view', component: UserManagementViewComponent,
         title: 'Gestion Utilisateurs | GNA',
       },
     ],

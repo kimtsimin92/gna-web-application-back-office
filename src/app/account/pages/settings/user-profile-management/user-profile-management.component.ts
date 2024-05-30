@@ -292,12 +292,12 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
   }
 
   onAdd() {
-    this._router.navigateByUrl("/account/settings/profiles/add");
+    this._router.navigateByUrl("/account/admin/users/interns/profiles/add");
   }
 
   onView(element: any) {
     this.loadingPage = true;
-    this._router.navigateByUrl("/account/settings/profiles/view")
+    this._router.navigateByUrl("/account/admin/users/interns/profiles/view")
       .then(() => {
         // @ts-ignore
         localStorage.setItem("PROFILE_DATA", JSON.stringify(element));
@@ -309,7 +309,7 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
   onEdit(element: any) {
     this.loadingPage = true;
 
-        this._router.navigateByUrl("/account/settings/profiles/edit")
+        this._router.navigateByUrl("/account/admin/users/interns/profiles/edit")
           .then(() => {
             // @ts-ignore
             localStorage.setItem("PROFILE_DATA", JSON.stringify(element));

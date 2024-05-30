@@ -439,6 +439,7 @@ a {
 
 }
 
+
 .gna-btn-remove {
   background-color: #f6993f!important;
   border-color: #f6993f!important;
@@ -1103,6 +1104,7 @@ th, td {
 
 
 
+
 .gna-form .p-inputtext.ng-dirty.ng-invalid {
   border-color: #e24c4c!important;
 }
@@ -1230,8 +1232,8 @@ th, td {
 }
 
 .gna-table-btn {
-  width: 13px!important;
-  height: 13px!important;
+  width: 14px!important;
+  height: 14px!important;
 }
 
 .gna-table-btn-3 {
@@ -1245,10 +1247,16 @@ th, td {
   padding-bottom: 5px!important;
 }
 
+.gna-table-btn-4 {
+  width: 14px!important;
+  height: 15px!important;
+  margin-bottom: 4px!important;
+}
+
 .gna-table-btn-2 {
-  width: 13px!important;
-  height: 13px!important;
-  margin-bottom: 2px!important;
+  width: 14px!important;
+  height: 15px!important;
+  margin-bottom: 6px!important;
 }
 
 .img-ml {

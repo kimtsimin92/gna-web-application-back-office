@@ -15,6 +15,20 @@
                     class="gna-full-width gna-btn-default"
                     (click)="onGoToBack()">Retour</button>
           </div>
+          <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+            @if (accountService.pageLoading || accountService.isSave) {
+              <button mat-raised-button
+                      class="gna-btn-default gna-full-width gna-disable">Modifier</button>
+            } @else {
+
+              <button mat-raised-button
+                      color="primary"
+                      class="gna-btn-default gna-full-width"
+                      [disabled]="accountService.pageLoading || accountService.isSave"
+                      (click)="onViewEdit()">Modifier</button>
+            }
+          </div>
         </div>
         </div>
       </mat-card-header>
@@ -27,20 +41,20 @@
                    *ngIf="elementData">
 
                 <div class="row">
-                  <div class="col offset-10">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Etat : </span>
                     @if (elementData.enabled) {
                       <p-tag severity="success" value="Activé"></p-tag>
-                    } @else {
+                    } @else  {
                       <p-tag severity="danger" value="Désactivé"></p-tag>
                     }
-
                   </div>
                 </div>
 
                 <div class="row">
 
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <span class="gna-view-label">Code : </span>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Code Segment : </span>
                     <span class="gna-view-value">
                        @if (elementData.code ) {
                          {{ elementData.code }}
@@ -50,8 +64,8 @@
                   </span>
                   </div>
 
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <span class="gna-view-label"> Nom : </span>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Nom Segment : </span>
                     <span class="gna-view-value">
                        @if (elementData.name ) {
                          {{ elementData.name }}
@@ -61,22 +75,7 @@
                   </span>
                   </div>
 
-                </div>
-
-                <div class="row">
-
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <span class="gna-view-label">Description : </span>
-                    <span class="gna-view-value">
-                       @if (elementData.description ) {
-                         {{ elementData.description }}
-                       } @else {
-                         N/A
-                       }
-                  </span>
-                  </div>
-
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label"> Par défaut : </span>
                     <span class="gna-view-value">
                           @if (elementData.selected ) {
@@ -84,6 +83,17 @@
                           } @else {
                             Non
                           }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <span class="gna-view-label">Description : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.description ) {
+                         {{ elementData.description }}
+                       } @else {
+                         N/A
+                       }
                   </span>
                   </div>
 
