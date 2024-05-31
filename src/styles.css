@@ -1531,3 +1531,11 @@ th, td {
 .gna-form .pi {
   margin-top: 8px!important;
 }
+
+
+.gna-panelMenu .p-icon-wrapper {
+  order: 1!important;
+  margin-inline-start: auto!important;
+}
+
+

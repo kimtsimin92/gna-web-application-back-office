@@ -27,6 +27,21 @@ export class ManagerCustomerAccountService {
       });
   }
 
+  onGetCustomerAccountById(id: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+`/v1/users/${id}`, {
+        observe: 'response'
+      });
+  }
+
+  onGetCustomerAccountInsureds(filter: any) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+'/v1/assures', {
+        observe: 'response',
+        params: new HttpParams({fromString:  `filters={"created_user":${filter.created_user}}&order_by=-updated_at`})
+      });
+  }
+
   onGetCustomerAccountFilesById(filters: any) {
     return this._http
       .get<HttpResponse<any>>(environment.customersService+'/v1/medias', {

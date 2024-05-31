@@ -80,7 +80,7 @@ export class ManagementCustomerAccountPersonalListComponent
 
   scrollHeight: string = '380px';
 
-  pageSort: string = '-created_at';
+  pageSort: string = '-updated_at';
   pageOrder: string = 'desc';
   pageNumber: number = 1;
   pageSize: number = 10;
@@ -271,6 +271,14 @@ export class ManagementCustomerAccountPersonalListComponent
             if (this.dataPaginationResponse.totalPages > 0) {
               this.dataList = this.dataPaginationResponse.data;
 
+              if (this.dataList.length > 0) {
+                this.dataList.forEach(dt => {
+                  if (dt.code_segment) {
+                    this.onGetSegmentByCode(dt);
+                  }
+                });
+              }
+
               if (this.currentPage <= 0) {
                 this.currentPage++;
               }
@@ -416,7 +424,7 @@ export class ManagementCustomerAccountPersonalListComponent
   }
 
   openSaveLoadingDialog(): void {
-    const dialogRef = this._dialog.open(RemoveLoadingDialogComponent, {
+    const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
       width: '350px',
     });
@@ -493,5 +501,27 @@ export class ManagementCustomerAccountPersonalListComponent
       }
     });
   }
+
+  onGetSegmentByCode(item: any) {
+
+    this.accountService.getSegmentByCode(item.code_segment)
+      .subscribe((responseData: HttpResponse<any>) => {
+
+        console.log(responseData);
+
+        let responseBody = responseData['body'];
+
+        if (responseBody) {
+          item.segment = responseBody;
+        }
+
+      }, (errorData: HttpErrorResponse) => {
+
+        console.log(errorData);
+
+      });
+
+  }
+
 
 }

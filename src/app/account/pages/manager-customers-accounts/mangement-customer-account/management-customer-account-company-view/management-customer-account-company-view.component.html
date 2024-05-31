@@ -75,10 +75,6 @@
                     </span>
                     </div>
 
-                  </div>
-
-                  <div class="row">
-
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Code Assuré : </span>
                       <span class="gna-view-value">
@@ -91,10 +87,6 @@
                     </div>
 
 
-                  </div>
-
-                  <div class="row">
-
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> N° CNI : </span>
                       <span class="gna-view-value">
@@ -105,21 +97,6 @@
                          }
                     </span>
                     </div>
-
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                      <span class="gna-view-label">N° CMU : </span>
-                      <span class="gna-view-value">
-                      @if (elementData.matricule_cmu) {
-                        {{ elementData.matricule_cmu }}
-                      } @else {
-                        N/A
-                      }
-                    </span>
-                    </div>
-
-                  </div>
-
-                  <div class="row">
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Raison Sociale : </span>
@@ -135,17 +112,13 @@
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">Code Segment : </span>
                       <span class="gna-view-value">
-                        @if (elementData.code_segment ) {
-                          {{ elementData.code_segment }}
-                        } @else {
-                          N/A
-                        }
+                       @if (elementData.segment ) {
+                         {{ elementData.segment.name }}
+                       } @else {
+                         N/A
+                       }
                     </span>
                     </div>
-
-                  </div>
-
-                  <div class="row">
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Prénom : </span>
@@ -168,10 +141,6 @@
                       }
                     </span>
                     </div>
-
-                  </div>
-
-                  <div class="row">
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">Téléphone : </span>
@@ -239,10 +208,13 @@
               </div>
 
               <p-table #dt [value]="elementData.assures" dataKey="id" styleClass="p-datatable-striped"
-                       [tableStyle]="{ 'min-width': '75rem' }" [loading]="loading"
+                       [tableStyle]="{ 'min-width': '50rem' }"
                        [totalRecords]="elementData.assures.length"
                        [globalFilterFields]="['numero_assure', 'libelle']" [scrollable]="true"
-                       [resizableColumns]="true">
+                       [resizableColumns]="true"
+                       [paginator]="true"
+                       [rows]="5"
+                       [rowsPerPageOptions]="[5, 10, 20, 50, 100]">
                 <ng-template pTemplate="header">
                   <tr class="gna-table-header">
                     <th pSortableColumn="numero_assure">
@@ -255,9 +227,9 @@
                       <p-sortIcon field="type_assure" />
                       <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                     </th>
-                    <th pSortableColumn="libelle">Nom Assuré
+                    <th pSortableColumn="nom">Nom Assuré
                       <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
-                      <p-sortIcon field="libelle" />
+                      <p-sortIcon field="nom" />
                     </th>
                     <th pSortableColumn="libelle">Caractéristiques Assuré
                       <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
@@ -267,7 +239,7 @@
                     <th pSortableColumn="is_active">Etat
                       <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
                       <p-sortIcon field="is_active" />
-                    <th pSortableColumn="created_at" class="gna-responsive">Date de création
+                    <th pSortableColumn="created_at" class="gna-responsive">Enregistrement
                       <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
                       <p-sortIcon field="created_at" />
                   </tr>

@@ -45,7 +45,7 @@
                                 <p-sortIcon field="numero_assure" />
                                 <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                               </th>
-                                <th pSortableColumn="nom">Nom et Prénom
+                                <th pSortableColumn="nom">Nom Assuré
                                     <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                                     <p-sortIcon field="nom" />
                                 </th>
@@ -82,6 +82,7 @@
                                         </div>
                                     </div>
                                 </td>
+
                               <td>
                                 @if (element.numero_assure) {
                                   {{ element.numero_assure }}
@@ -97,8 +98,8 @@
                                     }
                                 </td>
                                 <td class="gna-responsive">
-                                    @if (element.code_segment) {
-                                    {{ element.code_segment }}
+                                    @if (element.segment) {
+                                    {{ element.segment.name }}
                                     } @else {
                                     N/A
                                     }
@@ -110,14 +111,14 @@
                                     <p-tag severity="danger" value="Désactivé"></p-tag>
                                     }
                                 </td>
-                                <td class="gna-responsive">
-                                    @if (element.created_at) {
-                                    {{ element.created_at | date: 'dd-MM-YYYY'}} {{ element.created_at | date:
-                                    'hh:mm:ss'}}
-                                    } @else {
-                                    N/A
-                                    }
-                                </td>
+                              <td class="gna-responsive">
+                                @if (element.created_at) {
+                                  {{ element.created_at | date: 'dd-MM-YYYY'}} {{ element.created_at | date:
+                                  'hh:mm:ss'}}
+                                } @else {
+                                  N/A
+                                }
+                              </td>
                                 <td>
                                     <span class="gna-action-span-div">
                                       <span class="gna-action-span">
@@ -128,7 +129,7 @@
 
                   </span>
                                         <span class="gna-action-span">
-                                            <p-button icon="pi pi-eye" class="gna-btn-eye" pTooltip="Afficher"
+                                            <p-button icon="pi pi-eye" class="gna-btn-eye" pTooltip="Voir"
                                                 tooltipPosition="bottom" (click)="onGoToView(element)"
                                                 [disabled]="isSave"></p-button>
                                         </span>

@@ -293,6 +293,11 @@ export class AccountService {
       .put<HttpResponse<any>>(environment.customersService+'/v1/users/switch_activation_user/'+id, {observe: 'response'});
   }
 
+  saveInsuredToggleEnable(id: number) {
+    return this._http
+      .put<HttpResponse<any>>(environment.customersService+'/v1/assures/switch_activation_assure/'+id, {observe: 'response'});
+  }
+
 
   saveSegmentAdd(requestData: any) {
     return this._http
@@ -515,6 +520,11 @@ export class AccountService {
   getSegmentList() {
     return this._http
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/segments', {observe: 'response'});
+  }
+
+  getSegmentByCode(code: string) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+`/api/v1/segments/getByCode/${code}`, {observe: 'response'});
   }
 
   getIncentiveList() {

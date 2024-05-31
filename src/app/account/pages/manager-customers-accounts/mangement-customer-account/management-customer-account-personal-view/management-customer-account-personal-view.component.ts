@@ -25,6 +25,12 @@ import {MatMenu, MatMenuItem} from "@angular/material/menu";
 import {RippleModule} from "primeng/ripple";
 import {TableModule} from "primeng/table";
 import {TooltipModule} from "primeng/tooltip";
+import {
+  ConfirmationToggleEnableDialogComponent
+} from "../../../../dialogs/confirmation/confirmation-toggle-enable-dialog/confirmation-toggle-enable-dialog.component";
+import {
+  RemoveLoadingDialogComponent
+} from "../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
 
 @Component({
   selector: 'app-management-customer-account-personal-view',
@@ -65,6 +71,8 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
   loadingPage: boolean = false;
   loading: boolean = false;
 
+  insuredList: any[] = [];
+
   protected readonly environment = environment;
   isLoadingFiles: boolean = false;
 
@@ -81,7 +89,11 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
 
     if (localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA")) {
       // @ts-ignore
-      this.elementData = JSON.parse(localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA"));
+      let customerAccountData = JSON.parse(localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA"));
+
+      if (customerAccountData) {
+        this.onGetCustomerAccountById(customerAccountData.id);
+      }
 
     } else {
       this._router.navigateByUrl("/account/managements/accounts/personals/list")
@@ -318,5 +330,217 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
       });
 
   }
+
+  onConfirmToggleEnabled(data: any, isToggle: boolean): void {
+    this.isSave = true;
+    this.accountService.isSave = this.isSave;
+
+    let insuredCode = "";
+
+    if(data.numero_assure) {
+      insuredCode = data.numero_assure;
+    }
+
+    const dialogRef = this._dialog.open(
+      ConfirmationToggleEnableDialogComponent,
+      {
+        hasBackdrop: false,
+        width: '400px',
+        height: '400px',
+        data: {
+          dialogMessage: "le compte assuré "  + insuredCode,
+          isToggle: isToggle,
+        },
+      }
+    );
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.onSaveToggleEnable(data);
+      } else {
+        data.is_active = !data.is_active;
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+
+  private onSaveToggleEnable(data: any) {
+    this.isSave = true;
+
+    this.openSaveLoadingDialog();
+
+    this.accountService.saveInsuredToggleEnable(data.id).subscribe(
+      (responseData) => {
+        this.isSave = false;
+        this.insuredList = [];
+        this.closeDialog();
+        this.openSaveToggleEnableNotificationDialog();
+      },
+      (error: HttpErrorResponse) => {
+        this.isSave = false;
+        data.is_active = !data.is_active;
+        console.log(error);
+        this.closeDialog();
+        this.openSaveToggleEnableErrorNotificationDialog(error);
+      }
+    );
+  }
+
+
+  openSaveToggleEnableNotificationDialog(): void {
+    const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '400px',
+      data: {
+        dialogMessage: "L'opération a réussi.",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+
+    this.onGetCustomerAccountById(this.elementData.id);
+
+  }
+
+  openSaveToggleEnableErrorNotificationDialog(error: HttpErrorResponse): void {
+    const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '440px',
+      data: {
+        httpError: error,
+        dialogMessage: "L'opération a échoué.",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+
+  openSaveLoadingDialog(): void {
+    const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
+      hasBackdrop: false,
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  onGetSegmentByCode(item: any) {
+
+    this.loadingPage = true;
+    this.loading = true;
+
+    this.accountService.getSegmentByCode(item.code_segment)
+      .subscribe((responseData: HttpResponse<any>) => {
+
+        this.loadingPage = false;
+        this.loading = false;
+
+
+        console.log(responseData);
+
+        let responseBody = responseData['body'];
+
+        if (responseBody) {
+          item.segment = responseBody;
+        }
+
+      }, (errorData: HttpErrorResponse) => {
+
+        this.loadingPage = false;
+        this.loading = false;
+
+
+        console.log(errorData);
+
+      });
+
+  }
+
+  onGetCustomerAccountById(id: number) {
+
+    this.loadingPage = true;
+    this.loading = true;
+
+
+    this.managerCustomerAccountService
+      .onGetCustomerAccountById(id)
+      .subscribe(
+        (responseData: HttpResponse<any>) => {
+
+          this.loadingPage = false;
+          this.loading = false;
+
+          console.log(responseData);
+          let responseBody = responseData['body'];
+          if (responseBody) {
+            this.elementData = responseBody.data;
+            this.onGetSegmentByCode(this.elementData);
+            if (this.elementData.assures) {
+              this.insuredList = this.elementData.assures;
+            }
+          }
+
+        },
+        (errorData: HttpErrorResponse) => {
+          this.loadingPage = false;
+          this.loading = false;
+
+          console.log(errorData);
+        }
+      );
+  }
+
+  onGetInsuredList(id: number) {
+
+    this.loadingPage = true;
+    this.loading = true;
+
+    let filter = {
+      created_user: id,
+    };
+
+
+    this.managerCustomerAccountService
+      .onGetCustomerAccountInsureds(
+        filter
+      )
+      .subscribe(
+        (responseData: HttpResponse<any>) => {
+          this.loadingPage = false;
+          this.loading = false;
+
+          console.log(responseData);
+          let responseBody = responseData['body'];
+
+          if (responseBody) {
+            this.insuredList = responseBody.data;
+          }
+
+        },
+        (errorData: HttpErrorResponse) => {
+          this.loadingPage = false;
+          this.loading = false;
+
+          console.log(errorData);
+        }
+      );
+  }
+
 
 }

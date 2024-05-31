@@ -36,7 +36,7 @@
             <div class="example-table-container mt-4">
               <div class="card">
                 <div class="card-body gna-card-body"
-                     *ngIf="elementData">
+                     *ngIf="!loadingPage && elementData">
 
                   <div class="row">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -48,12 +48,25 @@
                       }
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                      <span class="gna-view-label">Enregistrement : </span>
-                      @if (elementData.created_at) {
-                        {{ elementData.created_at | date: 'dd-MM-YYYY'}} {{ elementData.created_at | date: 'hh:mm:ss'}}
-                      } @else  {
-                        N/A
-                      }
+
+                      <div class="row">
+                        <div class="col-11 col-sm-10 col-md-10 col-lg-11 col-xl-11">
+                          <span class="gna-view-label">Enregistrement : </span>
+                          @if (elementData.created_at) {
+                            {{ elementData.created_at | date: 'dd-MM-YYYY'}} {{ elementData.created_at | date: 'hh:mm:ss'}}
+                          } @else  {
+                            N/A
+                          }
+                        </div>
+                        <div class="col-1 col-sm-2 col-md-2 col-lg-1 col-xl-1">
+
+                          <p-button icon="pi pi-pencil" class="gna-btn-edit"
+                                    pTooltip="Modifier"
+                                    tooltipPosition="bottom"
+                                    [disabled]="isSave"></p-button>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
 
@@ -77,9 +90,6 @@
                     </span>
                     </div>
 
-                  </div>
-
-                  <div class="row">
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> N° Assuré : </span>
@@ -92,10 +102,6 @@
                     </span>
                     </div>
 
-
-                  </div>
-
-                  <div class="row">
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> N° CNI : </span>
@@ -119,9 +125,6 @@
                     </span>
                     </div>
 
-                  </div>
-
-                  <div class="row">
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Nom : </span>
@@ -135,19 +138,15 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                      <span class="gna-view-label">Code Segment : </span>
+                      <span class="gna-view-label">Segment : </span>
                       <span class="gna-view-value">
-                        @if (elementData.code_segment ) {
-                          {{ elementData.code_segment }}
+                        @if (elementData.segment ) {
+                          {{ elementData.segment.name }}
                         } @else {
                           N/A
                         }
                     </span>
                     </div>
-
-                  </div>
-
-                  <div class="row">
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Prénom : </span>
@@ -170,10 +169,6 @@
                       }
                     </span>
                     </div>
-
-                  </div>
-
-                  <div class="row">
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Genre : </span>
@@ -199,9 +194,6 @@
                     </span>
                     </div>
 
-                  </div>
-
-                  <div class="row">
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Date de naissance : </span>
@@ -227,53 +219,121 @@
                   </div>
 
                 </div>
-              </div>
+                <div class="card-body gna-card-body"
+                     *ngIf="loadingPage">
 
+                  <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
               <div class="row gna-files mb-3">
                 <span class="gna-files-underline">Documents joints</span>
                 <div class="row">
 
-                  @if (elementData.medias && elementData.medias.length > 0) {
+                  @if (!loadingPage) {
 
-                    <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1" *ngFor="let file of elementData.medias">
-                      <span class="gna-element-file-name">{{ file.libelle }}</span>
-                      <br>
+                    @if (elementData.medias && elementData.medias.length > 0) {
 
-                      @if (file.type == "image/jpeg" ) {
-                        <a href="{{ environment.customersService+file.lien }}" download target="_blank">
-                          <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
-                        </a>
-                      } @else if (file.type == "image/png") {
-                        <a href="{{ environment.customersService+file.lien }}" download target="_blank">
-                          <img src="assets/svg/files/png-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
-                        </a>
-                      } @else if (file.type == "pdf") {
-                        <a href="{{ environment.customersService+file.lien }}" download target="_blank">
-                          <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
-                        </a>
-                      } @else if (file.type == "doc" || "doc") {
-                        <a href="{{ environment.customersService+file.lien }}" download target="_blank">
-                          <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
-                        </a>
-                      }
+                      <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1" *ngFor="let file of elementData.medias">
+                        <span class="gna-element-file-name">{{ file.libelle }}</span>
+                        <br>
 
-                    </div>
+                        @if (file.type == "image/jpeg" ) {
+                          <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                            <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else if (file.type == "image/png") {
+                          <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                            <img src="assets/svg/files/png-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else if (file.type == "pdf") {
+                          <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                            <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else if (file.type == "doc" || "doc") {
+                          <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                            <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                          </a>
+                        }
+
+                      </div>
+
+                    } @else {
+                      <div class="col">
+                        <span class="gna-element-file-name">N/A</span>
+                      </div>
+                    }
+
 
                   } @else {
                     <div class="col">
-                      <span class="gna-element-file-name">N/A</span>
+                      <p-skeleton width="2rem" size="5rem" styleClass="mr-2" />
                     </div>
                   }
 
                 </div>
               </div>
 
-
-              <p-table #dt [value]="elementData.assures" dataKey="id" styleClass="p-datatable-striped"
-                       [tableStyle]="{ 'min-width': '75rem' }" [loading]="loading"
-                       [totalRecords]="elementData.assures.length"
-                       [globalFilterFields]="['numero_assure', 'libelle']" [scrollable]="true"
-                       [resizableColumns]="true">
+              <p-table #dt [value]="insuredList" dataKey="id" styleClass="p-datatable-striped"
+                       [tableStyle]="{ 'min-width': '50rem' }"
+                       [totalRecords]="insuredList.length"
+                       [globalFilterFields]="['numero_assure', 'nom']" [scrollable]="true"
+                       [resizableColumns]="true"
+                       [paginator]="true"
+                       [rows]="5"
+                       [loading]="loading"
+                       [rowsPerPageOptions]="[5, 10, 20, 50, 100]">
                 <ng-template pTemplate="header">
                   <tr class="gna-table-header">
                     <th pSortableColumn="numero_assure">
@@ -286,9 +346,9 @@
                       <p-sortIcon field="type_assure" />
                       <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                     </th>
-                    <th pSortableColumn="libelle">Nom Assuré
+                    <th pSortableColumn="nom">Nom Assuré
                       <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
-                      <p-sortIcon field="libelle" />
+                      <p-sortIcon field="nom" />
                     </th>
                     <th pSortableColumn="libelle">Caractéristiques Assuré
                       <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
@@ -298,9 +358,10 @@
                                        <th pSortableColumn="is_active">Etat
                       <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
                       <p-sortIcon field="is_active" />
-                    <th pSortableColumn="created_at" class="gna-responsive">Date de création
+                    <th pSortableColumn="created_at" class="gna-responsive">Enregistrement
                       <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
                       <p-sortIcon field="created_at" />
+                    <th></th>
                   </tr>
                 </ng-template>
 
@@ -311,8 +372,7 @@
                         <div class="col-4">
                           <p-button type="button" pRipple [pRowToggler]="element" [text]="true"
                                     [rounded]="true" [plain]="true"
-                                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-                                    (onClick)="onGetCustomerAccountFilesById(element)" />
+                                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"/>
                         </div>
                         <div class="col-8 gna-table-td-mt">
                           @if (element.numero_assure ) {
@@ -360,6 +420,22 @@
                       } @else {
                         N/A
                       }
+                    </td>
+                    <td>
+                                    <span class="gna-action-span-div">
+                                      <span class="gna-action-span">
+                          <p-inputSwitch
+                            [(ngModel)]="element.is_active"
+                            [disabled]="isSave"
+                            (click)="onConfirmToggleEnabled(element, !element.is_active)"/>
+
+                  </span>
+                                      <span class="gna-action-span">
+                                            <p-button icon="pi pi-eye" class="gna-btn-eye" pTooltip="Voir"
+                                                      tooltipPosition="bottom"
+                                                      [disabled]="isSave"></p-button>
+                                        </span>
+                                    </span>
                     </td>
                   </tr>
 
