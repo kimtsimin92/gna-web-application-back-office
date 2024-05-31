@@ -34,32 +34,34 @@ import {
   GuaranteeClauseEditorDialogComponent
 } from "../../../settings-products/guarantees/guarantee-clause-editor-dialog/guarantee-clause-editor-dialog.component";
 import {TagModule} from "primeng/tag";
+import {ChipModule} from "primeng/chip";
 
 @Component({
   selector: 'app-product-view',
   standalone: true,
-  imports: [
-    CheckboxModule,
-    DecimalPipe,
-    DropdownModule,
-    FormsModule,
-    ImageModule,
-    InputTextModule,
-    InputTextareaModule,
-    KeyFilterModule,
-    KeyValuePipe,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MultiSelectModule,
-    NgIf,
-    ReactiveFormsModule,
-    SharedModule,
-    CurrencyPipe,
-    DatePipe,
-    TagModule
-  ],
+    imports: [
+        CheckboxModule,
+        DecimalPipe,
+        DropdownModule,
+        FormsModule,
+        ImageModule,
+        InputTextModule,
+        InputTextareaModule,
+        KeyFilterModule,
+        KeyValuePipe,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MultiSelectModule,
+        NgIf,
+        ReactiveFormsModule,
+        SharedModule,
+        CurrencyPipe,
+        DatePipe,
+        TagModule,
+        ChipModule
+    ],
   templateUrl: './product-view.component.html',
   styleUrl: './product-view.component.css'
 })

@@ -124,7 +124,7 @@ export class PartnerSaveComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/partners/list");
+    this._router.navigateByUrl("/account/settings/lists/partners/list");
   }
 
   onGetTypeList() {
@@ -252,7 +252,7 @@ export class PartnerSaveComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/partners/list")
+      this._router.navigateByUrl("/account/settings/lists/partners/list")
         .then(() => {
           // @ts-ignore
           localStorage.setItem("PARTNER_DATA", JSON.stringify(this.partnerData));

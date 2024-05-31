@@ -50,7 +50,7 @@ export class ZoneViewComponent implements OnInit, OnDestroy {
       // @ts-ignore
       this.zoneData = JSON.parse(localStorage.getItem("ZONE_DATA"));
     } else {
-      this._router.navigateByUrl("/account/zones/list")
+      this._router.navigateByUrl("/account/settings/lists/zones/list")
     }
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
@@ -60,7 +60,7 @@ export class ZoneViewComponent implements OnInit, OnDestroy {
     this.headerTitle = "Territoires";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
+    this.home = { icon: 'pi pi-home', routerLink: '/account/settings/lists/home' };
 
     this.items = [{ label: 'Gestion Listes' }, { label: 'Territoires'}];
 
@@ -76,13 +76,13 @@ export class ZoneViewComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/zones/list");
+    this._router.navigateByUrl("/account/settings/lists/zones/list");
   }
 
   onGoToEdit() {
     this.loadingPage = true;
 
-    this._router.navigateByUrl("/account/zones/edit")
+    this._router.navigateByUrl("/account/settings/lists/zones/edit")
       .then(() => {
         // @ts-ignore
         localStorage.setItem("ZONE_DATA", JSON.stringify(this.zoneData));

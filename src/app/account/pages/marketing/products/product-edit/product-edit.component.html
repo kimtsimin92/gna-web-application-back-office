@@ -165,6 +165,41 @@
                       </p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <label>Types d'assurés
+                        <span class="gna-text-red gna-text-bold">*</span></label>
+                      <p-multiSelect [options]="insuredTypeList"
+                                     optionLabel="libelle"
+                                     optionValue="libelle"
+                                     placeholder="Selectionner"
+                                     class="gna-form-multiselect"
+                                     formControlName="insuredTypes"
+                                     emptyMessage="Aucun résultat trouvé"
+                                     display="chip"
+                                     [filter]="true"
+                                     filterBy="libelle"
+                                     [showClear]="true"
+                                     required
+                                     [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                        <ng-template let-insuredType pTemplate="item">
+                          <div class="flex align-items-center gap-2">
+                            <div>{{ insuredType.libelle }}</div>
+                          </div>
+                        </ng-template>
+                      </p-multiSelect>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <label for="numberSubscriptions">Nombre Maximum Souscriptions</label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-info" />
+                        <input pInputText pKeyFilter="int"
+                               id="numberSubscriptions" aria-describedby="accessory-amount-intermediate-help"
+                               class="gna-form-input"
+                               pattern="[0-9]*"
+                               formControlName="numberSubscriptions"
+                               [readonly]="isSave || accountService.pageLoading"/>
+                      </p-iconField>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label>Renouvelable
                         <span class="gna-text-red gna-text-bold">*</span></label>
                       <p-dropdown
@@ -237,18 +272,6 @@
                                [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
                       </p-iconField>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="cashBackRate">Points de fidélité</label>
-                      <p-iconField iconPosition="right">
-                        <p-inputIcon styleClass="pi pi-info" />
-                        <input pInputText pKeyFilter="int"
-                               id="loyaltyPoint" aria-describedby="accessory-amount-intermediate-help"
-                               class="gna-form-input"
-                               pattern="[0-9]*"
-                               formControlName="loyaltyPoint"
-                               [readonly]="isSave || accountService.pageLoading"/>
-                      </p-iconField>
-                    </div>
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label>Objet publi</label>
@@ -281,23 +304,70 @@
                              *ngIf="objectFileErrorMessage">{{ objectFileErrorMessage }}</small>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <label for="cashBackRate">Points de fidélité</label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-info" />
+                        <input pInputText pKeyFilter="int"
+                               id="loyaltyPoints" aria-describedby="accessory-amount-intermediate-help"
+                               class="gna-form-input"
+                               pattern="[0-9]*"
+                               formControlName="loyaltyPoints"
+                               [readonly]="isSave || accountService.pageLoading"/>
+                      </p-iconField>
+                    </div>
+                    <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                      <label>Validation Back-Office</label>
+                      <br>
+                      <p-checkbox formControlName="backOfficeValidation" [binary]="true" inputId="backOfficeValidation"
+                                  class="gna-form-checkbox"
+                                  #isBackOfficeValidation
+                                  [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <label for="backOfficeValidationCapital">Seuil Validation Back-Office Capitaux
+                        <span class="gna-text-red gna-text-bold" *ngIf="isBackOfficeValidation.checked()">*</span> </label>
+                      <p-iconField iconPosition="right">
+                        <p-inputNumber
+                          id="backOfficeValidationCapital"
+                          mode="currency"
+                          inputId="currency-ivory-cost"
+                          currency="XOF"
+                          locale="ci-CI"
+                          [minFractionDigits]="2"
+                          formControlName="backOfficeValidationCapital"
+                          placeholder="Montant"
+                          [required]="isBackOfficeValidation.checked()"
+                          [readonly]="!isBackOfficeValidation.checked() || isSave || accountService.pageLoading"/>
+                      </p-iconField>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <label for="backOfficeValidationPremium">Seuil Validation Back-Office Prime
+                        <span class="gna-text-red gna-text-bold" *ngIf="isBackOfficeValidation.checked()">*</span> </label>
+                      <p-iconField iconPosition="right">
+                        <p-inputNumber
+                          id="backOfficeValidationPremium"
+                          mode="currency"
+                          inputId="currency-ivory-cost"
+                          currency="XOF"
+                          locale="ci-CI"
+                          [minFractionDigits]="2"
+                          formControlName="backOfficeValidationPremium"
+                          placeholder="Montant"
+                          [required]="isBackOfficeValidation.checked()"
+                          [readonly]="!isBackOfficeValidation.checked() || isSave || accountService.pageLoading"/>
+                      </p-iconField>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label>Clauses Commerciales</label>
                       <button
                         type="button"
                         mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
                         (click)="openClauseEditorDialog()">Ajouter</button>
                     </div>
-                    <div class="col-12 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                       <label>Description</label>
                       <textarea rows="2" pInputTextarea formControlName="description"
                                 class="gna-form-input"></textarea>
-                    </div>
-                    <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                      <label>Validation back office</label>
-                      <br>
-                      <p-checkbox formControlName="backOfficeValidation" [binary]="true" inputId="backOfficeValidation"
-                                  class="gna-form-checkbox"
-                                  [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
                     </div>
                   </div>
                 </form>

@@ -6,4 +6,7 @@ export class BranchForm {
   name = new FormControl(null, [
     Validators.minLength(2),
     Validators.required]);
+
+  description = new FormControl(null);
+
 }

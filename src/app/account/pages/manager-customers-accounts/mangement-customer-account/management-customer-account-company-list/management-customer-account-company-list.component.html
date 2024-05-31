@@ -50,6 +50,10 @@
                   <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <p-sortIcon field="nom" />
                 </th>
+                <th pSortableColumn="nom">Propriétaire
+                  <!--                  <p-columnFilter type="text" field="genre" display="menu" />-->
+                  <p-sortIcon field="nom" />
+                </th>
                 <th pSortableColumn="code_segment" class="gna-responsive">Segment
                   <!--                  <p-columnFilter type="text" field="prenom" display="menu" />-->
                   <p-sortIcon field="code_segment" />
@@ -122,11 +126,10 @@
                 <td>
                                     <span class="gna-action-span-div">
                                       <span class="gna-action-span">
-                          <p-inputSwitch
-                            [(ngModel)]="element.is_active"
-                            pTooltip="Désactiver"
-                            tooltipPosition="bottom"
-                            [disabled]="isSave"/>
+                         <p-inputSwitch
+                           [(ngModel)]="element.is_active"
+                           (click)="onConfirmToggleEnabled(element, !element.is_active)"
+                           [disabled]="isSave"/>
 
                   </span>
                                         <span class="gna-action-span">
@@ -148,49 +151,33 @@
                   <span class="gna-files-underline">Documents joints</span>
                   <div class="row gna-table-files-row">
 
-                    @if (!isLoadingFiles) {
+                    @if (element.medias && element.medias.length > 0) {
+                      <div class="col" *ngFor="let file of element.medias">
+                        <span class="gna-element-file-name">{{ file.libelle }}</span>
+                        <br>
 
-                      @if (element.files && element.files.length > 0) {
-                        <div class="col" *ngFor="let file of element.files">
-                          <span class="gna-element-file-name">{{ file.libelle }}</span>
-                          <br>
+                        @if (file.type == "image/jpeg" ) {
+                          <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                            <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else if (file.type == "image/png") {
+                          <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                            <img src="assets/svg/files/png-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else if (file.type == "pdf") {
+                          <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                            <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else if (file.type == "doc" || "doc") {
+                          <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                            <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                          </a>
+                        }
 
-                          @if (file.type == "image/jpeg" ) {
-                            <a href="{{ environment.customersService+file.lien }}" download
-                               target="_blank">
-                              <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}"
-                                   class="gna-element-file gna-clickable">
-                            </a>
-                          } @else if (file.type == "image/png") {
-                            <a href="{{ environment.customersService+file.lien }}" download
-                               target="_blank">
-                              <img src="assets/svg/files/png-svgrepo-com.svg" alt="{{ file.libelle }}"
-                                   class="gna-element-file gna-clickable">
-                            </a>
-                          } @else if (file.type == "pdf") {
-                            <a href="{{ environment.customersService+file.lien }}" download
-                               target="_blank">
-                              <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ file.libelle }}"
-                                   class="gna-element-file gna-clickable">
-                            </a>
-                          } @else if (file.type == "doc" || "doc") {
-                            <a href="{{ environment.customersService+file.lien }}" download
-                               target="_blank">
-                              <img src="assets/svg/files/word-svgrepo-com.svg"
-                                   alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
-                            </a>
-                          }
-
-                        </div>
-                      } @else {
-                        <div class="col">
-                          <span class="gna-element-file-name">N/A</span>
-                        </div>
-                      }
-
+                      </div>
                     } @else {
                       <div class="col">
-                        <p-skeleton width="2rem" size="5rem" styleClass="mr-2" />
+                        <span class="gna-element-file-name">N/A</span>
                       </div>
                     }
 

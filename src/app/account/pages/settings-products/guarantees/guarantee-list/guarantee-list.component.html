@@ -66,9 +66,9 @@
                 <th pSortableColumn="name">Nom Garantie
                   <p-sortIcon field="name" />
                 </th>
-                <th pSortableColumn="premiumMinimum"
-                    class="gna-responsive">Prime Minimum
-                  <p-sortIcon field="premiumMinimum" />
+                <th pSortableColumn="category"
+                    class="gna-responsive">Catégorie
+                  <p-sortIcon field="category" />
                 <th pSortableColumn="enabled">Statut
                 <p-sortIcon field="enabled" />
                 </th>
@@ -90,10 +90,10 @@
                       {{ element.name }}
                     </td>
                     <td class="gna-responsive">
-                      @if (element.premiumMinimum) {
-                        {{ element.premiumMinimum  | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                      @if (element.category) {
+                        {{ element.category.name }}
                       } @else {
-                        0
+                        N/A
                       }
                     </td>
                     <td>
@@ -128,9 +128,9 @@
                                          tooltipPosition="bottom"
                                          [disabled]="isSave"/>
                         } @else {-->
-                          <p-inputSwitch
+                       <!--   <p-inputSwitch
                             class="gna-disable"
-                            [(ngModel)]="!isSave"/>
+                            [(ngModel)]="!isSave"/>-->
                      <!--   }-->
                              }
 
@@ -172,11 +172,11 @@
                                     [disabled]="isSave"
                                     (click)="onConfirm(element)"></p-button>
                         } @else {-->
-                          <p-button icon="pi pi-trash"
+                       <!--   <p-button icon="pi pi-trash"
                                     pTooltip="Supprimer"
                                     tooltipPosition="bottom"
                                     class="gna-btn-delete"
-                                    [disabled]="isDisable"></p-button>
+                                    [disabled]="isDisable"></p-button>-->
                                          <!--     }-->
                                           }
 
@@ -197,12 +197,12 @@
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td>
                    <span class="gna-action-span-div">
-                     <span class="gna-action-span">
+                    <!-- <span class="gna-action-span">
                           <p-skeleton size="2rem" styleClass="mr-2" />
                       </span>
                      <span class="gna-action-span">
                           <p-skeleton size="2rem" styleClass="mr-2" />
-                      </span>
+                      </span>-->
                      <span class="gna-action-span">
                           <p-skeleton size="2rem" styleClass="mr-2" />
                       </span>

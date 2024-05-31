@@ -111,6 +111,35 @@
                       </p-iconField>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      @if (categoryList && categoryList.length > 0) {
+                        <label>Catégorie
+                          <span class="gna-text-red gna-text-bold">*</span>
+                        </label>
+                    <p-dropdown [options]="categoryList"
+                                optionLabel="name"
+                                optionValue="name"
+                                placeholder="Selectionner"
+                                class="gna-form-dropdown"
+                                formControlName="category"
+                                [filter]="true"
+                                filterBy="name"
+                                [showClear]="true"
+                                [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                      <ng-template let-item pTemplate="item">
+                        <div class="flex align-items-center gap-2">
+                          <div>{{ item.name }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                    } @else {
+                    <label>Catégorie
+                      <span class="gna-text-red gna-text-bold">*</span>
+                    </label>
+                    <p-dropdown placeholder="Selectionner"
+                                class="gna-form-dropdown" [disabled]="isDisable"></p-dropdown>
+                  }
+                  </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label for="name">Taux Taxe Assurance
                         <span class="gna-text-red gna-text-bold">*</span></label>
                      <!-- <input pInputText pKeyFilter="money"
@@ -188,6 +217,29 @@
                         [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <label for="premiumMinimum">Prime Minimum
+                        <span class="gna-text-red gna-text-bold">*</span></label>
+                      <!--       <input pInputText pKeyFilter="money"
+                                    id="premiumMinimum" aria-describedby="accessory-amount-company-help" placeholder="Monatnt" class="gna-form-input"
+                                    type="number"
+                                    pattern="^[0-9]+(\.[0-9]+)?$"
+                                    min="1"
+                                    required
+                                    formControlName="premiumMinimum"
+                                    [readonly]="isSave || accountService.pageLoading"/>-->
+                      <p-inputNumber
+                        id="premiumMinimum"
+                        mode="currency"
+                        inputId="currency-ivory-cost"
+                        currency="XOF"
+                        locale="ci-CI"
+                        [minFractionDigits]="2"
+                        required
+                        formControlName="premiumMinimum"
+                        placeholder="Montant"
+                        [readonly]="isSave || accountService.pageLoading"/>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label for="subscriptionMinimumPeriod">Durée Minimum Souscription
                         <span class="gna-text-red gna-text-bold">*</span></label>
                       <p-iconField iconPosition="right">
@@ -222,29 +274,6 @@
                       </p-iconField>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="premiumMinimum">Prime Minimum
-                        <span class="gna-text-red gna-text-bold">*</span></label>
-               <!--       <input pInputText pKeyFilter="money"
-                             id="premiumMinimum" aria-describedby="accessory-amount-company-help" placeholder="Monatnt" class="gna-form-input"
-                             type="number"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
-                             min="1"
-                             required
-                             formControlName="premiumMinimum"
-                             [readonly]="isSave || accountService.pageLoading"/>-->
-                      <p-inputNumber
-                        id="premiumMinimum"
-                        mode="currency"
-                        inputId="currency-ivory-cost"
-                        currency="XOF"
-                        locale="ci-CI"
-                        [minFractionDigits]="2"
-                        required
-                        formControlName="premiumMinimum"
-                        placeholder="Montant"
-                        [readonly]="isSave || accountService.pageLoading"/>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label>Délai de carence</label>
                       <p-iconField iconPosition="right">
                         <p-inputIcon styleClass="pi pi-info" />
@@ -253,7 +282,6 @@
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              #deficiencyDeadline
-                             [required]="deficiencyDeadlineUnit.value != null"
                              formControlName="deficiencyDeadline"
                              [readonly]="isSave || accountService.pageLoading"/>
                       </p-iconField>
@@ -265,7 +293,6 @@
                                   class="gna-form-dropdown"
                                   #deficiencyDeadlineUnit
                                   [showClear]="true"
-                                  [required]="deficiencyDeadline.value != null"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -342,18 +369,19 @@
                         </ng-template>
                       </p-multiSelect>
                     </div>
-                    <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-9">
+                  <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
+                    <label>Clauses</label>
+                    <button
+                      type="button"
+                      mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
+                      (click)="openClauseEditorDialog()">Ajouter</button>
+                  </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                       <label>Description</label>
                       <textarea rows="2" pInputTextarea formControlName="description"
                                 class="gna-form-input"></textarea>
                     </div>
-                    <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
-                      <label>Clauses</label>
-                      <button
-                        type="button"
-                        mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
-                        (click)="openClauseEditorDialog()">Ajouter</button>
-                    </div>
+
                   </div>
 
                 </form>

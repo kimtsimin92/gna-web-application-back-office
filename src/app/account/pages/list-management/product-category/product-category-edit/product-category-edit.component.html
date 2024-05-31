@@ -1,0 +1,110 @@
+<div class="gna-bc">
+  <span>Paramètres / Paramètres des listes / Catégories / Modifier</span>
+</div>
+
+
+<div class="container-fluid">
+
+  <div>
+    <mat-card class="gna-card">
+
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer</button>
+              } @else {
+
+                @if (!formData.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Enregistrer</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onConfirm()">Enregistrer</button>
+                }
+              }
+            </div>
+
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="container-fluid">
+          <form [formGroup]="formData">
+            <div class="row pb-2 gna-form">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">Nom Catégorie <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText type="text" id="name" aria-describedby="name-help"
+                         class="gna-form-input" required formControlName="name" />
+                </p-iconField>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                @if (branchList && branchList.length > 0) {
+                  <label>Branche
+                    <span class="gna-text-red gna-text-bold">*</span>
+                  </label>
+
+                  <p-dropdown [options]="branchList"
+                              optionLabel="name"
+                              optionValue="name"
+                              placeholder="Selectionner"
+                              class="gna-form-dropdown"
+                              formControlName="branch"
+                              [filter]="true"
+                              filterBy="name"
+                              [showClear]="true"
+                              [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                    <ng-template let-branch pTemplate="branch">
+                      <div class="flex align-items-center gap-2">
+                        <div>{{ branch.name }}</div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                } @else {
+                  <label>Branche
+                    <span class="gna-text-red gna-text-bold">*</span>
+                  </label>
+                  <p-dropdown placeholder="Selectionner"
+                              class="gna-form-dropdown" [disabled]="isDisable"></p-dropdown>
+                }
+              </div>
+              <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <label>Description</label>
+                <textarea rows="2" pInputTextarea formControlName="description"
+                          class="gna-form-input"></textarea>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>
+

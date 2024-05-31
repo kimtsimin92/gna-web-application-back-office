@@ -89,20 +89,36 @@
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gna-view-label">Type Compte : </span>
                     <span class="gna-view-value">
-                   Entreprise
-                  </span>
+                     Entreprise
+                    </span>
                   </div>
 
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gna-view-label"> Code Compte : </span>
                     <span class="gna-view-value">
-                       @if (elementData.numero_compte ) {
-                         {{ elementData.numero_compte }}
-                       } @else {
-                         N/A
-                       }
-                  </span>
+                         @if (elementData.numero_compte ) {
+                           {{ elementData.numero_compte }}
+                         } @else {
+                           N/A
+                         }
+                    </span>
                   </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label"> Code Assuré : </span>
+                    <span class="gna-view-value">
+                         @if (elementData.numero_assure ) {
+                           {{ elementData.numero_assure }}
+                         } @else {
+                           N/A
+                         }
+                    </span>
+                  </div>
+
 
                 </div>
 
@@ -111,23 +127,23 @@
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gna-view-label"> N° CNI : </span>
                     <span class="gna-view-value">
-                       @if (elementData.matricule_cni ) {
-                         {{ elementData.matricule_cni }}
-                       } @else {
-                         N/A
-                       }
-                  </span>
+                         @if (elementData.matricule_cni ) {
+                           {{ elementData.matricule_cni }}
+                         } @else {
+                           N/A
+                         }
+                    </span>
                   </div>
 
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gna-view-label">N° CMU : </span>
                     <span class="gna-view-value">
-                    @if (elementData.matricule_cmu) {
-                      {{ elementData.matricule_cmu }}
-                    } @else {
-                      N/A
-                    }
-                  </span>
+                      @if (elementData.matricule_cmu) {
+                        {{ elementData.matricule_cmu }}
+                      } @else {
+                        N/A
+                      }
+                    </span>
                   </div>
 
                 </div>
@@ -135,25 +151,25 @@
                 <div class="row">
 
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <span class="gna-view-label"> Nom : </span>
+                    <span class="gna-view-label"> Raison Sociale : </span>
                     <span class="gna-view-value">
-                       @if (elementData.nom ) {
-                         {{ elementData.nom }}
-                       } @else {
-                         N/A
-                       }
-                  </span>
+                         @if (elementData.raison_sociale ) {
+                           {{ elementData.raison_sociale }}
+                         } @else {
+                           N/A
+                         }
+                    </span>
                   </div>
 
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gna-view-label">Code Segment : </span>
                     <span class="gna-view-value">
-                      @if (elementData.code_segment ) {
-                        {{ elementData.code_segment }}
-                      } @else {
-                        N/A
-                      }
-                  </span>
+                        @if (elementData.code_segment ) {
+                          {{ elementData.code_segment }}
+                        } @else {
+                          N/A
+                        }
+                    </span>
                   </div>
 
                 </div>
@@ -163,76 +179,48 @@
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gna-view-label"> Prénom : </span>
                     <span class="gna-view-value">
-                       @if (elementData.prenom ) {
-                         {{ elementData.prenom }}
-                       } @else {
-                         N/A
-                       }
-                  </span>
+                         @if (elementData.prenom ) {
+                           {{ elementData.prenom }}
+                         } @else {
+                           N/A
+                         }
+                    </span>
                   </div>
 
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gna-view-label">Email : </span>
                     <span class="gna-view-value">
-                    @if (elementData.email) {
-                      {{ elementData.email }}
-                    } @else {
-                      N/A
-                    }
-                  </span>
+                      @if (elementData.email) {
+                        {{ elementData.email }}
+                      } @else {
+                        N/A
+                      }
+                    </span>
                   </div>
 
                 </div>
 
                 <div class="row">
-
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <span class="gna-view-label"> Genre : </span>
-                    <span class="gna-view-value">
-                        @if (elementData.genre && elementData.genre == "H") {
-                          Homme
-                        } @else if (elementData.genre && elementData.genre == "F") {
-                          Femme
-                        } @else {
-                          N/A
-                        }
-                  </span>
-                  </div>
 
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gna-view-label">Téléphone : </span>
                     <span class="gna-view-value">
-                      @if (elementData.contact ) {
-                        {{ elementData.contact }}
-                      } @else {
-                        N/A
-                      }
-                  </span>
-                  </div>
-
-                </div>
-
-                <div class="row">
-
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <span class="gna-view-label"> Date de naissance : </span>
-                    <span class="gna-view-value">
-                      @if (elementData.date_naissance) {
-                        {{ elementData.date_naissance | date: 'dd-MM-YYYY'}}
-                      } @else {
-                        N/A
-                      }
-                  </span>
+                        @if (elementData.contact ) {
+                          {{ elementData.contact }}
+                        } @else {
+                          N/A
+                        }
+                    </span>
                   </div>
 
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gna-view-label">Adresse : </span>
                     <span class="gna-view-value">
-                    @if (elementData.adress) {
-                      {{ elementData.adress }}
-                    } @else {
-                      N/A
-                    }</span>
+                      @if (elementData.adress) {
+                        {{ elementData.adress }}
+                      } @else {
+                        N/A
+                      }</span>
                   </div>
 
                 </div>
@@ -278,75 +266,6 @@
 
               </div>
             </div>
-
-            <!--   <div class="row mt-4">
-                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                   <label> <strong>Motif</strong></label>
-
-                   <p-editor [style]="{ height: 'auto' }">
-                     <ng-template pTemplate="header">
-           <span class="ql-formats">
-             <select class="ql-size">
-                 <option value="small">Petite</option>
-                 <option selected>Normale</option>
-                 <option value="large">Grande</option>
-                 <option value="huge">Très grande</option>
-               </select>
-           </span>
-                       <span class="ql-formats">
-               <button type="button" class="ql-bold" aria-label="Bold"></button>
-               <button type="button" class="ql-italic" aria-label="Italic"></button>
-               <button type="button" class="ql-underline" aria-label="Underline"></button>
-         </span>
-                       <span class="ql-formats">
-               <select title="Text Alignment" class="ql-align" >
-                 <option selected>Gauche</option>
-                 <option value="center" label="Center"></option>
-                 <option value="right" label="Right"></option>
-                 <option value="justify" label="Justify"></option>
-               </select>
-             </span>
-                       <span class="ql-formats">
-               <select title="Text Color" class="ql-color" defaultValue="rgb(0, 0, 0)">
-                 <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
-                 ...
-                  <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
-                 ...
-                    <option value="rgb(255, 0, 0)" label="rgb(255, 0, 0)"></option>
-                     ...
-                    <option value="rgb(0, 128, 0)" label="rgb(0, 128, 0)"></option>
-                 ...
-                 <option value="rgb(28, 54, 148)" label="rgb(28, 54, 148)"></option>
-                 ...
-                 <option value="rgb(246, 153, 63)" label="rgb(246, 153, 63)"></option>
-               </select>
-               <span class="ql-format-separator"></span>
-               <select title="Background Color" class="ql-background" defaultValue="rgb(255, 255, 255)">
-                <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
-                 ...
-                  <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
-                 ...
-                    <option value="rgb(255, 0, 0)" label="rgb(255, 0, 0)"></option>
-                     ...
-                    <option value="rgb(0, 128, 0)" label="rgb(0, 128, 0)"></option>
-                 ...
-                 <option value="rgb(28, 54, 148)" label="rgb(28, 54, 148)"></option>
-                 ...
-                 <option value="rgb(246, 153, 63)" label="rgb(246, 153, 63)"></option>
-               </select>
-           </span>
-                       <span class="ql-formats">
-              <button class="ql-list" value="ordered"></button>
-              <button class="ql-list" value="bullet"></button>
-               <button type="button" class="ql-blockquote" aria-label="blockquote"></button>
-               <button type="button" class="ql-link" aria-label="link"></button>
-             </span>
-                     </ng-template>
-                   </p-editor>
-
-                 </div>
-               </div>-->
-
           </div>
 
         </div>

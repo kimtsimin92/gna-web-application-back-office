@@ -209,7 +209,6 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
 
     this.onGetBranchList();
     this.onGetPeriodList();
-    this.onGetGuaranteeList();
 
   }
 
@@ -232,7 +231,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         dialogMessage: "de ce groupe produit"
       },
@@ -287,7 +286,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
       insuranceSectorId: null,
       apiIds: [],
       guarantees: [],
-      branchId: null,
+      categoryId: null,
       description: this.formData.value.description,
       clauses: this.guaranteeClauses
     }
@@ -324,8 +323,8 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
       }
     }
 
-    if (this.formData.value.branchId) {
-      requestData.branchId = this.formData.value.branchId.id;
+    if (this.formData.value.category) {
+      requestData.categoryId = this.formData.value.category.id;
     }
 
     if (this.formData.value.paymentMethodId) {
@@ -362,7 +361,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         dialogMessage: "L'enregistrement de ce groupe produit a réussi."
       },
@@ -389,7 +388,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "L'enregistrement de ce groupe produit a échoué."
@@ -417,7 +416,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     this.formData.markAllAsTouched();
     const dialogRef = this._dialog.open(NotBlankDialogComponent, {
       width: '400px',
-      height: '340px',
+      height: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -439,7 +438,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
 
   onGetBranchList() {
     this.accountService.pageLoading = true;
-    this.accountService.getBranchList()
+    this.accountService.getCategoryList()
       .subscribe((responseData: HttpResponse<any>) => {
         this.accountService.pageLoading = false;
         console.log(responseData);
@@ -450,9 +449,9 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
       });
   }
 
-  onGetGuaranteeList() {
+  onGetGuaranteeList(id: number) {
     this.accountService.pageLoading = true;
-    this.accountService.getGuaranteeList()
+    this.accountService.getGuaranteeListByCategory(id)
       .subscribe((responseData: HttpResponse<any>) => {
         this.accountService.pageLoading = false;
         console.log(responseData);
@@ -532,6 +531,12 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
         this.guaranteeClauses = result;
       }
     });
+  }
+
+  onGetGuaranteesByCategory(category: any) {
+    console.log(category);
+    this.selectGuaranteeList = [];
+    this.onGetGuaranteeList(category.id);
   }
 
 }

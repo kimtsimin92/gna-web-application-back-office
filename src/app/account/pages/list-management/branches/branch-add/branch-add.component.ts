@@ -29,6 +29,10 @@ import {MatSelect} from "@angular/material/select";
 import {DropdownModule} from "primeng/dropdown";
 import {InputTextModule} from "primeng/inputtext";
 import {KeyFilterModule} from "primeng/keyfilter";
+import {CheckboxModule} from "primeng/checkbox";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 @Component({
   selector: 'app-branch-add',
@@ -48,7 +52,11 @@ import {KeyFilterModule} from "primeng/keyfilter";
         ReactiveFormsModule,
         DropdownModule,
         InputTextModule,
-        KeyFilterModule
+        KeyFilterModule,
+        CheckboxModule,
+        IconFieldModule,
+        InputIconModule,
+        InputTextareaModule
     ],
   templateUrl: './branch-add.component.html',
   styleUrl: './branch-add.component.css'
@@ -83,7 +91,7 @@ export class BranchAddComponent implements OnInit, OnDestroy {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Branches";
+    this.headerTitle = "Paramètres";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
 
@@ -91,10 +99,6 @@ export class BranchAddComponent implements OnInit, OnDestroy {
       // @ts-ignore
       this.branchData = JSON.parse(localStorage.getItem("BRANCH_DATA"));
     }
-
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
-
-    this.items = [{ label: 'Gestion Listes' }, { label: 'Branches'}, {label: "Création"}];
 
 
     this.formData = this._fb.group(this.dataForm);
@@ -105,7 +109,7 @@ export class BranchAddComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/branches/list");
+    this._router.navigateByUrl("/account/settings/lists/branches/list");
   }
 
   onConfirm(): void {
@@ -115,8 +119,8 @@ export class BranchAddComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
-      width: '380px',
-      height: '350px',
+      width: '400px',
+      height: '400px',
       data: {
         dialogMessage: "de cette branche"
       },
@@ -140,7 +144,7 @@ export class BranchAddComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -158,6 +162,7 @@ export class BranchAddComponent implements OnInit, OnDestroy {
 
     let requestData = {
       name: this.formData.value.name,
+      description: this.formData.value.description,
     }
 
     console.log(requestData);
@@ -196,7 +201,7 @@ export class BranchAddComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/branches/list")
+      this._router.navigateByUrl("/account/settings/lists/branches/list")
         .then(() => {
           // @ts-ignore
           localStorage.setItem("BRANCH_DATA", JSON.stringify(this.branchData));
@@ -211,7 +216,8 @@ export class BranchAddComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "L'enregistrement de la branche a échoué."
@@ -236,7 +242,8 @@ export class BranchAddComponent implements OnInit, OnDestroy {
 
   onGetNotBlankAlert() {
     const dialogRef = this._dialog.open(NotBlankDialogComponent, {
-      width: '440px',
+      width: '400px',
+      height: '400px'
     });
 
     dialogRef.afterClosed().subscribe(result => {});

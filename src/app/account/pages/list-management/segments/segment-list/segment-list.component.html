@@ -64,10 +64,6 @@
                   <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <p-sortIcon field="name" />
                 </th>
-                <th pSortableColumn="description" class="gna-responsive">Description
-                  <!--                  <p-columnFilter type="text" field="prenom" display="menu" />-->
-                  <p-sortIcon field="description" />
-                </th>
                 <th pSortableColumn="enabled">Etat
                   <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
                   <p-sortIcon field="enabled" />
@@ -90,13 +86,6 @@
                 <td>
                   @if (element.name) {
                     {{ element.name }}
-                  } @else {
-                    N/A
-                  }
-                </td>
-                <td class="gna-responsive">
-                  @if (element.description) {
-                    {{ element.description }}
                   } @else {
                     N/A
                   }
@@ -163,7 +152,6 @@
 
             <ng-template pTemplate="loadingbody">
               <tr *ngFor="let item of fakeDataList">
-                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>

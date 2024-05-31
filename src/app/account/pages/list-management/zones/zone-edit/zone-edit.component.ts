@@ -72,7 +72,7 @@ export class ZoneEditComponent implements OnInit, OnDestroy {
       // @ts-ignore
       this.branchData = JSON.parse(localStorage.getItem("ZONE_DATA"));
     } else {
-      this._router.navigateByUrl("/account/zones/list")
+      this._router.navigateByUrl("/account/settings/lists/zones/list")
     }
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
@@ -82,7 +82,7 @@ export class ZoneEditComponent implements OnInit, OnDestroy {
     this.headerTitle = "Territoires";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
+    this.home = { icon: 'pi pi-home', routerLink: '/account/settings/lists/home' };
 
     this.items = [{ label: 'Gestion Listes' }, { label: 'Territoires'}, {label: "Modification"}];
 
@@ -92,7 +92,7 @@ export class ZoneEditComponent implements OnInit, OnDestroy {
       this.dataForm.code.setValue(this.branchData.code);
       this.dataForm.name.setValue(this.branchData.name);
     } else {
-      this._router.navigateByUrl("/account/zones/list")
+      this._router.navigateByUrl("/account/settings/lists/zones/list")
     }
 
     this.formData = this._fb.group(this.dataForm);
@@ -109,7 +109,7 @@ export class ZoneEditComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/zones/list");
+    this._router.navigateByUrl("/account/settings/lists/zones/list");
   }
 
   private onSave() {
@@ -170,7 +170,7 @@ export class ZoneEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/zones/list")
+      this._router.navigateByUrl("/account/settings/lists/zones/list")
         .then(() => {
         });
 

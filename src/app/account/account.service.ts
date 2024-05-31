@@ -192,9 +192,16 @@ export class AccountService {
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/partners/enabled/'+id, {observe: 'response'});
   }
 
-  getBranchesListData(page: number) {
+  getBranchesListData(sort: string, order: string, page: number, size: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/branches?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/branches?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
+  }
+
+  getCategoryListData(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/categories?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
 
 
@@ -203,9 +210,19 @@ export class AccountService {
       .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/branches', requestData, {observe: 'response'});
   }
 
+  saveCategoryAdd(requestData: any) {
+    return this._http
+      .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/categories', requestData, {observe: 'response'});
+  }
+
   saveBranchEdit(requestData: any, id: number) {
     return this._http
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/branches/'+id, requestData, {observe: 'response'});
+  }
+
+  saveCategoryEdit(requestData: any, id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/categories/'+id, requestData, {observe: 'response'});
   }
 
   saveBranchRemove(id: number) {
@@ -213,9 +230,20 @@ export class AccountService {
       .delete<HttpResponse<any>>(environment.productsService+'/api/v1/products/branches/'+id, {observe: 'response'});
   }
 
+  saveCategoryRemove(id: number) {
+    return this._http
+      .delete<HttpResponse<any>>(environment.productsService+'/api/v1/products/categories/'+id, {observe: 'response'});
+  }
+
+
   saveBranchToggleEnable(id: number) {
     return this._http
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/branches/enabled/'+id, {observe: 'response'});
+  }
+
+  saveCategoryToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/categories/enabled/'+id, {observe: 'response'});
   }
 
   //
@@ -258,6 +286,11 @@ export class AccountService {
   saveSegmentToggleEnable(id: number) {
     return this._http
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/segments/enabled/'+id, {observe: 'response'});
+  }
+
+  saveCustomerAccountToggleEnable(id: number) {
+    return this._http
+      .put<HttpResponse<any>>(environment.customersService+'/v1/users/switch_activation_user/'+id, {observe: 'response'});
   }
 
 
@@ -459,9 +492,19 @@ export class AccountService {
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/branches', {observe: 'response'});
   }
 
+  getCategoryList() {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/categories', {observe: 'response'});
+  }
+
   getGuaranteeList() {
     return this._http
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/guarantees', {observe: 'response'});
+  }
+
+  getGuaranteeListByCategory(categoryId: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+`/api/v1/products/lists/guarantees/categories/${categoryId}`, {observe: 'response'});
   }
 
   getProductGroupList() {
@@ -477,6 +520,11 @@ export class AccountService {
   getIncentiveList() {
     return this._http
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/incentives', {observe: 'response'});
+  }
+
+  getInsuredTypeList() {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/insuredTypes', {observe: 'response'});
   }
 
   onGetTokenExpirationTime() {

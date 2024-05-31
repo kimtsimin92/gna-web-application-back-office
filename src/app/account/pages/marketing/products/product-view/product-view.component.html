@@ -112,10 +112,10 @@
                   <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2 mt-2 mb-2">
                     <span class="gna-view-value">
                      @if (productData.image) {
-                       <p-image src="{{ productData.image.url }}" alt="Product Image" width="150" height="130"
+                       <p-image src="{{ productData.image.url }}" alt="Product Image" width="150" height="150"
                                 [preview]="true"></p-image>
                      } @else {
-                       <img src="assets/gna/images/gna-logo.png" alt="Product Image" width="150" height="130">
+                       <img src="assets/gna/images/gna-logo.png" alt="Product Image" width="150" height="150">
                      }
                   </span>
                   </div>
@@ -168,6 +168,28 @@
                   </span>
                       </div>
                       <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Types d'assurés : </span>
+                        <span class="gna-view-value">
+                       @if (productData.insuredTypes && productData.insuredTypes.length > 0) {
+                         @for (insuredType of productData.insuredTypes; track insuredType) {
+                           <p-chip><span>{{ insuredType.libelle }}</span></p-chip> <span class="span-mr"></span>
+                         }
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Nombre Maximum Souscriptions: </span>
+                        <span class="gna-view-value">
+                       @if (productData.numberSubscriptions) {
+                         {{ productData.numberSubscriptions | number : "2.0" }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <span class="gna-view-label">Renouvelable : </span>
                         <span class="gna-view-value">
                        @if (productData.renewable) {
@@ -192,7 +214,7 @@
                         <span class="gna-view-label"> Montant Accessoires Compagnie : </span>
                         <span class="gna-view-value">
                        @if (productData.accessoryAmountCompany) {
-                         {{ productData.accessoryAmountCompany | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr' }}
+                         {{ productData.accessoryAmountCompany | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr' }}
                        } @else {
                          N/A
                        }
@@ -256,8 +278,8 @@
                       <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <span class="gna-view-label"> Points de fidélité : </span>
                         <span class="gna-view-value">
-                       @if (productData.loyaltyPoint) {
-                         {{ productData.loyaltyPoint | number : "2.0" }}
+                       @if (productData.loyaltyPoints) {
+                         {{ productData.loyaltyPoints | number : "2.0" }}
                        } @else {
                          N/A
                        }
@@ -272,6 +294,36 @@
                        } @else {
                          Non
                        }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Seuil Validation Back-Office Capitaux : </span>
+                        <span class="gna-view-value">
+                           @if (productData.backOfficeValidation) {
+                       @if (productData.backOfficeValidationCapital) {
+                         {{ productData.backOfficeValidationCapital  | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                       } @else {
+                         N/A
+                       }
+                       } @else {
+                             N/A
+                           }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Seuil Validation Back-Office Prime: </span>
+                        <span class="gna-view-value">
+                           @if (productData.backOfficeValidation) {
+                             @if (productData.backOfficeValidationPremium) {
+                               {{ productData.backOfficeValidationPremium  | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                             } @else {
+                               N/A
+                             }
+                           } @else {
+                             N/A
+                           }
                   </span>
                       </div>
 

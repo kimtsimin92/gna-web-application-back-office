@@ -134,6 +134,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // @ts-ignore
   objectFileErrorMessage: string = null;
+  insuredTypeList: any[] = [];
 
   constructor(
     private _fb: FormBuilder,
@@ -156,6 +157,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.onGetProductGroupList()
       this.onGetSegmentList()
+      this.onGetInsuredTypeList();
       this.onGetIncentiveList()
       this.onGetPartnerCommercialList();
 
@@ -170,11 +172,14 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
       this.dataForm.premiumIncreaseRate.setValue(this.productData.premiumIncreaseRate);
       this.dataForm.crossSellingProductCode.setValue(this.productData.crossSellingProductCode);
       this.dataForm.crossSellingDiscountRate.setValue(this.productData.crossSellingDiscountRate);
-      this.dataForm.loyaltyPoint.setValue(this.productData.loyaltyPoint);
+      this.dataForm.loyaltyPoints.setValue(this.productData.loyaltyPoints);
+      this.dataForm.numberSubscriptions.setValue(this.productData.numberSubscriptions);
       this.dataForm.clauses.setValue(this.productData.clauses);
       this.productClauses = this.productData.clauses;
       this.dataForm.description.setValue(this.productData.description);
       this.dataForm.backOfficeValidation.setValue(this.productData.backOfficeValidation);
+      this.dataForm.backOfficeValidationCapital.setValue(this.productData.backOfficeValidationCapital);
+      this.dataForm.backOfficeValidationPremium.setValue(this.productData.backOfficeValidationPremium);
 
       if (this.productData.group) {
         this.dataForm.group.setValue(this.productData.group.name);
@@ -207,6 +212,17 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
       } else {
         // @ts-ignore
         this.dataForm.advertisementObject.setValue("Non");
+      }
+
+      if (this.productData.insuredTypes) {
+        if (this.productData.insuredTypes.length > 0) {
+          let insuredTypes: any[] = [];
+          this.productData.insuredTypes.forEach((it: any) => {
+            insuredTypes.push(it.libelle);
+          });
+          // @ts-ignore
+          this.dataForm.insuredTypes.setValue(insuredTypes);
+        }
       }
 
       if (this.productData.incentives) {
@@ -274,6 +290,19 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this._router.navigateByUrl("account/marketing/products/list");
   }
 
+  onGetInsuredTypeList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getInsuredTypeList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.insuredTypeList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
+  }
+
   onConfirm(): void {
 
     this.isSave = true;
@@ -330,18 +359,27 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
       segmentId: null,
       crossSellingProductCode: this.formData.value.crossSellingProductCode,
       crossSellingDiscountRate: this.formData.value.crossSellingDiscountRate,
-      incentives: [],
+      incentiveIds: [],
       cashBackRate: this.formData.value.cashBackRate,
       commercialDiscountRate: this.formData.value.commercialDiscountRate,
       premiumIncreaseRate: this.formData.value.premiumIncreaseRate,
-      loyaltyPoint: this.formData.value.loyaltyPoint,
+      loyaltyPoints: this.formData.value.loyaltyPoints,
+      numberSubscriptions: this.formData.value.numberSubscriptions,
       renewable: null,
       tacitAgreement: null,
       advertisementObject: null,
       advertisementObjectFile: null,
       backOfficeValidation: this.formData.value.backOfficeValidation,
+      backOfficeValidationCapital: null,
+      backOfficeValidationPremium: null,
       clauses: this.productClauses,
       partners: [],
+      insuredTypeIds: [],
+    }
+
+    if(requestData.backOfficeValidation) {
+      requestData.backOfficeValidationCapital = this.formData.value.backOfficeValidationCapital;
+      requestData.backOfficeValidationPremium = this.formData.value.backOfficeValidationPremium;
     }
 
     if (this.formData.value.group) {
@@ -359,6 +397,22 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
         this.segmentList.forEach((item: any) => {
           if (item.name === this.formData.value.segment) {
             requestData.segmentId = item.id;
+          }
+        });
+      }
+    }
+
+    if (this.formData.value.insuredTypes) {
+      let insuredTypes = this.formData.value.insuredTypes;
+      if (insuredTypes.length > 0) {
+        insuredTypes.forEach((it: any) => {
+          if (this.insuredTypeList.length > 0) {
+            this.insuredTypeList.forEach((itl: any) => {
+              if (it === itl.libelle) {
+                // @ts-ignore
+                requestData.insuredTypeIds.push(itl.id);
+              }
+            });
           }
         });
       }
@@ -405,7 +459,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
       if (incentives.length > 0) {
         incentives.forEach((incentive: any) => {
           // @ts-ignore
-          requestData.incentives.push(incentive.id);
+          requestData.incentiveIds.push(incentive.id);
         });
       }
     }

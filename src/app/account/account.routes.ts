@@ -244,6 +244,18 @@ import {
 import {profileGroupGuard} from "../auth/profile/profile-group.guard";
 import {profileRoleGuard} from "../auth/profile/profile-role.guard";
 import {profilePermissionGuard} from "../auth/profile/profile-permission.guard";
+import {
+  ProductCategoryListComponent
+} from "./pages/list-management/product-category/product-category-list/product-category-list.component";
+import {
+  ProductCategoryEditComponent
+} from "./pages/list-management/product-category/product-category-edit/product-category-edit.component";
+import {
+  ProductCategoryViewComponent
+} from "./pages/list-management/product-category/product-category-view/product-category-view.component";
+import {
+  ProductCategoryAddComponent
+} from "./pages/list-management/product-category/product-category-add/product-category-add.component";
 
 const PROFILE_GROUPS: any = {
   managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
@@ -587,51 +599,67 @@ export const routes: Routes = [
 
 
       {
-        path: 'partners/list', component: PartnerListComponent,
+        path: 'settings/lists/partners/list', component: PartnerListComponent,
         title: 'Partenaires - Lister | GNA',
       },
       {
-        path: 'partners/add', component: PartnerSaveComponent,
+        path: 'settings/lists/partners/add', component: PartnerSaveComponent,
         title: 'Partenaires - Créer | GNA',
       },
       {
-        path: 'partners/edit', component: PartnerEditComponent,
+        path: 'settings/lists/partners/edit', component: PartnerEditComponent,
         title: 'Partenaires - Modifier | GNA',
       },
       {
-        path: 'partners/view', component: PartnerViewComponent,
+        path: 'settings/lists/partners/view', component: PartnerViewComponent,
         title: 'Partenaires | GNA',
       },
       {
-        path: 'branches/list', component: BranchListComponent,
+        path: 'settings/lists/branches/list', component: BranchListComponent,
         title: 'Branches - Lister | GNA',
       },
       {
-        path: 'branches/add', component: BranchAddComponent,
+        path: 'settings/lists/branches/add', component: BranchAddComponent,
         title: 'Branches - Créer | GNA',
       },
       {
-        path: 'branches/edit', component: BranchEditComponent,
+        path: 'settings/lists/branches/edit', component: BranchEditComponent,
         title: 'Branches - Modifier | GNA',
       },
       {
-        path: 'branches/view', component: BranchViewComponent,
+        path: 'settings/lists/branches/view', component: BranchViewComponent,
         title: 'Branches | GNA',
       },
       {
-        path: 'zones/list', component: ZoneListComponent,
+        path: 'settings/lists/categories/list', component: ProductCategoryListComponent,
+        title: 'Catégories - Lister | GNA',
+      },
+      {
+        path: 'settings/lists/categories/add', component: ProductCategoryAddComponent,
+        title: 'Catégories - Créer | GNA',
+      },
+      {
+        path: 'settings/lists/categories/edit', component: ProductCategoryEditComponent,
+        title: 'Catégories - Modifier | GNA',
+      },
+      {
+        path: 'settings/lists/categories/view', component: ProductCategoryViewComponent,
+        title: 'Catégories | GNA',
+      },
+      {
+        path: 'settings/lists/zones/list', component: ZoneListComponent,
         title: 'Territoires - Lister | GNA',
       },
       {
-        path: 'zones/add', component: ZoneAddComponent,
+        path: 'settings/lists/zones/add', component: ZoneAddComponent,
         title: 'Territoires - Créer | GNA',
       },
       {
-        path: 'zones/edit', component: ZoneEditComponent,
+        path: 'settings/lists/zones/edit', component: ZoneEditComponent,
         title: 'Territoires - Modifier | GNA',
       },
       {
-        path: 'zones/view', component: ZoneViewComponent,
+        path: 'settings/lists/zones/view', component: ZoneViewComponent,
         title: 'Territoires | GNA',
       },
       {

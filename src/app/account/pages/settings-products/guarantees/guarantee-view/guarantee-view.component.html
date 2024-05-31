@@ -132,6 +132,17 @@
                   </div>
 
                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Catégorie : </span>
+                    <span class="gna-view-value">
+                    @if (guaranteeData.category ) {
+                      {{ guaranteeData.category.name }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label"> Taux Taxe Assurance : </span>
                     <span class="gna-view-value">
                        @if (guaranteeData.taxRate ) {
@@ -157,7 +168,7 @@
                     <span class="gna-view-label"> Franchise Minimum : </span>
                     <span class="gna-view-value">
                        @if (guaranteeData.franchiseMinimum) {
-                         {{ guaranteeData.franchiseMinimum | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                         {{ guaranteeData.franchiseMinimum | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                        } @else {
                          N/A
                        }
@@ -168,7 +179,7 @@
                     <span class="gna-view-label"> Franchise Maximum : </span>
                     <span class="gna-view-value">
                        @if (guaranteeData.franchiseMaximum) {
-                         {{ guaranteeData.franchiseMaximum  | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                         {{ guaranteeData.franchiseMaximum  | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                        } @else {
                          N/A
                        }
@@ -201,7 +212,7 @@
                     <span class="gna-view-label"> Prime Minimum : </span>
                     <span class="gna-view-value">
                        @if (guaranteeData.premiumMinimum) {
-                         {{ guaranteeData.premiumMinimum  | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                         {{ guaranteeData.premiumMinimum  | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                        } @else {
                          N/A
                        }
@@ -229,7 +240,7 @@
                     <span class="gna-view-label"> Plancher de garantrie : </span>
                     <span class="gna-view-value">
                        @if (guaranteeData.guaranteeFloor) {
-                         {{ guaranteeData.guaranteeFloor  | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                         {{ guaranteeData.guaranteeFloor  | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                        } @else {
                          N/A
                        }
@@ -240,7 +251,7 @@
                     <span class="gna-view-label"> Plafond de garantrie : </span>
                     <span class="gna-view-value">
                        @if (guaranteeData.guaranteeCeiling) {
-                         {{ guaranteeData.guaranteeCeiling  | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                         {{ guaranteeData.guaranteeCeiling  | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                        } @else {
                          N/A
                        }
@@ -327,7 +338,7 @@
                     <tr>
                       <td>{{ item.code }}</td>
                       <td>{{ item.name }}</td>
-                      <td>{{ item.capital | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                      <td>{{ item.capital | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                       <td>
                         @if (item.franchiseRate) {
                           {{ item.franchiseRate | number : "2.0" }}%
@@ -337,14 +348,14 @@
                       </td>
                       <td>
                         @if (item.franchiseMinimum) {
-                          {{ item.franchiseMinimum | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                          {{ item.franchiseMinimum | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                         } @else {
                           0
                         }
                       </td>
                       <td>
                         @if (item.franchiseMaximum) {
-                          {{ item.franchiseMaximum | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                          {{ item.franchiseMaximum | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                         } @else {
                           0
                         }

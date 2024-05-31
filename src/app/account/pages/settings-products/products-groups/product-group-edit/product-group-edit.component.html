@@ -78,7 +78,7 @@
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 @if (branchList && branchList.length > 0) {
-                  <label>Branche
+                  <label>Catégorie
                     <span class="gna-text-red gna-text-bold">*</span>
                   </label>
 
@@ -87,19 +87,19 @@
                               optionValue="name"
                               placeholder="Selectionner"
                               class="gna-form-dropdown"
-                              formControlName="branchId"
+                              formControlName="category"
                               [filter]="true"
                               filterBy="name"
                               [showClear]="true"
                               [readonly]="isSave || accountService.pageLoading || accountService.isSave">
                     <ng-template let-branch pTemplate="branch">
                       <div class="flex align-items-center gap-2">
-                        <div>{{ branch.name }}</div>
+                        <div (click)="onGetGuaranteesByCategory(branch)">{{ branch.name }}</div>
                       </div>
                     </ng-template>
                   </p-dropdown>
                 } @else {
-                  <label>Branche
+                  <label>Catégorie
                     <span class="gna-text-red gna-text-bold">*</span>
                   </label>
                   <p-dropdown placeholder="Selectionner"

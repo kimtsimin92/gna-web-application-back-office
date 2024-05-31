@@ -137,7 +137,7 @@ export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.items = [{ label: 'Gestion Listes' }, { label: 'Territoires' }];
 
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
+    this.home = { icon: 'pi pi-home', routerLink: '/account/settings/lists/home' };
 
       this.onGetDataList();
 
@@ -189,7 +189,7 @@ export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onGoToSave() {
-    this._router.navigateByUrl("/account/zones/add");
+    this._router.navigateByUrl("/account/settings/lists/zones/add");
   }
 
   onGetNotificationErrorDialog(): void {
@@ -217,7 +217,7 @@ export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ts-ignore
     localStorage.setItem("ZONE_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/zones/view")
+    this._router.navigateByUrl("/account/settings/lists/zones/view")
       .then(() => {
         this.loadingPage = false;
       });
@@ -231,7 +231,7 @@ export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ts-ignore
     localStorage.setItem("ZONE_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/zones/edit")
+    this._router.navigateByUrl("/account/settings/lists/zones/edit")
       .then(() => {
         this.loadingPage = false;
       });

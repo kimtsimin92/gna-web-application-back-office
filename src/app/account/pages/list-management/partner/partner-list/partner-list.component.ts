@@ -181,7 +181,7 @@ export class PartnerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.items = [{ label: 'Gestion Listes' }, { label: 'Partenaires' }];
 
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
+    this.home = { icon: 'pi pi-home', routerLink: '/account/settings/lists/home' };
 
       this.onGetDataList();
 
@@ -255,7 +255,7 @@ export class PartnerListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onGoToSave() {
-    this._router.navigateByUrl("/account/partners/add");
+    this._router.navigateByUrl("/account/settings/lists/partners/add");
   }
 
   onGetNotificationErrorDialog(): void {
@@ -285,7 +285,7 @@ export class PartnerListComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ts-ignore
     localStorage.setItem("PARTNER_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/partners/view")
+    this._router.navigateByUrl("/account/settings/lists/partners/view")
       .then(() => {
         this.loadingPage = false;
       });
@@ -299,7 +299,7 @@ export class PartnerListComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ts-ignore
     localStorage.setItem("PARTNER_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/partners/edit")
+    this._router.navigateByUrl("/account/settings/lists/partners/edit")
       .then(() => {
         this.loadingPage = false;
       });

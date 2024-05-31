@@ -96,7 +96,7 @@ export class PartnerEditComponent implements OnInit, OnDestroy {
       this.partnerData = JSON.parse(localStorage.getItem("PARTNER_DATA"));
       this.modeEdit = true;
     } else {
-      this._router.navigateByUrl("/account/partners/list")
+      this._router.navigateByUrl("/account/settings/lists/partners/list")
     }
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
@@ -106,7 +106,7 @@ export class PartnerEditComponent implements OnInit, OnDestroy {
     this.headerTitle = "Partenaires";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
+    this.home = { icon: 'pi pi-home', routerLink: '/account/settings/lists/home' };
 
     this.items = [{ label: 'Gestion Listes' }, { label: 'Partenaires'}, {label: "Modification"}];
 
@@ -134,7 +134,7 @@ export class PartnerEditComponent implements OnInit, OnDestroy {
       }
 
     } else {
-      this._router.navigateByUrl("/account/partners/list")
+      this._router.navigateByUrl("/account/settings/lists/partners/list")
     }
 
 
@@ -155,7 +155,7 @@ export class PartnerEditComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/partners/list");
+    this._router.navigateByUrl("/account/settings/lists/partners/list");
   }
 
   onGetTypeList() {
@@ -255,7 +255,7 @@ export class PartnerEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/partners/list")
+      this._router.navigateByUrl("/account/settings/lists/partners/list")
         .then(() => {
         });
 

@@ -203,7 +203,6 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
 
       this.onGetBranchList();
       this.onGetPeriodList();
-      this.onGetGuaranteeList();
 
       // @ts-ignore
       this.productGroup = JSON.parse(localStorage.getItem("PRODUCT_GROUP_DATA"));
@@ -211,8 +210,9 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       this.dataForm.name.setValue(this.productGroup.name);
       this.dataForm.description.setValue(this.productGroup.description);
 
-      if (this.productGroup.branch) {
-        this.dataForm.branchId.setValue(this.productGroup.branch.name);
+      if (this.productGroup.category) {
+        this.dataForm.category.setValue(this.productGroup.category.name);
+        this.onGetGuaranteeList(this.productGroup.category.id);
       }
 
       if (this.productGroup.accessoryAmountCompany) {
@@ -383,11 +383,21 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       insuranceSectorId: null,
       apiIds: [],
       guarantees: [],
-      branchName: this.formData.value.branchId,
+      categoryId: null,
       insuranceSectorName: this.formData.value.insuranceSectorId,
       paymentMethodName: this.formData.value.paymentMethodId,
       description: this.formData.value.description,
       clauses: this.guaranteeClauses
+    }
+
+    if (this.formData.value.category) {
+      if (this.branchList && this.branchList.length > 0) {
+        this.branchList.forEach((item: any) => {
+          if (item.name === this.formData.value.category) {
+            requestData.categoryId = item.id;
+          }
+        });
+      }
     }
 
     if (this.formData.value.coverageRate) {
@@ -526,7 +536,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
 
   onGetBranchList() {
     this.accountService.pageLoading = true;
-    this.accountService.getBranchList()
+    this.accountService.getCategoryList()
       .subscribe((responseData: HttpResponse<any>) => {
         this.accountService.pageLoading = false;
         console.log(responseData);
@@ -537,9 +547,9 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       });
   }
 
-  onGetGuaranteeList() {
+  onGetGuaranteeList(id: number) {
     this.accountService.pageLoading = true;
-    this.accountService.getGuaranteeList()
+    this.accountService.getGuaranteeListByCategory(id)
       .subscribe((responseData: HttpResponse<any>) => {
         this.accountService.pageLoading = false;
         console.log(responseData);
@@ -565,6 +575,18 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
 
   onAddGuaranteeToTable() {
     console.log(this.selectGuarantee);
+
+
+    if (this.selectGuarantee) {
+      if (this.guaranteeList && this.guaranteeList.length > 0) {
+        this.guaranteeList.forEach((item: any) => {
+          if (item.name === this.selectGuarantee) {
+            this.selectGuarantee = item;
+          }
+        });
+      }
+    }
+
     if (!this.selectGuaranteeList[this.selectGuarantee.id]) {
       this.guaranteeCode = this.selectGuarantee;
       this.guaranteeCode.mandatory = false;
@@ -670,6 +692,12 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
         this.guaranteeClauses = result;
       }
     });
+  }
+
+  onGetGuaranteesByCategory(category: any) {
+    console.log(category);
+    this.selectGuaranteeList = [];
+    this.onGetGuaranteeList(category.id);
   }
 
 }

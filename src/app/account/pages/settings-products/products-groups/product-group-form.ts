@@ -13,7 +13,7 @@ export class ProductGroupForm {
   description = new FormControl(null);
 
   // @ts-ignore
-  branchId = new FormControl(null, [
+  category = new FormControl(null, [
     Validators.required]);
 
   accessoryTaxRate = new FormControl(null,

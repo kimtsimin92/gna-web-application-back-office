@@ -27,6 +27,9 @@ import {MatSelect} from "@angular/material/select";
 import {BranchForm} from "../branch-form";
 import {InputTextModule} from "primeng/inputtext";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 @Component({
   selector: 'app-branch-edit',
@@ -44,7 +47,10 @@ import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-
         MatOption,
         MatSelect,
         ReactiveFormsModule,
-        InputTextModule
+        InputTextModule,
+        IconFieldModule,
+        InputIconModule,
+        InputTextareaModule
     ],
   templateUrl: './branch-edit.component.html',
   styleUrl: './branch-edit.component.css'
@@ -76,7 +82,7 @@ export class BranchEditComponent implements OnInit, OnDestroy {
       // @ts-ignore
       this.branchData = JSON.parse(localStorage.getItem("BRANCH_DATA"));
     } else {
-      this._router.navigateByUrl("/account/branches/list")
+      this._router.navigateByUrl("/account/settings/lists/branches/list")
     }
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
@@ -91,8 +97,9 @@ export class BranchEditComponent implements OnInit, OnDestroy {
       this.branchData = JSON.parse(localStorage.getItem("BRANCH_DATA"));
       this.dataForm.code.setValue(this.branchData.code);
       this.dataForm.name.setValue(this.branchData.name);
+      this.dataForm.description.setValue(this.branchData.description);
     } else {
-      this._router.navigateByUrl("/account/branchs/list")
+      this._router.navigateByUrl("/account/settings/lists/branchs/list")
     }
 
     this.formData = this._fb.group(this.dataForm);
@@ -109,7 +116,7 @@ export class BranchEditComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/branches/list");
+    this._router.navigateByUrl("/account/settings/lists/branches/list");
   }
 
   private onSave() {
@@ -119,7 +126,8 @@ export class BranchEditComponent implements OnInit, OnDestroy {
     this.onSaveLoadingDialog();
 
     let requestData = {
-      name: this.formData.value.name
+      name: this.formData.value.name,
+      description: this.formData.value.description,
     }
 
     let id = this.branchData.id;
@@ -174,7 +182,7 @@ export class BranchEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/branches/list")
+      this._router.navigateByUrl("/account/settings/lists/branches/list")
         .then(() => {
         });
 

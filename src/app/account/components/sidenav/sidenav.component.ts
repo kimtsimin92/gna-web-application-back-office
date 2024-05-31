@@ -329,15 +329,15 @@ export class SidenavComponent implements OnInit {
           items: [
             {
               label: "Branches",
-              route: '/account/branches/list'
+              route: '/account/settings/lists/branches/list'
             },
-           /* {
+           {
               label: "Catégories",
-              route: '/'
-            },*/
+              route: '/account/settings/lists/categories/list'
+            },
             {
               label: "Territorialités",
-              route: '/account/zones/list'
+              route: '/account/settings/lists/zones/list'
             },
            /* {
               label: "Incentives",
@@ -345,7 +345,7 @@ export class SidenavComponent implements OnInit {
             },*/
             {
               label: "Partenaires",
-              route: '/account/partners/list'
+              route: '/account/settings/lists/partners/list'
             }
           ]
         },

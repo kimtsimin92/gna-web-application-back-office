@@ -130,9 +130,9 @@
                                          tooltipPosition="bottom"
                                          [disabled]="isSave"/>
                         } @else {-->
-                          <p-inputSwitch
+                 <!--         <p-inputSwitch
                             class="gna-disable"
-                            [(ngModel)]="!isSave"/>
+                            [(ngModel)]="!isSave"/>-->
                           <!--   }-->
 
                   </span>
@@ -159,11 +159,11 @@
                                     [disabled]="isSave"
                                     (click)="onConfirm(element)"></p-button>
                         } @else {-->
-                          <p-button icon="pi pi-trash"
+                          <!--<p-button icon="pi pi-trash"
                                     pTooltip="Supprimer"
                                     tooltipPosition="bottom"
                                     class="gna-btn-delete"
-                                    [disabled]="isDisable"></p-button>
+                                    [disabled]="isDisable"></p-button>-->
                                          <!--     }-->
 
                   </span>
@@ -181,14 +181,15 @@
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td>
                    <span class="gna-action-span-div">
-                     <span class="gna-action-span">
+                    <!-- <span class="gna-action-span">
                           <p-skeleton size="2rem" styleClass="mr-2" />
                       </span>
                      <span class="gna-action-span">
                           <p-skeleton size="2rem" styleClass="mr-2" />
-                      </span>
+                      </span>-->
                      <span class="gna-action-span">
                           <p-skeleton size="2rem" styleClass="mr-2" />
                       </span>
@@ -207,7 +208,7 @@
 
           <div class="gna-pagination">
             @if (dataPaginationResponse) {
-              @if (dataPaginationResponse.pageSize > 0) {
+              @if (dataPaginationResponse.totalPages > 0) {
                 <span class="gna-pagination-page-size"
                       [matMenuTriggerFor]="aboveMenu"
                       [ngClass]="{'gna-pagination-disabled': isSave}">{{ pageSize }}
@@ -238,7 +239,7 @@
               <i class="pi pi-arrow-left"></i>
             </span>
               }
-              @if (dataPaginationResponse.pageSize > 0) {
+              @if (dataPaginationResponse.totalPages > 0) {
                 <span class="gna-pagination-page"
                       [ngClass]="{'gna-pagination-disabled': isSave}">{{ currentPage }}</span>
               } @else {

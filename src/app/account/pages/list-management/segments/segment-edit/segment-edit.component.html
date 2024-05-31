@@ -63,17 +63,17 @@
                          class="gna-form-input" required formControlName="name" />
                 </p-iconField>
               </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                <label>Description</label>
-                <textarea rows="2" pInputTextarea formControlName="description"
-                          class="gna-form-input"></textarea>
-              </div>
               <div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <label>Par défaut</label>
                 <br>
                 <p-checkbox formControlName="selected" [binary]="true" inputId="selected"
                             class="gna-form-checkbox"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
+              </div>
+              <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <label>Description</label>
+                <textarea rows="2" pInputTextarea formControlName="description"
+                          class="gna-form-input"></textarea>
               </div>
             </div>
           </form>

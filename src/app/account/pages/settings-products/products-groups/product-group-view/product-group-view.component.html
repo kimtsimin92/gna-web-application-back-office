@@ -128,10 +128,10 @@
                   </div>
 
                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                    <span class="gna-view-label"> Branche : </span>
+                    <span class="gna-view-label"> Catégorie : </span>
                     <span class="gna-view-value">
-                       @if (productGroupData.branch) {
-                         {{ productGroupData.branch.name }}
+                       @if (productGroupData.category) {
+                         {{ productGroupData.category.name }}
                        } @else {
                          N/A
                        }
@@ -143,7 +143,7 @@
                     <span class="gna-view-label"> Montant Accessoires Compagnie : </span>
                     <span class="gna-view-value">
                        @if (productGroupData.accessoryAmountCompany) {
-                         {{ productGroupData.accessoryAmountCompany | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                         {{ productGroupData.accessoryAmountCompany | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                        } @else {
                          N/A
                        }
@@ -154,7 +154,7 @@
                     <span class="gna-view-label"> Montant Accessoires Intermédiaire : </span>
                     <span class="gna-view-value">
                        @if (productGroupData.accessoryAmountIntermediate) {
-                         {{ productGroupData.accessoryAmountIntermediate  | currency: 'XOF' : 'symbol' : '4.2-2' : 'fr'}}
+                         {{ productGroupData.accessoryAmountIntermediate  | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                        } @else {
                          N/A
                        }

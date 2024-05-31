@@ -32,6 +32,12 @@ import { SaveLoadingDialogComponent } from '../../../../dialogs/loading/save-loa
 import { SaveNotificationDialogComponent } from '../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component';
 import { SaveErrorNotificationDialogComponent } from '../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component';
 import { environment } from '../../../../../../environments/environment';
+import {
+  ConfirmationToggleEnableDialogComponent
+} from "../../../../dialogs/confirmation/confirmation-toggle-enable-dialog/confirmation-toggle-enable-dialog.component";
+import {
+  RemoveLoadingDialogComponent
+} from "../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
 
 @Component({
   selector: 'app-management-customer-account-company-list',
@@ -157,6 +163,7 @@ export class ManagementCustomerAccountCompanyListComponent
     private responsive: BreakpointObserver,
     private _router: Router,
     public _dialog: MatDialog,
+    public accountService: AccountService,
     private managerCustomerAccountService: ManagerCustomerAccountService
   ) {}
 
@@ -361,7 +368,7 @@ export class ManagementCustomerAccountCompanyListComponent
     localStorage.setItem('CUSTOMER_ACCOUNT_REQUEST_DATA', JSON.stringify(data));
 
     this._router
-      .navigateByUrl('/account/managements/accounts/companies/view')
+      .navigateByUrl('/account/management/customers/accounts/companies/view')
       .then(() => {
         this.loadingPage = false;
       });
@@ -375,4 +382,115 @@ export class ManagementCustomerAccountCompanyListComponent
   }
 
   protected readonly environment = environment;
+
+  onConfirmToggleEnabled(data: any, isToggle: boolean): void {
+    this.isSave = true;
+    this.accountService.isSave = this.isSave;
+
+    const dialogRef = this._dialog.open(
+      ConfirmationToggleEnableDialogComponent,
+      {
+        hasBackdrop: false,
+        width: '400px',
+        height: '400px',
+        data: {
+          dialogMessage: 'le compte ' + data.numero_compte,
+          isToggle: isToggle,
+        },
+      }
+    );
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.pageNumber = 0;
+        this.currentPage = 0;
+        this.onSaveToggleEnable(data);
+      } else {
+        data.is_active = !data.is_active;
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+
+  openSaveLoadingDialog(): void {
+    const dialogRef = this._dialog.open(RemoveLoadingDialogComponent, {
+      hasBackdrop: false,
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+
+  closeDialog() {
+    this._dialog.closeAll();
+  }
+
+  private onSaveToggleEnable(data: any) {
+    this.isSave = true;
+
+    this.openSaveLoadingDialog();
+
+    this.accountService.saveCustomerAccountToggleEnable(data.id).subscribe(
+      (responseData) => {
+        this.isSave = false;
+        this.closeDialog();
+        this.openSaveToggleEnableNotificationDialog();
+      },
+      (error: HttpErrorResponse) => {
+        this.isSave = false;
+        data.is_active = !data.is_active;
+        console.log(error);
+        this.closeDialog();
+        this.openSaveToggleEnableErrorNotificationDialog(error);
+      }
+    );
+  }
+
+  openSaveToggleEnableNotificationDialog(): void {
+    const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '400px',
+      data: {
+        dialogMessage: "L'opération a réussi.",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+
+    this.rows = this.pageSize;
+    this.pageNumber = 1;
+    this.currentPage = 1;
+    this.onGetDataList();
+
+  }
+
+  openSaveToggleEnableErrorNotificationDialog(error: HttpErrorResponse): void {
+    const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '440px',
+      data: {
+        httpError: error,
+        dialogMessage: "L'opération a échoué.",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
 }

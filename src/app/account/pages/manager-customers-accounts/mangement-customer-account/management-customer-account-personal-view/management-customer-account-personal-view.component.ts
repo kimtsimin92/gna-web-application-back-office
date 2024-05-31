@@ -5,7 +5,7 @@ import {BreakpointObserver} from "@angular/cdk/layout";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ChipModule} from "primeng/chip";
-import {DatePipe, NgForOf, NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {EditorModule} from "primeng/editor";
@@ -19,6 +19,12 @@ import { ManagerCustomerAccountService } from '../../manager-customer-account.se
 import { SaveLoadingDialogComponent } from '../../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component';
 import { SaveNotificationDialogComponent } from '../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component';
 import { SaveErrorNotificationDialogComponent } from '../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component';
+import {ButtonModule} from "primeng/button";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {MatMenu, MatMenuItem} from "@angular/material/menu";
+import {RippleModule} from "primeng/ripple";
+import {TableModule} from "primeng/table";
+import {TooltipModule} from "primeng/tooltip";
 
 @Component({
   selector: 'app-management-customer-account-personal-view',
@@ -37,7 +43,16 @@ import { SaveErrorNotificationDialogComponent } from '../../../../dialogs/notifi
     EditorModule,
     TagModule,
     NgForOf,
-    SkeletonModule
+    SkeletonModule,
+    CurrencyPipe,
+    DecimalPipe,
+    ButtonModule,
+    InputSwitchModule,
+    MatMenu,
+    MatMenuItem,
+    RippleModule,
+    TableModule,
+    TooltipModule
   ],
   templateUrl: './management-customer-account-personal-view.component.html',
   styleUrl: './management-customer-account-personal-view.component.css'
@@ -68,11 +83,6 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
       // @ts-ignore
       this.elementData = JSON.parse(localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA"));
 
-
-      if (!this.elementData.files) {
-        this.onGetCustomerAccountFilesById(this.elementData);
-      }
-
     } else {
       this._router.navigateByUrl("/account/managements/accounts/personals/list")
     }
@@ -91,7 +101,7 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
   }
 
   onGoToBack() {
-    this._router.navigateByUrl("/account/managements/accounts/personals/list");
+    this._router.navigateByUrl("/account/management/customers/accounts/personals/list");
   }
 
   onValid(): void {

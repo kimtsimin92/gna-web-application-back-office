@@ -39,7 +39,11 @@ export class ProductForm {
     [
       Validators.pattern(/^\d+(\.\d+)?$/)]);
 
-  loyaltyPoint = new FormControl(null,
+  loyaltyPoints = new FormControl(null,
+    [
+      Validators.pattern(/^\d+$/)]);
+
+  numberSubscriptions = new FormControl(null,
     [
       Validators.pattern(/^\d+$/)]);
 
@@ -49,11 +53,18 @@ export class ProductForm {
     [Validators.required]);
   // @ts-ignore
   tacitAgreement = new FormControl<boolean>(null,
+
     [Validators.required]);
   // @ts-ignore
   backOfficeValidation = new FormControl<boolean>(null);
+  backOfficeValidationCapital = new FormControl(null);
+  backOfficeValidationPremium = new FormControl(null);
+
   // @ts-ignore
   advertisementObject = new FormControl<boolean>(null);
   advertisementObjectFile = new FormControl(null);
+
+  insuredTypes = new FormControl(null,
+    [Validators.required]);
 
 }

@@ -129,6 +129,8 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
     },
   ];
 
+  categoryList: any[] = [];
+
   constructor(
     private _fb: FormBuilder,
     public _dialog: MatDialog,
@@ -159,6 +161,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     if (localStorage.getItem("GUARANTEE_DATA")) {
 
+      this.onGetCategoryList();
       this.onGetPeriodList();
       this.onGetZoneList();
       this.onGetPartnerList();
@@ -175,6 +178,10 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
       this.dataForm.subscriptionMinimumPeriod.setValue(this.guarantee.subscriptionMinimumPeriod);
       this.dataForm.subscriptionMaximumPeriod.setValue(this.guarantee.subscriptionMaximumPeriod);
       this.dataForm.deficiencyDeadline.setValue(this.guarantee.deficiencyDeadline);
+
+      if (this.guarantee.category) {
+        this.dataForm.category.setValue(this.guarantee.category.name);
+      }
 
       if (this.guarantee.deficiencyDeadlineUnit) {
         this.dataForm.deficiencyDeadlineUnit.setValue(this.guarantee.deficiencyDeadlineUnit.name);
@@ -259,7 +266,19 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
       zoneId: null,
       partnerIds: [],
       description: this.formData.value.description,
-      clauses: this.guaranteeClauses
+      clauses: this.guaranteeClauses,
+      categoryId: null,
+    }
+
+
+    if (this.formData.value.category) {
+      if (this.categoryList && this.categoryList.length > 0) {
+        this.categoryList.forEach((item: any) => {
+          if (item.name === this.formData.value.category) {
+            requestData.categoryId = item.id;
+          }
+        });
+      }
     }
 
     if (this.formData.value.discountApplicable && this.formData.value.discountApplicable == "Oui") {
@@ -376,10 +395,6 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/management/products/guarantees/list")
-        .then(() => {
-      this.guarantee = null;
-        });
 
     });
 
@@ -766,6 +781,20 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     });
 
+  }
+
+
+  onGetCategoryList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getCategoryList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.categoryList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
   }
 
 }

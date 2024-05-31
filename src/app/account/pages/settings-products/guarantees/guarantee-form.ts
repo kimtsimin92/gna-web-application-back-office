@@ -58,6 +58,9 @@ export class GuaranteeForm {
   zone = new FormControl(null,
     [Validators.required]);
 
+  category = new FormControl(null, [
+    Validators.required]);
+
  partners = new FormControl(null);
  description = new FormControl(null);
   clauses = new FormControl(null);

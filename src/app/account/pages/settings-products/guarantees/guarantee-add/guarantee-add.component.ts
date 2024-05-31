@@ -133,6 +133,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
   guarantee: any = null;
   guaranteeItem: any = null;
   guaranteeItemsData: any[] = [];
+  categoryList: any[] = [];
 
   constructor(
     private _fb: FormBuilder,
@@ -158,13 +159,10 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
       this.guaranteeData = JSON.parse(localStorage.getItem("GUARANTEE_DATA"));
     }
 
+    this.onGetCategoryList();
     this.onGetPeriodList();
     this.onGetZoneList();
     this.onGetPartnerList();
-
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
-
-    this.items = [{ label: 'Configuration Produits' }, { label: 'Garanties'}, {label: "Création"}];
 
 
     this.formData = this._fb.group(this.dataForm);
@@ -247,6 +245,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
       premiumMinimum: this.formData.value.premiumMinimum,
       discountApplicable: null,
       zoneId: null,
+      categoryId: null,
       partnerIds: [],
       description: this.formData.value.description,
       clauses: this.guaranteeClauses,
@@ -267,6 +266,10 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         });
       }
+    }
+
+    if (this.formData.value.category) {
+      requestData.categoryId = this.formData.value.category.id;
     }
 
     if (this.formData.value.zone) {
@@ -687,6 +690,19 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
         this.onSaveItemErrorNotificationDialog(errorData);
       });
 
+  }
+
+  onGetCategoryList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getCategoryList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.categoryList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
   }
 
 }

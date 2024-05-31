@@ -178,6 +178,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
   branchCode: any = null;
   guaranteeCode: any = null;
 
+  insuredTypeList: any[] = [];
   incentiveList: any[] = [];
 
   // @ts-ignore
@@ -215,9 +216,10 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     this.formData = this._fb.group(this.dataForm);
     this.formProductPartner = this._fb.group(this.productPartnerForm);
 
-    this.onGetProductGroupList()
-    this.onGetSegmentList()
-    this.onGetIncentiveList()
+    this.onGetProductGroupList();
+    this.onGetSegmentList();
+    this.onGetInsuredTypeList();
+    this.onGetIncentiveList();
     this.onGetPartnerCommercialList();
 
   }
@@ -291,19 +293,29 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
       segmentId: null,
       crossSellingProductCode: this.formData.value.crossSellingProductCode,
       crossSellingDiscountRate: this.formData.value.crossSellingDiscountRate,
-      incentives: [],
+      incentiveIds: [],
       cashBackRate: this.formData.value.cashBackRate,
       commercialDiscountRate: this.formData.value.commercialDiscountRate,
       premiumIncreaseRate: this.formData.value.premiumIncreaseRate,
-      loyaltyPoint: this.formData.value.loyaltyPoint,
+      loyaltyPoints: this.formData.value.loyaltyPoints,
+      numberSubscriptions: this.formData.value.numberSubscriptions,
       renewable: null,
       tacitAgreement: null,
       advertisementObject: null,
       advertisementObjectFile: null,
       backOfficeValidation: this.formData.value.backOfficeValidation,
+      backOfficeValidationCapital: null,
+      backOfficeValidationPremium: null,
       clauses: this.productClauses,
       partners: [],
+      insuredTypeIds: [],
     }
+
+    if(requestData.backOfficeValidation) {
+      requestData.backOfficeValidationCapital = this.formData.value.backOfficeValidationCapital;
+      requestData.backOfficeValidationPremium = this.formData.value.backOfficeValidationPremium;
+    }
+
 
     if (this.formData.value.group) {
       requestData.groupId = this.formData.value.group.id;
@@ -336,7 +348,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
       if (incentives.length > 0) {
         incentives.forEach((incentive: any) => {
           // @ts-ignore
-          requestData.incentives.push(incentive.id);
+          requestData.incentiveIds.push(incentive.id);
         });
       }
     }
@@ -344,6 +356,17 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectPartnerList && this.selectPartnerList.length > 0) {
       // @ts-ignore
       requestData.partners = this.selectPartnerList;
+    }
+
+
+    if (this.formData.value.insuredTypes) {
+      let insuredTypes = this.formData.value.insuredTypes;
+      if (insuredTypes.length > 0) {
+        insuredTypes.forEach((it: any) => {
+          // @ts-ignore
+          requestData.insuredTypeIds.push(it.id);
+        });
+      }
     }
 
     console.log(requestData);
@@ -522,6 +545,19 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
         this.accountService.pageLoading = false;
         console.log(responseData);
         this.segmentList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
+  }
+
+  onGetInsuredTypeList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getInsuredTypeList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.insuredTypeList = responseData["body"];
       }, (errorData: HttpErrorResponse) => {
         this.accountService.pageLoading = false;
         console.log(errorData);
