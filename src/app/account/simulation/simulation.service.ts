@@ -11,7 +11,7 @@ export class SimulationService {
 
   onGetQuotation(request: any) {
     return this._http
-      .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/simulations/quotations/getQuotation', request, {observe: 'response'});
+      .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/simulations/quote', request, {observe: 'response'});
   }
 
 }

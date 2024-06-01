@@ -71,6 +71,9 @@ import {
 import {
   EditLoadingDialogComponent
 } from "../../../../dialogs/loading/edit-loading-dialog/edit-loading-dialog.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 @Component({
   selector: 'app-premium-calculation-edit',
@@ -96,7 +99,10 @@ import {
     NgIf,
     ReactiveFormsModule,
     SharedModule,
-    MatMenuTrigger
+    MatMenuTrigger,
+    IconFieldModule,
+    InputIconModule,
+    InputTextareaModule
   ],
   templateUrl: './premium-calculation-edit.component.html',
   styleUrl: './premium-calculation-edit.component.css'
@@ -331,7 +337,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
 
     } else {
-      this._router.navigateByUrl("/account/settings-products/premium-calculation/edit/list");
+      this._router.navigateByUrl("/account/management/products/pricing/edit/list");
     }
 
 
@@ -350,7 +356,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings-products/premium-calculation/list");
+    this._router.navigateByUrl("/account/management/products/pricing/list");
   }
 
   closeDialog() {
@@ -654,7 +660,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/settings-products/premium-calculation/list")
+      this._router.navigateByUrl("/account/management/products/pricing/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -842,7 +848,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
       // @ts-ignore
       const dialogRef = this._dialog.open(this.viewDialog, {
         hasBackdrop: false,
-        width: '300px',
+        width: '400px',
         height: '450px',
         data: {
           formStepQuestion: formStepQuestion,
@@ -1072,10 +1078,10 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
                   typeValue: field.type,
                   name: name,
                   label: label,
-                  text: field.attributes.text
+                  numeric: field.attributes.numeric
                 }
 
-                if (variable.text) {
+                if (variable.numeric) {
                   variable.typeCode = 2;
                 }
 
@@ -1351,8 +1357,8 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
     // @ts-ignore
     const dialogRef = this._dialog.open(PremiumCalculationModalityDialogComponent, {
       hasBackdrop: false,
-      width: '300px',
-      height: '460px',
+      width: '400px',
+      height: '400px',
       data: {
         outputData: pf.value.output,
         variableList: this.variableList

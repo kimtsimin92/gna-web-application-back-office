@@ -58,6 +58,9 @@ import { TagModule } from 'primeng/tag';
 
 import { environment } from '../../../../../../environments/environment';
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {
+  SaveLoadingDialogComponent
+} from "../../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component";
 @Component({
   selector: 'app-segment-list',
   standalone: true,
@@ -541,7 +544,7 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   openSaveLoadingDialog(): void {
-    const dialogRef = this._dialog.open(RemoveLoadingDialogComponent, {
+    const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
       width: '350px',
     });

@@ -62,6 +62,11 @@ import {SharedModule} from "primeng/api";
 import {
   ConfirmationEditDialogComponent
 } from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {CheckboxModule} from "primeng/checkbox";
+import {MatIcon} from "@angular/material/icon";
 
 class QuotationFormData {
   name: string | undefined;
@@ -105,7 +110,12 @@ class QuotationStepQuestionItem {
     MatTooltip,
     NgIf,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    InputTextareaModule,
+    IconFieldModule,
+    InputIconModule,
+    CheckboxModule,
+    MatIcon
   ],
   templateUrl: './form-quotation-edit.component.html',
   styleUrl: './form-quotation-edit.component.css'
@@ -152,7 +162,8 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
     {
       code: 6,
       name: "Liste Déroulante",
-      tag: "select"
+      tag: "select",
+      type: "text"
     },
     {
       code: 7,
@@ -260,6 +271,10 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
                 q.position.setValue(question.position);
                 q.name.setValue(question.name);
                 q.field.setValue(question.field.code);
+                q.contractAdd.setValue(question.contractAdd);
+                q.contractEdit.setValue(question.contractEdit);
+                q.floor.setValue(question.floor);
+                q.ceiling.setValue(question.ceiling);
 
                 this.onGetViewInput(question.field.code);
 
@@ -334,7 +349,7 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
     this.formStep.markAllAsTouched();
     const dialogRef = this._dialog.open(NotBlankDialogComponent, {
       width: '400px',
-      height: '350px',
+      height: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -374,7 +389,7 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
 
     const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -435,6 +450,8 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
 
             fs.value.questions.forEach((fsq: any) => {
 
+              console.log(fsq);
+
               let position = null;
 
               let field = {
@@ -466,6 +483,12 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
 
               if (fsq.value.attributes) {
                 attributes = fsq.value.attributes;
+                if (attributes) {
+                  if (attributes.numeric) {
+                    // @ts-ignore
+                    field.type = "numeric";
+                  }
+                }
                 field.attributes = attributes;
               }
 
@@ -483,7 +506,11 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
                 let question = {
                   position: position,
                   name: fsq.value.name,
-                  fieldData: JSON.stringify(field)
+                  fieldData: JSON.stringify(field),
+                  contractAdd: fsq.value.contractAdd,
+                  contractEdit: fsq.value.contractEdit,
+                  floor: fsq.value.floor,
+                  ceiling: fsq.value.ceiling,
                 }
 
                 // @ts-ignore
@@ -538,7 +565,7 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '350px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "La modification de ce formulaire a échoué."
@@ -561,7 +588,7 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '350px',
+      height: '400px',
       data: {
         dialogMessage: "La modification de ce formulaire a réussi."
       },
@@ -706,8 +733,12 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
   onOpenSettingsField(formStepQuestion: FormGroup) {
 
     this.viewDialog = null;
+    let code: any = null;
+
 
     if (formStepQuestion.value.currentSelectedTag && formStepQuestion.value.currentSelectedTag.fieldTag) {
+
+      code = formStepQuestion.value.currentSelectedTag.fieldTag.code;
 
       this.onGetViewInput(formStepQuestion.value.currentSelectedTag.fieldTag.code);
 
@@ -718,8 +749,8 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
       // @ts-ignore
       const dialogRef = this._dialog.open(this.viewDialog, {
         hasBackdrop: false,
-        width: '300px',
-        height: '450px',
+        width: '400px',
+        height: '400px',
         data: {
           formStepQuestion: formStepQuestion,
           currentSelectedTag: formStepQuestion.value.currentSelectedTag
@@ -730,7 +761,47 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
         console.log('The dialog was closed');
         console.log(result);
         if (result) {
-          formStepQuestion.patchValue({attributes: result.value})
+
+          let attributes: any = null;
+
+          if (code) {
+
+            if (code > 3 && code < 7) {
+
+              attributes = {
+                name: result.value.name,
+                label: result.value.label,
+                options: [],
+                values: [],
+                numeric: result.value.numeric,
+                required: result.value.required,
+
+              }
+
+
+              if (result.value.options && result.value.values) {
+
+                let optionElements = result.value.options.split("\n");
+                let valueElements = result.value.values.split("\n");
+
+                if (optionElements && optionElements.length > 0 && valueElements && valueElements.length > 0) {
+                  optionElements.forEach((oe: any) => {
+                    attributes.options.push(oe);
+                  });
+                  valueElements.forEach((ve: any) => {
+                    attributes.values.push(ve);
+                  });
+                }
+              }
+
+
+            } else {
+              attributes = result.value;
+            }
+
+          }
+
+          formStepQuestion.patchValue({attributes: attributes})
         }
       });
 

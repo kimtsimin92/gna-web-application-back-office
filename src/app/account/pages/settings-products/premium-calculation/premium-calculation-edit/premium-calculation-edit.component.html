@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Configuration Produit / Tarification des primes / Modifier</span>
+  <span>Configuration des produits / Tarification des primes / Modifier</span>
 </div>
 
 
@@ -7,48 +7,52 @@
 
   <div class="container-fluid gna-main-div-card">
     <mat-card class="gna-card">
-      <mat-progress-bar mode="query" *ngIf="loadingData"></mat-progress-bar>
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-btn row">
-          <div class="col-12 col-sm-6">
-            @if (isSave) {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-cancel gna-disable">Annuler</button>
-            } @else {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-cancel"
-                      (click)="onBack()"
-                      [disabled]="isSave || loadingData">Annuler</button>
-            }
-
-          </div>
-          <div class="col-12 col-sm-6">
-            @if (!formQuotation.valid) {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      (click)="onGetNotBlankAlert()">Modifier</button>
-            } @else {
-
-              @if (isSave) {
-                <button mat-raised-button
-                        class="gna-btn-default gna-btn-save gna-disable">Modifier</button>
-              } @else {
-                <button mat-raised-button
-                        class="gna-btn-default gna-btn-save"
-                        [disabled]="isSave || accountService.pageLoading || accountService.isSave || loadingData"
-                        (click)="onConfirm()">Modifier</button>
-              }
-
-            }
-          </div>
-
-        </div>
-      </mat-card-header>
-      <mat-card-content class="gna-card-content">
-
         <div class="container-fluid">
 
-          <h3 class="gna-text-primary gna-text-bold mt-2">Tarification | Prime Garantie</h3>
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer</button>
+              } @else {
+
+                @if (!formQuotation.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Enregistrer</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onConfirm()">Enregistrer</button>
+                }
+              }
+            </div>
+
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div class="container-fluid">
 
           <form
             [formGroup]="formQuotation">
@@ -56,22 +60,18 @@
 
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <label for="name">
-                  Nom Prime
+                  Nom Tarification
                   <span class="gna-text-red gna-text-bold">*</span>
                 </label>
-                <input pInputText
-                       type="text" id="name" aria-describedby="name-help" placeholder="Entrer nom de la prime" class="gna-form-input"
-                       required
-                       formControlName="name"
-                       [readonly]="isSave || accountService.pageLoading || accountService.isSave || loadingData"/>
-              </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="name">Description Prime</label>
-                <input pInputText
-                       type="text" id="description" aria-describedby="name-help"
-                       placeholder="Entrer description de la prime" class="gna-form-input"
-                       formControlName="description"
-                       [readonly]="isSave || accountService.pageLoading || accountService.isSave || loadingData"/>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         type="text" id="name" aria-describedby="name-help"
+                         class="gna-form-input"
+                         required
+                         formControlName="name"
+                         [readonly]="isSave || accountService.pageLoading || accountService.isSave || loadingData"/>
+                </p-iconField>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <label>Groupe Produit
@@ -82,10 +82,19 @@
                             optionLabel="name"
                             optionValue="name"
                             emptyMessage="Aucun résultat trouvé"
-                            placeholder="Sélectionner groupe produit"
+                            placeholder="Sélectionner"
                             class="gna-form-dropdown"
                             formControlName="productGroup"
-                            [readonly]="isReadonly">
+                            [filter]="true"
+                            filterBy="name"
+                            [showClear]="true"
+                            [readonly]="isSave || accountService.pageLoading || accountService.isSave || loadingData">
+                  <ng-template let-item pTemplate="item">
+                    <div class="flex align-items-center gap-2"
+                         (click)="onGetGuaranteeByProductGroup(item)">
+                      <div>{{ item.name }}</div>
+                    </div>
+                  </ng-template>
                 </p-dropdown>
               </div>
 
@@ -100,11 +109,18 @@
                               optionLabel="guaranteeName"
                               optionValue="guaranteeName"
                               emptyMessage="Aucun résultat trouvé"
-                              placeholder="Sélectionner une garantie"
+                              placeholder="Sélectionner"
                               class="gna-form-dropdown"
                               formControlName="guarantee"
-                              [readonly]="isReadonly">
-
+                              [filter]="true"
+                              filterBy="name"
+                              [showClear]="true"
+                              [readonly]="isSave || accountService.pageLoading || accountService.isSave || loadingData">
+                    <ng-template let-item pTemplate="item">
+                      <div class="flex align-items-center gap-2">
+                        <div>{{ item.guaranteeName }}</div>
+                      </div>
+                    </ng-template>
                   </p-dropdown>
 
                 } @else {
@@ -116,6 +132,13 @@
                   </p-dropdown>
                 }
 
+              </div>
+
+              <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <label>Description</label>
+                <textarea rows="2" pInputTextarea formControlName="description"
+                          class="gna-form-input"
+                          [readonly]="isSave || accountService.pageLoading || accountService.isSave || loadingData"></textarea>
               </div>
 
             </div>

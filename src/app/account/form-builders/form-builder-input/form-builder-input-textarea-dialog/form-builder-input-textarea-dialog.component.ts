@@ -40,7 +40,7 @@ export class FormBuilderInputTextareaDialogComponent implements OnInit, OnDestro
     minlength: new FormControl(null, [
       Validators.pattern(/^[0-9]*$/)]),
     required: new FormControl(false),
-    text: new FormControl(true)
+    numeric: new FormControl(null),
   });
 
   currentSelectedTag: any = null;

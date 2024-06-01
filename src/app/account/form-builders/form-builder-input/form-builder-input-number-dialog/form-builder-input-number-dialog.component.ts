@@ -41,7 +41,7 @@ export class FormBuilderInputNumberDialogComponent implements OnInit, OnDestroy 
     min: new FormControl(null, [
       Validators.pattern(/^\d+(\.\d+)?$/)]),
     required: new FormControl(false),
-    text: new FormControl(false)
+    numeric: new FormControl(null),
   });
 
   currentSelectedTag: any = null;

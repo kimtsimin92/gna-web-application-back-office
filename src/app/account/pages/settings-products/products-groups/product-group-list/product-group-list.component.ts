@@ -138,8 +138,8 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
     }
   ];
 
-  pageSort: string = "name";
-  pageOrder: string = "asc";
+  pageSort: string = "updatedAt";
+  pageOrder: string = "desc";
 
   totalPages: number = 0;
   currentPage: number = 0;

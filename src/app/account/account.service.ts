@@ -288,6 +288,16 @@ export class AccountService {
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/segments/enabled/'+id, {observe: 'response'});
   }
 
+  saveQuoteFormToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations/enabled/'+id, {observe: 'response'});
+  }
+
+  savePricingFormToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/pricing/primes/enabled/'+id, {observe: 'response'});
+  }
+
   saveCustomerAccountToggleEnable(id: number) {
     return this._http
       .put<HttpResponse<any>>(environment.customersService+'/v1/users/switch_activation_user/'+id, {observe: 'response'});
@@ -416,14 +426,16 @@ export class AccountService {
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/'+id+'/files/advertisementObjects', requestData, {observe: 'response'});
   }
 
-  getFormQuotations(page: number) {
+  getFormQuotations(sort: string, order: string, page: number, size: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations?sort='
+        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
   }
 
-  getPricingList(page: number) {
+  getPricingList(sort: string, order: string, page: number, size: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/pricing/primes?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/pricing/primes?sort='
+        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
   }
 
 

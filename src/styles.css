@@ -183,6 +183,10 @@ a {
   margin-right: 10px;
 }
 
+.label-mr-2 p-checkbox {
+margin-left: auto!important;
+}
+
 .span-mr {
   margin-right: 5px;
 }
@@ -538,10 +542,10 @@ a {
 }
 
 .gna-container {
-  position: relative;
+/*  position: relative;
   min-height: 52vh!important;
   max-height: 52vh!important;
-  overflow: auto;
+  overflow: auto;*/
 }
 
 .gna-pricing-list {

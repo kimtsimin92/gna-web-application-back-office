@@ -105,8 +105,8 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   ];
 
-  pageSort: string = "name";
-  pageOrder: string = "asc";
+  pageSort: string = "updatedAt";
+  pageOrder: string = "desc";
 
 
 

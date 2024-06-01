@@ -31,6 +31,11 @@ import {
 import {
   RemoveLoadingDialogComponent
 } from "../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
+import {DialogModule} from "primeng/dialog";
+import {DropdownModule} from "primeng/dropdown";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {InputTextModule} from "primeng/inputtext";
 
 @Component({
   selector: 'app-management-customer-account-personal-view',
@@ -58,7 +63,12 @@ import {
     MatMenuItem,
     RippleModule,
     TableModule,
-    TooltipModule
+    TooltipModule,
+    DialogModule,
+    DropdownModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule
   ],
   templateUrl: './management-customer-account-personal-view.component.html',
   styleUrl: './management-customer-account-personal-view.component.css'
@@ -75,6 +85,9 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
 
   protected readonly environment = environment;
   isLoadingFiles: boolean = false;
+
+  showViewEdit: boolean = false;
+  segmentList: any[] = [];
 
   constructor(
     private responsive: BreakpointObserver,
@@ -542,5 +555,23 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
       );
   }
 
+
+  onShowViewEdit() {
+    this.onGetSegmentList();
+    this;this.showViewEdit = true;
+  }
+
+  onGetSegmentList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getSegmentList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.segmentList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
+  }
 
 }

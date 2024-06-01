@@ -42,7 +42,7 @@ export class FormBuilderInputEmailDialogComponent implements OnInit, OnDestroy {
       Validators.pattern(/^[0-9]*$/)]),
     pattern: new FormControl(null),
     required: new FormControl(false),
-    text: new FormControl(true),
+    numeric: new FormControl(null),
   });
 
   currentSelectedTag: any = null;

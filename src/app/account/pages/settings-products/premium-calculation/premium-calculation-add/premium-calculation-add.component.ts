@@ -67,6 +67,9 @@ import {MatIcon} from "@angular/material/icon";
 import {
   PremiumCalculationModalityDialogComponent
 } from "../premium-calculation-modality-dialog/premium-calculation-modality-dialog.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 class QuotationFormData {
   name: string | undefined;
@@ -111,7 +114,10 @@ class QuotationStepQuestionItem {
     MatMenu,
     MatMenuTrigger,
     MatMenuItem,
-    MatIcon
+    MatIcon,
+    IconFieldModule,
+    InputIconModule,
+    InputTextareaModule
   ],
   templateUrl: './premium-calculation-add.component.html',
   styleUrl: './premium-calculation-add.component.css'
@@ -303,7 +309,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings-products/premium-calculation/list");
+    this._router.navigateByUrl("/account/management/products/pricing/list");
   }
 
   closeDialog() {
@@ -584,7 +590,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/settings-products/premium-calculation/list")
+      this._router.navigateByUrl("/account/management/products/pricing/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -770,7 +776,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
       // @ts-ignore
       const dialogRef = this._dialog.open(this.viewDialog, {
         hasBackdrop: false,
-        width: '300px',
+        width: '400px',
         height: '450px',
         data: {
           formStepQuestion: formStepQuestion,
@@ -1000,10 +1006,10 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
                   typeValue: field.type,
                   name: name,
                   label: label,
-                  text: field.attributes.text
+                  numeric: field.attributes.numeric
                 }
 
-                if (variable.text) {
+                if (variable.numeric) {
                   variable.typeCode = 2;
                 }
 
@@ -1274,8 +1280,8 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
     // @ts-ignore
     const dialogRef = this._dialog.open(PremiumCalculationModalityDialogComponent, {
       hasBackdrop: false,
-      width: '300px',
-      height: '460px',
+      width: '400px',
+      height: '400px',
       data: {
         outputData: pf.value.output,
         variableList: this.variableList

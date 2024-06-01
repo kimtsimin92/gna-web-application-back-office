@@ -266,18 +266,18 @@ export class SidenavComponent implements OnInit {
           label: "Groupes de produits",
           route: '/account/management/products/groups/list'
         },
-      /* {
+       {
            label: "Formulaires de cotations",
-          // route: '/account/management/products/quotes/forms/list'
+          route: '/account/management/products/quotes/forms/list'
          },
          {
            label: "Tarification des primes",
-          // route: '/account/management/products/pricing/list'
+           route: '/account/management/products/pricing/list'
          },
         {
             label: "Capitaux",
            // route: '/'
-          }*/
+          }
       ]
     };
 
@@ -393,7 +393,7 @@ export class SidenavComponent implements OnInit {
 
 
       this.menuItems.push(groupManagementMarketing);
-     // this.menuItems.push(groupManagementSubscriptions);
+      this.menuItems.push(groupManagementSubscriptions);
       this.menuItems.push(groupManagementSettings);
       this.menuItems.push(groupManagementAdmin);
 

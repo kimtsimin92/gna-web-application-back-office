@@ -63,6 +63,8 @@ import {
 import {
   FormBuilderInputRadioDialogComponent
 } from "../../../../form-builders/form-builder-input/form-builder-input-radio-dialog/form-builder-input-radio-dialog.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
 
 
 class QuotationFormData {
@@ -115,7 +117,9 @@ class QuotationStepQuestionItem {
     MatLabel,
     MatOption,
     MatInput,
-    MatIcon
+    MatIcon,
+    IconFieldModule,
+    InputIconModule
   ],
   templateUrl: './form-quotation-add.component.html',
   styleUrl: './form-quotation-add.component.css'
@@ -162,7 +166,8 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     {
       code: 6,
       name: "Liste Déroulante",
-      tag: "select"
+      tag: "select",
+      type: "text"
     },
     {
       code: 7,
@@ -266,7 +271,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     this.formStep.markAllAsTouched();
     const dialogRef = this._dialog.open(NotBlankDialogComponent, {
       width: '400px',
-      height: '350px',
+      height: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -306,7 +311,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
     const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -381,6 +386,12 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
               if (fsq.value.attributes) {
                 attributes = fsq.value.attributes;
+                if (attributes) {
+                  if (attributes.numeric) {
+                    // @ts-ignore
+                    field.type = "numeric";
+                  }
+                }
                 field.attributes = attributes;
               }
 
@@ -397,7 +408,11 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
                 let question = {
                   position: position,
                   name: fsq.value.name,
-                  fieldData: JSON.stringify(field)
+                  fieldData: JSON.stringify(field),
+                  contractAdd: fsq.value.contractAdd,
+                  contractEdit: fsq.value.contractEdit,
+                  floor: fsq.value.floor,
+                  ceiling: fsq.value.ceiling,
                 }
 
                 // @ts-ignore
@@ -450,7 +465,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '350px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "L'enregistrement de ce formulaire a échoué."
@@ -473,7 +488,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '350px',
+      height: '400px',
       data: {
         dialogMessage: "L'enregistrement de ce formulaire a réussi."
       },
@@ -663,7 +678,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
       // @ts-ignore
       const dialogRef = this._dialog.open(this.viewDialog, {
         hasBackdrop: false,
-        width: '300px',
+        width: '400px',
         height: '450px',
         data: {
           formStepQuestion: formStepQuestion,
@@ -687,7 +702,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
                   label: result.value.label,
                   options: [],
                   values: [],
-                  text: result.value.text,
+                  numeric: result.value.numeric,
                   required: result.value.required,
 
               }

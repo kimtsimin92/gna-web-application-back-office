@@ -158,8 +158,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   ];
 
-  pageSort: string = "name";
-  pageOrder: string = "asc";
+  pageSort: string = "updatedAt";
+  pageOrder: string = "desc";
 
   totalPages: number = 0;
   currentPage: number = 0;

@@ -711,19 +711,19 @@ export const routes: Routes = [
         title: 'Formulaires Souscriptions | GNA',
       },
       {
-        path: 'settings-products/premium-calculation/list', component: PremiumCalculationListComponent,
+        path: 'management/products/pricing/list', component: PremiumCalculationListComponent,
         title: 'Tarification des primes - Lister | GNA',
       },
       {
-        path: 'settings-products/premium-calculation/add', component: PremiumCalculationAddComponent,
+        path: 'management/products/pricing/add', component: PremiumCalculationAddComponent,
         title: 'Tarification des primes - Créer | GNA',
       },
       {
-        path: 'settings-products/premium-calculation/edit', component: PremiumCalculationEditComponent,
+        path: 'management/products/pricing/edit', component: PremiumCalculationEditComponent,
         title: 'Tarification des primes - Modifier | GNA',
       },
       {
-        path: 'settings-products/premium-calculation/view', component: PremiumCalculationDetailComponent,
+        path: 'management/products/pricing/view', component: PremiumCalculationDetailComponent,
         title: 'Tarification des primes - Voir | GNA',
       },
       {
@@ -803,9 +803,9 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'simulation/quotation',
+    path: 'simulation/quote',
     component: SimulationQuotationComponent,
-    title: 'Simulation Cotation | GNA',
+    title: 'Simulation | GNA',
     canActivate: [authGuard]
   }
 ];

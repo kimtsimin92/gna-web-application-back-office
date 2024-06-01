@@ -1,29 +1,25 @@
 <app-header
   [headerTitle]="headerTitle" *ngIf="!accountService.loadingPage"></app-header>
 
-<div class="gna-simulation">
+<div class="gna-simulation container-fluid">
 
-  <div class="row container">
-    <div class="col-6">
-      <div class="sbtn">
+  <div class="row">
+    <div class="col-6 sbtn">
         <button mat-stroked-button
                 color="primary"
                 class="gna-btn-default"
                 (click)="onBack()">
           <mat-icon>arrow_back</mat-icon>
           Retour</button>
-      </div>
 
     </div>
-    <div class="col-6">
-      <div class="sbtn">
+    <div class="col-6 sbtn btn-new">
         <button mat-stroked-button
                 color="primary"
                 class="gna-btn-default"
                 (click)="onRefresh()">
           <mat-icon>refresh</mat-icon>
           Actualiser</button>
-      </div>
 
     </div>
   </div>
@@ -39,6 +35,7 @@
 
             <div class="row">
               <h3 class="gna-simulation-card-h1">{{ onGetPremium() | number : "2.0" }} FCFA / Mois</h3>
+              <div class="gna-simulation-card-hr"></div>
             </div>
 
             <div class="row gs-month">
@@ -78,12 +75,12 @@
                   @for (gm of guaranteeMandatoryList; track gm; let i = $index; let f = $first; let l = $last) {
 
                     <div class="row gs-row">
-                      <div class="col">
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <span class="gs-gm-title">{{ gm.name }}</span>
                         <br>
                         <span class="gs-gm-description">{{ gm.description }}</span>
                       </div>
-                      <div class="col">
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gs-gm-cd">Consulter les détails de la garantie
                       <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
@@ -108,26 +105,24 @@
                   @for (gc of guaranteeComplementaryList; track gc; let i = $index; let f = $first; let l = $last) {
 
                     <div class="row gs-row">
-                      <div class="col">
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <span class="gs-gm-title">{{ gc.name }}</span>
                         <br>
                         <span class="gs-gm-description">{{ gc.description }}</span>
                       </div>
-                      <div class="col">
-                        <div class="row">
-                          <div class="col-10">
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <span class="gs-gm-cd">Consulter les détails de la garantie
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
 </svg>
                         </span>
-                          </div>
-                          <div class="col-1 gs-col">
-                            <input type="checkbox" [id]="gc.code" [name]="gc.code"
-                                   [checked]="gc.checked"
-                                   (click)="onCheckPremium(gc)">
-                          </div>
-                        </div>
+                            <span class="mlcb">
+                                  <input type="checkbox" [id]="gc.code" [name]="gc.code"
+                                         [checked]="gc.checked"
+                                         (click)="onCheckPremium(gc)"
+                                  class="gna-clickable">
+                            </span>
+
                       </div>
                     </div>
 
