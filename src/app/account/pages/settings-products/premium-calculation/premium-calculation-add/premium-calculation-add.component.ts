@@ -247,18 +247,27 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
   operatorListTwo: any[] = [];
 
   pricingForm: FormGroup = new FormGroup({
+    vOne: new FormControl(null),
     variableOne: new FormControl(null, [Validators.required]),
     operatorOne: new FormControl(null, [Validators.required]),
     valueOne: new FormControl(null, [Validators.required]),
     operatorLogic: new FormControl(null),
+    vTwo: new FormControl(null),
     variableTwo: new FormControl(null),
     operatorTwo: new FormControl(null),
     valueTwo: new FormControl(null),
+    operatorLogicTwo: new FormControl(null),
+    vThree: new FormControl(null),
+    variableThree: new FormControl(null),
+    operatorThree: new FormControl(null),
+    valueThree: new FormControl(null),
     result: new FormControl(null, [Validators.required]),
     output: new FormControl(null, [Validators.required]),
     modeOutputLabel: new FormControl("Alors"),
+    modeOutputLabelTwo: new FormControl("Alors"),
     operatorList: new FormControl([]),
-    operatorListTwo: new FormControl([])
+    operatorListTwo: new FormControl([]),
+    operatorListThree: new FormControl([])
   });
 
   modeValue: number = 1;
@@ -419,19 +428,35 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
             let variableOne = null;
             let variableTwo = null;
+            let variableThree = null;
 
             let operatorOne = null;
             let operatorTwo = null;
+            let operatorThree = null;
 
             let valueOne = null;
             let valueTwo = null;
+            let valueThree = null;
+
 
             if (pf.value.variableOne) {
-              variableOne = pf.value.variableOne;
+
+              if (this.variableList && this.variableList.length > 0) {
+                this.variableList.forEach((vl: any) => {
+                  if (vl.name == pf.value.variableOne)
+                    variableOne = vl;
+                });
+              }
+
             }
 
             if (pf.value.operatorOne) {
-              operatorOne = pf.value.operatorOne;
+              if (pf.value.operatorList && pf.value.operatorList.length > 0) {
+                pf.value.operatorList.forEach((ol: any) => {
+                  if (ol.typeCode == pf.value.operatorOne)
+                    operatorOne = ol;
+                });
+              }
             }
 
             if (pf.value.valueOne) {
@@ -439,20 +464,88 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
             }
 
             if (pf.value.variableTwo) {
-              variableTwo = pf.value.variableTwo;
+              if (this.variableList && this.variableList.length > 0) {
+                this.variableList.forEach((vl: any) => {
+                  if (vl.name == pf.value.variableTwo)
+                    variableTwo= vl;
+                });
+              }
             }
 
             if (pf.value.operatorTwo) {
-              operatorTwo = pf.value.operatorTwo;
+              if (pf.value.operatorListTwo && pf.value.operatorListTwo.length > 0) {
+                pf.value.operatorListTwo.forEach((ol: any) => {
+                  if (ol.typeCode == pf.value.operatorTwo)
+                    operatorTwo = ol;
+                });
+              }
             }
 
             if (pf.value.valueTwo) {
               valueTwo = pf.value.valueTwo;
             }
 
-            let operatorLogic = pf.value.operatorLogic;
+            if (pf.value.variableThree) {
+              if (this.variableList && this.variableList.length > 0) {
+                this.variableList.forEach((vl: any) => {
+                  if (vl.name == pf.value.variableThree)
+                    variableThree = vl;
+                });
+              }
+            }
 
-            if (operatorLogic) {
+            if (pf.value.operatorThree) {
+              if (pf.value.operatorListThree && pf.value.operatorListThree.length > 0) {
+                pf.value.operatorListThree.forEach((ol: any) => {
+                  if (ol.typeCode == pf.value.operatorThree)
+                    operatorThree = ol;
+                });
+              }
+            }
+
+            if (pf.value.valueThree) {
+              valueThree = pf.value.valueThree;
+            }
+
+            let operatorLogic = pf.value.operatorLogic;
+            let operatorLogicTwo = pf.value.operatorLogicTwo;
+
+            if (operatorLogic && operatorLogicTwo) {
+
+              let clause: any = {
+                variableOne: variableOne,
+                operatorOne: operatorOne,
+                valueOne: valueOne,
+                operatorLogic: operatorLogic,
+                variableTwo: variableTwo,
+                operatorTwo: operatorTwo,
+                valueTwo: valueTwo,
+                operatorLogicTwo: operatorLogicTwo,
+                variableThree: variableThree,
+                operatorThree: operatorThree,
+                valueThree: valueThree,
+                output: null,
+                result: null
+              };
+
+              let output = null;
+              let result = null;
+
+              if (pf.value.output) {
+                output = pf.value.output;
+              }
+
+              if (pf.value.result) {
+                result = pf.value.result;
+              }
+
+              clause.output = output;
+              clause.result = result;
+
+              // @ts-ignore
+              clauses.push(clause);
+
+            } else if (operatorLogic) {
 
               let clause: any = {
                 variableOne: variableOne,
@@ -554,7 +647,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '350px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "L'enregistrement de ce formulaire a échoué."
@@ -577,7 +670,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '350px',
+      height: '400px',
       data: {
         dialogMessage: "L'enregistrement de cette prime de calcul a réussi."
       },
@@ -677,18 +770,27 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
     if (lastItem.valid) {
 
       let pricingForm: FormGroup = new FormGroup({
+        vOne: new FormControl(null),
         variableOne: new FormControl(null, [Validators.required]),
         operatorOne: new FormControl(null, [Validators.required]),
         valueOne: new FormControl(null, [Validators.required]),
         operatorLogic: new FormControl(null),
+        vTwo: new FormControl(null),
         variableTwo: new FormControl(null),
         operatorTwo: new FormControl(null),
         valueTwo: new FormControl(null),
+        operatorLogicTwo: new FormControl(null),
+        vThree: new FormControl(null),
+        variableThree: new FormControl(null),
+        operatorThree: new FormControl(null),
+        valueThree: new FormControl(null),
         result: new FormControl(null, [Validators.required]),
         output: new FormControl(null, [Validators.required]),
         modeOutputLabel: new FormControl("Alors"),
+        modeOutputLabelTwo: new FormControl("Alors"),
         operatorList: new FormControl([]),
-        operatorListTwo: new FormControl([])
+        operatorListTwo: new FormControl([]),
+        operatorListThree: new FormControl([])
       });
 
       this.pricingFormList.push(pricingForm);
@@ -1281,7 +1383,7 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
     const dialogRef = this._dialog.open(PremiumCalculationModalityDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '400px',
+      height: '500px',
       data: {
         outputData: pf.value.output,
         variableList: this.variableList
@@ -1376,6 +1478,138 @@ export class PremiumCalculationAddComponent implements OnInit, OnDestroy, AfterV
 
       }
     });
+
+  }
+
+  onGetModeOutputTwo(pf: FormGroup, mode: number) {
+    if (mode == 2) {
+      pf.patchValue({modeOutputLabelTwo: "et"});
+      let operatorLogicTwo = {
+        typeCode: 9,
+        typeValue: "&&",
+        label: "et"
+      }
+      pf.patchValue({operatorLogicTwo: operatorLogicTwo});
+    } else {
+      pf.patchValue({modeOutputLabelTwo: "Alors"});
+      pf.patchValue({operatorLogicTwo: null});
+    }
+  }
+
+  onGetVariableTypeThree(pf: FormGroup, variable: any) {
+
+    console.log(variable);
+
+    let operatorList = [];
+
+    pf.patchValue({"vThree": variable});
+
+    if (variable.typeCode) {
+
+      switch (variable.typeCode) {
+        case 2:
+          operatorList = [
+            {
+              typeCode: 1,
+              typeValue: "==",
+              label: "égal"
+            },
+            {
+              typeCode: 2,
+              typeValue: "!=",
+              label: "non égal"
+            },
+            {
+              typeCode: 3,
+              typeValue: ">",
+              label: "supérieur à"
+            },
+            {
+              typeCode: 4,
+              typeValue: ">=",
+              label: "supérieur ou égal à"
+            },
+            {
+              typeCode: 5,
+              typeValue: "<",
+              label: "inférieur à"
+            },
+            {
+              typeCode: 6,
+              typeValue: "<=",
+              label: "inférieur ou égal à"
+            }
+          ];
+          pf.patchValue({"operatorListThree": operatorList});
+          break;
+        case 3:
+          operatorList = [
+            {
+              typeCode: 1,
+              typeValue: "==",
+              label: "égal"
+            },
+            {
+              typeCode: 2,
+              typeValue: "!=",
+              label: "non égal"
+            },
+            {
+              typeCode: 3,
+              typeValue: ">",
+              label: "supérieur à"
+            },
+            {
+              typeCode: 4,
+              typeValue: ">=",
+              label: "supérieur ou égal à"
+            },
+            {
+              typeCode: 5,
+              typeValue: "<",
+              label: "inférieur à"
+            },
+            {
+              typeCode: 6,
+              typeValue: "<=",
+              label: "inférieur ou égal à"
+            }
+          ];
+          pf.patchValue({"operatorListThree": operatorList});
+          break;
+        default:
+          operatorList = [
+            {
+              typeCode: 1,
+              typeValue: "==",
+              label: "égal"
+            },
+            {
+              typeCode: 2,
+              typeValue: "!=",
+              label: "non égal"
+            },
+          ];
+          pf.patchValue({"operatorListThree": operatorList});
+          break
+
+      }
+
+    } else {
+      operatorList = [
+        {
+          typeCode: 1,
+          typeValue: "==",
+          label: "égal"
+        },
+        {
+          typeCode: 2,
+          typeValue: "!=",
+          label: "non égal"
+        },
+      ];
+      pf.patchValue({"operatorListThree": operatorList});
+    }
 
   }
 

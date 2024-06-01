@@ -144,7 +144,7 @@
             </div>
           </form>
 
-          <div class="container-fluid gna-pricing-list">
+          <div class="container-fluid">
 
             @for (pf of pricingFormList; track pf; let ifs = $index; let ffs = $first; let lfs = $last) {
 
@@ -157,12 +157,12 @@
 
                     <div class="row">
                       @if (ffs) {
-                        <div class="col-1">
+                        <div class="col-12 col-sm-6 col-md-1 col-lg-1 col-xl-1">
                           <div class="gna-if gna-text-primary gna-text-bold">
                             Si
                           </div>
                         </div>
-                        <div class="col-10">
+                        <div class="col-12 col-sm-6 col-md-11 col-lg-11 col-xl-11">
                           <mat-form-field class="gna-pc-column">
                             <mat-label>Variable</mat-label>
                             <mat-select
@@ -174,12 +174,12 @@
                           </mat-form-field>
                         </div>
                       } @else {
-                        <div class="col-3">
+                        <div class="col-12 col-sm-6 col-md-1 col-lg-1 col-xl-1">
                           <div class="gna-if gna-text-primary gna-text-bold">
-                            Sinon Si
+                           Ou
                           </div>
                         </div>
-                        <div class="col-9">
+                        <div class="col-12 col-sm-6 col-md-10 col-lg-10 col-xl-10">
                           <mat-form-field class="gna-pc-column">
                             <mat-label>Variable</mat-label>
                             <mat-select
@@ -195,7 +195,7 @@
                     </div>
                   </div>
 
-                  <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 
                     <mat-form-field class="gna-pc-comparator">
                       <mat-label>Condition</mat-label>
@@ -211,11 +211,8 @@
 
                   </div>
 
-                  <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 
-                    <div class="row">
-
-                      <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
                         @if (modeValue == 2) {
 
                           <mat-form-field class="gna-pc-column">
@@ -261,60 +258,71 @@
                           }
 
                         }
-                      </div>
-
-                      <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-                        <div class="gna-if gna-clickable gna-text-primary gna-text-bold"
-                             [matMenuTriggerFor]="menu">
-                          @if (pf.value.modeOutputLabel == 'et') {
-                            <div class="gna-if-ml">{{ pf.value.modeOutputLabel }}</div>
-                          } @else {
-                            <div>{{ pf.value.modeOutputLabel }}</div>
-                          }
-                          <div><mat-icon>arrow_drop_down</mat-icon></div>
-                        </div>
-                        <mat-menu #menu="matMenu">
-                          <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold" (click)="onGetModeOutput(pf,1)"
-                                  [disabled]="!pf.value.valueOne">Alors</button>
-                          <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold" (click)="onGetModeOutput(pf, 2)"
-                                  [disabled]="!pf.value.valueOne">et</button>
-                        </mat-menu>
-                      </div>
-                    </div>
-                    <!--</div>
-                    <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-                      @if (!pf.value.operatorComparison) {
-                        <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-disable">
-                      } @else {
-                        <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable"
-                             [matMenuTriggerFor]="menu">
-                      }
-                      <mat-menu #menu="matMenu">
-                        <button mat-menu-item class="pc-mode-item" (click)="onGetModeValue(pf,1)">Valeur</button>
-                        <button mat-menu-item class="pc-mode-item" (click)="onGetModeValue(pf, 2)">Variable</button>
-                      </mat-menu>
-                    </div>
-
-                  </div>-->
 
                   </div>
 
-                  @if (pf.value.operatorLogic) {
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 
-                    <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                      <div class="row">
 
-                      <mat-form-field class="gna-pc-column">
-                        <mat-label>Variable</mat-label>
-                        <mat-select
-                          formControlName="variableTwo">
-                          @for (variable of variableList; track variable) {
-                            <mat-option [value]="variable.name" (click)="onGetVariableTypeTwo(pf, variable)">{{variable.label}}</mat-option>
-                          }
-                        </mat-select>
-                      </mat-form-field>
+                        <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                          <div class="gna-if gna-clickable gna-text-primary gna-text-bold"
+                               [matMenuTriggerFor]="menu">
+                            @if (pf.value.modeOutputLabel == 'et') {
+                              <div class="gna-if-ml">{{ pf.value.modeOutputLabel }}</div>
+                            } @else {
+                              <div>{{ pf.value.modeOutputLabel }}</div>
+                            }
+                            <div><mat-icon>arrow_drop_down</mat-icon></div>
+                          </div>
+                          <mat-menu #menu="matMenu">
+                            <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold" (click)="onGetModeOutput(pf,1)"
+                                    [disabled]="!pf.value.valueOne">Alors</button>
+                            <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold" (click)="onGetModeOutput(pf, 2)"
+                                    [disabled]="!pf.value.valueOne">et</button>
+                          </mat-menu>
+                        </div>
+
+                        @if (pf.value.operatorLogic) {
+
+                        <div class="col-12 col-sm-6 col-md-10 col-lg-10 col-xl-10">
+                          <mat-form-field class="gna-pc-column">
+                            <mat-label>Variable</mat-label>
+                            <mat-select
+                              formControlName="variableTwo">
+                              @for (variable of variableList; track variable) {
+                                <mat-option [value]="variable.name" (click)="onGetVariableTypeTwo(pf, variable)">{{variable.label}}</mat-option>
+                              }
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+
+                        } @else {
+                          <div class="col-12 col-sm-6 col-md-8 col-lg-8 col-xl-8">
+                            <mat-form-field class="gna-pc-output">
+                              <mat-label>Résultat</mat-label>
+                              <input matInput
+                                     required
+                                     formControlName="result"
+                                     [readonly]="isReadonly">
+                            </mat-form-field>
+                          </div>
+                          <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                            @if (pf.value.valueOne) {
+                              <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable"
+                                   (click)="onGetModalitySetting(pf)"
+                                   matTooltip="Configurer Modalité Calcul">
+                            } @else {
+                              <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-disable">
+                            }
+                          </div>
+                        }
+                      </div>
                     </div>
 
-                    <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                    @if (pf.value.operatorLogic) {
+
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 
                       <mat-form-field class="gna-pc-comparator">
                         <mat-label>Condition</mat-label>
@@ -330,11 +338,8 @@
 
                     </div>
 
-                    <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
 
-                      <!--    <div class="row">
-
-                            <div class="col-11 col-sm-11 col-md-1 col-lg-11 col-xl-11">-->
                       @if (modeValue == 2) {
 
                         <mat-form-field class="gna-pc-column">
@@ -378,45 +383,149 @@
                           </mat-form-field>
                         }
                       }
-                      <!--</div>
-                      <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
-                        @if (!pf.value.operatorComparison) {
-                          <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-disable">
-                        } @else {
-                          <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable"
-                               [matMenuTriggerFor]="menu">
-                        }
-                        <mat-menu #menu="matMenu">
-                          <button mat-menu-item class="pc-mode-item" (click)="onGetModeValue(pf,1)">Valeur</button>
-                          <button mat-menu-item class="pc-mode-item" (click)="onGetModeValue(pf, 2)">Variable</button>
-                        </mat-menu>
-                      </div>
-
-                    </div>-->
 
                     </div>
+                    }
+
+
+                  @if (pf.value.operatorLogic) {
+
+                        <div class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                          <div class="gna-if gna-clickable gna-text-primary gna-text-bold"
+                               [matMenuTriggerFor]="menu">
+                            @if (pf.value.modeOutputLabelTwo == 'et') {
+                              <div class="gna-if-ml">{{ pf.value.modeOutputLabelTwo }}</div>
+                            } @else {
+                              <div>{{ pf.value.modeOutputLabelTwo }}</div>
+                            }
+                            <div><mat-icon>arrow_drop_down</mat-icon></div>
+                          </div>
+                          <mat-menu #menu="matMenu">
+                            <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold" (click)="onGetModeOutputTwo(pf,1)"
+                                    [disabled]="!pf.value.valueTwo">Alors</button>
+                            <button mat-menu-item class="pc-mode-item gna-text-primary gna-text-bold" (click)="onGetModeOutputTwo(pf, 2)"
+                                    [disabled]="!pf.value.valueTwo">et</button>
+                          </mat-menu>
+                        </div>
+
+                          @if (pf.value.operatorLogicTwo) {
+
+                            <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+
+                              <mat-form-field class="gna-pc-column">
+                                <mat-label>Variable</mat-label>
+                                <mat-select
+                                  formControlName="variableThree">
+                                  @for (variable of variableList; track variable) {
+                                    <mat-option [value]="variable.name" (click)="onGetVariableTypeThree(pf, variable)">{{variable.label}}</mat-option>
+                                  }
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+
+                              <mat-form-field class="gna-pc-comparator">
+                                <mat-label>Condition</mat-label>
+
+                                <mat-select [disabled]="!pf.value.variableThree"
+                                            formControlName="operatorThree">
+                                  @for (operator of pf.value.operatorListThree; track operator) {
+                                    <mat-option [value]="operator.typeCode"
+                                                [disabled]="!pf.value.variableThree">{{operator.label}}</mat-option>
+                                  }
+                                </mat-select>
+                              </mat-form-field>
+
+                            </div>
+
+                            <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+
+                              @if (modeValue == 2) {
+
+                                <mat-form-field class="gna-pc-column">
+                                  <mat-label>Variable</mat-label>
+                                  <mat-select [disabled]="!pf.value.operatorThree"
+                                              formControlName="valueThree">
+                                    @for (variable of variableList; track variable) {
+                                      <mat-option [value]="variable"
+                                                  [disabled]="!pf.value.operatorThree">{{variable.label}}</mat-option>
+                                    }
+                                  </mat-select>
+                                </mat-form-field>
+
+                              } @else {
+                                @if (pf.value.vThree && pf.value.vThree.typeCode == 2) {
+                                  <mat-form-field class="gna-pc-value">
+                                    <mat-label>Valeur</mat-label>
+                                    <input matInput
+                                           required
+                                           formControlName="valueThree"
+                                           type="number"
+                                           pattern="^[0-9]+(\.[0-9]+)?$"
+                                           [readonly]="!pf.value.operatorThree">
+                                  </mat-form-field>
+                                } @else if (pf.value.vThree && pf.value.vThree.typeCode == 3) {
+                                  <mat-form-field class="gna-pc-value">
+                                    <mat-label>Valeur</mat-label>
+                                    <input matInput
+                                           required
+                                           formControlName="valueThree"
+                                           type="date"
+                                           [readonly]="!pf.value.operatorThree">
+                                  </mat-form-field>
+                                } @else {
+                                  <mat-form-field class="gna-pc-value">
+                                    <mat-label>Valeur</mat-label>
+                                    <input matInput
+                                           required
+                                           formControlName="valueThree"
+                                           [readonly]="!pf.value.operatorThree">
+                                  </mat-form-field>
+                                }
+                              }
+
+                            </div>
+
+                          }
 
                   }
 
-                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                  @if (pf.value.operatorLogic) {
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+
+
                     <div class="row">
 
-                      @if (pf.value.operatorLogic) {
-                        <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                      @if (pf.value.operatorLogicTwo) {
+                        <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
                           <div class="gna-if-2 gna-text-primary gna-text-bold">
                             Alors
                           </div>
                         </div>
+                        <div class="col-12 col-sm-6 col-md-9 col-lg-9 col-xl-9">
+                          <mat-form-field class="gna-pc-output">
+                            <mat-label>Résultat</mat-label>
+                            <input matInput
+                                   required
+                                   formControlName="result"
+                                   [readonly]="isReadonly">
+                          </mat-form-field>
+                        </div>
+                      } @else {
+                        <div class="col-12 col-sm-11 col-md-11 col-lg-11 col-xl-11">
+                          <mat-form-field class="gna-pc-output">
+                            <mat-label>Résultat</mat-label>
+                            <input matInput
+                                   required
+                                   formControlName="result"
+                                   [readonly]="isReadonly">
+                          </mat-form-field>
+                        </div>
                       }
-                      <div class="col-9">
-                        <mat-form-field class="gna-pc-output">
-                          <mat-label>Résultat</mat-label>
-                          <input matInput
-                                 required
-                                 formControlName="result"
-                                 [readonly]="isReadonly">
-                        </mat-form-field>
-                      </div>
+
+
                       <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
                         @if (pf.value.valueOne) {
                           <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn-3 gna-clickable"
@@ -428,8 +537,9 @@
                       </div>
 
                     </div>
-                  </div>
 
+                  </div>
+                  }
 
                   <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
                     @if (pf.value.output && lfs) {
