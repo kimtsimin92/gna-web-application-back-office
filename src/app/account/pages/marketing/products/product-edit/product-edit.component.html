@@ -67,6 +67,24 @@
           </li>
           <li class="nav-item gna-nav-tabs-2">
             <a class="nav-link"
+               id="pills-modalities-tab"
+               data-bs-toggle="pill"
+               data-bs-target="#pills-modalities"
+               type="button" role="tab"
+               aria-controls="pills-modalities"
+               aria-selected="false">Modalités</a>
+          </li>
+          <li class="nav-item gna-nav-tabs-2">
+            <a class="nav-link"
+               id="pills-clauses-tab"
+               data-bs-toggle="pill"
+               data-bs-target="#pills-clauses"
+               type="button" role="tab"
+               aria-controls="pills-clauses"
+               aria-selected="false">Clauses</a>
+          </li>
+          <li class="nav-item gna-nav-tabs-2">
+            <a class="nav-link"
                id="pills-profile-tab"
                data-bs-toggle="pill"
                data-bs-target="#pills-partners"
@@ -273,13 +291,14 @@
                       </p-iconField>
                     </div>
 
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                  <!--  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label>Objet publi</label>
                       <p-dropdown formControlName="advertisementObject"
                                   emptyMessage="Aucun résultat trouvé"
                                   [options]="yesOrNoList" optionLabel="name"  optionValue="name" placeholder="Objet publi"
                                   class="gna-form-dropdown"
                                   #advertisementObject
+                                  [showClear]="true"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
@@ -292,8 +311,8 @@
                           </a>
                         </span>
                       </label>
-                      <!-- <input pInputText
-                              type="text" id="advertisementObject" aria-describedby="name-help" placeholder="Fichier objet publi" class="gna-form-input"/>-->
+                      &lt;!&ndash; <input pInputText
+                              type="text" id="advertisementObject" aria-describedby="name-help" placeholder="Fichier objet publi" class="gna-form-input"/>&ndash;&gt;
                       <div class="input-group mt-2">
                         <input type="file"
                                accept=".pdf"
@@ -302,7 +321,7 @@
                       </div>
                       <small class="gna-text-red"
                              *ngIf="objectFileErrorMessage">{{ objectFileErrorMessage }}</small>
-                    </div>
+                    </div>-->
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label for="cashBackRate">Points de fidélité</label>
                       <p-iconField iconPosition="right">
@@ -314,14 +333,6 @@
                                formControlName="loyaltyPoints"
                                [readonly]="isSave || accountService.pageLoading"/>
                       </p-iconField>
-                    </div>
-                    <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                      <label>Validation Back-Office</label>
-                      <br>
-                      <p-checkbox formControlName="backOfficeValidation" [binary]="true" inputId="backOfficeValidation"
-                                  class="gna-form-checkbox"
-                                  #isBackOfficeValidation
-                                  [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label for="backOfficeValidationCapital">Seuil Validation Back-Office Capitaux
@@ -357,13 +368,21 @@
                           [readonly]="!isBackOfficeValidation.checked() || isSave || accountService.pageLoading"/>
                       </p-iconField>
                     </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                    <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                      <label>Validation Back-Office</label>
+                      <br>
+                      <p-checkbox formControlName="backOfficeValidation" [binary]="true" inputId="backOfficeValidation"
+                                  class="gna-form-checkbox"
+                                  #isBackOfficeValidation
+                                  [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
+                    </div>
+                    <!--<div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label>Clauses Commerciales</label>
                       <button
                         type="button"
                         mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
                         (click)="openClauseEditorDialog()">Ajouter</button>
-                    </div>
+                    </div>-->
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                       <label>Description</label>
                       <textarea rows="2" pInputTextarea formControlName="description"
@@ -373,6 +392,193 @@
                 </form>
 
               </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="pills-modalities" role="tabpanel" aria-labelledby="pills-modalities-tab" tabindex="0">
+
+              <div class="container-fluid">
+
+
+                <form
+                  *ngFor="let fcm of formContractModalityList"
+                  [formGroup]="fcm"
+                  class="needs-validation" novalidate>
+                  <div class="row pb-2 pt-3">
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Libellé</mat-label>
+                        <input type="text" matInput
+                               formControlName="name"
+                               required
+                               [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Durée</mat-label>
+                        <input type="number" matInput
+                               formControlName="duration"
+                               required
+                               pattern="[0-9]*"
+                               [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                      @if (periodList && periodList.length > 0) {
+
+                        <mat-form-field appearance="fill">
+                          <mat-label>Unité</mat-label>
+                          <mat-select
+                            formControlName="unitId"
+                            required
+                            [disabled]="isSave || accountService.pageLoading || accountService.isSave">
+                            @for (unit of periodList; track unit) {
+                              <mat-option [value]="unit.id">{{unit.name}}</mat-option>
+                            }
+                          </mat-select>
+                        </mat-form-field>
+
+                      } @else {
+
+                        <mat-form-field appearance="fill">
+                          <mat-label>Unité</mat-label>
+                          <mat-select
+                            [disabled]="isDisable">
+                          </mat-select>
+                        </mat-form-field>
+
+                      }
+
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Pondération</mat-label>
+                        <input type="number" matInput
+                               formControlName="weighting"
+                               required
+                               pattern="^[0-9]+(\.[0-9]+)?$"
+                               [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                      </mat-form-field>
+                    </div>
+
+                    @if (formContractModalityList && formContractModalityList[this.formContractModalityList.length - 1].valid) {
+                      <div class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                        <button
+                          type="button"
+                          mat-raised-button
+                          color="primary"
+                          class="gna-btn-default-action mt-4"
+                          matTooltip="Ajouter"
+                          [disabled]="!formContractModalityList[0].valid"
+                          (click)="onAddFormModality()">
+                          +
+                        </button>
+                      </div>
+                    } @else {
+                      <div class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                        <button
+                          type="button"
+                          mat-raised-button
+                          color="primary"
+                          class="gna-btn-default-action mt-4 gna-disable"
+                          matTooltip="Ajouter">
+                          +
+                        </button>
+                      </div>
+                    }
+
+
+                    @if (fcm.value.position > 1) {
+                      <div class="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                        <button
+                          type="button"
+                          mat-raised-button color="primary"
+                          class="gna-btn-default-action mt-4"
+                          (click)="onRemoveFormModality(fcm)"
+                          matTooltip="Retirer">
+                          -
+                        </button>
+                      </div>
+                    }
+
+                  </div>
+                </form>
+
+              </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="pills-clauses" role="tabpanel" aria-labelledby="pills-clauses-tab" tabindex="0">
+
+                  <p-editor [(ngModel)]="clauses" [style]="{ width: '100%', height: '360px' }"
+                            [readonly]="isView">
+                    <ng-template pTemplate="header">
+        <span class="ql-formats">
+          <select class="ql-size">
+              <option value="small">Petite</option>
+              <option selected>Normale</option>
+              <option value="large">Grande</option>
+              <option value="huge">Très grande</option>
+            </select>
+        </span>
+                      <span class="ql-formats">
+            <button type="button" class="ql-bold" aria-label="Bold"></button>
+            <button type="button" class="ql-italic" aria-label="Italic"></button>
+            <button type="button" class="ql-underline" aria-label="Underline"></button>
+      </span>
+                      <span class="ql-formats">
+            <select title="Text Alignment" class="ql-align" >
+              <option selected>Gauche</option>
+              <option value="center" label="Center"></option>
+              <option value="right" label="Right"></option>
+              <option value="justify" label="Justify"></option>
+            </select>
+          </span>
+                      <span class="ql-formats">
+            <select title="Text Color" class="ql-color" defaultValue="rgb(0, 0, 0)">
+              <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
+              ...
+               <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
+              ...
+                 <option value="rgb(255, 0, 0)" label="rgb(255, 0, 0)"></option>
+                  ...
+                 <option value="rgb(0, 128, 0)" label="rgb(0, 128, 0)"></option>
+              ...
+              <option value="rgb(28, 54, 148)" label="rgb(28, 54, 148)"></option>
+              ...
+              <option value="rgb(246, 153, 63)" label="rgb(246, 153, 63)"></option>
+            </select>
+            <span class="ql-format-separator"></span>
+            <select title="Background Color" class="ql-background" defaultValue="rgb(255, 255, 255)">
+             <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
+              ...
+               <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
+              ...
+                 <option value="rgb(255, 0, 0)" label="rgb(255, 0, 0)"></option>
+                  ...
+                 <option value="rgb(0, 128, 0)" label="rgb(0, 128, 0)"></option>
+              ...
+              <option value="rgb(28, 54, 148)" label="rgb(28, 54, 148)"></option>
+              ...
+              <option value="rgb(246, 153, 63)" label="rgb(246, 153, 63)"></option>
+            </select>
+        </span>
+                      <span class="ql-formats">
+           <button class="ql-list" value="ordered"></button>
+           <button class="ql-list" value="bullet"></button>
+            <button type="button" class="ql-blockquote" aria-label="blockquote"></button>
+            <button type="button" class="ql-link" aria-label="link"></button>
+          </span>
+                    </ng-template>
+                    @if (clauses) {
+                      {{ clauses }}
+                    }
+                  </p-editor>
 
             </div>
 

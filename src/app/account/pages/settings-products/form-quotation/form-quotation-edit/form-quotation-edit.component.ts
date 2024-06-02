@@ -131,21 +131,39 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
   appFormBuilder: any[] = [
     {
       code: 1,
-      name: "Texte",
+      name: "Zone de texte",
       tag: "input",
       type: "text"
     },
     {
       code: 2,
-      name: "Numérique",
+      name: "Zone de chiffre",
       tag: "input",
       type: "number"
+    },
+    {
+      code: 6,
+      name: "Zone de liste",
+      tag: "select",
+      type: "text"
     },
     {
       code: 3,
       name: "Date",
       tag: "input",
       type: "date"
+    },
+    {
+      code: 8,
+      name: "Email",
+      tag: "input",
+      type: "email"
+    },
+    {
+      code: 9,
+      name: "Téléphone",
+      tag: "input",
+      type: "tel"
     },
     /*    {
           code: 4,
@@ -160,27 +178,9 @@ export class FormQuotationEditComponent implements OnInit, OnDestroy, AfterViewI
           type: "radio"
         },*/
     {
-      code: 6,
-      name: "Liste Déroulante",
-      tag: "select",
-      type: "text"
-    },
-    {
       code: 7,
-      name: "Zone de Texte",
+      name: "Description",
       tag: "textarea"
-    },
-    {
-      code: 8,
-      name: "Email",
-      tag: "input",
-      type: "email"
-    },
-    {
-      code: 9,
-      name: "Téléphone",
-      tag: "input",
-      type: "tel"
     }
   ];
 

@@ -5,7 +5,7 @@ import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} f
 import {InputTextModule} from "primeng/inputtext";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {KeyFilterModule} from "primeng/keyfilter";
-import {DecimalPipe, KeyValuePipe, NgIf} from "@angular/common";
+import {DecimalPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
@@ -36,10 +36,17 @@ import {
   GuaranteeClauseEditorDialogComponent
 } from "../../../settings-products/guarantees/guarantee-clause-editor-dialog/guarantee-clause-editor-dialog.component";
 import {ImageModule} from "primeng/image";
-import {MatInput} from "@angular/material/input";
+import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
 import {IconFieldModule} from "primeng/iconfield";
 import {InputIconModule} from "primeng/inputicon";
 import {InputNumberModule} from "primeng/inputnumber";
+import {EditorModule} from "primeng/editor";
+import {ProductModalityForm} from "../product-modality-form";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
+import {MatIcon} from "@angular/material/icon";
+import {MatTooltip} from "@angular/material/tooltip";
+import {ProductModality} from "../product-modality";
 
 @Component({
   selector: 'app-product-add',
@@ -67,7 +74,15 @@ import {InputNumberModule} from "primeng/inputnumber";
     MatInput,
     IconFieldModule,
     InputIconModule,
-    InputNumberModule
+    InputNumberModule,
+    EditorModule,
+    MatFormField,
+    MatLabel,
+    MatOption,
+    MatSelect,
+    MatIcon,
+    MatTooltip,
+    NgForOf
   ],
   templateUrl: './product-add.component.html',
   styleUrl: './product-add.component.css'
@@ -103,6 +118,9 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
   // @ts-ignore
   partnerId: number = null;
 
+  clauses: any;
+  isView: boolean = false;
+
   paymentMethodList: any[] = [
     {
       id: 1,
@@ -117,19 +135,15 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
   periodicityList: any[] = [
     {
       id: 1,
-      name: "Mensuel"
+      name: "Jour"
     },
     {
       id: 2,
-      name: "Trimestriel"
+      name: "Mois"
     },
     {
-      id: 3,
-      name: "Semestriel"
-    },
-    {
-      id: 4,
-      name: "Annuel"
+      id: 2,
+      name: "Annéé"
     }
   ];
 
@@ -195,6 +209,21 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
   // @ts-ignore
   objectFileErrorMessage: string = null;
 
+  //
+
+  formContractModalityList: FormGroup[] = [];
+  formContractModality: FormGroup = new FormGroup({}, undefined, undefined);
+  contractModalityForm: ProductModalityForm = new ProductModalityForm();
+  contractModality: ProductModality = new ProductModality();
+  contractModalityList: any[] = [];
+
+  isFormValid: boolean = true;
+  getForm: any = null;
+
+  periodList: any[] = [];
+
+  //
+
   constructor(
     private _fb: FormBuilder,
     public _dialog: MatDialog,
@@ -216,10 +245,29 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     this.formData = this._fb.group(this.dataForm);
     this.formProductPartner = this._fb.group(this.productPartnerForm);
 
+    //
+    this.formContractModality = this._fb.group(this.contractModalityForm);
+
+    // @ts-ignore
+    this.contractModality.name.setValue("1 Mois");
+    // @ts-ignore
+    this.contractModality.duration.setValue(1);
+    // @ts-ignore
+    this.contractModality.unitId.setValue(2);
+    // @ts-ignore
+    this.contractModality.weighting.setValue(0.1);
+    // @ts-ignore
+    this.contractModality.position.setValue(1);
+    this.contractModality.start = true;
+    let fcm = this._fb.group(this.contractModality);
+    this.formContractModalityList.push(fcm);
+    //
+
     this.onGetProductGroupList();
     this.onGetSegmentList();
     this.onGetInsuredTypeList();
     this.onGetIncentiveList();
+    this.onGetPeriodList();
     this.onGetPartnerCommercialList();
 
   }
@@ -269,7 +317,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -306,9 +354,10 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
       backOfficeValidation: this.formData.value.backOfficeValidation,
       backOfficeValidationCapital: null,
       backOfficeValidationPremium: null,
-      clauses: this.productClauses,
+      clauses: this.clauses,
       partners: [],
       insuredTypeIds: [],
+      modalityList: [],
     }
 
     if(requestData.backOfficeValidation) {
@@ -367,6 +416,20 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
           requestData.insuredTypeIds.push(it.id);
         });
       }
+    }
+
+    if (this.formContractModalityList && this.formContractModalityList.length > 0) {
+
+      let productModalities: ProductModality[] = [];
+
+      this.formContractModalityList.forEach(fcm => {
+        console.log(fcm.value);
+        productModalities.push(fcm.value);
+      });
+
+      // @ts-ignore
+      requestData.modalityList = productModalities;
+
     }
 
     console.log(requestData);
@@ -462,7 +525,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '350px',
+      height: '400px',
       data: {
         dialogMessage: "L'enregistrement de ce produit a réussi."
       },
@@ -489,7 +552,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '350px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "L'enregistrement de ce produit a échoué."
@@ -517,7 +580,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     this.formData.markAllAsTouched();
     const dialogRef = this._dialog.open(NotBlankDialogComponent, {
       width: '400px',
-      height: '350px',
+      height: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -799,6 +862,56 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
     });
+  }
+
+  onAddFormModality() {
+
+    const lastItem = this.formContractModalityList[this.formContractModalityList.length - 1];
+
+    if (lastItem.valid) {
+      let f: FormGroup;
+      let pm = new ProductModality();
+      pm.position = lastItem.value.position + 1;
+      pm.start = false;
+      f = this._fb.group(pm);
+      this.getForm = f;
+      console.log(f);
+      this.formContractModalityList.push(f);
+    }
+
+  }
+
+  onRemoveFormModality(f: any) {
+
+    let i = this.formContractModalityList.lastIndexOf(f);
+    let s = i;
+    let e = i -1;
+
+    if (e < 1) {
+      e = 1
+    }
+
+    if (this.getForm) {
+      if (this.formContractModalityList.lastIndexOf(f) === this.formContractModalityList.lastIndexOf(this.getForm)) {
+        this.isFormValid = true;
+      }
+    }
+
+    this.formContractModalityList.splice(s, e);
+
+  }
+
+  onGetPeriodList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getPeriodList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.periodList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
   }
 
 }

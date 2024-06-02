@@ -336,3 +336,14 @@ table th {
   margin-top: 0!important;
   font-weight: initial!important;
 }
+
+.mat-mdc-form-field  {
+  width: 99%!important;
+}
+
+.gna-btn-default-action {
+  min-width: 30px!important;
+  max-width: 30px!important;
+  font-size: 15px!important;
+  height: 20px!important;
+}

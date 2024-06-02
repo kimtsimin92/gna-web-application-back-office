@@ -1093,7 +1093,7 @@ th, td {
 
 .gna-form-input {
   width: 100%!important;
-  border: 1px solid rgba(29, 53, 146, 0.26) !important;
+  /*border: 1px solid rgba(29, 53, 146, 0.26) !important;*/
   border-radius: 3px!important;
 }
 
@@ -1102,7 +1102,7 @@ th, td {
 }
 
 .gna-form p-inputnumber .p-inputtext {
-  border: 1px solid rgba(29, 53, 146, 0.26) !important;
+  /*border: 1px solid rgba(29, 53, 146, 0.26) !important;*/
   border-radius: 3px!important;
 }
 
@@ -1117,13 +1117,13 @@ th, td {
 .gna-form-textarea .p-inputtextarea {
   margin-top: 5px;
   width: 100%!important;
-  border: 1px solid rgba(29, 53, 146, 0.5);
+  /*border: 1px solid rgba(29, 53, 146, 0.5);*/
   border-radius: 3px!important;
 }
 
 .gna-form-multiselect .p-multiselect {
   width: 100%!important;
-  border: 1px solid rgba(29, 53, 146, 0.5);
+  /*border: 1px solid rgba(29, 53, 146, 0.5);*/
   border-radius: 3px!important;
 }
 
@@ -1180,7 +1180,7 @@ th, td {
 
 .gna-form-dropdown .p-dropdown {
   width: 100%!important;
-  border: 1px solid rgba(29, 53, 146, 0.26) !important;
+  /*border: 1px solid rgba(29, 53, 146, 0.26) !important;*/
   border-radius: 3px!important;
 }
 
@@ -1204,7 +1204,7 @@ th, td {
 .gna-form-checkbox .p-checkbox-box {
   margin-top: 5px!important;
   width: 100%!important;
-  border: 1px solid rgba(29, 53, 146, 0.5);
+  border: 1px solid #d1d5db;
   border-radius: 3px!important;
 }
 
@@ -1477,12 +1477,16 @@ th, td {
 }
 
 .p-editor-container .p-editor-toolbar {
+  border-radius: 0!important;
+}
+
+/*.p-editor-container .p-editor-toolbar {
   background-color: #1d3593!important;
 }
 
 .p-editor-container .p-editor-toolbar.ql-snow .ql-picker .ql-picker-label {
   color: white!important;
-}
+}*/
 
 .gna-table-files-row {
   margin-top: 5px;

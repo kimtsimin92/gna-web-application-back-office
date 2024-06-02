@@ -135,44 +135,27 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
   appFormBuilder: any[] = [
     {
       code: 1,
-      name: "Texte",
+      name: "Zone de texte",
       tag: "input",
       type: "text"
     },
     {
       code: 2,
-      name: "Numérique",
+      name: "Zone de chiffre",
       tag: "input",
       type: "number"
+    },
+    {
+      code: 6,
+      name: "Zone de liste",
+      tag: "select",
+      type: "text"
     },
     {
       code: 3,
       name: "Date",
       tag: "input",
       type: "date"
-    },
-/*    {
-      code: 4,
-      name: "Case à Cocher",
-      tag: "input",
-      type: "checkbox"
-    },
-    {
-      code: 5,
-      name: "Bouton Radio",
-      tag: "input",
-      type: "radio"
-    },*/
-    {
-      code: 6,
-      name: "Liste Déroulante",
-      tag: "select",
-      type: "text"
-    },
-    {
-      code: 7,
-      name: "Zone de Texte",
-      tag: "textarea"
     },
     {
       code: 8,
@@ -185,6 +168,23 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
       name: "Téléphone",
       tag: "input",
       type: "tel"
+    },
+    /*    {
+          code: 4,
+          name: "Case à Cocher",
+          tag: "input",
+          type: "checkbox"
+        },
+        {
+          code: 5,
+          name: "Bouton Radio",
+          tag: "input",
+          type: "radio"
+        },*/
+    {
+      code: 7,
+      name: "Description",
+      tag: "textarea"
     }
   ];
 
