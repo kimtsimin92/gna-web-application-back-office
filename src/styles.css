@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+
 
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
@@ -1536,6 +1536,17 @@ th, td {
   cursor: pointer;
 }
 
+.gna-panelMenu a:focus {
+  color: #1C3694!important;
+
+}
+
+.gna-panelMenu .gna-white:focus {
+  color: #1C3694!important;
+  cursor: pointer;
+}
+
+
 .gna-form .pi {
   margin-top: 8px!important;
 }
@@ -1546,4 +1557,8 @@ th, td {
   margin-inline-start: auto!important;
 }
 
+
+/*.gna-active {
+  color: #1C3694!important;
+}*/
 
