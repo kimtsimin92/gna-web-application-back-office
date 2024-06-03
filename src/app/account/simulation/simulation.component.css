@@ -11,9 +11,8 @@
   padding-left: 10px!important;
 }
 .gna-simulation-card {
-  width: 500px !important;
+  width: 530px !important;
   min-height: 100px !important;
-  max-height: 530px !important;
   background: #FFFFFF 0 0 no-repeat padding-box !important;
   border-radius: 20px!important;
   opacity: 1!important;
@@ -34,11 +33,11 @@
 }
 
 .gna-simulation-question-content {
-  position: relative;
-  overflow: auto;
+  /*position: relative;*/
+  /*overflow: auto;*/
   min-height: 100px !important;
-  max-height: 360px !important;
-  width: 600px!important;
+  /*max-height: 360px !important;*/
+  min-width: 600px!important;
 }
 
 .gna-simulation-question {

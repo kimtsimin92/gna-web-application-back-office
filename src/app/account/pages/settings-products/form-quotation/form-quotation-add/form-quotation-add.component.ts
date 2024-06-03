@@ -181,11 +181,11 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
           tag: "input",
           type: "radio"
         },*/
-    {
+  /*  {
       code: 7,
       name: "Description",
       tag: "textarea"
-    }
+    }*/
   ];
 
   fieldsets: any[] = [];

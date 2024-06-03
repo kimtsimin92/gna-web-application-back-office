@@ -11,6 +11,14 @@ export class ManagerCustomerAccountService {
     private _http: HttpClient
   ) { }
 
+  onGetCampaignList(page: number, limit: number, orderBy: string) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+'/v1/campagnes', {
+        observe: 'response',
+        params: new HttpParams({fromString: `page=${page}&limit=${limit}&order_by=${orderBy}`})
+      });
+  }
+
   onGetCustomerAccountRequestListByType(filter: any, page: number, limit: number, orderBy: string) {
     return this._http
       .get<HttpResponse<any>>(environment.customersService+'/v1/users', {

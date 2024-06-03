@@ -61,7 +61,7 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
 
   scrollHeight: string = "380px";
 
-  pageSort: string = "-created_at";
+  pageSort: string = "-updated_at";
   pageOrder: string = "desc";
   pageNumber: number = 1;
   pageSize: number = 10;
@@ -114,6 +114,7 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
   totalRecords: number = 0;
 
   isLoadingFiles: boolean = false;
+  minDate: Date = new Date()
 
   constructor(
     private responsive: BreakpointObserver,
@@ -184,7 +185,7 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Campagnes";
+    this.headerTitle = "Marketing";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
   }
@@ -204,14 +205,10 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
 
       this.pageNumber = this.currentPage;
 
-    let filter = {
-      type_customer_id: "1",
-      is_valid: true
-    };
 
     this.dataList = [];
 
-    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(filter, this.pageNumber, this.pageSize, this.pageSort)
+    this.managerCustomerAccountService.onGetCampaignList(this.pageNumber, this.pageSize, this.pageSort)
       .subscribe((responseData: HttpResponse<any>) => {
 
         this.loadingPage = false;
@@ -280,7 +277,7 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
 
   }
 
-  
+
   onGoToSave() {
     // this._router.navigateByUrl("/account/segments/add");
   }
@@ -343,7 +340,7 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
     // @ts-ignore
     localStorage.setItem("CUSTOMER_ACCOUNT_REQUEST_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/marketing/campaigns/details")
+    this._router.navigateByUrl("/account/marketing/campaigns/view")
       .then(() => {
         this.loadingPage = false;
       });
@@ -358,5 +355,14 @@ export class CampaignListComponent implements OnInit, AfterViewInit, OnDestroy  
     }, Math.random() * 1000 + 250);
   }
   protected readonly environment = environment;
+
+  setStatus( dateFin: any) {
+    const endDate = new Date(dateFin);
+    if (endDate > this.minDate) {
+      return  true
+    } else {
+      return false
+    }
+  }
 
 }

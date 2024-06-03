@@ -66,7 +66,7 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (localStorage.getItem("FORM_QUOTATION_DATA")) {
 
-      this.headerTitle = "Simulation";
+      this.headerTitle = "Configuration des produits / Formulaires de cotations / Voir";
       localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
       // @ts-ignore
@@ -121,7 +121,9 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
         this.currentStepQuestionIndex++;
         this.currentStepQuestion = currentStep.questions[this.currentStepQuestionIndex];
         if (currentStepQuestion.field.code == 6) {
-          this.currentStepQuestion.field.code = 5;
+          if (this.currentStepQuestion.field.code == 6) {
+            this.currentStepQuestion.field.code = 5;
+          }
         } else if (currentStepQuestion.field.code == 6) {
           this.currentStepQuestion.field.code = 6;
         }
