@@ -55,9 +55,6 @@
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="code">
-                  Image
-                </th>
-                <th pSortableColumn="code">
                   Code Produit
                   <p-sortIcon field="code" />
                 </th>
@@ -67,6 +64,9 @@
                 <th pSortableColumn="branch"
                     class="gna-responsive">Groupe Produit
                   <p-sortIcon field="branch" />
+                <th pSortableColumn="branch"
+                    class="gna-responsive">segment
+                  <p-sortIcon field="segment" />
                 <th pSortableColumn="enabled">Statut
                   <p-sortIcon field="enabled" />
                 </th>
@@ -82,14 +82,6 @@
             <ng-template pTemplate="body" let-element>
               <tr>
                 <td>
-                  @if (element.image) {
-                    <p-image src="{{ element.image.url }}" alt="Product Image" width="50" height="30"
-                             [preview]="true"></p-image>
-                  } @else {
-                    <img src="assets/gna/images/gna-logo.png" alt="Product Image" width="50" height="30">
-                  }
-                </td>
-                <td>
                   {{ element.code }}
                 </td>
                 <td>
@@ -98,6 +90,13 @@
                 <td class="gna-responsive">
                   @if (element.group) {
                     {{ element.group.name }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td class="gna-responsive">
+                  @if (element.segment) {
+                    {{ element.segment.name }}
                   } @else {
                     N/A
                   }

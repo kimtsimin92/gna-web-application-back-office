@@ -127,7 +127,7 @@
                   </span>
                   </div>
 
-                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+          <!--        <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label"> Catégorie : </span>
                     <span class="gna-view-value">
                        @if (productGroupData.category) {
@@ -137,7 +137,7 @@
                        }
                   </span>
                   </div>
-
+-->
 
                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label"> Montant Accessoires Compagnie : </span>
@@ -238,17 +238,18 @@
                        }
                   </span>
                   </div>
-
-                  <div class="col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12">
-                    <span class="gna-view-label"> Description : </span>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Avis d'échéance : </span>
                     <span class="gna-view-value">
-                       @if (productGroupData.description) {
-                         {{ productGroupData.description }}
+                       @if (productGroupData.maturityNotice) {
+                         Oui
                        } @else {
-                         N/A
+                         Non
                        }
                   </span>
                   </div>
+
+
 
                   <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <span class="gna-view-label"> Description : </span>
@@ -257,17 +258,6 @@
                          {{ productGroupData.description }}
                        } @else {
                          N/A
-                       }
-                  </span>
-                  </div>
-
-                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                    <span class="gna-view-label">Avis d'échéance : </span>
-                    <span class="gna-view-value">
-                       @if (productGroupData.maturityNotice) {
-                         Oui
-                       } @else {
-                         Non
                        }
                   </span>
                   </div>
@@ -314,7 +304,7 @@
                         @if (item.mandatory) {
                           Oui
                         } @else {
-                          Nom
+                          Non
                         }
                       <td>
                     </tr>

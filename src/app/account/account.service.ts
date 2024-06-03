@@ -432,6 +432,12 @@ export class AccountService {
         +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
   }
 
+  getCapitals(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/capitals?sort='
+        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
+  }
+
   getPricingList(sort: string, order: string, page: number, size: number) {
     return this._http
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/pricing/primes?sort='

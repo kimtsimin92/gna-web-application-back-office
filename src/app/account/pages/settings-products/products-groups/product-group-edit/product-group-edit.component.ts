@@ -201,7 +201,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
 
     if (localStorage.getItem("PRODUCT_GROUP_DATA")) {
 
-      this.onGetBranchList();
+      this.onGetGuaranteeList();
       this.onGetPeriodList();
 
       // @ts-ignore
@@ -210,10 +210,10 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       this.dataForm.name.setValue(this.productGroup.name);
       this.dataForm.description.setValue(this.productGroup.description);
 
-      if (this.productGroup.category) {
+      /*if (this.productGroup.category) {
         this.dataForm.category.setValue(this.productGroup.category.name);
         this.onGetGuaranteeList(this.productGroup.category.id);
-      }
+      }*/
 
       if (this.productGroup.accessoryAmountCompany) {
         this.dataForm.accessoryAmountCompany.setValue(this.productGroup.accessoryAmountCompany);
@@ -382,7 +382,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       periodicityId: null,
       insuranceSectorId: null,
       apiIds: [],
-      guarantees: [],
+      guaranteeList: [],
       categoryId: null,
       insuranceSectorName: this.formData.value.insuranceSectorId,
       paymentMethodName: this.formData.value.paymentMethodId,
@@ -418,7 +418,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     if (this.formData.value.guarantees.value) {
-      requestData.guarantees = this.formData.value.guarantees.value;
+      requestData.guaranteeList = this.formData.value.guarantees.value;
     }
 
     if (this.formData.value.apiIds) {
@@ -547,9 +547,9 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       });
   }
 
-  onGetGuaranteeList(id: number) {
+  onGetGuaranteeList() {
     this.accountService.pageLoading = true;
-    this.accountService.getGuaranteeListByCategory(id)
+    this.accountService.getGuaranteeList()
       .subscribe((responseData: HttpResponse<any>) => {
         this.accountService.pageLoading = false;
         console.log(responseData);
@@ -697,7 +697,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
   onGetGuaranteesByCategory(category: any) {
     console.log(category);
     this.selectGuaranteeList = [];
-    this.onGetGuaranteeList(category.id);
+    this.onGetGuaranteeList();
   }
 
 }

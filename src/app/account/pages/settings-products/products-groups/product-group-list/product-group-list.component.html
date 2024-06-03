@@ -61,9 +61,9 @@
                 <th pSortableColumn="name">Nom Groupe
                   <p-sortIcon field="name" />
                 </th>
-                <th pSortableColumn="category"
+               <!-- <th pSortableColumn="category"
                     class="gna-responsive">Catégorie
-                  <p-sortIcon field="category" />
+                  <p-sortIcon field="category" />-->
                 <th pSortableColumn="enabled">Statut
                   <p-sortIcon field="enabled" />
                 </th>
@@ -84,13 +84,13 @@
                 <td>
                   {{ element.name }}
                 </td>
-                <td class="gna-responsive">
+               <!-- <td class="gna-responsive">
                   @if (element.category) {
                     {{ element.category.name }}
                   } @else {
                     N/A
                   }
-                </td>
+                </td>-->
                 <td>
                   @if (element.statusCode && element.statusCode === 10) {
                     <p-tag severity="warning" value="Enregistré"></p-tag>
@@ -164,7 +164,6 @@
 
             <ng-template pTemplate="loadingbody">
               <tr *ngFor="let item of fakeDataList">
-                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>

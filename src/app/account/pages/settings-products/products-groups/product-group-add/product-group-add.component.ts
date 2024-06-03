@@ -207,7 +207,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
 
     this.formData = this._fb.group(this.dataForm);
 
-    this.onGetBranchList();
+    this.onGetGuaranteeList();
     this.onGetPeriodList();
 
   }
@@ -285,7 +285,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
       periodicityId: null,
       insuranceSectorId: null,
       apiIds: [],
-      guarantees: [],
+      guaranteeList: [],
       categoryId: null,
       description: this.formData.value.description,
       clauses: this.guaranteeClauses
@@ -310,7 +310,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     if (this.formData.value.guarantees.value) {
-      requestData.guarantees = this.formData.value.guarantees.value;
+      requestData.guaranteeList = this.formData.value.guarantees.value;
     }
 
     if (this.formData.value.apiIds) {
@@ -449,9 +449,9 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
       });
   }
 
-  onGetGuaranteeList(id: number) {
+  onGetGuaranteeList() {
     this.accountService.pageLoading = true;
-    this.accountService.getGuaranteeListByCategory(id)
+    this.accountService.getGuaranteeList()
       .subscribe((responseData: HttpResponse<any>) => {
         this.accountService.pageLoading = false;
         console.log(responseData);
@@ -536,7 +536,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
   onGetGuaranteesByCategory(category: any) {
     console.log(category);
     this.selectGuaranteeList = [];
-    this.onGetGuaranteeList(category.id);
+    this.onGetGuaranteeList();
   }
 
 }

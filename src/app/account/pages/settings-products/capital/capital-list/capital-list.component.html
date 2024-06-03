@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Configuration des produits / Tarification des primes / Lister</span>
+  <span>Configuration des produits / Capitaux / Lister</span>
 </div>
 
 <div class="container-fluid">
@@ -24,9 +24,8 @@
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
               <button mat-raised-button color="primary"
-                      class="gna-full-width gna-btn-default"
-                      (click)="onAdd()">Créer
-                Tarification</button>
+                      class="gna-full-width gna-btn-default gna-disable" >Créer
+                Capitaux</button>
             </div>
           </div>
         </div>
@@ -56,11 +55,11 @@
             <ng-template pTemplate="header">
               <tr class="gna-table-header">
                 <th pSortableColumn="code">
-                  Code Tarification
+                  Code Capitaux
                   <p-sortIcon field="code" />
                   <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                 </th>
-                <th pSortableColumn="name">Nom Tarification
+                <th pSortableColumn="name">Nom Capitaux
                   <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <p-sortIcon field="name" />
                 </th>
@@ -68,13 +67,9 @@
                   <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <p-sortIcon field="group" />
                 </th>
-                <th pSortableColumn="quotationForm">Formulaire
+                <th pSortableColumn="group">Garantie
                   <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
-                  <p-sortIcon field="quotationForm" />
-                </th>
-                <th pSortableColumn="guarantee">Garantie
-                  <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
-                  <p-sortIcon field="guarantee" />
+                  <p-sortIcon field="group" />
                 </th>
                 <th pSortableColumn="enabled">Etat
                   <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
@@ -103,22 +98,15 @@
                   }
                 </td>
                 <td>
-                  @if (element.group) {
-                    {{ element.group.name }}
-                  } @else {
-                    N/A
-                  }
-                </td>
-                <td>
-                  @if (element.quotationForm) {
-                    {{ element.quotationForm.name }}
+                  @if (element.productGroup) {
+                    {{ element.productGroup.name }}
                   } @else {
                     N/A
                   }
                 </td>
                 <td>
                   @if (element.guarantee) {
-                    {{ element.guarantee.guaranteeName }}
+                    {{ element.guarantee.name }}
                   } @else {
                     N/A
                   }
@@ -148,6 +136,13 @@
 
                   </span>
 
+                      <span class="gna-action-span">
+                    <p-button icon="pi pi-eye" class="gna-btn-eye"
+                              pTooltip="Voir"
+                              tooltipPosition="bottom"
+                              (click)="onView(element)"
+                              [disabled]="isSave"></p-button>
+                  </span>
                            <span class="gna-action-span">
                     <p-button icon="pi pi-pencil" class="gna-btn-edit"
                               pTooltip="Modifier"
@@ -171,12 +166,15 @@
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
-                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td>
                    <span class="gna-action-span-div">
-                     <span class="gna-action-span">
+                        <span class="gna-action-span">
                           <p-skeleton size="2rem" styleClass="mr-2" />
-                      </span>     <span class="gna-action-span">
+                      </span>
+                      <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                      <span class="gna-action-span">
                           <p-skeleton size="2rem" styleClass="mr-2" />
                       </span>
                    </span>
@@ -191,11 +189,12 @@
         <div class="gna-pagination-row">
 
           <div class="gna-pagination">
+
             @if (dataPaginationResponse) {
-              @if (dataPaginationResponse.totalPages > 0) {
+              @if (dataPaginationResponse.pageSize > 0) {
                 <span class="gna-pagination-page-size"
                       [matMenuTriggerFor]="aboveMenu"
-                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ pageSize }}
+                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ dataPaginationResponse.pageSize }}
                   <i class="pi pi-angle-up"></i></span>
                 <mat-menu #aboveMenu="matMenu" yPosition="above">
                   @for (psl of pageSizeList; track psl) {
@@ -207,6 +206,9 @@
                 <span class="gna-pagination-page-size gna-pagination-disabled">0
                 <i class="pi pi-angle-up"></i></span>
               }
+            } @else {
+              <span class="gna-pagination-page-size gna-pagination-disabled">0
+                <i class="pi pi-angle-up"></i></span>
             }
           </div>
 
@@ -223,7 +225,7 @@
               <i class="pi pi-arrow-left"></i>
             </span>
               }
-              @if (dataPaginationResponse.totalPages > 0) {
+              @if (dataPaginationResponse.pageSize > 0) {
                 <span class="gna-pagination-page"
                       [ngClass]="{'gna-pagination-disabled': isSave}">{{ currentPage }}</span>
               } @else {
@@ -259,3 +261,4 @@
 
 
 </div>
+

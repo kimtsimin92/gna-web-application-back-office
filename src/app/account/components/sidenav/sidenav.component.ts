@@ -276,7 +276,7 @@ export class SidenavComponent implements OnInit {
          },
         {
             label: "Capitaux",
-           // route: '/'
+            route: '/account/management/products/capitals/list'
           }
       ]
     };

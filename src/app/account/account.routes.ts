@@ -256,6 +256,8 @@ import {
 import {
   ProductCategoryAddComponent
 } from "./pages/list-management/product-category/product-category-add/product-category-add.component";
+import {CapitalListComponent} from "./pages/settings-products/capital/capital-list/capital-list.component";
+import {CapitalAddComponent} from "./pages/settings-products/capital/capital-add/capital-add.component";
 
 const PROFILE_GROUPS: any = {
   managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
@@ -725,6 +727,14 @@ export const routes: Routes = [
       {
         path: 'management/products/pricing/view', component: PremiumCalculationDetailComponent,
         title: 'Tarification des primes - Voir | GNA',
+      },
+      {
+        path: 'management/products/capitals/list', component: CapitalListComponent,
+        title: 'Capital - Lister | GNA',
+      },
+      {
+        path: 'management/products/capitals/add', component: CapitalAddComponent,
+        title: 'Capital - Créer | GNA',
       },
       {
         path: 'marketing/products/list', component: ProductListComponent,

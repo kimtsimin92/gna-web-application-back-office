@@ -13,8 +13,7 @@ export class ProductGroupForm {
   description = new FormControl(null);
 
   // @ts-ignore
-  category = new FormControl(null, [
-    Validators.required]);
+  category = new FormControl(null);
 
   accessoryTaxRate = new FormControl(null,
     [

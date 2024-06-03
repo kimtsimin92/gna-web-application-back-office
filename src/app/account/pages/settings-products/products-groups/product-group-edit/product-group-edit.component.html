@@ -76,7 +76,7 @@
                          formControlName="name"/>
                 </p-iconField>
               </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <!--  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 @if (branchList && branchList.length > 0) {
                   <label>Catégorie
                     <span class="gna-text-red gna-text-bold">*</span>
@@ -105,7 +105,7 @@
                   <p-dropdown placeholder="Selectionner"
                               class="gna-form-dropdown" [disabled]="isDisable"></p-dropdown>
                 }
-              </div>
+              </div>-->
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <label for="accessoryAmountCompany">Montant Accessoires Compagnie
                   <span class="gna-text-red gna-text-bold">*</span>
@@ -317,8 +317,8 @@
                                        class="gna-table-checkbox"></p-checkbox>
                       </span>
                                         <span class="gna-action-span">
-                                    @if (isSave || accountService.pageLoading || accountService.isSave) {
-                                      <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2">
+                                    @if (!sg.value.removable || isSave || accountService.pageLoading || accountService.isSave) {
+                                      <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2 gna-disable">
                                     } @else {
                                       <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2"
                                            (click)="onRemoveGuaranteeFromList(sg.value)">
