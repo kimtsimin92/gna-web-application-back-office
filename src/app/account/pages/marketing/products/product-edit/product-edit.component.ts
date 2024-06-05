@@ -202,7 +202,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
       this.productData = JSON.parse(localStorage.getItem("PRODUCT_DATA"));
 
       this.dataForm.code.setValue(this.productData.code);
-      this.dataForm.name.setValue(this.productData.code);
+      this.dataForm.name.setValue(this.productData.name);
 
       if (this.productData.cashBackRate) {
         this.dataForm.cashBackRate.setValue(this.productData.cashBackRate);
