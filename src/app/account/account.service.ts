@@ -308,6 +308,11 @@ export class AccountService {
       .put<HttpResponse<any>>(environment.customersService+'/v1/assures/switch_activation_assure/'+id, {observe: 'response'});
   }
 
+  saveEditCustomerSegment(id: number, requestData: any) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/customers/'+id+'/segments', requestData, {observe: 'response'});
+  }
+
 
   saveSegmentAdd(requestData: any) {
     return this._http
@@ -430,6 +435,11 @@ export class AccountService {
     return this._http
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations?sort='
         +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
+  }
+
+  onGetQuoteForm(productId: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+`/api/v1/products/${productId}/quoteForm`, {observe: 'response'});
   }
 
   getCapitals(sort: string, order: string, page: number, size: number) {

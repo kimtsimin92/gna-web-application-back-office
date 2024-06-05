@@ -271,14 +271,6 @@ export class ManagementCustomerAccountPersonalListComponent
             if (this.dataPaginationResponse.totalPages > 0) {
               this.dataList = this.dataPaginationResponse.data;
 
-              if (this.dataList.length > 0) {
-                this.dataList.forEach(dt => {
-                  if (dt.code_segment) {
-                    this.onGetSegmentByCode(dt);
-                  }
-                });
-              }
-
               if (this.currentPage <= 0) {
                 this.currentPage++;
               }

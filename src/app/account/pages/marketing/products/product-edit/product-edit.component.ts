@@ -349,6 +349,24 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
         });
 
+      } else {
+        //
+        this.formContractModality = this._fb.group(this.contractModalityForm);
+
+        // @ts-ignore
+        this.contractModality.name.setValue("1 Mois");
+        // @ts-ignore
+        this.contractModality.duration.setValue(1);
+        // @ts-ignore
+        this.contractModality.unitId.setValue(2);
+        // @ts-ignore
+        this.contractModality.weighting.setValue(0.1);
+        // @ts-ignore
+        this.contractModality.position.setValue(1);
+        this.contractModality.start = true;
+        let fcm = this._fb.group(this.contractModality);
+        this.formContractModalityList.push(fcm);
+        //
       }
 
 

@@ -135,6 +135,18 @@
                           <!--   }-->
 
                   </span>
+                             <span class="gna-action-span">
+                    <p-button icon="pi pi-calculator" class="gna-btn-eye"
+                              pTooltip="Simulation"
+                              tooltipPosition="bottom"
+                              [disabled]="isSave"
+                    (click)="onGoToSimulation(element)"></p-button>
+                  </span>
+                            <span class="gna-action-span">
+                          <p-inputSwitch class="gna-disable"
+                            [disabled]="isDisable"/>
+
+                  </span>
                       <span class="gna-action-span">
                     <p-button icon="pi pi-eye" class="gna-btn-eye"
                               pTooltip="Voir"
@@ -149,6 +161,13 @@
                               (click)="onEdit(element)"
                               [disabled]="isSave"></p-button>
                   </span>
+                          <span class="gna-action-span">
+                             <p-button icon="pi pi-trash"
+                                       pTooltip="Supprimer"
+                                       tooltipPosition="bottom"
+                                       class="gna-btn-delete gna-disable"
+                                       [disabled]="isDisable"></p-button>
+                          </span>
                                        <span class="gna-action-span">
                        <!-- @if (element.removable) {
                           <p-button icon="pi pi-trash"

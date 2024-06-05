@@ -258,6 +258,7 @@ import {
 } from "./pages/list-management/product-category/product-category-add/product-category-add.component";
 import {CapitalListComponent} from "./pages/settings-products/capital/capital-list/capital-list.component";
 import {CapitalAddComponent} from "./pages/settings-products/capital/capital-add/capital-add.component";
+import {QuoteSimulationComponent} from "./pages/quote/quote-simulation/quote-simulation.component";
 
 const PROFILE_GROUPS: any = {
   managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
@@ -750,7 +751,11 @@ export const routes: Routes = [
       },
       {
         path: 'marketing/products/view', component: ProductViewComponent,
-        title: 'Produit | GNA',
+        title: 'Produit - Voir | GNA',
+      },
+      {
+        path: 'marketing/products/simulation', component: QuoteSimulationComponent,
+        title: 'Produit - Simulation | GNA',
       },
       {
         path: 'marketing/campaigns/list', component: CampaignListComponent,

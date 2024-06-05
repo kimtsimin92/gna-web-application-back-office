@@ -378,4 +378,13 @@ export class ProductListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.rows = event.rows;
   }
 
+  onGoToSimulation(element: any) {
+    /*// @ts-ignore
+    localStorage.setItem("PRODUCT_DATA", JSON.stringify(element));
+    this._router.navigateByUrl("account/simulation")
+      .then(() => {
+        this.loadingPage = false;
+      });*/
+  }
+
 }

@@ -95,3 +95,19 @@
   font-family: 'AvenirLTProBlack', sans-serif !important;
   margin-left: 5px;
 }
+
+.gna-loading {
+  padding-top: 5%;
+  text-align: center;
+  background-color: #F4F5F6;
+}
+
+.gna-loading-image {
+  text-align: center;
+}
+
+.gna-loading-spinner {
+  position: absolute;
+  z-index: 1;
+  margin-left: 48%;
+}

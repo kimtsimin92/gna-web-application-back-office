@@ -55,14 +55,13 @@
             [resizableColumns]="true" >
             <ng-template pTemplate="header">
               <tr class="gna-table-header">
-                <th pSortableColumn="code">
-                  Code
-                  <p-sortIcon field="code" />
-                  <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
-                </th>
-                <th pSortableColumn="name">Nom
+                <th pSortableColumn="name">Code
                   <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <p-sortIcon field="name" />
+                </th>
+                <th pSortableColumn="description">Description
+                  <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
+                  <p-sortIcon field="description" />
                 </th>
                 <th pSortableColumn="enabled">Etat
                   <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
@@ -77,15 +76,15 @@
             <ng-template pTemplate="body" let-element let-expanded="expanded">
               <tr>
                 <td>
-                      @if (element.code ) {
-                        {{ element.code }}
-                      } @else {
-                        N/A
-                      }
-                </td>
-                <td>
                   @if (element.name) {
                     {{ element.name }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td>
+                  @if (element.description) {
+                    {{ element.description }}
                   } @else {
                     N/A
                   }

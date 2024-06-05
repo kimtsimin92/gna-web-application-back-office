@@ -77,6 +77,8 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
 
   isSave: boolean = false;
 
+  customerSegment: any = null;
+
   elementData: any;
   loadingPage: boolean = false;
   loading: boolean = false;
@@ -106,6 +108,9 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
 
       if (customerAccountData) {
         this.onGetCustomerAccountById(customerAccountData.id);
+        if (customerAccountData.segment) {
+          this.customerSegment = customerAccountData.segment;
+        }
       }
 
     } else {
@@ -503,7 +508,6 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
           let responseBody = responseData['body'];
           if (responseBody) {
             this.elementData = responseBody.data;
-            this.onGetSegmentByCode(this.elementData);
             if (this.elementData.assures) {
               this.insuredList = this.elementData.assures;
             }
@@ -557,6 +561,12 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
 
 
   onShowViewEdit() {
+
+    if (this.elementData) {
+      if (this.elementData.segment) {
+        this.customerSegment = this.elementData.segment;
+      }
+    }
     this.onGetSegmentList();
     this;this.showViewEdit = true;
   }
@@ -572,6 +582,36 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
         this.accountService.pageLoading = false;
         console.log(errorData);
       });
+  }
+
+  onCustomerEditSegment() {
+
+    let requestData = {
+      customerId: this.elementData.id,
+      codeSegment: this.customerSegment.code,
+    }
+
+    console.log(requestData);
+
+    this.isSave = true;
+
+    this.openSaveLoadingDialog();
+
+    this.accountService.saveEditCustomerSegment(requestData.customerId, requestData).subscribe(
+      (responseData) => {
+        this.isSave = false;
+        console.log(responseData);
+        this.closeDialog();
+        this.openSaveToggleEnableNotificationDialog();
+      },
+      (error: HttpErrorResponse) => {
+        this.isSave = false;
+        console.log(error);
+        this.closeDialog();
+        this.openSaveToggleEnableErrorNotificationDialog(error);
+      }
+    );
+
   }
 
 }

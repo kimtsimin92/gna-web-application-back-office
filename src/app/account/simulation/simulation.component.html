@@ -14,8 +14,10 @@
 
   <div class="container">
 
-    <div class="row">
-      <div class="gna-simulation-card">
+    <div class="row"
+         *ngIf="!loadingPage">
+      <div class="gna-simulation-card"
+      *ngIf="productData && quotationForm">
 
         @if (currentStep) {
 
@@ -149,4 +151,17 @@
 
   </div>
 
+  <div class="gna-loading"
+       *ngIf="loadingPage">
+
+    <div class="gna-loading-image">
+      <img src="assets/gna/images/gna-logo.png" alt="" width="300">
+    </div>
+    <div class="gna-loading-spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+
+  </div>
+
 </div>
+

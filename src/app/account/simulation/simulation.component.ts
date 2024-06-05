@@ -16,25 +16,27 @@ import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {HeaderComponent} from "../components/header/header.component";
 import {AccountService} from "../account.service";
 import {MatIcon} from "@angular/material/icon";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-simulation',
   standalone: true,
-    imports: [
-        MatButton,
-        SimulationRadioComponent,
-        SimulationTextComponent,
-        NgIf,
-        SimulationNumberComponent,
-        SimulationDateComponent,
-        SimulationCheckboxComponent,
-        SimulationSelectComponent,
-        SimulationTextareaComponent,
-        SimulationEmailComponent,
-        SimulationTelComponent,
-      MatIcon,
-        HeaderComponent
-    ],
+  imports: [
+    MatButton,
+    SimulationRadioComponent,
+    SimulationTextComponent,
+    NgIf,
+    SimulationNumberComponent,
+    SimulationDateComponent,
+    SimulationCheckboxComponent,
+    SimulationSelectComponent,
+    SimulationTextareaComponent,
+    SimulationEmailComponent,
+    SimulationTelComponent,
+    MatIcon,
+    HeaderComponent,
+    MatProgressSpinner
+  ],
   templateUrl: './simulation.component.html',
   styleUrl: './simulation.component.css'
 })
@@ -51,6 +53,8 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
   currentStepQuestionIndex: number = 0;
   loadingPage: boolean = false;
 
+  productData: any = null;
+
   constructor(
     private _router: Router,
     public accountService: AccountService,
@@ -64,24 +68,15 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
       localStorage.removeItem("SIMULATION_REQUEST_DATA");
     }
 
-    if (localStorage.getItem("FORM_QUOTATION_DATA")) {
-
-      this.headerTitle = "Configuration des produits / Formulaires de cotations / Voir";
-      localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
+    if (localStorage.getItem("PRODUCT_DATA")) {
 
       // @ts-ignore
-      this.quotationForm = JSON.parse(localStorage.getItem("FORM_QUOTATION_DATA"));
-      console.log(this.quotationForm);
+      this.productData = JSON.parse(localStorage.getItem("PRODUCT_DATA"));
 
-      if (this.quotationForm && this.quotationForm.steps && this.quotationForm.steps.length > 0) {
-        this.quotationFormSteps = this.quotationForm.steps;
-        if (this.quotationFormSteps && this.quotationFormSteps.length > 0) {
-          this.onGetCurrentElements();
-        }
-      }
+      this.onGetQuoteForm(this.productData.id);
+
     } else {
-
-      this._router.navigateByUrl("/account/management/products/quotes/forms/list");
+      this._router.navigateByUrl("/account/marketing/products/list");
     }
 
 
@@ -230,6 +225,46 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/management/products/quotes/forms/list");
+    this._router.navigateByUrl("/account/marketing/products/list");
   }
+
+  onGetQuoteForm(productId: number) {
+
+    this.loadingPage = true;
+
+    this.accountService.onGetQuoteForm(productId)
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.loadingPage = false;
+        console.log(responseData);
+
+        if (responseData["body"]) {
+          this.quotationForm = responseData["body"];
+          // @ts-ignore
+          localStorage.setItem("FORM_QUOTATION_DATA", JSON.stringify(this.quotationForm));
+
+          if (this.quotationForm) {
+
+            console.log(this.quotationForm);
+
+            if (this.quotationForm && this.quotationForm.steps && this.quotationForm.steps.length > 0) {
+              this.quotationFormSteps = this.quotationForm.steps;
+              if (this.quotationFormSteps && this.quotationFormSteps.length > 0) {
+                this.onGetCurrentElements();
+              }
+            }
+          } else {
+
+            this._router.navigateByUrl("/account/marketing/products/list");
+
+          }
+
+        }
+
+      }, (errorData: HttpErrorResponse) => {
+        this.loadingPage = false;
+        console.log(errorData);
+      })
+
+  }
+
 }
