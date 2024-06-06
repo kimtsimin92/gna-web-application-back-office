@@ -274,10 +274,10 @@ export class SidenavComponent implements OnInit {
            label: "Tarification des primes",
            route: '/account/management/products/pricing/list'
          },
-        {
+    /*    {
             label: "Capitaux",
             route: '/account/management/products/capitals/list'
-          }
+          }*/
       ]
     };
 
@@ -292,10 +292,10 @@ export class SidenavComponent implements OnInit {
           label: "Produits",
           route: '/account/marketing/products/list'
         },
-       {
+       /*{
           label: "Campagnes",
           route: '/account/marketing/campaigns/list'
-        }
+        }*/
       ]
     };
 
