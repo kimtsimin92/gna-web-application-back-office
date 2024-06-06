@@ -232,8 +232,8 @@ export class ManagementCustomerAccountCompanyListComponent
 
     this.pageNumber = this.currentPage;
 
+    let userType = "PMO";
     let filter = {
-      type_customer_id: '39',
       validation_status: 2,
     };
 
@@ -241,6 +241,7 @@ export class ManagementCustomerAccountCompanyListComponent
 
     this.managerCustomerAccountService
       .onGetCustomerAccountRequestListByType(
+        userType,
         filter,
         this.pageNumber,
         this.pageSize,
@@ -271,13 +272,13 @@ export class ManagementCustomerAccountCompanyListComponent
             if (this.dataPaginationResponse.totalPages > 0) {
               this.dataList = this.dataPaginationResponse.data;
 
-              if (this.dataList.length > 0) {
+          /*    if (this.dataList.length > 0) {
                 this.dataList.forEach(dt => {
                   if (dt.code_segment) {
                     this.onGetSegmentByCode(dt);
                   }
                 });
-              }
+              }*/
 
               if (this.currentPage <= 0) {
                 this.currentPage++;

@@ -19,19 +19,19 @@ export class ManagerCustomerAccountService {
       });
   }
 
-  onGetCustomerAccountRequestListByType(filter: any, page: number, limit: number, orderBy: string) {
+  onGetCustomerAccountRequestListByType(userType: string, filter: any, page: number, limit: number, orderBy: string) {
     return this._http
       .get<HttpResponse<any>>(environment.customersService+'/v1/users', {
         observe: 'response',
-        params: new HttpParams({fromString:  `filters={"type_customer_id":${filter.type_customer_id},"validation_status":${filter.validation_status}}&page=${page}&limit=${limit}&order_by=${orderBy}`})
+        params: new HttpParams({fromString:  `filters={"validation_status":${filter.validation_status}}&code=${userType}&page=${page}&limit=${limit}&order_by=${orderBy}`})
       });
   }
 
-  onGetCustomerAccountListByType(filter: any, page: number, limit: number, orderBy: string) {
+  onGetCustomerAccountListByType(userType: string, filter: any, page: number, limit: number, orderBy: string) {
     return this._http
       .get<HttpResponse<any>>(environment.customersService+'/v1/users', {
         observe: 'response',
-        params: new HttpParams({fromString:  `filters={"type_customer_id":${filter.type_customer_id},"validation_status":${filter.validation_status}}&page=${page}&limit=${limit}&order_by=${orderBy}`})
+        params: new HttpParams({fromString:  `filters={"validation_status":${filter.validation_status}}&code=${userType}&page=${page}&limit=${limit}&order_by=${orderBy}`})
       });
   }
 

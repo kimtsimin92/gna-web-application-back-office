@@ -197,7 +197,7 @@ export class ReinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
 
   onGetDataList() {
 
-    this.loadingPage = true;
+   /* this.loadingPage = true;
     this.loading = true;
 
     console.log(this.currentPage);
@@ -249,7 +249,7 @@ export class ReinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
 
       });
 
-
+*/
   }
   onGetCustomerAccountFilesById(element: any) {
 

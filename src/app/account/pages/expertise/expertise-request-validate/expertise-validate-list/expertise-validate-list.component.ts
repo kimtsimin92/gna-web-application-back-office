@@ -202,7 +202,7 @@ export class ExpertiseValidateListComponent {
   ngOnDestroy(): void {}
 
   onGetDataList() {
-    this.loadingPage = true;
+   /* this.loadingPage = true;
     this.loading = true;
 
     console.log(this.currentPage);
@@ -260,7 +260,7 @@ export class ExpertiseValidateListComponent {
 
           console.log(errorData);
         }
-      );
+      );*/
   }
 
   onGetCustomerAccountFilesById(element: any) {

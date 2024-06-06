@@ -195,7 +195,7 @@ export class CoinsuranceValidateListComponent  implements OnInit, AfterViewInit,
 
   onGetDataList() {
 
-    this.loadingPage = true;
+    /*this.loadingPage = true;
     this.loading = true;
 
     console.log(this.currentPage);
@@ -245,7 +245,7 @@ export class CoinsuranceValidateListComponent  implements OnInit, AfterViewInit,
 
         console.log(errorData);
 
-      });
+      });*/
 
 
   }

@@ -50,10 +50,6 @@
                   <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <p-sortIcon field="nom" />
                 </th>
-                <th pSortableColumn="nom">Propriétaire
-                  <!--                  <p-columnFilter type="text" field="genre" display="menu" />-->
-                  <p-sortIcon field="nom" />
-                </th>
                 <th pSortableColumn="code_segment" class="gna-responsive">Segment
                   <!--                  <p-columnFilter type="text" field="prenom" display="menu" />-->
                   <p-sortIcon field="code_segment" />
@@ -75,8 +71,7 @@
                     <div class="col-4">
                       <p-button type="button" pRipple [pRowToggler]="element" [text]="true"
                                 [rounded]="true" [plain]="true"
-                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-                                (onClick)="onGetCustomerAccountFilesById(element)" />
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"/>
                     </div>
                     <div class="col-8 gna-table-td-mt">
                       @if (element.numero_compte ) {
@@ -194,7 +189,6 @@
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
-                <td class="gna-responsive"><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td class="gna-responsive"><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>

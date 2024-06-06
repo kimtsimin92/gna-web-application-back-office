@@ -195,7 +195,7 @@ export class ExpertiseSubmitListComponent {
 
   onGetDataList() {
 
-    this.loadingPage = true;
+   /* this.loadingPage = true;
     this.loading = true;
 
     console.log(this.currentPage);
@@ -247,7 +247,7 @@ export class ExpertiseSubmitListComponent {
         console.log(errorData);
 
       });
-
+*/
 
   }
 

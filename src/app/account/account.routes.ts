@@ -259,6 +259,9 @@ import {
 import {CapitalListComponent} from "./pages/settings-products/capital/capital-list/capital-list.component";
 import {CapitalAddComponent} from "./pages/settings-products/capital/capital-add/capital-add.component";
 import {QuoteSimulationComponent} from "./pages/quote/quote-simulation/quote-simulation.component";
+import {
+  SubscriptionQuoteListComponent
+} from "./pages/subscription/subscription-quote/subscription-quote-list/subscription-quote-list.component";
 
 const PROFILE_GROUPS: any = {
   managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
@@ -444,6 +447,10 @@ export const routes: Routes = [
         ]
       },
 
+      {
+        path: 'subscriptions/quotes/list', component: SubscriptionQuoteListComponent,
+        title: "Gestion des souscriptions - Cotations | GNA",
+      },
       {
         path: 'coinsurance/requests/submits/list', component: CoinsuranceSubmitListComponent,
         title: "Coassurances - Demandes soumises | GNA",

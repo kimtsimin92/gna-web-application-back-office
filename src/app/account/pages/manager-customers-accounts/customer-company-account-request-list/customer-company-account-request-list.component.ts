@@ -205,14 +205,14 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
 
       this.pageNumber = this.currentPage;
 
+    let userType = "PMO";
     let filter = {
-      type_customer_id: "39",
       validation_status: "[1,3]"
     };
 
     this.dataList = [];
 
-    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(filter, this.pageNumber, this.pageSize, this.pageSort)
+    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(userType, filter, this.pageNumber, this.pageSize, this.pageSort)
       .subscribe((responseData: HttpResponse<any>) => {
 
         this.loadingPage = false;
@@ -339,7 +339,7 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
     // @ts-ignore
     localStorage.setItem("CUSTOMER_ACCOUNT_REQUEST_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/manager/accounts/companies/requests/view")
+    this._router.navigateByUrl("/account/management/accounts/companies/requests/view")
       .then(() => {
         this.loadingPage = false;
       });

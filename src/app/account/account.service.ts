@@ -409,6 +409,12 @@ export class AccountService {
         +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
   }
 
+  getQuoteList(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/quotes?sort='
+        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
+  }
+
   //
   addProduct(requestData: any) {
     return this._http

@@ -198,7 +198,7 @@ export class AccountingRequestSubmitListComponent {
     this.loadingPage = true;
     this.loading = true;
 
-    console.log(this.currentPage);
+   /* console.log(this.currentPage);
 
     this.pageNumber = this.currentPage;
 
@@ -247,7 +247,7 @@ export class AccountingRequestSubmitListComponent {
         console.log(errorData);
 
       });
-
+*/
 
   }
 

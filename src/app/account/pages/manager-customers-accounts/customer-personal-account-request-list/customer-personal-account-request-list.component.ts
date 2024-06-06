@@ -205,14 +205,14 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
 
       this.pageNumber = this.currentPage;
 
-    let filter = {
-      type_customer_id: "38",
+      let userType = "PPH";
+      let filter = {
       validation_status: "[1,3]"
     };
 
     this.dataList = [];
 
-    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(filter, this.pageNumber, this.pageSize, this.pageSort)
+    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(userType, filter, this.pageNumber, this.pageSize, this.pageSort)
       .subscribe((responseData: HttpResponse<any>) => {
 
         this.loadingPage = false;
