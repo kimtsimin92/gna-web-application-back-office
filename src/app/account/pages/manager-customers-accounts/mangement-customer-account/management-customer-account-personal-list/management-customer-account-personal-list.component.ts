@@ -233,7 +233,7 @@ export class ManagementCustomerAccountPersonalListComponent
     this.pageNumber = this.currentPage;
 
     let filter = {
-      type_customer_id: '1',
+      type_customer_id: '38',
       validation_status: 2,
     };
 

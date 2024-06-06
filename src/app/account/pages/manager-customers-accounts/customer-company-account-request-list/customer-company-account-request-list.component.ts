@@ -206,7 +206,7 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
       this.pageNumber = this.currentPage;
 
     let filter = {
-      type_customer_id: "2",
+      type_customer_id: "39",
       validation_status: "[1,3]"
     };
 

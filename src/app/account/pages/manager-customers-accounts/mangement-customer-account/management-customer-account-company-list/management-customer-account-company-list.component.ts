@@ -233,8 +233,8 @@ export class ManagementCustomerAccountCompanyListComponent
     this.pageNumber = this.currentPage;
 
     let filter = {
-      type_customer_id: '1',
-      is_valid: true,
+      type_customer_id: '39',
+      validation_status: 2,
     };
 
     this.dataList = [];
