@@ -317,6 +317,37 @@ export class SidenavComponent implements OnInit {
       ]
     };
 
+    let groupManagementSinisters = {
+      label: 'Gestion des indemnisations',
+      items: [
+        {
+          label: "Demandes soumises",
+        },
+        {
+          label: "Déclarations physiques",
+        },
+        {
+          label: "Sinistres ouverts",
+        },
+        {
+          label: "Sinistres clôturés",
+        },
+        {
+          label: "Sinistres classés sans suite",
+        }
+      ]
+    };
+
+    let groupManagementAccounting = {
+      label: 'Comptabilité',
+      items: []
+    };
+
+    let groupManagementStats = {
+      label: 'Statistiques',
+      items: []
+    };
+
     let groupManagementSettings = {
       label: 'Paramètres',
       items: [
@@ -394,6 +425,9 @@ export class SidenavComponent implements OnInit {
 
       this.menuItems.push(groupManagementMarketing);
       this.menuItems.push(groupManagementSubscriptions);
+      this.menuItems.push(groupManagementSinisters);
+      this.menuItems.push(groupManagementAccounting);
+      this.menuItems.push(groupManagementStats);
       this.menuItems.push(groupManagementSettings);
       this.menuItems.push(groupManagementAdmin);
 
