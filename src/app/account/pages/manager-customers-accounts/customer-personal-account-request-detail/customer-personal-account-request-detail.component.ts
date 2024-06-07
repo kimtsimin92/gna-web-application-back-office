@@ -249,13 +249,21 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
       if (result) {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
+        this._router.navigateByUrl("/account/management/customers/requests/personals/list")
+          .then(() => {
+            // @ts-ignore
+            this.loadingPage = false;
+          });
+
+      } else {
+        this._router.navigateByUrl("/account/management/customers/requests/personals/list")
+          .then(() => {
+            // @ts-ignore
+            this.loadingPage = false;
+          });
+
       }
 
-      this._router.navigateByUrl("/account/management/customers/requests/personals/list")
-        .then(() => {
-          // @ts-ignore
-          this.loadingPage = false;
-        });
 
     });
 

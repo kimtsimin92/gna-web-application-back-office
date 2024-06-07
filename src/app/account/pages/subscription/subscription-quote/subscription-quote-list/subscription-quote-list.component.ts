@@ -308,7 +308,6 @@ export class SubscriptionQuoteListComponent implements OnInit, OnDestroy, AfterV
           if (this.currentPage <= 0) {
             this.currentPage++;
           }
-
         }
 
       }, (errorData: HttpErrorResponse) => {

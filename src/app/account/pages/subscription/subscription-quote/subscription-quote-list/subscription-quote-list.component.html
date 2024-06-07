@@ -81,8 +81,8 @@
                                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"/>
                     </div>
                     <div class="col-8 gna-table-td-mt">
-                      @if (element.customer) {
-                        {{ element.customer.code }}
+                      @if (element.customer && element.customer.insuredCode) {
+                        {{ element.customer.insuredCode }}
                       } @else {
                         N/A
                       }
@@ -192,7 +192,7 @@
               @if (dataPaginationResponse.pageSize > 0) {
                 <span class="gna-pagination-page-size"
                       [matMenuTriggerFor]="aboveMenu"
-                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ dataPaginationResponse.pageSize }}
+                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ pageSize }}
                   <i class="pi pi-angle-up"></i></span>
                 <mat-menu #aboveMenu="matMenu" yPosition="above">
                   @for (psl of pageSizeList; track psl) {
@@ -212,7 +212,7 @@
 
           <div class="gna-pagination">
             @if (dataPaginationResponse) {
-              @if (currentPage > 1) {
+              @if (!loadingPage && currentPage > 1) {
                 <span class="gna-pagination-previous"
                       (click)="onGoToPrevious()"
                       [ngClass]="{'gna-pagination-disabled': isSave}">
@@ -229,7 +229,7 @@
               } @else {
                 <span class="gna-pagination-page gna-pagination-disabled">0</span>
               }
-              @if (currentPage < dataPaginationResponse.totalPages) {
+              @if (!loadingPage && currentPage < dataPaginationResponse.totalPages) {
                 <span class="gna-pagination-next"
                       (click)="onGoToNext()"
                       [ngClass]="{'gna-pagination-disabled': isSave}">

@@ -238,14 +238,22 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
       if (result) {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
+
+        this._router.navigateByUrl("/account/management/customers/requests/companies/list")
+          .then(() => {
+            // @ts-ignore
+            this.loadingPage = false;
+          });
+
+      } else {
+
+        this._router.navigateByUrl("/account/management/customers/requests/companies/list")
+          .then(() => {
+            // @ts-ignore
+            this.loadingPage = false;
+          });
+
       }
-
-      this._router.navigateByUrl("/account/management/customers/requests/companies/list")
-        .then(() => {
-          // @ts-ignore
-          this.loadingPage = false;
-        });
-
     });
 
   }
