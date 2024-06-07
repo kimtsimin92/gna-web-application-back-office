@@ -20,6 +20,9 @@ import {TooltipModule} from "primeng/tooltip";
 import {FormsModule} from "@angular/forms";
 import {RippleModule} from "primeng/ripple";
 import {environment} from "../../../../../environments/environment";
+import {
+  ErrorNotificationDialogComponent
+} from "../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
 
 @Component({
   selector: 'app-customer-personal-account-request-list',
@@ -248,10 +251,30 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
         this.loading = false;
 
         console.log(errorData);
+        this.onGetNotificationErrorDialog();
 
       });
 
 
+  }
+
+  onGetNotificationErrorDialog(): void {
+
+    const dialogRef = this._dialog.open(ErrorNotificationDialogComponent, {
+      width: '400px',
+      height: '340px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.closeDialog();
+      }
+    });
+  }
+
+  closeDialog() {
+    this._dialog.closeAll();
   }
 
   onGetCustomerAccountFilesById(element: any) {

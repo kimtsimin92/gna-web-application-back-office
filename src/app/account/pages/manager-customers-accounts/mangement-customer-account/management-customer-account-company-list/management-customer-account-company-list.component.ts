@@ -38,6 +38,9 @@ import {
 import {
   RemoveLoadingDialogComponent
 } from "../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
+import {
+  ErrorNotificationDialogComponent
+} from "../../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
 
 @Component({
   selector: 'app-management-customer-account-company-list',
@@ -291,9 +294,26 @@ export class ManagementCustomerAccountCompanyListComponent
           this.loading = false;
 
           console.log(errorData);
+          this.onGetNotificationErrorDialog();
         }
       );
   }
+
+  onGetNotificationErrorDialog(): void {
+
+    const dialogRef = this._dialog.open(ErrorNotificationDialogComponent, {
+      width: '400px',
+      height: '340px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.closeDialog();
+      }
+    });
+  }
+
 
   onGetCustomerAccountFilesById(element: any) {
     this.isLoadingFiles = true;
