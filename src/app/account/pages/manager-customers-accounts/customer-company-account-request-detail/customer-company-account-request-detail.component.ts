@@ -154,7 +154,7 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
       let userId = this.elementData.id;
 
     let requestData = {
-      "validation_status": 1
+      "validation_status": 2
     };
 
     this.accountService.onSaveCustomerAccountValid(userId, requestData)
@@ -163,8 +163,8 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
           this.accountService.isSave = this.isSave;
           console.log(responseData);
           let message = "L'enregistrement de la validation du compte a reussi."
-          this.onSaveNotificationDialog(message);
           this.closeDialog();
+          this.onSaveNotificationDialog(message);
         }, (errorData: HttpErrorResponse) => {
           this.isSave = false;
           this.accountService.isSave = this.isSave;
@@ -195,8 +195,8 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
         this.accountService.isSave = this.isSave;
         console.log(responseData);
         let message = "L'enregistrement du rejet du compte a reussi."
-        this.onSaveNotificationDialog(message);
         this.closeDialog();
+        this.onSaveNotificationDialog(message);
       }, (errorData: HttpErrorResponse) => {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
@@ -238,14 +238,14 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
       if (result) {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
-
-        this._router.navigateByUrl("/account/management/customers/requests/companies/list")
-          .then(() => {
-            // @ts-ignore
-            this.loadingPage = false;
-          });
-
       }
+
+      this._router.navigateByUrl("/account/management/customers/requests/companies/list")
+        .then(() => {
+          // @ts-ignore
+          this.loadingPage = false;
+        });
+
     });
 
   }
