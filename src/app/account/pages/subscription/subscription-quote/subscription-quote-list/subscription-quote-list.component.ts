@@ -221,8 +221,6 @@ export class SubscriptionQuoteListComponent implements OnInit, OnDestroy, AfterV
 
       });
 
-    this.onGetDataList();
-
   }
 
   ngAfterViewInit(): void {
