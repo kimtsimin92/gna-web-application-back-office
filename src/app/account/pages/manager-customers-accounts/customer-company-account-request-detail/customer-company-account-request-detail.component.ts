@@ -86,7 +86,7 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
   }
 
   onGoToBack() {
-    this._router.navigateByUrl("/account/manager/accounts/companies/requests/list");
+    this._router.navigateByUrl("/account/management/customers/requests/companies/list");
   }
 
   onValid(): void {
@@ -240,7 +240,7 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/manager/accounts/companies/requests/list")
+      this._router.navigateByUrl("/account/management/customers/requests/companies/list")
         .then(() => {
           // @ts-ignore
           this.loadingPage = false;
