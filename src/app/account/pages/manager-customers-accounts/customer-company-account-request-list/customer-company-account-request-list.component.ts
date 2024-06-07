@@ -339,7 +339,7 @@ export class CustomerCompanyAccountRequestListComponent implements OnInit, After
     // @ts-ignore
     localStorage.setItem("CUSTOMER_ACCOUNT_REQUEST_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/management/accounts/companies/requests/view")
+    this._router.navigateByUrl("/account/management/customers/requests/companies/view")
       .then(() => {
         this.loadingPage = false;
       });
