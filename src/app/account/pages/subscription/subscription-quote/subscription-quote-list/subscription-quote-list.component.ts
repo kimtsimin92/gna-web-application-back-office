@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {ButtonModule} from "primeng/button";
-import {DatePipe, NgClass, NgForOf} from "@angular/common";
+import {CurrencyPipe, DatePipe, NgClass, NgForOf} from "@angular/common";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {InputTextModule} from "primeng/inputtext";
 import {MatButton} from "@angular/material/button";
@@ -21,6 +21,8 @@ import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {
   ErrorNotificationDialogComponent
 } from "../../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
+import {RippleModule} from "primeng/ripple";
+import {environment} from "../../../../../../environments/environment";
 
 @Component({
   selector: 'app-subscription-quote-list',
@@ -42,7 +44,9 @@ import {
     TagModule,
     TooltipModule,
     NgClass,
-    MatMenuTrigger
+    MatMenuTrigger,
+    CurrencyPipe,
+    RippleModule
   ],
   templateUrl: './subscription-quote-list.component.html',
   styleUrl: './subscription-quote-list.component.css'
@@ -246,28 +250,15 @@ export class SubscriptionQuoteListComponent implements OnInit, OnDestroy, AfterV
     this._router.navigateByUrl("account/marketing/products/add");
   }
 
-  onEdit(item: any) {
-
-    this.loadingPage = true;
-
-    // @ts-ignore
-    localStorage.setItem("PRODUCT_DATA", JSON.stringify(item));
-
-    this._router.navigateByUrl("account/marketing/products/edit")
-      .then(() => {
-        this.loadingPage = false;
-      });
-
-  }
 
   onView(item: any) {
 
     this.loadingPage = true;
 
     // @ts-ignore
-    localStorage.setItem("PRODUCT_DATA", JSON.stringify(item));
+    localStorage.setItem("QUOTE_DATA", JSON.stringify(item));
 
-    this._router.navigateByUrl("account/marketing/products/view")
+    this._router.navigateByUrl("account/subscriptions/quotes/view")
       .then(() => {
         this.loadingPage = false;
       });
@@ -311,7 +302,7 @@ export class SubscriptionQuoteListComponent implements OnInit, OnDestroy, AfterV
 
         if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
 
-          this.dataList = this.dataPaginationResponse.products;
+          this.dataList = this.dataPaginationResponse.items;
           this.totalRecords = this.dataList.length;
 
           if (this.currentPage <= 0) {
@@ -375,4 +366,5 @@ export class SubscriptionQuoteListComponent implements OnInit, OnDestroy, AfterV
       });*/
   }
 
+  protected readonly environment = environment;
 }

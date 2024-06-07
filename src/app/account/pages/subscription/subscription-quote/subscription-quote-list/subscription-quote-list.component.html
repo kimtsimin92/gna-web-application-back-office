@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Gestion des souscriptions / Cotations / Lister</span>
+  <span>Gestion des souscriptions / Cotations / Comptes / Lister</span>
 </div>
 
 <div class="container-fluid">
@@ -48,9 +48,9 @@
             [resizableColumns]="true" >
             <ng-template pTemplate="header">
               <tr>
-                <th pSortableColumn="code">
-                  Numéro Compte
-                  <p-sortIcon field="code" />
+                <th pSortableColumn="insuredCode">
+                  Numéro Assuré
+                  <p-sortIcon field="insuredCode" />
                 </th>
                 <th pSortableColumn="code">
                   Numéro Cotation
@@ -71,14 +71,23 @@
               </tr>
             </ng-template>
 
-            <ng-template pTemplate="body" let-element>
+            <ng-template pTemplate="body" let-element let-expanded="expanded">
               <tr>
                 <td>
-                  @if (element.customer) {
-                    {{ element.customer.code }}
-                  } @else {
-                    N/A
-                  }
+                  <div class="row">
+                    <div class="col-4">
+                      <p-button type="button" pRipple [pRowToggler]="element" [text]="true"
+                                [rounded]="true" [plain]="true"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"/>
+                    </div>
+                    <div class="col-8 gna-table-td-mt">
+                      @if (element.customer) {
+                        {{ element.customer.code }}
+                      } @else {
+                        N/A
+                      }
+                    </div>
+                  </div>
                 </td>
                 <td>
                   @if (element.code) {
@@ -96,17 +105,17 @@
                 </td>
                 <td>
                   @if (element.premium) {
-                    {{ element.premium }}
+                    {{ element.premium | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                   } @else {
                    0
                   }
                 </td>
                 <td>
-                  @if (element.statusCode && element.statusCode === 10) {
+                  @if (!element.statusCode || element.statusCode && element.statusCode === 1) {
                     <p-tag severity="warning" value="Enregistré"></p-tag>
-                  } @else if (element.statusCode && element.statusCode === 11) {
+                  } @else if (element.statusCode && element.statusCode === 2) {
                     <p-tag severity="success" value="Validé"></p-tag>
-                  } @else if (element.statusCode && element.statusCode === 12) {
+                  } @else if (element.statusCode && element.statusCode === 3) {
                     <p-tag severity="success" value="Approuvé"></p-tag>
                   }
                 </td>
@@ -115,13 +124,6 @@
                 </td>
                 <td>
                         <span class="gna-action-span-div">
-                        <span class="gna-action-span">
-                  </span>
-                            <span class="gna-action-span">
-                          <p-inputSwitch class="gna-disable"
-                                         [disabled]="isDisable"/>
-
-                  </span>
                       <span class="gna-action-span">
                     <p-button icon="pi pi-eye" class="gna-btn-eye"
                               pTooltip="Voir"
@@ -138,6 +140,29 @@
 
             </ng-template>
 
+            <ng-template pTemplate="rowexpansion" let-element let-expanded="expanded">
+              <div class="container">
+
+                <div class="gna-table-files">
+
+                  <span class="gna-files-underline">Documents joints</span>
+                  <div class="row gna-table-files-row">
+
+                      <div class="col">
+                        <a download target="_blank">
+                          <img src="assets/svg/files/pdf-svgrepo-com.svg" class="gna-element-file gna-clickable">
+                        </a>
+
+                      </div>
+
+                  </div>
+                </div>
+
+
+              </div>
+
+            </ng-template>
+
             <ng-template pTemplate="loadingbody">
               <tr *ngFor="let item of fakeDataList">
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
@@ -148,9 +173,6 @@
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td>
                    <span class="gna-action-span-div">
-                      <span class="gna-action-span">
-                          <p-skeleton size="2rem" styleClass="mr-2" />
-                      </span>
                       <span class="gna-action-span">
                           <p-skeleton size="2rem" styleClass="mr-2" />
                       </span>
@@ -167,10 +189,10 @@
           <div class="gna-pagination">
 
             @if (dataPaginationResponse) {
-              @if (dataPaginationResponse.sizePages > 0) {
+              @if (dataPaginationResponse.pageSize > 0) {
                 <span class="gna-pagination-page-size"
                       [matMenuTriggerFor]="aboveMenu"
-                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ dataPaginationResponse.sizePages }}
+                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ dataPaginationResponse.pageSize }}
                   <i class="pi pi-angle-up"></i></span>
                 <mat-menu #aboveMenu="matMenu" yPosition="above">
                   @for (psl of pageSizeList; track psl) {
@@ -201,7 +223,7 @@
               <i class="pi pi-arrow-left"></i>
             </span>
               }
-              @if (dataPaginationResponse.sizePages > 0) {
+              @if (dataPaginationResponse.pageSize > 0) {
                 <span class="gna-pagination-page"
                       [ngClass]="{'gna-pagination-disabled': isSave}">{{ currentPage }}</span>
               } @else {

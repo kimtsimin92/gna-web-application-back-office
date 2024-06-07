@@ -65,7 +65,7 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
   pageSort: string = "-created_at";
   pageOrder: string = "desc";
   pageNumber: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 5;
   pageSizeList: any[] = [
     {
       name: 5

@@ -1,0 +1,218 @@
+<div class="gna-bc">
+  <span>Gestion des souscriptions / Cotations / Comptes / Voir</span>
+</div>
+
+
+
+<div class="gna-main-content">
+
+  <div class="container-fluid gna-main-div-card">
+    <mat-card class="gna-card">
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+                @if (isSave) {
+                  <button mat-raised-button
+                          class="na-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer Paiement</button>
+                } @else {
+
+                  <button mat-raised-button
+                          color="primary"
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave">Enregistrer Paiement</button>
+                }
+            </div>
+
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div class="container-fluid">
+          <div class="mt-4">
+            <div class="card">
+              <div class="card-body gna-card-body"
+                   *ngIf="elementData">
+
+                <div class="row">
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Statut : </span>
+                    @if (!elementData.statusCode ||elementData.statusCode && elementData.statusCode === 1) {
+                      <p-tag severity="warning" value="Enregistré"></p-tag>
+                    } @else if (elementData.statusCode && elementData.statusCode === 2) {
+                      <p-tag severity="success" value="Validé"></p-tag>
+                    } @else if (elementData.statusCode && elementData.statusCode === 3) {
+                      <p-tag severity="success" value="Approuvé"></p-tag>
+                    }
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Enregistrement : </span>
+                    @if (elementData.createdAt) {
+                      {{ elementData.createdAt | date: 'dd-MM-YYYY'}} {{ elementData.createdAt | date: 'HH:mm:ss'}}
+                    } @else  {
+                      N/A
+                    }
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Numéro de cotation : </span>
+                    <span class="gna-view-value">
+                    @if (elementData.code ) {
+                      {{ elementData.code }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">SMP : </span>
+                    <span class="gna-view-value">
+                      N/A
+                  </span>
+                  </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Produit : </span>
+                    <span class="gna-view-value">
+                    @if (elementData.product ) {
+                      {{ elementData.product.name }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label"> Capitaux : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.capital) {
+                         {{ elementData.capital | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Numéro Assuré : </span>
+                    <span class="gna-view-value">
+                    @if (elementData.insuredCode ) {
+                      {{ elementData.insuredCode }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Montant de la prime : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.premium) {
+                         {{ elementData.premium | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Nom Assuré : </span>
+                    <span class="gna-view-value">
+                    @if (elementData.firstName ) {
+                      {{ elementData.firstName }} {{ elementData.lastName }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+                </div>
+
+
+              </div>
+            </div>
+
+            <div *ngIf="elementData && elementData.guarantees && elementData.guarantees.length > 0">
+              <table class="table table-borderless gi-table mt-2">
+                <thead>
+                <tr>
+                  <th>Garantie</th>
+                  <th>Capitaux</th>
+                  <th>Franchise</th>
+                  <th>Prime</th>
+                </tr>
+                </thead>
+                <tbody>
+                  @for (item of elementData.guarantees; track item) {
+                    <tr>
+                      <td>
+                        @if(item.guaranteeName) {
+                          {{ item.guaranteeName }}
+                        } @else {
+                          N/A
+                        }
+                      </td>
+                      <td>
+                        @if(item.guaranteeCapital) {
+                          {{ item.guaranteeCapital | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                        } @else {
+                          N/A
+                        }
+                      <td>
+                        @if (item.guaranteefranchise) {
+                          {{ item.guaranteefranchise | number : "2.0" }}%
+                        } @else {
+                          0%
+                        }
+                      </td>
+                      <td>{{ item.guaranteePremium | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row gna-files mb-3">
+              <span class="gna-files-underline">Documents joints</span>
+              <div class="row">
+
+                    <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1">
+                        <a download target="_blank">
+                          <img src="assets/svg/files/pdf-svgrepo-com.svg" class="gna-element-file gna-clickable">
+                        </a>
+
+                    </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

@@ -262,6 +262,9 @@ import {QuoteSimulationComponent} from "./pages/quote/quote-simulation/quote-sim
 import {
   SubscriptionQuoteListComponent
 } from "./pages/subscription/subscription-quote/subscription-quote-list/subscription-quote-list.component";
+import {
+  SubscriptionQuoteViewComponent
+} from "./pages/subscription/subscription-quote/subscription-quote-view/subscription-quote-view.component";
 
 const PROFILE_GROUPS: any = {
   managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
@@ -449,6 +452,10 @@ export const routes: Routes = [
 
       {
         path: 'subscriptions/quotes/list', component: SubscriptionQuoteListComponent,
+        title: "Gestion des souscriptions - Cotations | GNA",
+      },
+      {
+        path: 'subscriptions/quotes/view', component: SubscriptionQuoteViewComponent,
         title: "Gestion des souscriptions - Cotations | GNA",
       },
       {

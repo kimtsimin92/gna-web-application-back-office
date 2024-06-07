@@ -175,9 +175,13 @@
                               <a href="{{ environment.customersService+file.lien }}" download target="_blank">
                                 <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
                               </a>
-                            } @else if (file.type == "doc" || "doc") {
+                            } @else if (file.type == "doc") {
                               <a href="{{ environment.customersService+file.lien }}" download target="_blank">
                                 <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                              </a>
+                            } @else {
+                              <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                                <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
                               </a>
                             }
 
