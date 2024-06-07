@@ -255,13 +255,6 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
             this.loadingPage = false;
           });
 
-      } else {
-        this._router.navigateByUrl("/account/management/customers/requests/personals/list")
-          .then(() => {
-            // @ts-ignore
-            this.loadingPage = false;
-          });
-
       }
 
 

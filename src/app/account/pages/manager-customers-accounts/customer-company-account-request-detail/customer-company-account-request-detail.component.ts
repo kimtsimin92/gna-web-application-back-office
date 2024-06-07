@@ -245,14 +245,6 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
             this.loadingPage = false;
           });
 
-      } else {
-
-        this._router.navigateByUrl("/account/management/customers/requests/companies/list")
-          .then(() => {
-            // @ts-ignore
-            this.loadingPage = false;
-          });
-
       }
     });
 
