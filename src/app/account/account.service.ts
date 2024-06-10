@@ -411,7 +411,7 @@ export class AccountService {
 
   getQuoteList(sort: string, order: string, page: number, size: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/subscriptions/quotes?pageNumber='
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/admin/subscriptions/quotes?pageNumber='
         +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
 

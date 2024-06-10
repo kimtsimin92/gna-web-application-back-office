@@ -26,7 +26,7 @@
 
             </div>
 
-            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+         <!--   <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
 
                 @if (isSave) {
                   <button mat-raised-button
@@ -38,7 +38,7 @@
                           class="gna-btn-default gna-btn-save gna-full-width"
                           [disabled]="isSave">Enregistrer Paiement</button>
                 }
-            </div>
+            </div>-->
 
           </div>
         </div>
@@ -99,8 +99,8 @@
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gna-view-label">Produit : </span>
                     <span class="gna-view-value">
-                    @if (elementData.product ) {
-                      {{ elementData.product.name }}
+                    @if (elementData.productName ) {
+                      {{ elementData.productName }}
                     } @else {
                       N/A
                     }
@@ -111,7 +111,7 @@
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gna-view-label">SMP : </span>
                     <span class="gna-view-value">
-                      N/A
+                    0
                   </span>
                   </div>
 
@@ -132,7 +132,7 @@
                        @if (elementData.capital) {
                          {{ elementData.capital | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                        } @else {
-                         N/A
+                         0
                        }
                   </span>
 
@@ -155,7 +155,7 @@
                        @if (elementData.premium) {
                          {{ elementData.premium | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                        } @else {
-                         N/A
+                        0
                        }
                   </span>
                   </div>
@@ -172,7 +172,9 @@
                 <tr>
                   <th>Garantie</th>
                   <th>Capitaux</th>
-                  <th>Franchise</th>
+                  <th>Taux Franchise</th>
+                  <th>Franchise Minimum</th>
+                  <th>Franchise Maximum</th>
                   <th>Prime</th>
                 </tr>
                 </thead>
@@ -190,16 +192,37 @@
                         @if(item.guaranteeCapital) {
                           {{ item.guaranteeCapital | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                         } @else {
-                          N/A
-                        }
-                      <td>
-                        @if (item.guaranteefranchise) {
-                          {{ item.guaranteefranchise | number : "2.0" }}%
-                        } @else {
-                          N/A
+                    0
                         }
                       </td>
-                      <td>{{ item.guaranteePremium | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                      <td>
+                        @if(item.guaranteeFranchiseRate) {
+                          {{ item.guaranteeFranchiseRate | number: "2.0" }}%
+                        } @else {
+                        0%
+                        }
+                    </td>
+                      <td>
+                        @if (item.guaranteeFranchiseMinimum) {
+                          {{ item.guaranteeFranchiseMinimum | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr' }}
+                        } @else {
+                        0
+                        }
+                      </td>
+                      <td>
+                        @if (item.guaranteeFranchiseMaximum) {
+                          {{ item.guaranteeFranchiseMaximum | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr' }}
+                        } @else {
+                         0
+                        }
+                      </td>
+                      <td>
+                        @if (item.guaranteePremium) {
+                          {{ item.guaranteePremium | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                        } @else {
+                          0
+                        }
+                      </td>
                     </tr>
                   }
                 </tbody>
