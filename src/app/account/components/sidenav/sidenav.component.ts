@@ -303,7 +303,7 @@ export class SidenavComponent implements OnInit {
       label: 'Gestion des souscriptions',
       items: [
         {
-          label: "Cotations",
+          label: "Devis",
           items: [
             {
               label: "Prospects",
