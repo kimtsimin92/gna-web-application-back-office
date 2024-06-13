@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Gestion des souscriptions / Devis / Comptes / Lister</span>
+  <span>Gestion des souscriptions / Demandes / Validées / Lister</span>
 </div>
 
 <div class="container-fluid">
@@ -49,12 +49,8 @@
             <ng-template pTemplate="header">
               <tr>
                 <th pSortableColumn="insuredCode">
-                  Numéro Assuré
+                  Numéro Police
                   <p-sortIcon field="insuredCode" />
-                </th>
-                <th pSortableColumn="code">
-                  Numéro Devis
-                  <p-sortIcon field="code" />
                 </th>
                 <th pSortableColumn="name">Produit
                   <p-sortIcon field="name" />
@@ -90,13 +86,6 @@
                   </div>
                 </td>
                 <td>
-                  @if (element.code) {
-                    {{ element.code }}
-                  } @else {
-                    N/A
-                  }
-                </td>
-                <td>
                   @if (element.productName) {
                     {{ element.productName }}
                   } @else {
@@ -107,7 +96,7 @@
                   @if (element.premium) {
                     {{ element.premium | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
                   } @else {
-                   0
+                    0
                   }
                 </td>
                 <td>
@@ -148,12 +137,12 @@
                   <span class="gna-files-underline">Documents joints</span>
                   <div class="row gna-table-files-row">
 
-                      <div class="col">
-                        <a download target="_blank">
-                          <img src="assets/svg/files/pdf-svgrepo-com.svg" class="gna-element-file gna-clickable">
-                        </a>
+                    <div class="col">
+                      <a download target="_blank">
+                        <img src="assets/svg/files/pdf-svgrepo-com.svg" class="gna-element-file gna-clickable">
+                      </a>
 
-                      </div>
+                    </div>
 
                   </div>
                 </div>
@@ -165,7 +154,6 @@
 
             <ng-template pTemplate="loadingbody">
               <tr *ngFor="let item of fakeDataList">
-                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>

@@ -316,12 +316,15 @@ export class SidenavComponent implements OnInit {
         },
         {
           label: "Demandes soumises",
+          route: '/account/subscriptions/submits/list',
         },
         {
           label: "Demandes validées",
+          route: '/account/subscriptions/validates/list',
         },
         {
           label: "Demandes rejetées",
+          route: '/account/subscriptions/rejects/list',
         }
       ]
     };

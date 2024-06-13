@@ -265,6 +265,24 @@ import {
 import {
   SubscriptionQuoteViewComponent
 } from "./pages/subscription/subscription-quote/subscription-quote-view/subscription-quote-view.component";
+import {
+  SubscriptionSubmitListComponent
+} from "./pages/subscription/subscription-submit/subscription-submit-list/subscription-submit-list.component";
+import {
+  SubscriptionSubmitViewComponent
+} from "./pages/subscription/subscription-submit/subscription-submit-view/subscription-submit-view.component";
+import {
+  SubscriptionRejectListComponent
+} from "./pages/subscription/subscription-reject/subscription-reject-list/subscription-reject-list.component";
+import {
+  SubscriptionValidateViewComponent
+} from "./pages/subscription/subscription-validate/subscription-validate-view/subscription-validate-view.component";
+import {
+  SubscriptionRejectViewComponent
+} from "./pages/subscription/subscription-reject/subscription-reject-view/subscription-reject-view.component";
+import {
+  SubscriptionValidateListComponent
+} from "./pages/subscription/subscription-validate/subscription-validate-list/subscription-validate-list.component";
 
 const PROFILE_GROUPS: any = {
   managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
@@ -457,6 +475,30 @@ export const routes: Routes = [
       {
         path: 'subscriptions/quotes/view', component: SubscriptionQuoteViewComponent,
         title: "Gestion des souscriptions - Cotations | GNA",
+      },
+      {
+        path: 'subscriptions/submits/list', component: SubscriptionSubmitListComponent,
+        title: "Gestion des souscriptions - Demandes soumises | GNA",
+      },
+      {
+        path: 'subscriptions/submits/view', component: SubscriptionSubmitViewComponent,
+        title: "Gestion des souscriptions - Demandes soumises | GNA",
+      },
+      {
+        path: 'subscriptions/validates/list', component: SubscriptionValidateListComponent,
+        title: "Gestion des souscriptions - Demandes validées | GNA",
+      },
+      {
+        path: 'subscriptions/validates/view', component: SubscriptionValidateViewComponent,
+        title: "Gestion des souscriptions - Demandes validées | GNA",
+      },
+      {
+        path: 'subscriptions/rejects/list', component: SubscriptionRejectListComponent,
+        title: "Gestion des souscriptions - Demandes rejetées | GNA",
+      },
+      {
+        path: 'subscriptions/rejects/view', component: SubscriptionRejectViewComponent,
+        title: "Gestion des souscriptions - Demandes rejetées | GNA",
       },
       {
         path: 'coinsurance/requests/submits/list', component: CoinsuranceSubmitListComponent,

@@ -415,6 +415,12 @@ export class AccountService {
         +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
 
+  getSubscriptionList(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/admin/subscriptions?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
+  }
+
   //
   addProduct(requestData: any) {
     return this._http
