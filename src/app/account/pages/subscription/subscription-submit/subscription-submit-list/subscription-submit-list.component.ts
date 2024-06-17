@@ -291,7 +291,6 @@ export class SubscriptionSubmitListComponent implements OnInit, OnDestroy, After
         this.loading = false;
         console.log(responseData);
 
-        console.log(responseData);
         this.dataPaginationResponse =  responseData["body"];
 
         if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
