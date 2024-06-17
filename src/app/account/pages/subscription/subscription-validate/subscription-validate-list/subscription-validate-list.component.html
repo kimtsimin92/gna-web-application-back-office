@@ -111,15 +111,7 @@
                   }
                 </td>
                 <td>
-                  @if (!element.statusCode || element.statusCode && element.statusCode === 1) {
-                    <p-tag severity="warning" value="Enregistré"></p-tag>
-                  } @else if (element.statusCode && element.statusCode === 2) {
-                    <p-tag severity="warning" value="En attente"></p-tag>
-                  } @else if (element.statusCode && element.statusCode === 3) {
                     <p-tag severity="success" value="Validé"></p-tag>
-                  } @else if (element.statusCode && element.statusCode === 4) {
-                    <p-tag severity="success" value="Rejeté"></p-tag>
-                  }
                 </td>
                 <td class="gna-responsive">
                   {{ element.createdAt | date: 'dd-MM-YYYY'}} {{ element.createdAt | date: 'HH:mm:ss'}}
@@ -153,12 +145,6 @@
                     <div class="col">
                       <a download target="_blank">
                         <img src="assets/svg/files/pdf-svgrepo-com.svg" class="gna-element-file gna-clickable">
-                      </a>
-
-                    </div>
-                    <div class="col">
-                      <a download target="_blank">
-                        <img src="assets/svg/files/jpg-svgrepo-com.svg" class="gna-element-file gna-clickable">
                       </a>
 
                     </div>

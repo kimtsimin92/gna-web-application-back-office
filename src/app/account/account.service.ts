@@ -415,9 +415,31 @@ export class AccountService {
         +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
 
-  getSubscriptionList(sort: string, order: string, page: number, size: number) {
+  getSubscriptionSubmittedList(sort: string, order: string, page: number, size: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/admin/subscriptions?pageNumber='
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/admin/subscriptions/submitted/list?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
+  }
+
+  onValidSubscription(subscriptionId: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+`/api/v1/admin/subscriptions/${subscriptionId}/valid`, {}, {observe: 'response'});
+  }
+
+  onRejectSubscription(subscriptionId: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+`/api/v1/admin/subscriptions/${subscriptionId}/reject`, {}, {observe: 'response'});
+  }
+
+  getSubscriptionValidatedList(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/admin/subscriptions/validated/list?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
+  }
+
+  getSubscriptionRejectedList(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/admin/subscriptions/rejected/list?pageNumber='
         +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
 

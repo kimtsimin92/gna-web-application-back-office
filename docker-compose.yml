@@ -7,7 +7,7 @@ services:
     networks:
       - gna-network
     ports:
-      - "21992:80"
+      - "9201:80"
     restart: always
 networks:
   gna-network:

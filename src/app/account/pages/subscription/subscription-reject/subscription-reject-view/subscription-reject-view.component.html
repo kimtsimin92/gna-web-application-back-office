@@ -1,1 +1,233 @@
-<p>subscription-reject-view works!</p>
+<div class="gna-bc">
+  <span>Gestion des souscriptions / Demandes / Rejetées / Voir</span>
+</div>
+
+
+
+<div class="gna-main-content">
+
+  <div class="container-fluid gna-main-div-card">
+    <mat-card class="gna-card">
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave">Retour</button>
+              }
+
+            </div>
+
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div class="container-fluid">
+          <div class="mt-4">
+            <div class="card">
+              <div class="card-body gna-card-body"
+                   *ngIf="elementData">
+
+                <div class="row">
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Statut : </span>
+                    <p-tag severity="danger" value="Rejeté"></p-tag>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Enregistrement : </span>
+                    @if (elementData.createdAt) {
+                      {{ elementData.createdAt | date: 'dd-MM-YYYY'}} {{ elementData.createdAt | date: 'HH:mm:ss'}}
+                    } @else  {
+                      N/A
+                    }
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Numéro de police : </span>
+                    <span class="gna-view-value">
+                    @if (elementData.policyCode ) {
+                      {{ elementData.policyCode }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Numéro de compte : </span>
+                    <span class="gna-view-value">
+
+                  @if (elementData.subscriberCode) {
+                    {{ elementData.subscriberCode }}
+                  } @else {
+                    N/A
+                  }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Produit : </span>
+                    <span class="gna-view-value">
+                    @if (elementData.productName ) {
+                      {{ elementData.productName }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">SMP : </span>
+                    <span class="gna-view-value">
+                    0
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Numéro Assuré : </span>
+                    <span class="gna-view-value">
+                 @if (elementData.insuredCode) {
+                   {{ elementData.insuredCode }}
+                 } @else {
+                   N/A
+                 }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label"> Capitaux : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.capital) {
+                         {{ elementData.capital | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                       } @else {
+                         0
+                       }
+                  </span>
+
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Nom Assuré : </span>
+                    <span class="gna-view-value">
+                    @if (elementData.insuredName) {
+                      {{ elementData.insuredName }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <span class="gna-view-label">Montant de la prime : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.premium) {
+                         {{ elementData.premium | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                       } @else {
+                         0
+                       }
+                  </span>
+                  </div>
+
+                </div>
+
+
+              </div>
+            </div>
+
+            <div *ngIf="elementData && elementData.quotes && elementData.quotes.length > 0 && elementData.quotes[0].guarantees && elementData.quotes[0].guarantees.length > 0">
+              <table class="table table-borderless gi-table mt-2">
+                <thead>
+                <tr>
+                  <th>Garantie</th>
+                  <th>Capitaux</th>
+                  <th>Taux Franchise</th>
+                  <th>Franchise Minimum</th>
+                  <th>Franchise Maximum</th>
+                  <th>Prime</th>
+                </tr>
+                </thead>
+                <tbody>
+                  @for (item of elementData.quotes[0].guarantees; track item) {
+                    <tr>
+                      <td>
+                        @if(item.guaranteeName) {
+                          {{ item.guaranteeName }}
+                        } @else {
+                          N/A
+                        }
+                      </td>
+                      <td>
+                        @if(item.guaranteeCapital) {
+                          {{ item.guaranteeCapital | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                        } @else {
+                          0
+                        }
+                      </td>
+                      <td>
+                        @if(item.guaranteeFranchiseRate) {
+                          {{ item.guaranteeFranchiseRate | number: "2.0" }}%
+                        } @else {
+                          0%
+                        }
+                      </td>
+                      <td>
+                        @if (item.guaranteeFranchiseMinimum) {
+                          {{ item.guaranteeFranchiseMinimum | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr' }}
+                        } @else {
+                          0
+                        }
+                      </td>
+                      <td>
+                        @if (item.guaranteeFranchiseMaximum) {
+                          {{ item.guaranteeFranchiseMaximum | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr' }}
+                        } @else {
+                          0
+                        }
+                      </td>
+                      <td>
+                        @if (item.guaranteePremium) {
+                          {{ item.guaranteePremium | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                        } @else {
+                          0
+                        }
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row gna-files mb-3">
+              <span class="gna-files-underline">Documents joints</span>
+              <div class="row">
+
+                <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1">
+                  <a download target="_blank">
+                    <img src="assets/svg/files/pdf-svgrepo-com.svg" class="gna-element-file gna-clickable">
+                  </a>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

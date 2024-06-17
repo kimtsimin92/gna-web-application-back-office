@@ -250,7 +250,7 @@ export class SubscriptionValidateListComponent implements OnInit, OnDestroy, Aft
     this.loadingPage = true;
 
     // @ts-ignore
-    localStorage.setItem("QUOTE_DATA", JSON.stringify(item));
+    localStorage.setItem("SUBSCRIPTION_DATA", JSON.stringify(item));
 
     this._router.navigateByUrl("account/subscriptions/validates/view")
       .then(() => {
@@ -284,7 +284,7 @@ export class SubscriptionValidateListComponent implements OnInit, OnDestroy, Aft
     }
 
 
-    this.accountService.getSubscriptionList(this.pageSort, this.pageOrder, this.pageNumber, this.pageSize)
+    this.accountService.getSubscriptionValidatedList(this.pageSort, this.pageOrder, this.pageNumber, this.pageSize)
       .subscribe((responseData: HttpResponse<any>) => {
 
         this.loadingPage = false;
