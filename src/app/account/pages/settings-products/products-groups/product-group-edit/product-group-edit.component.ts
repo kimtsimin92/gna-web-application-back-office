@@ -400,16 +400,34 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       }
     }
 
-    if (this.formData.value.coverageRate) {
-      requestData.coverageRate = this.formData.value.coverageRate.value;
+    if (this.formData.value.managementMode) {
+      if (this.formData.value.managementMode === 'Oui') {
+        // @ts-ignore
+        requestData.managementMode = true;
+      } else if (this.formData.value.managementMode === 'Non') {
+        // @ts-ignore
+        requestData.managementMode = false;
+      }
     }
 
-    if (this.formData.value.managementMode) {
-      requestData.managementMode = this.formData.value.managementMode.value;
+    if (this.formData.value.coverageRate) {
+      if (this.formData.value.coverageRate === 'Oui') {
+        // @ts-ignore
+        requestData.coverageRate = true;
+      } else if (this.formData.value.coverageRate === 'Non') {
+        // @ts-ignore
+        requestData.coverageRate = false;
+      }
     }
 
     if (this.formData.value.beneficiaries) {
-      requestData.beneficiaries = this.formData.value.beneficiaries.value;
+      if (this.formData.value.beneficiaries === 'Oui') {
+        // @ts-ignore
+        requestData.beneficiaries = true;
+      } else if (this.formData.value.beneficiaries === 'Non') {
+        // @ts-ignore
+        requestData.beneficiaries = false;
+      }
     }
 
     if (this.selectGuaranteeList && this.selectGuaranteeList.length > 0) {
