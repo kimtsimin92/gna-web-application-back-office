@@ -48,10 +48,6 @@
             [resizableColumns]="true" >
             <ng-template pTemplate="header">
               <tr>
-                <th pSortableColumn="insuredCode">
-                  Numéro Assuré
-                  <p-sortIcon field="insuredCode" />
-                </th>
                 <th pSortableColumn="policyCode">
                   Numéro Police
                   <p-sortIcon field="policyCode" />
@@ -62,6 +58,9 @@
                 <th pSortableColumn="branch"
                     class="gna-responsive">Montant Prime
                   <p-sortIcon field="branch" />
+                <th pSortableColumn="enabled">Etat
+                  <p-sortIcon field="enabled" />
+                </th>
                 <th pSortableColumn="enabled">Statut
                   <p-sortIcon field="enabled" />
                 </th>
@@ -81,20 +80,13 @@
                                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"/>
                     </div>
                     <div class="col-8 gna-table-td-mt">
-                      @if (element.insuredCode) {
-                        {{ element.insuredCode }}
+                      @if (element.policyCode) {
+                        {{ element.policyCode }}
                       } @else {
                         N/A
                       }
                     </div>
                   </div>
-                </td>
-                <td>
-                  @if (element.policyCode) {
-                    {{ element.policyCode }}
-                  } @else {
-                    N/A
-                  }
                 </td>
                 <td>
                   @if (element.productName) {
@@ -109,6 +101,9 @@
                   } @else {
                     0
                   }
+                </td>
+                <td>
+              <span class="text-warning">Paiement en attente</span>
                 </td>
                 <td>
                     <p-tag severity="success" value="Validé"></p-tag>
