@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MenuItem} from "primeng/api";
 import {Router} from "@angular/router";
 import {environment} from "../../../../../../environments/environment";
-import {CurrencyPipe, DatePipe, DecimalPipe, NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe, NgForOf, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {TagModule} from "primeng/tag";
@@ -34,7 +34,8 @@ import {
     MatCardContent,
     MatCardHeader,
     NgIf,
-    TagModule
+    TagModule,
+    NgForOf
   ],
   templateUrl: './subscription-submit-view.component.html',
   styleUrl: './subscription-submit-view.component.css'

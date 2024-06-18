@@ -213,12 +213,40 @@
               <span class="gna-files-underline">Documents joints</span>
               <div class="row">
 
-                <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1">
-                  <a download target="_blank">
-                    <img src="assets/svg/files/pdf-svgrepo-com.svg" class="gna-element-file gna-clickable">
-                  </a>
+                @if (elementData.attachments && elementData.attachments.length > 0) {
+                  <div class="col"
+                       *ngFor="let attachment of elementData.attachments">
 
-                </div>
+                    <span class="gna-element-file-name">{{ attachment.label }}</span>
+
+                    <br>
+
+                    @if (attachment.type == "image/jpeg" ) {
+                      <a href="{{ attachment.url }}" download target="_blank">
+                        <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ attachment.label }}" class="gna-element-file gna-clickable">
+                      </a>
+                    } @else if (attachment.type == "image/png") {
+                      <a href="{{ attachment.url }}" download target="_blank">
+                        <img src="assets/svg/files/png-svgrepo-com.svg" alt="{{ attachment.label }}" class="gna-element-file gna-clickable">
+                      </a>
+                    } @else if (attachment.type == "pdf") {
+                      <a href="{{ attachment.url }}" download target="_blank">
+                        <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ attachment.label }}" class="gna-element-file gna-clickable">
+                      </a>
+                    } @else if (attachment.type == "doc") {
+                      <a href="{{ attachment.url }}" download target="_blank">
+                        <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ attachment.label }}" class="gna-element-file gna-clickable">
+                      </a>
+                    } @else {
+                      <a href="{{ attachment.url }}" download target="_blank">
+                        <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ attachment.label }}" class="gna-element-file gna-clickable">
+                      </a>
+                    }
+
+                  </div>
+                } @else {
+                  N/A
+                }
 
               </div>
             </div>
