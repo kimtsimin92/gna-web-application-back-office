@@ -130,20 +130,36 @@
             </ng-template>
 
             <ng-template pTemplate="rowexpansion" let-element let-expanded="expanded">
-              <div class="container">
+              <div class="container-fluid">
 
                 <div class="gna-table-files">
 
-                  <span class="gna-files-underline">Documents joints</span>
-                  <div class="row gna-table-files-row">
+                  <span class="gna-files-underline">Pièces jointes</span>
+                  <div class="gna-table-files-row">
+
+                    <div>
+                      <span class="gna-element-file-name">Contrat</span>
+                      N/A
+                    </div>
+
+                    <div>
+                      <span class="gna-element-file-name">Devis</span>
+                    @if (element.quotes && element.quotes.length > 0 && element.quotes[0].file) {
+                        <a href="{{ element.quotes[0].file.url }}" download target="_blank">
+                          <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ element.quotes[0].file.label }}" class="gna-element-file gna-clickable">
+                        </a>
+
+                    } @else {
+                      N/A
+                    }
+                  </div>
+
 
                     @if (element.attachments && element.attachments.length > 0) {
-                      <div class="col"
+                      <div
                            *ngFor="let attachment of element.attachments">
 
                         <span class="gna-element-file-name">{{ attachment.label }}</span>
-
-                        <br>
 
                         @if (attachment.type == "image/jpeg" ) {
                           <a href="{{ attachment.url }}" download target="_blank">
@@ -168,8 +184,6 @@
                         }
 
                       </div>
-                    } @else {
-                      N/A
                     }
 
                   </div>

@@ -1468,7 +1468,7 @@ th, td {
 }
 
 .gna-element-file-name {
-
+  padding-right: 30px;
 }
 
 .gna-element-file {
@@ -1490,7 +1490,8 @@ th, td {
 
 .gna-table-files-row {
   margin-top: 5px;
-  flex-wrap: nowrap!important;
+  display: flex;
+  flex-direction: row;
 }
 
 /*** ***/
