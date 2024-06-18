@@ -150,6 +150,7 @@
 
                     @if (element.file) {
                       <div class="col">
+                        <span class="gna-element-file-name">{{ element.file.label }}</span>
                         <a href="{{ element.file.url }}" download target="_blank">
                           <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ element.file.label }}" class="gna-element-file gna-clickable">
                         </a>
