@@ -148,12 +148,15 @@
                   <span class="gna-files-underline">Documents joints</span>
                   <div class="row gna-table-files-row">
 
+                    @if (element.file) {
                       <div class="col">
-                        <a download target="_blank">
-                          <img src="assets/svg/files/pdf-svgrepo-com.svg" class="gna-element-file gna-clickable">
+                        <a href="{{ element.file.url }}" download target="_blank">
+                          <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ element.file.label }}" class="gna-element-file gna-clickable">
                         </a>
-
                       </div>
+                    } @else {
+                      N/A
+                    }
 
                   </div>
                 </div>
