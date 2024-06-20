@@ -108,15 +108,15 @@
                   }
                 </td>
                 <td class="gna-responsive">
-                  @if (element.objet && element.objet.libelle) {
-                    {{ element.objet.libelle }}
+                  @if (element.description) {
+                    {{ element.description}}
                   } @else {
                     N/A
                   }
                 </td>
                 <td>
-                  @if (element.objet && element.objet.categorie) {
-                    {{ element.objet.categorie }}
+                  @if (element.objet && element.objet.libelle) {
+                    {{ element.objet.libelle }}
                   } @else {
                     N/A
                   }
@@ -137,28 +137,6 @@
               <div class="container">
 
                 <div class="gna-table-files">
-
-                  <span class="gna-files-underline">Email</span>
-                  <div class="gna-table-files-row">
-                    @if (element.user && element.user.email) {
-                      <span>{{  element.user.email }}</span>
-                    } @else {
-                      <span>N/A</span>
-                    }
-
-                  </div>
-                  <br>
-
-                  <span class="gna-files-underline">Description</span>
-                  <div class="gna-table-files-row">
-                    @if (element.description) {
-                      <span>{{ element.description }}</span>
-                    } @else {
-                      <span>N/A</span>
-                    }
-
-                  </div>
-                  <br>
 
                   <span class="gna-files-underline">Pièces jointes</span>
                   <div class="gna-table-files-row">
