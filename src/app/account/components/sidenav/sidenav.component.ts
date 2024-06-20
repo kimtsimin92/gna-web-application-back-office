@@ -300,11 +300,11 @@ export class SidenavComponent implements OnInit {
           label: "Réclamations",
           items: [
             {
-              label: "Tikets ouverts",
+              label: "Tickets ouverts",
               route: '/account/marketing/complaints/open/list'
             },
             {
-              label: "Tikets fermés",
+              label: "Tickets fermés",
               route: '/account/marketing/complaints/close/list'
             },
           ]
