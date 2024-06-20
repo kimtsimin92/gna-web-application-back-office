@@ -283,6 +283,11 @@ import {
 import {
   SubscriptionValidateListComponent
 } from "./pages/subscription/subscription-validate/subscription-validate-list/subscription-validate-list.component";
+import {ComplaintsListComponent} from "./pages/marketing/complaints/complaints-list/complaints-list.component";
+import {ComplaintsViewComponent} from "./pages/marketing/complaints/complaints-view/complaints-view.component";
+import {
+  ComplaintsCloseListComponent
+} from "./pages/marketing/complaints/complaints-close-list/complaints-close-list.component";
 
 const PROFILE_GROUPS: any = {
   managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
@@ -828,6 +833,18 @@ export const routes: Routes = [
       {
         path: 'marketing/campaigns/edit', component: CampaignEditComponent,
         title: 'Marketing Campagnes Modifier | GNA',
+      },
+      {
+        path: 'marketing/complaints/open/list', component: ComplaintsListComponent,
+        title: 'Marketing Réclamations - Tikets ouverts | GNA',
+      },
+      {
+        path: 'marketing/complaints/open/view', component: ComplaintsViewComponent,
+        title: 'Marketing Réclamations - Tikets ouverts | GNA',
+      },
+      {
+        path: 'marketing/complaints/close/list', component: ComplaintsCloseListComponent,
+        title: 'Marketing Réclamations - Tikets ouverts | GNA',
       },
       {
         path: 'profile', component: ProfileComponent,

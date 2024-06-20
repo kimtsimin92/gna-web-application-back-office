@@ -303,6 +303,11 @@ export class AccountService {
       .put<HttpResponse<any>>(environment.customersService+'/v1/users/switch_activation_user/'+id, {observe: 'response'});
   }
 
+  saveComplaintToggleEnable(id: number) {
+    return this._http
+      .put<HttpResponse<any>>(environment.customersService+'/v1/reclamations/switch_clos_reclamation/'+id, {observe: 'response'});
+  }
+
   saveInsuredToggleEnable(id: number) {
     return this._http
       .put<HttpResponse<any>>(environment.customersService+'/v1/assures/switch_activation_assure/'+id, {observe: 'response'});

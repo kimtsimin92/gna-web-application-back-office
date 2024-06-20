@@ -1450,6 +1450,11 @@ th, td {
 
 }
 
+.gna-table-files-complaints {
+  margin-left: 25px;
+  font-weight: bold;
+}
+
 .gna-files {
   margin-top: 20px;
   font-weight: bold;
@@ -1471,6 +1476,11 @@ th, td {
   padding-right: 30px;
 }
 
+.gna-element-file-name-2 {
+  padding-right: 60px;
+}
+
+
 .gna-element-file {
   width: 40px;
   height: 40px;
@@ -1489,6 +1499,12 @@ th, td {
 }*/
 
 .gna-table-files-row {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+}
+
+.gna-table-files-row-complaints {
   margin-top: 5px;
   display: flex;
   flex-direction: row;

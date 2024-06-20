@@ -296,6 +296,19 @@ export class SidenavComponent implements OnInit {
           label: "Campagnes",
           route: '/account/marketing/campaigns/list'
         }*/
+        {
+          label: "Réclamations",
+          items: [
+            {
+              label: "Tikets ouverts",
+              route: '/account/marketing/complaints/open/list'
+            },
+            {
+              label: "Tikets fermés",
+              route: '/account/marketing/complaints/close/list'
+            },
+          ]
+        },
       ]
     };
 
