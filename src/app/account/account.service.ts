@@ -305,7 +305,7 @@ export class AccountService {
 
   saveComplaintToggleEnable(id: number) {
     return this._http
-      .put<HttpResponse<any>>(environment.customersService+'/v1/reclamations/switch_clos_reclamation/'+id, {observe: 'response'});
+      .put<HttpResponse<any>>(environment.customersService+'/v1/reclamations/switch_ouvert_reclamation/'+id, {observe: 'response'});
   }
 
   saveInsuredToggleEnable(id: number) {
