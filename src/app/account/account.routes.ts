@@ -300,6 +300,18 @@ import {
 import {
   UserCoinsurerViewComponent
 } from "./pages/settings/users-external/user-coinsurer-view/user-coinsurer-view.component";
+import {
+  UserReinsurerListComponent
+} from "./pages/settings/users-external/user-reinsurer-list/user-reinsurer-list.component";
+import {
+  UserReinsurerAddComponent
+} from "./pages/settings/users-external/user-reinsurer-add/user-reinsurer-add.component";
+import {
+  UserReinsurerEditComponent
+} from "./pages/settings/users-external/user-reinsurer-edit/user-reinsurer-edit.component";
+import {
+  UserReinsurerViewComponent
+} from "./pages/settings/users-external/user-reinsurer-view/user-reinsurer-view.component";
 
 const PROFILE_GROUPS: any = {
   managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
@@ -908,6 +920,22 @@ export const routes: Routes = [
       },
       {
         path: 'admin/users/external/coinsurers/view', component: UserCoinsurerViewComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/reinsurers/list', component: UserReinsurerListComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/reinsurers/add', component: UserReinsurerAddComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/reinsurers/edit', component: UserReinsurerEditComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/reinsurers/view', component: UserReinsurerViewComponent,
         title: 'Gestion Utilisateurs Externes | GNA',
       },
     ],

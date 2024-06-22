@@ -1,1 +1,215 @@
-<p>user-reinsurer-view works!</p>
+<div class="gna-bc">
+  <span>Administration / Gestion des utilisateurs externes / Réassureus / Créer</span>
+</div>
+
+
+<div class="gna-main-content">
+
+  <div class="container-fluid gna-main-div-card">
+    <mat-card class="gna-card">
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-full-width gna-disable">Modifier</button>
+              } @else {
+
+                <button mat-raised-button
+                        color="primary"
+                        class="gna-btn-default gna-full-width"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                        (click)="onViewEdit()">Modifier</button>
+              }
+            </div>
+
+            <!--<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Soumettre</button>
+              } @else {
+
+                @if (!formData.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Soumettre</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onConfirm()">Soumettre</button>
+                }
+              }
+            </div>-->
+
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div class="container-fluid">
+          <div class="mt-4">
+            <div class="card">
+              <div class="card-body gna-card-body"
+                   *ngIf="userAccountData">
+
+                <div class="row">
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label">Etat : </span>
+                    @if (userAccountData.enabled) {
+                      <p-tag severity="success" value="Activé"></p-tag>
+                    } @else  {
+                      <p-tag severity="danger" value="Désactivé"></p-tag>
+                    }
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label">Profil : </span>
+                    <span class="gna-view-value">
+                       @if (userAccountData.profile) {
+                         {{ userAccountData.profile.name }}
+                       } @else {
+                         N/A
+                       }
+                    </span>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label">Enregistrement : </span>
+                    @if (userAccountData.createdAt) {
+                      {{ userAccountData.createdAt | date: 'dd-MM-YYYY'}} {{ userAccountData.createdAt | date: 'hh:mm:ss'}}
+                    } @else  {
+                      N/A
+                    }
+                  </div>
+                </div>
+
+                <div class="row">
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label">Réassureur Code : </span>
+                    <span class="gna-view-value">
+                    @if (userAccountData.companyCode ) {
+                      {{ userAccountData.companyCode }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label">Réassureur Nom : </span>
+                    <span class="gna-view-value">
+                    @if (userAccountData.companyName) {
+                      {{ userAccountData.companyName }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label"> Réassureur Téléphone : </span>
+                    <span class="gna-view-value">
+                       @if (userAccountData.companyPhone) {
+                         {{ userAccountData.companyPhone }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label"> Utilisateur Email: </span>
+                    <span class="gna-view-value">
+                       @if (userAccountData.companyEmail) {
+                         {{ userAccountData.companyEmail }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label">Utilisateur Prénom : </span>
+                    <span class="gna-view-value">
+                    @if (userAccountData.firstName ) {
+                      {{ userAccountData.firstName }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label">Utilisateur Nom : </span>
+                    <span class="gna-view-value">
+                    @if (userAccountData.lastName ) {
+                      {{ userAccountData.lastName }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label"> Utilisateur Téléphone : </span>
+                    <span class="gna-view-value">
+                       @if (userAccountData.phone) {
+                         {{ userAccountData.phone }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label"> Utilisateur Email: </span>
+                    <span class="gna-view-value">
+                       @if (userAccountData.email) {
+                         {{ userAccountData.email }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                </div>
+
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>
