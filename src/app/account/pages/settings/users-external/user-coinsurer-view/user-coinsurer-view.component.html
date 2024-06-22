@@ -75,7 +75,7 @@
 
                 <div class="row">
 
-                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                     <span class="gna-view-label">Etat : </span>
                     @if (userAccountData.enabled) {
                       <p-tag severity="success" value="Activé"></p-tag>
@@ -83,7 +83,17 @@
                       <p-tag severity="danger" value="Désactivé"></p-tag>
                     }
                   </div>
-                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label">Profil : </span>
+                    <span class="gna-view-value">
+                       @if (userAccountData.profile) {
+                         {{ userAccountData.profile.name }}
+                       } @else {
+                         N/A
+                       }
+                    </span>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                     <span class="gna-view-label">Enregistrement : </span>
                     @if (userAccountData.createdAt) {
                       {{ userAccountData.createdAt | date: 'dd-MM-YYYY'}} {{ userAccountData.createdAt | date: 'hh:mm:ss'}}
@@ -95,8 +105,57 @@
 
                 <div class="row">
 
-                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                    <span class="gna-view-label">Prénom : </span>
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label">Coassureur Code : </span>
+                    <span class="gna-view-value">
+                    @if (userAccountData.companyCode ) {
+                      {{ userAccountData.companyCode }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label">Coassureur Nom : </span>
+                    <span class="gna-view-value">
+                    @if (userAccountData.companyName) {
+                      {{ userAccountData.companyName }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                  </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label"> Coassureur Téléphone : </span>
+                    <span class="gna-view-value">
+                       @if (userAccountData.companyPhone) {
+                         {{ userAccountData.companyPhone }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label"> Utilisateur Email: </span>
+                    <span class="gna-view-value">
+                       @if (userAccountData.companyEmail) {
+                         {{ userAccountData.companyEmail }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label">Utilisateur Prénom : </span>
                     <span class="gna-view-value">
                     @if (userAccountData.firstName ) {
                       {{ userAccountData.firstName }}
@@ -106,8 +165,8 @@
                   </span>
                   </div>
 
-                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                    <span class="gna-view-label">Nom : </span>
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label">Utilisateur Nom : </span>
                     <span class="gna-view-value">
                     @if (userAccountData.lastName ) {
                       {{ userAccountData.lastName }}
@@ -117,22 +176,9 @@
                   </span>
                   </div>
 
-                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                    <span class="gna-view-label"> Genre : </span>
-                    <span class="gna-view-value">
-                       @if (userAccountData.gender && userAccountData.gender == 'H') {
-                        Homme
-                       } @else if (userAccountData.gender && userAccountData.gender == 'F') {
-                       Femme
-                       } @else {
-                         N/A
-                       }
-                  </span>
-                  </div>
 
-
-                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                    <span class="gna-view-label"> Téléphone : </span>
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label"> Utilisateur Téléphone : </span>
                     <span class="gna-view-value">
                        @if (userAccountData.phone) {
                          {{ userAccountData.phone }}
@@ -142,22 +188,11 @@
                   </span>
                   </div>
 
-                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                    <span class="gna-view-label"> Nom d'utilisateur : </span>
+                  <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <span class="gna-view-label"> Utilisateur Email: </span>
                     <span class="gna-view-value">
                        @if (userAccountData.email) {
                          {{ userAccountData.email }}
-                       } @else {
-                         N/A
-                       }
-                  </span>
-                  </div>
-
-                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                    <span class="gna-view-label"> Profil : </span>
-                    <span class="gna-view-value">
-                       @if (userAccountData.profile) {
-                         {{ userAccountData.profile.name }}
                        } @else {
                          N/A
                        }

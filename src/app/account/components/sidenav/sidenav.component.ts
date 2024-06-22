@@ -296,7 +296,7 @@ export class SidenavComponent implements OnInit {
           label: "Campagnes",
           route: '/account/marketing/campaigns/list'
         }*/
-        {
+       /* {
           label: "Réclamations",
           items: [
             {
@@ -308,7 +308,7 @@ export class SidenavComponent implements OnInit {
               route: '/account/marketing/complaints/close/list'
             },
           ]
-        },
+        },*/
       ]
     };
 
@@ -318,9 +318,9 @@ export class SidenavComponent implements OnInit {
         {
           label: "Devis",
           items: [
-            {
+           /* {
               label: "Prospects",
-            },
+            },*/
             {
               label: "Comptes",
               route: '/account/subscriptions/quotes/list',
@@ -420,9 +420,19 @@ export class SidenavComponent implements OnInit {
             }
           ]
         },
-     /*   {
+        {
           label: "Gestion des utilisateurs externes",
-        },*/
+          items: [
+            {
+              label: "Coassureurs",
+              route: '/account/admin/users/external/coinsurers/list'
+            },
+            {
+              label: "Réassureurs",
+              route: '/account/admin/users/external/reinsurers/list'
+            }
+          ]
+        },
       ]
     };
 
@@ -450,9 +460,9 @@ export class SidenavComponent implements OnInit {
 
       this.menuItems.push(groupManagementMarketing);
       this.menuItems.push(groupManagementSubscriptions);
-      this.menuItems.push(groupManagementSinisters);
+     /* this.menuItems.push(groupManagementSinisters);
       this.menuItems.push(groupManagementAccounting);
-      this.menuItems.push(groupManagementStats);
+      this.menuItems.push(groupManagementStats);*/
       this.menuItems.push(groupManagementSettings);
       this.menuItems.push(groupManagementAdmin);
 

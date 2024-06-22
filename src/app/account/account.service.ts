@@ -118,6 +118,16 @@ export class AccountService {
         .post<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users/save', requestData, {observe: 'response'});
   }
 
+  managerAddUserExternalAccount(requestData: any) {
+    return this._http
+      .post<HttpResponse<any>>(environment.usersExternalService+'/api/v1/users/managers/accounts/users/save', requestData, {observe: 'response'});
+  }
+
+  managerEditUserExternalAccount(requestData: any) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.usersExternalService+'/api/v1/users/managers/accounts/users/save/'+requestData.id, requestData, {observe: 'response'});
+  }
+
   managerEditUserAccount(requestData: any) {
       return this._http
         .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users/save/'+requestData.id, requestData, {observe: 'response'});
@@ -131,6 +141,11 @@ export class AccountService {
   managerUsersToggleEnable(id: number) {
     return this._http
       .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users/enabled/'+id, {observe: 'response'});
+  }
+
+  managerUsersExternalToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.usersExternalService+'/api/v1/users/managers/accounts/users/enabled/'+id, {observe: 'response'});
   }
 
 /*  getUsersListData(sort: string, order: string, page: number, size: number) {
@@ -153,6 +168,14 @@ export class AccountService {
       .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users?pageNumber='
         +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
+
+  getUsersExternalListData(profileCode: number, sort: string, order: string, page: number, size: number) {
+    let requestData = {};
+    return this._http
+      .get<HttpResponse<any>>(environment.usersExternalService+`/api/v1/users/managers/accounts/profiles/${profileCode}/users?pageNumber=`
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
+  }
+
 
   /*** ***/
 

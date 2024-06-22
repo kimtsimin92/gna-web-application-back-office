@@ -1,75 +1,40 @@
 import {AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ButtonModule} from "primeng/button";
+import {DatePipe, NgClass, NgForOf} from "@angular/common";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {InputTextModule} from "primeng/inputtext";
+import {MatButton} from "@angular/material/button";
+import {MatCard, MatCardHeader} from "@angular/material/card";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {MenuItem, SharedModule} from "primeng/api";
+import {SkeletonModule} from "primeng/skeleton";
+import {Table, TableModule} from "primeng/table";
+import {TagModule} from "primeng/tag";
+import {TooltipModule} from "primeng/tooltip";
+import {MatTableDataSource} from "@angular/material/table";
+import {SelectionModel} from "@angular/cdk/collections";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {FormBuilder, FormsModule} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
-import {AccountService} from "../../../account.service";
-import {MatButton, MatMiniFabButton} from "@angular/material/button";
-import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
-import {MatError, MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/form-field";
-import {MatIcon} from "@angular/material/icon";
-import {MatInput} from "@angular/material/input";
-import {MatSlideToggle} from "@angular/material/slide-toggle";
-import {MatTab, MatTabGroup} from "@angular/material/tabs";
-import {CurrencyPipe, DatePipe, DecimalPipe, NgClass, NgForOf, NgIf, NgStyle, UpperCasePipe} from "@angular/common";
-import {MatPaginator} from "@angular/material/paginator";
-import {SelectionModel} from "@angular/cdk/collections";
-import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
-  MatTable,
-  MatTableDataSource
-} from "@angular/material/table";
-import {MatSort, MatSortHeader} from "@angular/material/sort";
-import {merge, Observable, of as observableOf} from 'rxjs';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {MatDivider} from "@angular/material/divider";
-import {BreadcrumbModule} from "primeng/breadcrumb";
-import {MenuItem} from "primeng/api";
-import {TagModule} from "primeng/tag";
-import {ButtonModule} from "primeng/button";
-import {InputSwitchModule} from "primeng/inputswitch";
-import {Table, TableModule} from "primeng/table";
-import {InputTextModule} from "primeng/inputtext";
-import {RippleModule} from "primeng/ripple";
-import {ToastModule} from "primeng/toast";
-import {ToolbarModule} from "primeng/toolbar";
-import {FileUploadModule} from "primeng/fileupload";
-import {Tooltip, TooltipModule} from "primeng/tooltip";
-import {CheckboxModule} from "primeng/checkbox";
-import {PaginatorModule} from "primeng/paginator";
-import {
-  ErrorNotificationDialogComponent
-} from "../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
-import {ChipModule} from "primeng/chip";
-import {ProgressBarModule} from "primeng/progressbar";
-import {MatProgressBar} from "@angular/material/progress-bar";
-import {SkeletonModule} from "primeng/skeleton";
-import {MatTooltip} from "@angular/material/tooltip";
-import {
-  ConfirmationToggleEnableDialogComponent
-} from "../../../dialogs/confirmation/confirmation-toggle-enable-dialog/confirmation-toggle-enable-dialog.component";
+import {AccountService} from "../../../../account.service";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {
+  ErrorNotificationDialogComponent
+} from "../../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
+import {
+  ConfirmationToggleEnableDialogComponent
+} from "../../../../dialogs/confirmation/confirmation-toggle-enable-dialog/confirmation-toggle-enable-dialog.component";
+import {
   RemoveLoadingDialogComponent
-} from "../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
+} from "../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
 import {
   SaveNotificationDialogComponent
-} from "../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component";
+} from "../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component";
 import {
   SaveErrorNotificationDialogComponent
-} from "../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
-import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
-
-interface PageEvent {
-  first: number;
-  rows: number;
-  page: number;
-  pageCount: number;
-}
+} from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
 
 interface Column {
   field: string;
@@ -77,72 +42,32 @@ interface Column {
 }
 
 @Component({
-  selector: 'app-users-manager',
+  selector: 'app-user-coinsurer-list',
   standalone: true,
   imports: [
+    ButtonModule,
+    DatePipe,
+    InputSwitchModule,
+    InputTextModule,
     MatButton,
     MatCard,
-    MatCardContent,
     MatCardHeader,
-    MatError,
-    MatFormField,
-    MatIcon,
-    MatInput,
-    MatLabel,
-    MatSlideToggle,
-    MatSuffix,
-    MatTab,
-    MatTabGroup,
-    NgIf,
-    ReactiveFormsModule,
-    MatPaginator,
-    MatTable,
-    MatSort,
-    MatColumnDef,
-    MatHeaderCell,
-    MatCell,
-    MatHeaderCellDef,
-    MatCellDef,
-    MatSortHeader,
-    DatePipe,
-    UpperCasePipe,
-    DecimalPipe,
-    MatHeaderRow,
-    MatRow,
-    MatHeaderRowDef,
-    MatRowDef,
-    MatProgressSpinner,
-    MatMiniFabButton,
-    FormsModule,
-    MatPrefix,
-    MatDivider,
-    BreadcrumbModule,
-    TagModule,
-    ButtonModule,
-    InputSwitchModule,
-    TableModule,
-    CurrencyPipe,
-    InputTextModule,
-    RippleModule,
-    TooltipModule,
-    CheckboxModule,
-    PaginatorModule,
-    ChipModule,
-    ProgressBarModule,
-    MatProgressBar,
-    SkeletonModule,
-    NgStyle,
-    NgForOf,
-    MatTooltip,
     MatMenu,
     MatMenuItem,
+    NgForOf,
+    SharedModule,
+    SkeletonModule,
+    TableModule,
+    TagModule,
+    TooltipModule,
+    FormsModule,
     MatMenuTrigger,
-    NgClass,
+    NgClass
   ],
-  templateUrl: './users-manager.component.html',
-  styleUrl: './users-manager.component.css'
+  templateUrl: './user-coinsurer-list.component.html',
+  styleUrl: './user-coinsurer-list.component.css'
 })
-export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
+export class UserCoinsurerListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   headerTitle: string | undefined;
 
@@ -252,7 +177,11 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Gestion Utilisateurs Internes";
+    if (localStorage.getItem("USER_EXTERNAL_ACCOUNT_DATA")) {
+      localStorage.removeItem("USER_EXTERNAL_ACCOUNT_DATA");
+    }
+
+    this.headerTitle = "Gestion Utilisateurs Externes";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
     this.items = [{ label: 'Paramètres' }, { label: 'Utilisateurs' }];
@@ -297,7 +226,9 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.dataList = [];
 
-    this.accountService.getUsersListData(this.pageSort, this.pageOrder, this.pageNumber, this.pageSize)
+    let profileCode = 2;
+
+    this.accountService.getUsersExternalListData(profileCode, this.pageSort, this.pageOrder, this.pageNumber, this.pageSize)
       .subscribe((responseData: HttpResponse<any>) => {
 
           this.loadingPage = false;
@@ -391,7 +322,7 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onViewAdd() {
-    this._router.navigateByUrl("/account/admin/users/interns/add");
+    this._router.navigateByUrl("/account/admin/users/external/coinsurers/add");
   }
 
   onView(userAccountData: any) {
@@ -399,12 +330,12 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadingPage = true;
 
     // @ts-ignore
-    localStorage.setItem("USER_ACCOUNT_DATA", JSON.stringify(userAccountData));
+    localStorage.setItem("USER_EXTERNAL_ACCOUNT_DATA", JSON.stringify(userAccountData));
 
-      this._router.navigateByUrl("/account/admin/users/interns/view")
-        .then(() => {
-          this.loadingPage = false;
-        });
+    this._router.navigateByUrl("/account/admin/users/external/coinsurers/view")
+      .then(() => {
+        this.loadingPage = false;
+      });
 
   }
 
@@ -413,12 +344,12 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadingPage = true;
 
     // @ts-ignore
-    localStorage.setItem("USER_ACCOUNT_DATA", JSON.stringify(userAccountData));
+    localStorage.setItem("USER_EXTERNAL_ACCOUNT_DATA", JSON.stringify(userAccountData));
 
-      this._router.navigateByUrl("/account/admin/users/interns/edit")
-        .then(() => {
-          this.loadingPage = false;
-        });
+    this._router.navigateByUrl("/account/admin/users/external/coinsurers/edit")
+      .then(() => {
+        this.loadingPage = false;
+      });
 
   }
 
@@ -479,7 +410,7 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.openSaveLoadingDialog();
 
-    this.accountService.managerUsersToggleEnable(data.id)
+    this.accountService.managerUsersExternalToggleEnable(data.id)
       .subscribe((responseData) => {
         this.isSave = false;
         this.closeDialog();
@@ -571,6 +502,5 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
   }
-
 
 }

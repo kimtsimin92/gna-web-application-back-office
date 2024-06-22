@@ -288,6 +288,18 @@ import {ComplaintsViewComponent} from "./pages/marketing/complaints/complaints-v
 import {
   ComplaintsCloseListComponent
 } from "./pages/marketing/complaints/complaints-close-list/complaints-close-list.component";
+import {
+  UserCoinsurerListComponent
+} from "./pages/settings/users-external/user-coinsurer-list/user-coinsurer-list.component";
+import {
+  UserCoinsurerAddComponent
+} from "./pages/settings/users-external/user-coinsurer-add/user-coinsurer-add.component";
+import {
+  UserCoinsurerEditComponent
+} from "./pages/settings/users-external/user-coinsurer-edit/user-coinsurer-edit.component";
+import {
+  UserCoinsurerViewComponent
+} from "./pages/settings/users-external/user-coinsurer-view/user-coinsurer-view.component";
 
 const PROFILE_GROUPS: any = {
   managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
@@ -881,6 +893,22 @@ export const routes: Routes = [
       {
         path: 'admin/users/interns/view', component: UserManagementViewComponent,
         title: 'Gestion Utilisateurs | GNA',
+      },
+      {
+        path: 'admin/users/external/coinsurers/list', component: UserCoinsurerListComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/coinsurers/add', component: UserCoinsurerAddComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/coinsurers/edit', component: UserCoinsurerEditComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/coinsurers/view', component: UserCoinsurerViewComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
       },
     ],
   },
