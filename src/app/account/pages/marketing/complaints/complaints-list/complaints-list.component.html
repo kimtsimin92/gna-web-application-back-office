@@ -85,18 +85,18 @@
 
                 <td>
 
-                  @if (!element.visteur && element.user && element.user.nom) {
+                  @if (!element.visiteur && element.user && element.user.nom) {
                     {{ element.user.prenom }} {{ element.user.nom }}
-                  } @else if (!element.user && element.visteur && element.visteur.nom) {
-                    {{ element.visteur.prenom }} {{ element.visteur.nom }}
+                  } @else if (!element.user && element.visiteur && element.visiteur.nom) {
+                    {{ element.visiteur.prenom }} {{ element.visiteur.nom }}
                   } @else {
                     N/A
                   }
                 <td>
-                @if (!element.visteur && element.user && element.user.contact) {
+                @if (!element.visiteur && element.user && element.user.contact) {
                   {{ element.user.contact }}
-                } @else if (!element.user && element.visteur && element.visteur.contact) {
-                  {{ element.visteur.contact }}
+                } @else if (!element.user && element.visiteur && element.visiteur.contact) {
+                  {{ element.visiteur.contact }}
                 } @else {
                   N/A
                 }
