@@ -1,1 +1,334 @@
-<p>complaints-view works!</p>
+<div class="gna-bc">
+  <span>Marketing / Réclamations / Tickets ouverts / Voir</span>
+</div>
+
+<div class="container-fluid">
+
+  <div>
+    <mat-card class="gna-card">
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onGoToBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+           @if (elementData && elementData.statut == 0) {
+              <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+                @if (isSave || accountService.pageLoading || accountService.isSave) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width gna-disable">Fermer</button>
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onConfirmToggleEnabled(elementData)">Fermer</button>
+                }
+              </div>
+            }
+
+          </div>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+
+        <div class="container-fluid">
+          <div class="example-table-container mt-4">
+            <div class="card">
+              <div class="card-body gna-card-body"
+                   *ngIf="elementData">
+
+                <div class="row" *ngIf="elementData.statut == 0">
+                  <div class="col-12 col-sm-6 col-md-10 col-lg-10 col-xl-11">
+                    <span class="gna-view-label"> Enregistrement : </span>
+                    <span class="gna-view-value">
+                    @if (elementData.created_at) {
+                      {{ elementData.created_at | date: 'dd-MM-YYYY'}} {{ elementData.created_at | date:
+                      'hh:mm:ss'}}
+                    } @else {
+                      N/A
+                    }
+                    </span>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-1 gna-responsive">
+                    <p-tag severity="success" value="Ouvert"></p-tag>
+                  </div>
+                </div>
+
+                <div class="row">
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Numéro Tciket : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.numero_ticket ) {
+                         {{ elementData.numero_ticket }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Reclamant : </span>
+                    <span class="gna-view-value">
+                     @if (elementData.user && elementData.user.nom) {
+                       {{ elementData.user.prenom }} {{ elementData.user.nom }}
+                     } @else {
+                       N/A
+                     }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Application : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.app) {
+                         {{ elementData.app | uppercase }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Type Compte : </span>
+                    <span class="gna-view-value">
+                   @if (elementData && elementData.user && elementData.user.type_customer) {
+                     @if (elementData.user.type_customer.libelle) {
+                       {{ elementData.user.type_customer.libelle }}
+                     } @else {
+                       N/A
+                     }
+                   }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Numéro Compte : </span>
+                    <span class="gna-view-value">
+                        @if (elementData && elementData.user) {
+                          @if (elementData.user.numero_compte) {
+                            {{ elementData.user.numero_compte }}
+                          } @else {
+                            N/A
+                          }
+                        }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Numéro Assuré : </span>
+                    <span class="gna-view-value">
+                        @if (elementData && !elementData.visteur && elementData.user) {
+                          @if (elementData.user.numero_assure) {
+                            {{ elementData.user.numero_assure }}
+                          } @else {
+                            N/A
+                          }
+                        } @else if  (elementData && !elementData.user && elementData.visteur) {
+                          @if (elementData.visteur.numero_assure) {
+                            {{ elementData.usvisteurer.numero_assure }}
+                          } @else {
+                            N/A
+                          }
+                        } @else {
+                          N/A
+                        }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Email : </span>
+                    <span class="gna-view-value">
+                         @if (elementData.user && elementData.user.email) {
+                           {{ elementData.user.email }}
+                         } @else {
+                           N/A
+                         }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Téléphone : </span>
+                    <span class="gna-view-value">
+                           @if (elementData.user && elementData.user.contact) {
+                             {{ elementData.user.contact }}
+                           } @else {
+                             N/A
+                           }
+                  </span>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card mt-2">
+              <div class="card-body gna-card-body"
+                   *ngIf="elementData">
+
+                <div class="row">
+
+                  <div class="col-12">
+                    <span class="gna-view-label"> Objet : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.objet && elementData.objet.libelle) {
+                         {{ elementData.objet.libelle }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div class="col-12 mt-2">
+                    <span class="gna-view-label">Description : </span>
+                    <span class="gna-view-value">
+                   @if (elementData && elementData.description) {
+                       {{ elementData.description }}
+                     } @else {
+                       N/A
+                   }
+                  </span>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row gna-files">
+              <span class="gna-files-underline">Pièces jointes</span>
+              <div class="row">
+
+                @if (elementData.medias && elementData.medias.length > 0) {
+
+                  <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1" *ngFor="let file of elementData.medias">
+                    <span class="gna-element-file-name">{{ file.libelle }}</span>
+                    <br>
+
+                    @if (file.type == "image/jpeg" ) {
+                      <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                        <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                      </a>
+                    } @else if (file.type == "image/png") {
+                      <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                        <img src="assets/svg/files/png-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                      </a>
+                    } @else if (file.type == "pdf") {
+                      <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                        <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                      </a>
+                    } @else if (file.type == "doc" || "doc") {
+                      <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                        <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                      </a>
+                    }
+
+                  </div>
+
+                } @else {
+                  <div class="col">
+                    <span class="gna-element-file-name">N/A</span>
+                  </div>
+                }
+
+              </div>
+            </div>
+
+            <!--   <div class="row mt-4">
+                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                   <label> <strong>Motif</strong></label>
+
+                   <p-editor [style]="{ height: 'auto' }">
+                     <ng-template pTemplate="header">
+           <span class="ql-formats">
+             <select class="ql-size">
+                 <option value="small">Petite</option>
+                 <option selected>Normale</option>
+                 <option value="large">Grande</option>
+                 <option value="huge">Très grande</option>
+               </select>
+           </span>
+                       <span class="ql-formats">
+               <button type="button" class="ql-bold" aria-label="Bold"></button>
+               <button type="button" class="ql-italic" aria-label="Italic"></button>
+               <button type="button" class="ql-underline" aria-label="Underline"></button>
+         </span>
+                       <span class="ql-formats">
+               <select title="Text Alignment" class="ql-align" >
+                 <option selected>Gauche</option>
+                 <option value="center" label="Center"></option>
+                 <option value="right" label="Right"></option>
+                 <option value="justify" label="Justify"></option>
+               </select>
+             </span>
+                       <span class="ql-formats">
+               <select title="Text Color" class="ql-color" defaultValue="rgb(0, 0, 0)">
+                 <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
+                 ...
+                  <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
+                 ...
+                    <option value="rgb(255, 0, 0)" label="rgb(255, 0, 0)"></option>
+                     ...
+                    <option value="rgb(0, 128, 0)" label="rgb(0, 128, 0)"></option>
+                 ...
+                 <option value="rgb(28, 54, 148)" label="rgb(28, 54, 148)"></option>
+                 ...
+                 <option value="rgb(246, 153, 63)" label="rgb(246, 153, 63)"></option>
+               </select>
+               <span class="ql-format-separator"></span>
+               <select title="Background Color" class="ql-background" defaultValue="rgb(255, 255, 255)">
+                <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
+                 ...
+                  <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
+                 ...
+                    <option value="rgb(255, 0, 0)" label="rgb(255, 0, 0)"></option>
+                     ...
+                    <option value="rgb(0, 128, 0)" label="rgb(0, 128, 0)"></option>
+                 ...
+                 <option value="rgb(28, 54, 148)" label="rgb(28, 54, 148)"></option>
+                 ...
+                 <option value="rgb(246, 153, 63)" label="rgb(246, 153, 63)"></option>
+               </select>
+           </span>
+                       <span class="ql-formats">
+              <button class="ql-list" value="ordered"></button>
+              <button class="ql-list" value="bullet"></button>
+               <button type="button" class="ql-blockquote" aria-label="blockquote"></button>
+               <button type="button" class="ql-link" aria-label="link"></button>
+             </span>
+                     </ng-template>
+                   </p-editor>
+
+                 </div>
+               </div>-->
+
+          </div>
+
+        </div>
+      </mat-card-content>
+
+    </mat-card>
+
+  </div>
+
+</div>

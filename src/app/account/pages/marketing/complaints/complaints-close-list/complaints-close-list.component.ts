@@ -23,7 +23,7 @@ import {
 
 import { environment } from '../../../../../../environments/environment';
 import {ButtonModule} from "primeng/button";
-import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf, UpperCasePipe} from "@angular/common";
 import {InputTextModule} from "primeng/inputtext";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardHeader} from "@angular/material/card";
@@ -32,28 +32,31 @@ import {RippleModule} from "primeng/ripple";
 import {SharedModule} from "primeng/api";
 import {SkeletonModule} from "primeng/skeleton";
 import {TableModule} from "primeng/table";
+import {TooltipModule} from "primeng/tooltip";
 
 @Component({
   selector: 'app-complaints-close-list',
   standalone: true,
-  imports: [
-    ButtonModule,
-    DatePipe,
-    InputTextModule,
-    MatButton,
-    MatCard,
-    MatCardHeader,
-    MatMenu,
-    MatMenuItem,
-    NgForOf,
-    NgIf,
-    RippleModule,
-    SharedModule,
-    SkeletonModule,
-    TableModule,
-    MatMenuTrigger,
-    NgClass
-  ],
+    imports: [
+        ButtonModule,
+        DatePipe,
+        InputTextModule,
+        MatButton,
+        MatCard,
+        MatCardHeader,
+        MatMenu,
+        MatMenuItem,
+        NgForOf,
+        NgIf,
+        RippleModule,
+        SharedModule,
+        SkeletonModule,
+        TableModule,
+        MatMenuTrigger,
+        NgClass,
+        TooltipModule,
+        UpperCasePipe
+    ],
   templateUrl: './complaints-close-list.component.html',
   styleUrl: './complaints-close-list.component.css'
 })
@@ -374,7 +377,7 @@ export class ComplaintsCloseListComponent implements OnInit, AfterViewInit, OnDe
     localStorage.setItem('COMPLAINT_DATA', JSON.stringify(data));
 
     this._router
-      .navigateByUrl('/account/marketing/complaints/open/view')
+      .navigateByUrl('/account/marketing/complaints/close/view')
       .then(() => {
         this.loadingPage = false;
       });

@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {ButtonModule} from "primeng/button";
-import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf, UpperCasePipe} from "@angular/common";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {InputTextModule} from "primeng/inputtext";
 import {MatCard, MatCardHeader} from "@angular/material/card";
@@ -63,7 +63,8 @@ import {
     NgClass,
     MatMenuTrigger,
     NgIf,
-    MatButton
+    MatButton,
+    UpperCasePipe
   ],
   templateUrl: './complaints-list.component.html',
   styleUrl: './complaints-list.component.css'

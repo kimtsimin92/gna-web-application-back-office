@@ -312,6 +312,9 @@ import {
 import {
   UserReinsurerViewComponent
 } from "./pages/settings/users-external/user-reinsurer-view/user-reinsurer-view.component";
+import {
+  ComplaintsCloseViewComponent
+} from "./pages/marketing/complaints/complaints-close-view/complaints-close-view.component";
 
 const PROFILE_GROUPS: any = {
   managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
@@ -868,7 +871,11 @@ export const routes: Routes = [
       },
       {
         path: 'marketing/complaints/close/list', component: ComplaintsCloseListComponent,
-        title: 'Marketing Réclamations - Tikets ouverts | GNA',
+        title: 'Marketing Réclamations - Tikets fermés | GNA',
+      },
+      {
+        path: 'marketing/complaints/close/view', component: ComplaintsCloseViewComponent,
+        title: 'Marketing Réclamations - Tikets fermés | GNA',
       },
       {
         path: 'profile', component: ProfileComponent,

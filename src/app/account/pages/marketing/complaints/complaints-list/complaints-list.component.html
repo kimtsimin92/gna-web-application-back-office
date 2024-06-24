@@ -41,12 +41,7 @@
                   <p-sortIcon field="numero_compte" />
                   <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                 </th>
-                <th pSortableColumn="numero_assure">
-                  Numéro Assuré
-                  <p-sortIcon field="numero_assure" />
-                  <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
-                </th>
-                <th pSortableColumn="nom">Nom Assuré
+                <th pSortableColumn="nom">Réclamant
                   <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <p-sortIcon field="nom" />
                 </th>
@@ -58,7 +53,7 @@
                   <!--                  <p-columnFilter type="text" field="prenom" display="menu" />-->
                   <p-sortIcon field="code_segment" />
                 </th>
-                <th pSortableColumn="code_segment" class="gna-responsive">Catégorie
+                <th pSortableColumn="code_segment" class="gna-responsive">Application
                   <!--                  <p-columnFilter type="text" field="prenom" display="menu" />-->
                   <p-sortIcon field="code_segment" />
                 </th>
@@ -89,31 +84,22 @@
                 </td>
 
                 <td>
-                  @if (element.user && element.user.numero_assure ) {
-                    {{element.user.numero_assure }}
-                  } @else {
-                    N/A
-                  }
-                </td>
-                <td>
-                  @if (element.user && element.user.nom) {
+
+                  @if (!element.visteur && element.user && element.user.nom) {
                     {{ element.user.prenom }} {{ element.user.nom }}
+                  } @else if (!element.user && element.visteur && element.visteur.nom) {
+                    {{ element.visteur.prenom }} {{ element.visteur.nom }}
                   } @else {
                     N/A
                   }
                 <td>
-                  @if (element.user && element.user.contact) {
-                    {{ element.user.contact }}
-                  } @else {
-                    N/A
-                  }
-                </td>
-                <td class="gna-responsive">
-                  @if (element.description) {
-                    {{ element.description}}
-                  } @else {
-                    N/A
-                  }
+                @if (!element.visteur && element.user && element.user.contact) {
+                  {{ element.user.contact }}
+                } @else if (!element.user && element.visteur && element.visteur.contact) {
+                  {{ element.visteur.contact }}
+                } @else {
+                  N/A
+                }
                 </td>
                 <td>
                   @if (element.objet && element.objet.libelle) {
@@ -122,6 +108,16 @@
                     N/A
                   }
                 </td>
+                <td>
+                  @if (element.app) {
+                    {{ element.app | uppercase }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+         <!--       <td>
+                  <span class="text-success">Ouvert</span>
+                </td>-->
                 <td class="gna-responsive">
                   @if (element.created_at) {
                     {{ element.created_at | date: 'dd-MM-YYYY'}} {{ element.created_at | date:
@@ -135,17 +131,17 @@
                                       <span class="gna-action-span"
                                       *ngIf="element.objet">
 
-                                         <button mat-raised-button color="primary"
+                                        <!-- <button mat-raised-button color="primary"
                                                  class="gna-full-width gna-btn-default gna-btn-save"
                                                  (click)="onConfirmToggleEnabled(element)"
-                                                 [disabled]="isSave">Fermer</button>
+                                                 [disabled]="isSave">Fermer</button>-->
 
                   </span>
-                                      <!--  <span class="gna-action-span">
+                                      <span class="gna-action-span">
                                             <p-button icon="pi pi-eye" class="gna-btn-eye" pTooltip="Voir"
                                                       tooltipPosition="bottom" (click)="onGoToView(element)"
                                                       [disabled]="isSave"></p-button>
-                                        </span>-->
+                                        </span>
                                     </span>
                 </td>
               </tr>
@@ -202,7 +198,6 @@
 
             <ng-template pTemplate="loadingbody">
               <tr *ngFor="let item of fakeDataList">
-                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>

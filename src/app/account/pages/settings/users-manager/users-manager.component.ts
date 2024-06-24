@@ -248,6 +248,9 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
 
+    localStorage.removeItem("USER_ACCOUNT_DATA");
+
+
     if (localStorage.getItem("APP_HEADER_TITLE")) {
       localStorage.removeItem("APP_HEADER_TITLE");
     }

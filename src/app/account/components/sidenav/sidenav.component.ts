@@ -296,7 +296,7 @@ export class SidenavComponent implements OnInit {
           label: "Campagnes",
           route: '/account/marketing/campaigns/list'
         }*/
-       /* {
+        {
           label: "Réclamations",
           items: [
             {
@@ -308,7 +308,7 @@ export class SidenavComponent implements OnInit {
               route: '/account/marketing/complaints/close/list'
             },
           ]
-        },*/
+        },
       ]
     };
 
