@@ -69,11 +69,13 @@
                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label">Reclamant : </span>
                     <span class="gna-view-value">
-                     @if (elementData.user && elementData.user.nom) {
-                       {{ elementData.user.prenom }} {{ elementData.user.nom }}
-                     } @else {
-                       N/A
-                     }
+                   @if (!elementData.visiteur && elementData.user && elementData.user.nom) {
+                     {{ elementData.user.prenom }} {{ elementData.user.nom }}
+                   } @else if (!elementData.user && elementData.visiteur && elementData.visiteur.nom) {
+                     {{ elementData.visiteur.prenom }} {{ elementData.visiteur.nom }}
+                   } @else {
+                     N/A
+                   }
                   </span>
                   </div>
 
@@ -98,6 +100,8 @@
                      } @else {
                        N/A
                      }
+                   } @else {
+                     N/A
                    }
                   </span>
                   </div>
@@ -105,27 +109,25 @@
                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label"> Numéro Compte : </span>
                     <span class="gna-view-value">
-                        @if (elementData && elementData.user) {
-                          @if (elementData.user.numero_compte) {
+                          @if (elementData && elementData.user && elementData.user.numero_compte) {
                             {{ elementData.user.numero_compte }}
                           } @else {
                             N/A
                           }
-                        }
                   </span>
                   </div>
 
                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label"> Numéro Assuré : </span>
                     <span class="gna-view-value">
-                        @if (elementData && !elementData.visteur && elementData.user) {
+                        @if (elementData && !elementData.visiteur && elementData.user) {
                           @if (elementData.user.numero_assure) {
                             {{ elementData.user.numero_assure }}
                           } @else {
                             N/A
                           }
-                        } @else if  (elementData && !elementData.user && elementData.visteur) {
-                          @if (elementData.visteur.numero_assure) {
+                        } @else if  (elementData && !elementData.user && elementData.visiteur) {
+                          @if (elementData.visiteur.numero_assure) {
                             {{ elementData.usvisteurer.numero_assure }}
                           } @else {
                             N/A
@@ -139,22 +141,26 @@
                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label">Email : </span>
                     <span class="gna-view-value">
-                         @if (elementData.user && elementData.user.email) {
-                           {{ elementData.user.email }}
-                         } @else {
-                           N/A
-                         }
+                        @if (!elementData.visiteur && elementData.user && elementData.user.email) {
+                          {{ elementData.user.email }}
+                        } @else if (!elementData.user && elementData.visiteur && elementData.visiteur.email) {
+                          {{ elementData.visiteur.email }}
+                        } @else {
+                          N/A
+                        }
                   </span>
                   </div>
 
                   <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label">Téléphone : </span>
                     <span class="gna-view-value">
-                           @if (elementData.user && elementData.user.contact) {
-                             {{ elementData.user.contact }}
-                           } @else {
-                             N/A
-                           }
+                            @if (!elementData.visiteur && elementData.user && elementData.user.contact) {
+                              {{ elementData.user.contact }}
+                            } @else if (!elementData.user && elementData.visiteur && elementData.visiteur.contact) {
+                              {{ elementData.visiteur.contact }}
+                            } @else {
+                              N/A
+                            }
                   </span>
                   </div>
 

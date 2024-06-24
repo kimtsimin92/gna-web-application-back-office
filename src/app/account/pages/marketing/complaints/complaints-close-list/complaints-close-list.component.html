@@ -35,27 +35,27 @@
                    [resizableColumns]="true">
             <ng-template pTemplate="header">
               <tr class="gna-table-header">
-                <th pSortableColumn="numero_compte">
+                <th pSortableColumn="numero_ticket">
                   Numéro
                   Ticket
-                  <p-sortIcon field="numero_compte" />
+                  <p-sortIcon field="numero_ticket" />
                   <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
                 </th>
                 <th pSortableColumn="nom">Réclamant
                   <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <p-sortIcon field="nom" />
                 </th>
-                <th pSortableColumn="nom">Téléphone
+                <th pSortableColumn="contact">Téléphone
                   <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <p-sortIcon field="contact" />
                 </th>
-                <th pSortableColumn="code_segment" class="gna-responsive">Objet
+                <th pSortableColumn="objet_id" class="gna-responsive">Objet
                   <!--                  <p-columnFilter type="text" field="prenom" display="menu" />-->
-                  <p-sortIcon field="code_segment" />
+                  <p-sortIcon field="objet_id" />
                 </th>
-                <th pSortableColumn="code_segment" class="gna-responsive">Application
+                <th pSortableColumn="app" class="gna-responsive">Application
                   <!--                  <p-columnFilter type="text" field="prenom" display="menu" />-->
-                  <p-sortIcon field="code_segment" />
+                  <p-sortIcon field="app" />
                 </th>
                 <th pSortableColumn="created_at" class="gna-responsive">Enregistrement
                   <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
@@ -85,18 +85,18 @@
 
                 <td>
 
-                  @if (!element.visteur && element.user && element.user.nom) {
+                  @if (!element.visiteur && element.user && element.user.nom) {
                     {{ element.user.prenom }} {{ element.user.nom }}
-                  } @else if (!element.user && element.visteur && element.visteur.nom) {
-                    {{ element.visteur.prenom }} {{ element.visteur.nom }}
+                  } @else if (!element.user && element.visiteur && element.visiteur.nom) {
+                    {{ element.visiteur.prenom }} {{ element.visiteur.nom }}
                   } @else {
                     N/A
                   }
                 <td>
-                  @if (!element.visteur && element.user && element.user.contact) {
+                  @if (!element.visiteur && element.user && element.user.contact) {
                     {{ element.user.contact }}
-                  } @else if (!element.user && element.visteur && element.visteur.contact) {
-                    {{ element.visteur.contact }}
+                  } @else if (!element.user && element.visiteur && element.visiteur.contact) {
+                    {{ element.visiteur.contact }}
                   } @else {
                     N/A
                   }
