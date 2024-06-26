@@ -35,6 +35,14 @@ export class ManagerCustomerAccountService {
       });
   }
 
+  onGetVisitList(filter: any, page: number, limit: number, orderBy: string) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+'/v1/visiteurs', {
+        observe: 'response',
+        params: new HttpParams({fromString:  `page=${page}&limit=${limit}&order_by=${orderBy}`})
+      });
+  }
+
   onGetComplaintListList(filter: any, page: number, limit: number, orderBy: string) {
     return this._http
       .get<HttpResponse<any>>(environment.customersService+'/v1/reclamations', {

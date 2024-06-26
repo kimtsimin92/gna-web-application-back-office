@@ -315,6 +315,8 @@ import {
 import {
   ComplaintsCloseViewComponent
 } from "./pages/marketing/complaints/complaints-close-view/complaints-close-view.component";
+import {VisitListComponent} from "./pages/marketing/captive-portal/visits/visit-list/visit-list.component";
+import {VisitViewComponent} from "./pages/marketing/captive-portal/visits/visit-view/visit-view.component";
 
 const PROFILE_GROUPS: any = {
   managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
@@ -862,20 +864,28 @@ export const routes: Routes = [
         title: 'Marketing Campagnes Modifier | GNA',
       },
       {
+        path: 'marketing/visits/list', component: VisitListComponent,
+        title: 'Visites | Marketing - GNA',
+      },
+      {
+        path: 'marketing/visits/view', component: VisitViewComponent,
+        title: 'Visites | Marketing - GNA',
+      },
+      {
         path: 'marketing/complaints/open/list', component: ComplaintsListComponent,
-        title: 'Marketing Réclamations - Tikets ouverts | GNA',
+        title: 'Réclamations - Tikets ouverts | Marketing - GNA',
       },
       {
         path: 'marketing/complaints/open/view', component: ComplaintsViewComponent,
-        title: 'Marketing Réclamations - Tikets ouverts | GNA',
+        title: 'Réclamations - Tikets ouverts | Marketing - GNA',
       },
       {
         path: 'marketing/complaints/close/list', component: ComplaintsCloseListComponent,
-        title: 'Marketing Réclamations - Tikets fermés | GNA',
+        title: 'Réclamations - Tikets fermés | Marketing - GNA',
       },
       {
         path: 'marketing/complaints/close/view', component: ComplaintsCloseViewComponent,
-        title: 'Marketing Réclamations - Tikets fermés | GNA',
+        title: 'Réclamations - Tikets fermés | Marketing - GNA',
       },
       {
         path: 'profile', component: ProfileComponent,

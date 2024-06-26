@@ -1,47 +1,47 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {BreakpointObserver} from "@angular/cdk/layout";
-import {Router} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
-import {AccountService} from "../../../../account.service";
-import {ManagerCustomerAccountService} from "../../../manager-customers-accounts/manager-customer-account.service";
-import {
-  ConfirmationToggleDialogComponent
-} from "../../../../dialogs/confirmation/confirmation-toggle-dialog/confirmation-toggle-dialog.component";
-import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
-import {
-  SaveLoadingDialogComponent
-} from "../../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component";
-import {
-  SaveNotificationDialogComponent
-} from "../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component";
-import {
-  SaveErrorNotificationDialogComponent
-} from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
-
-import {environment} from "../../../../../../environments/environment";
 import {DatePipe, NgForOf, NgIf, UpperCasePipe} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {TagModule} from "primeng/tag";
+import {BreakpointObserver} from "@angular/cdk/layout";
+import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {AccountService} from "../../../../../account.service";
+import {ManagerCustomerAccountService} from "../../../../manager-customers-accounts/manager-customer-account.service";
+import {
+  ConfirmationToggleDialogComponent
+} from "../../../../../dialogs/confirmation/confirmation-toggle-dialog/confirmation-toggle-dialog.component";
+import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {
+  SaveLoadingDialogComponent
+} from "../../../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component";
+import {
+  SaveNotificationDialogComponent
+} from "../../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component";
+import {
+  SaveErrorNotificationDialogComponent
+} from "../../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
+
+import { environment } from '../../../../../../../environments/environment';
 
 @Component({
-  selector: 'app-complaints-close-view',
+  selector: 'app-visit-view',
   standalone: true,
-  imports: [
-    DatePipe,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    NgForOf,
-    NgIf,
-    TagModule,
-    UpperCasePipe
-  ],
-  templateUrl: './complaints-close-view.component.html',
-  styleUrl: './complaints-close-view.component.css'
+    imports: [
+        DatePipe,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        NgForOf,
+        NgIf,
+        TagModule,
+        UpperCasePipe
+    ],
+  templateUrl: './visit-view.component.html',
+  styleUrl: './visit-view.component.css'
 })
-export class ComplaintsCloseViewComponent implements OnInit, AfterViewInit, OnDestroy {
+export class VisitViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isSave: boolean = false;
 
@@ -63,17 +63,12 @@ export class ComplaintsCloseViewComponent implements OnInit, AfterViewInit, OnDe
 
   ngOnInit(): void {
 
-    if (localStorage.getItem("COMPLAINT_DATA")) {
+    if (localStorage.getItem("VISIT_DATA")) {
       // @ts-ignore
-      this.elementData = JSON.parse(localStorage.getItem("COMPLAINT_DATA"));
-
-
-      /* if (!this.elementData.files) {
-         this.onGetCustomerAccountFilesById(this.elementData);
-       }*/
+      this.elementData = JSON.parse(localStorage.getItem("VISIT_DATA"));
 
     } else {
-      this._router.navigateByUrl("/account/marketing/complaints/close/list")
+      this._router.navigateByUrl("/account/marketing/visits/list")
     }
 
   }
@@ -83,14 +78,14 @@ export class ComplaintsCloseViewComponent implements OnInit, AfterViewInit, OnDe
   }
 
   ngOnDestroy(): void {
-    if (localStorage.getItem("COMPLAINT_DATA")) {
+    if (localStorage.getItem("VISIT_DATA")) {
       // @ts-ignore
-      localStorage.removeItem("COMPLAINT_DATA");
+      localStorage.removeItem("VISIT_DATA");
     }
   }
 
   onGoToBack() {
-    this._router.navigateByUrl("/account/marketing/complaints/close/list");
+    this._router.navigateByUrl("/account/marketing/visits/list");
   }
 
   onValid(): void {
@@ -387,7 +382,7 @@ export class ComplaintsCloseViewComponent implements OnInit, AfterViewInit, OnDe
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/marketing/complaints/close//list")
+      this._router.navigateByUrl("/account/marketing/complaints/open//list")
         .then(() => {
           // @ts-ignore
           this.loadingPage = false;
@@ -414,5 +409,6 @@ export class ComplaintsCloseViewComponent implements OnInit, AfterViewInit, OnDe
       }
     });
   }
+
 
 }
