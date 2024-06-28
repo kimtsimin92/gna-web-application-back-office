@@ -317,6 +317,8 @@ import {
 } from "./pages/marketing/complaints/complaints-close-view/complaints-close-view.component";
 import {VisitListComponent} from "./pages/marketing/captive-portal/visits/visit-list/visit-list.component";
 import {VisitViewComponent} from "./pages/marketing/captive-portal/visits/visit-view/visit-view.component";
+import {CoinsuranceComponent} from "./pages/subscription/coinsurance/coinsurance.component";
+import {ReinsuranceComponent} from "./pages/subscription/reinsurance/reinsurance.component";
 
 const PROFILE_GROUPS: any = {
   managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
@@ -517,6 +519,14 @@ export const routes: Routes = [
       {
         path: 'subscriptions/submits/view', component: SubscriptionSubmitViewComponent,
         title: "Gestion des souscriptions - Demandes soumises | GNA",
+      },
+      {
+        path: 'subscriptions/submits/co-insurances/view', component: CoinsuranceComponent,
+        title: "Gestion des souscriptions - Demandes soumises - Coassurance | GNA",
+      },
+      {
+        path: 'subscriptions/submits/re-insurances/view', component: ReinsuranceComponent,
+        title: "Gestion des souscriptions - Demandes soumises - Réassurance | GNA",
       },
       {
         path: 'subscriptions/validates/list', component: SubscriptionValidateListComponent,

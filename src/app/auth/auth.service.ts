@@ -406,6 +406,28 @@ export class AuthService implements OnInit{
 
   }
 
+  getUserId(): number {
+
+    let id = null;
+
+    if (typeof sessionStorage !== 'undefined') {
+      // @ts-ignore
+      let token = sessionStorage.getItem('typeToken') + sessionStorage.getItem('accessToken');
+      this.authJwt = new JwtHelperService().decodeToken(token);
+
+      if (this.authJwt && this.authJwt.sub) {
+        id = Number(this.authJwt.sub);
+      }
+
+      // @ts-ignore
+      return id;
+    } else {
+      // @ts-ignore
+      return id;
+    }
+
+  }
+
   getUserFullName() {
 
     let fullName = null;

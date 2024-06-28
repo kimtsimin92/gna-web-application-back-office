@@ -308,7 +308,7 @@ export class SubscriptionSubmitListComponent implements OnInit, OnDestroy, After
         this.loading = false;
         console.log(errorData);
         this.dataPaginationResponse = {};
-      //  this.onGetNotificationErrorDialog();
+        this.onGetNotificationErrorDialog();
 
       });
   }

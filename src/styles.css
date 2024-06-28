@@ -101,6 +101,20 @@ a {
   border: 1px solid#1d3593!important;
 }
 
+.gna-card-body-2 {
+  border: 1px solid#1d3593!important;
+  padding-top: 5px!important;
+  text-align: center;
+  height: 35px!important;
+}
+
+.gna-card-body-3 {
+  border: 1px solid#1d3593!important;
+  padding-top: 4px!important;
+  text-align: center;
+  min-height: 150px!important;
+}
+
 /*.card-header {
     padding: .5rem 1rem;
     margin-bottom: 0;
@@ -274,6 +288,12 @@ margin-left: auto!important;
   height: 30px!important;
 }
 
+.gna-btn-dark {
+  background-color: black!important;
+  color: white!important;
+  height: 30px!important;
+}
+
 .gna-btn-save {
   background-color: #32BEA6!important;
   color: white!important;
@@ -295,6 +315,11 @@ margin-left: auto!important;
 
 .btn-tw {
   color: white!important;
+}
+
+.gna-btn-dark:disabled {
+  background-color: #d7d5d5 !important;
+  color: rgba(0, 0, 0, 0.54)!important;
 }
 
 .gna-btn-save:disabled {
@@ -658,6 +683,10 @@ margin-left: auto!important;
 
 .gna-full-width {
   width: 105%!important;
+}
+
+.gna-full-width-2 {
+  width: 100%!important;
 }
 
 .example-form {
@@ -1091,10 +1120,43 @@ th, td {
   margin: 0!important;
 }
 
+.gna-form-input-insurance {
+  width: 100%!important;
+  height: 35px!important;
+}
+
+.gna-form-input-insurance .p-inputtext {
+  padding: 5px!important;
+  width: 100%!important;
+  height: 35px!important;
+}
+
+.gna-form-input-insurance-2 .p-inputnumber-input {
+  border: 1px solid #1d3593!important;
+  border-radius: 0!important;
+}
+
+
+.gna-form-multiselect-insurance .p-multiselect {
+  width: 100%!important;
+  border-radius: 0!important;
+  border: 1px solid #1d3593 !important;
+  height: 35px!important;
+}
+
+.gna-form-input-insurance .p-inputnumber-input {
+  border: 1px solid #1d3593!important;
+  border-radius: 0!important;
+}
+
 .gna-form-input {
   width: 100%!important;
   /*border: 1px solid rgba(29, 53, 146, 0.26) !important;*/
   border-radius: 3px!important;
+}
+
+.gna-form-input-2 {
+  width: 80%!important;
 }
 
 .gna-form p-inputnumber, .p-inputnumber {
@@ -1486,7 +1548,16 @@ th, td {
   height: 40px;
 }
 
+.gna-insurance-editor .p-editor-container {
+  border-radius: 0!important;
+  border: 1px solid #1d3593 !important;
+}
+
 .p-editor-container .p-editor-toolbar {
+  border-radius: 0!important;
+}
+
+.p-editor-container .p-editor-content {
   border-radius: 0!important;
 }
 
@@ -1579,3 +1650,8 @@ th, td {
   color: #1C3694!important;
 }*/
 
+.gna-insurance-text {
+  font-size: 14px;
+  font-weight: bold;
+  color: #1C3694!important;
+}

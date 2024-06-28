@@ -309,8 +309,7 @@ export class SubscriptionValidateListComponent implements OnInit, OnDestroy, Aft
         this.loading = false;
         console.log(errorData);
         this.dataPaginationResponse = {};
-        //  this.onGetNotificationErrorDialog();
-
+        this.onGetNotificationErrorDialog();
       });
   }
 

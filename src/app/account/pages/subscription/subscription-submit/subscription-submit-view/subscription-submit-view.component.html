@@ -4,7 +4,7 @@
 
 
 
-<div class="gna-main-content">
+<div class="gna-main-content" *ngIf="elementData">
 
   <div class="container-fluid gna-main-div-card">
     <mat-card class="gna-card">
@@ -81,20 +81,105 @@
 
                 <div class="row">
 
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <span class="gna-view-label">Statut : </span>
-                    <p-tag severity="warning" value="Soumis"></p-tag>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Partenaire : </span>
+                    <span class="gna-view-value">
+
+                  @if (elementData.partnerName) {
+                    {{ elementData.partnerName }}
+                  } @else {
+                    N/A
+                  }
+                  </span>
                   </div>
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <span class="gna-view-label">Enregistrement : </span>
-                    @if (elementData.createdAt) {
-                      {{ elementData.createdAt | date: 'dd-MM-YYYY'}} {{ elementData.createdAt | date: 'HH:mm:ss'}}
-                    } @else  {
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Numéro de compte : </span>
+                    <span class="gna-view-value">
+
+                  @if (elementData.subscriberCode) {
+                    {{ elementData.subscriberCode }}
+                  } @else {
+                    N/A
+                  }
+                  </span>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Type Souscripteur : </span>
+                    <span class="gna-view-value">
+                 @if (elementData.subscriberTypeName) {
+                   {{ elementData.subscriberTypeName }}
+                 } @else {
+                   N/A
+                 }
+                  </span>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Nom Souscripteur : </span>
+                    <span class="gna-view-value">
+
+                  @if (elementData.subscriberName) {
+                    {{ elementData.subscriberName }}
+                  } @else if (elementData.subscriberParticularFirstName) {
+                   {{ elementData.subscriberParticularFirstName }} {{ elementData.subscriberParticularLastName }}
+                  } @else if (elementData.subscriberCompanyName) {
+                    {{ elementData.elementData.subscriberCompanyName }}
+                  } @else {
+                    N/A
+                  }
+                  </span>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Téléphone Souscripteur : </span>
+                    <span class="gna-view-value">
+                 @if (elementData.subscriberPhone) {
+                   {{ elementData.subscriberPhone }}
+                 } @else {
+                   N/A
+                 }
+                  </span>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Email Souscripteur : </span>
+                    <span class="gna-view-value">
+                 @if (elementData.subscriberEmail) {
+                   {{ elementData.subscriberEmail }}
+                 } @else {
+                   N/A
+                 }
+                  </span>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Numéro Assuré : </span>
+                    <span class="gna-view-value">
+                 @if (elementData.insuredCode) {
+                   {{ elementData.insuredCode }}
+                 } @else {
+                   N/A
+                 }
+                  </span>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Type Assuré : </span>
+                    <span class="gna-view-value">
+                 @if (elementData.insuredTypeName) {
+                   {{ elementData.insuredTypeName }}
+                 } @else {
+                   N/A
+                 }
+                  </span>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Nom Assuré : </span>
+                    <span class="gna-view-value">
+                    @if (elementData.insuredName) {
+                      {{ elementData.insuredName }}
+                    } @else {
                       N/A
                     }
+                  </span>
                   </div>
 
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label">Numéro de police : </span>
                     <span class="gna-view-value">
                     @if (elementData.policyCode ) {
@@ -106,19 +191,17 @@
                   </div>
 
 
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <span class="gna-view-label">Numéro de compte : </span>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Groupe : </span>
                     <span class="gna-view-value">
-
-                  @if (elementData.subscriberCode) {
-                    {{ elementData.subscriberCode }}
-                  } @else {
-                    N/A
-                  }
+                    @if (elementData.productGroupName ) {
+                      {{ elementData.productGroupName }}
+                    } @else {
+                      N/A
+                    }
                   </span>
                   </div>
-
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label">Produit : </span>
                     <span class="gna-view-value">
                     @if (elementData.productName ) {
@@ -130,25 +213,14 @@
                   </div>
 
 
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label">SMP : </span>
                     <span class="gna-view-value">
                     0
                   </span>
                   </div>
 
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <span class="gna-view-label">Numéro Assuré : </span>
-                    <span class="gna-view-value">
-                 @if (elementData.insuredCode) {
-                   {{ elementData.insuredCode }}
-                 } @else {
-                   N/A
-                 }
-                  </span>
-                  </div>
-
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label"> Capitaux : </span>
                     <span class="gna-view-value">
                        @if (elementData.capital) {
@@ -160,18 +232,7 @@
 
                   </div>
 
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                    <span class="gna-view-label">Nom Assuré : </span>
-                    <span class="gna-view-value">
-                    @if (elementData.insuredName) {
-                      {{ elementData.insuredName }}
-                    } @else {
-                      N/A
-                    }
-                  </span>
-                  </div>
-
-                  <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                     <span class="gna-view-label">Montant de la prime : </span>
                     <span class="gna-view-value">
                        @if (elementData.premium) {
@@ -182,6 +243,23 @@
                   </span>
                   </div>
 
+
+                </div>
+
+                <div class="row">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Statut : </span>
+                    <p-tag severity="warning" value="Soumis"></p-tag>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Enregistrement : </span>
+                    @if (elementData.createdAt) {
+                      {{ elementData.createdAt | date: 'dd-MM-YYYY'}} {{ elementData.createdAt | date: 'HH:mm:ss'}}
+                    } @else  {
+                      N/A
+                    }
+                  </div>
                 </div>
 
 
@@ -251,17 +329,172 @@
               </table>
             </div>
 
+            <div *ngIf="elementData && elementData.contracts && elementData.contracts.length > 0
+            && elementData.contracts[0].beneficiaries && elementData.contracts[0].beneficiaries.length > 0">
+              <table class="table table-borderless gi-table mt-2">
+                <thead>
+                <tr>
+                  <th>Bénéficiaire</th>
+                  <th>Part</th>
+                  <th>Téléphone</th>
+                </tr>
+                </thead>
+                <tbody>
+                  @for (item of elementData.contracts[0].beneficiaries; track item) {
+                    <tr>
+                      <td>
+                        @if(item.name) {
+                          {{ item.name }}
+                        } @else {
+                          N/A
+                        }
+                      </td>
+                      <td>
+                        @if(item.part) {
+                          {{ item.part | number: "2.0" }}%
+                        } @else {
+                          0%
+                        }
+                      </td>
+                      <td>
+                        @if (item.phone) {
+                          {{ item.phone }}
+                        } @else {
+                          N/A
+                        }
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row"
+                 *ngIf="elementData && elementData.coInsurances || elementData && elementData.reInsurances">
+
+              <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4" *ngIf="elementData && elementData.coInsurances && elementData.coInsurances.length > 0">
+                  <table class="table table-borderless gi-table mt-2">
+                    <thead>
+                    <tr>
+                      <th>Coassureur</th>
+                      <th>Taux</th>
+                      <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      @for (item of elementData.coInsurances; track item) {
+                        <tr>
+                          <td>
+                            @if(item.companyName) {
+                              {{ item.companyName }}
+                            } @else {
+                              N/A
+                            }
+                          </td>
+                          <td>
+                            @if(item.rate) {
+                              {{ item.rate | number: "2.0" }}%
+                            } @else {
+                              0%
+                            }
+                          </td>
+                          <td>
+                            @if (item.statusCode) {
+                              {{ item.statusText }}
+                            } @else {
+                              N/A
+                            }
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              <div class="col-12 col-sm-6 col-md-8 col-lg-8 col-xl-8" *ngIf="elementData && elementData.reInsurances && elementData.reInsurances.length > 0">
+                  <table class="table table-borderless gi-table mt-2">
+                    <thead>
+                    <tr>
+                      <th>Réassureur</th>
+                      <th>Part conservée</th>
+                      <th>Part du traité</th>
+                      <th>Besoin fac</th>
+                      <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      @for (item of elementData.reInsurances; track item) {
+                        <tr>
+                          <td>
+                            @if(item.companyName) {
+                              {{ item.companyName }}
+                            } @else {
+                              N/A
+                            }
+                          </td>
+                          <td>
+                            @if(item.partRetained) {
+                              {{ item.partRetained | number: "2.0" }}%
+                            } @else {
+                              0%
+                            }
+                          </td>
+                          <td>
+                            @if(item.partTreaty) {
+                              {{ item.partTreaty | number: "2.0" }}%
+                            } @else {
+                              0%
+                            }
+                          </td>
+                          <td>
+                            @if(item.needFac) {
+                              {{ item.needFac | number: "2.0" }}%
+                            } @else {
+                              0%
+                            }
+                          </td>
+                          <td>
+                            @if (item.statusCode) {
+                              {{ item.statusText }}
+                            } @else {
+                              N/A
+                            }
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+
+            </div>
+
             <div class="row gna-files mb-3">
-              <span class="gna-files-underline">Documents joints</span>
-              <div class="row">
+
+              <span class="gna-files-underline">Pièces jointes</span>
+              <div class="gna-table-files-row">
+
+                <div>
+                  <span class="gna-element-file-name">Contrat</span> <br>
+                  N/A
+                </div>
+
+                <div>
+                  <span class="gna-element-file-name">Devis</span> <br>
+                  @if (elementData.quotes && elementData.quotes.length > 0 && elementData.quotes[0].file) {
+                    <a href="{{ elementData.quotes[0].file.url }}" download target="_blank">
+                      <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ elementData.quotes[0].file.label }}" class="gna-element-file gna-clickable">
+                    </a>
+
+                  } @else {
+                    N/A
+                  }
+                </div>
+
 
                 @if (elementData.attachments && elementData.attachments.length > 0) {
-                  <div class="col"
-                       *ngFor="let attachment of elementData.attachments">
+                  <div
+                    *ngFor="let attachment of elementData.attachments">
 
-                    <span class="gna-element-file-name">{{ attachment.label }}</span>
-
-                    <br>
+                    <span class="gna-element-file-name">{{ attachment.label }}</span> <br>
 
                     @if (attachment.type == "image/jpeg" ) {
                       <a href="{{ attachment.url }}" download target="_blank">
@@ -286,10 +519,36 @@
                     }
 
                   </div>
-                } @else {
-                  N/A
                 }
 
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-3">
+
+                @if (isSave || accountService.pageLoading || accountService.isSave) {
+                  <button mat-raised-button color="primary"
+                          class="gna-btn-default gna-full-width-2 gna-disable">Coassurance</button>
+                } @else {
+                  <button mat-raised-button color="primary"
+                          class="gna-btn-default gna-full-width-2"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                  (click)="onGoToCoInsurance()">Coassurance</button>
+                }
+              </div>
+              <div class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-3">
+
+                @if (isSave || accountService.pageLoading || accountService.isSave) {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-dark gna-full-width-2 gna-disable">Réassurance</button>
+              } @else {
+              <button mat-raised-button
+                      class="gna-btn-default gna-btn-dark gna-full-width-2"
+                      (click)="onGoToReInsurance()"
+                      [disabled]="isSave || accountService.pageLoading || accountService.isSave">Réassurance</button>
+              }
               </div>
             </div>
 

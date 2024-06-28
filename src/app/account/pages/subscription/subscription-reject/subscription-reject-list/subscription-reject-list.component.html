@@ -48,10 +48,6 @@
             [resizableColumns]="true" >
             <ng-template pTemplate="header">
               <tr>
-                <th pSortableColumn="insuredCode">
-                  Numéro Assuré
-                  <p-sortIcon field="insuredCode" />
-                </th>
                 <th pSortableColumn="policyCode">
                   Numéro Police
                   <p-sortIcon field="policyCode" />
@@ -59,12 +55,15 @@
                 <th pSortableColumn="name">Produit
                   <p-sortIcon field="name" />
                 </th>
-                <th pSortableColumn="branch"
+                <th pSortableColumn="premium"
                     class="gna-responsive">Montant Prime
-                  <p-sortIcon field="branch" />
-                <th pSortableColumn="enabled">Statut
-                  <p-sortIcon field="enabled" />
-                </th>
+                  <p-sortIcon field="premium" />
+                <th pSortableColumn="insuredName"
+                    class="gna-responsive">Assuré
+                  <p-sortIcon field="insuredName" />
+                <th pSortableColumn="subscriberTypeCode"
+                    class="gna-responsive">Souscripteur
+                  <p-sortIcon field="subscriberTypeCode" />
                 <th pSortableColumn="createdAt" class="gna-responsive">Enregistrement
                   <p-sortIcon field="createdAt" />
                 <th></th>
@@ -81,20 +80,13 @@
                                 [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"/>
                     </div>
                     <div class="col-8 gna-table-td-mt">
-                      @if (element.insuredCode) {
-                        {{ element.insuredCode }}
+                      @if (element.policyCode) {
+                        {{ element.policyCode }}
                       } @else {
                         N/A
                       }
                     </div>
                   </div>
-                </td>
-                <td>
-                  @if (element.policyCode) {
-                    {{ element.policyCode }}
-                  } @else {
-                    N/A
-                  }
                 </td>
                 <td>
                   @if (element.productName) {
@@ -111,7 +103,22 @@
                   }
                 </td>
                 <td>
-                  <p-tag severity="danger" value="Rejeté"></p-tag>
+                  @if (element.insuredName) {
+                    {{ element.insuredName }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td>
+                  @if (element.subscriberName) {
+                    {{ element.subscriberName }}
+                  } @else if (element.subscriberParticularFirstName) {
+                    {{ element.subscriberParticularFirstName }} {{ element.subscriberParticularLastName }}
+                  } @else if (element.subscriberCompanyName) {
+                    {{ element.elementData.subscriberCompanyName }}
+                  } @else {
+                    N/A
+                  }
                 </td>
                 <td class="gna-responsive">
                   {{ element.createdAt | date: 'dd-MM-YYYY'}} {{ element.createdAt | date: 'HH:mm:ss'}}
@@ -135,20 +142,36 @@
             </ng-template>
 
             <ng-template pTemplate="rowexpansion" let-element let-expanded="expanded">
-              <div class="container">
+              <div class="container-fluid">
 
                 <div class="gna-table-files">
 
-                  <span class="gna-files-underline">Documents joints</span>
-                  <div class="row gna-table-files-row">
+                  <span class="gna-files-underline">Pièces jointes</span>
+                  <div class="gna-table-files-row">
+
+                    <div>
+                      <span class="gna-element-file-name">Contrat</span>
+                      N/A
+                    </div>
+
+                    <div>
+                      <span class="gna-element-file-name">Devis</span>
+                      @if (element.quotes && element.quotes.length > 0 && element.quotes[0].file) {
+                        <a href="{{ element.quotes[0].file.url }}" download target="_blank">
+                          <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ element.quotes[0].file.label }}" class="gna-element-file gna-clickable">
+                        </a>
+
+                      } @else {
+                        N/A
+                      }
+                    </div>
+
 
                     @if (element.attachments && element.attachments.length > 0) {
-                      <div class="col"
-                           *ngFor="let attachment of element.attachments">
+                      <div
+                        *ngFor="let attachment of element.attachments">
 
                         <span class="gna-element-file-name">{{ attachment.label }}</span>
-
-                        <br>
 
                         @if (attachment.type == "image/jpeg" ) {
                           <a href="{{ attachment.url }}" download target="_blank">
@@ -173,8 +196,6 @@
                         }
 
                       </div>
-                    } @else {
-                      N/A
                     }
 
                   </div>
@@ -184,7 +205,6 @@
               </div>
 
             </ng-template>
-
             <ng-template pTemplate="loadingbody">
               <tr *ngFor="let item of fakeDataList">
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>

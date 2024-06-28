@@ -170,7 +170,6 @@ export class AccountService {
   }
 
   getUsersExternalListData(profileCode: number, sort: string, order: string, page: number, size: number) {
-    let requestData = {};
     return this._http
       .get<HttpResponse<any>>(environment.usersExternalService+`/api/v1/users/managers/accounts/profiles/${profileCode}/users?pageNumber=`
         +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
@@ -449,9 +448,24 @@ export class AccountService {
         +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
 
+  getSubscriptionSubmitted(id: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+`/api/v1/admin/subscriptions/submitted/${id}`, {observe: 'response'});
+  }
+
   onValidSubscription(subscriptionId: number) {
     return this._http
       .patch<HttpResponse<any>>(environment.productsService+`/api/v1/admin/subscriptions/${subscriptionId}/valid`, {}, {observe: 'response'});
+  }
+
+  onSendCoInsuranceRequest(requestData: any) {
+    return this._http
+      .post<HttpResponse<any>>(environment.subscriptionService+`/api/v1/admin/subscriptions/coinsurances/request`, requestData, {observe: 'response'});
+  }
+
+  onSendReInsuranceRequest(requestData: any) {
+    return this._http
+      .post<HttpResponse<any>>(environment.subscriptionService+`/api/v1/admin/subscriptions/reinsurances/request`, requestData, {observe: 'response'});
   }
 
   onRejectSubscription(subscriptionId: number) {

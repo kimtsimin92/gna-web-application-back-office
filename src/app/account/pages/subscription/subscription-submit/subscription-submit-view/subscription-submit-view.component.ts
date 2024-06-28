@@ -276,4 +276,32 @@ export class SubscriptionSubmitViewComponent implements OnInit, OnDestroy {
     this._dialog.closeAll();
   }
 
+  onGoToCoInsurance() {
+
+    this.loadingPage = true;
+
+    // @ts-ignore
+    localStorage.setItem("SUBSCRIPTION_INSURANCE_DATA", JSON.stringify(this.elementData));
+
+    this._router.navigateByUrl("account/subscriptions/submits/co-insurances/view")
+      .then(() => {
+        this.loadingPage = false;
+      });
+
+  }
+
+  onGoToReInsurance() {
+
+    this.loadingPage = true;
+
+    // @ts-ignore
+    localStorage.setItem("SUBSCRIPTION_INSURANCE_DATA", JSON.stringify(this.elementData));
+
+    this._router.navigateByUrl("account/subscriptions/submits/re-insurances/view")
+      .then(() => {
+        this.loadingPage = false;
+      });
+
+  }
+
 }

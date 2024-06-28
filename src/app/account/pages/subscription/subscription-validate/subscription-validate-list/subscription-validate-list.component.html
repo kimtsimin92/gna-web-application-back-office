@@ -58,9 +58,12 @@
                 <th pSortableColumn="branch"
                     class="gna-responsive">Montant Prime
                   <p-sortIcon field="branch" />
-                <th pSortableColumn="enabled">Etat
-                  <p-sortIcon field="enabled" />
-                </th>
+                <th pSortableColumn="insuredName"
+                    class="gna-responsive">Assuré
+                  <p-sortIcon field="insuredName" />
+                <th pSortableColumn="subscriberTypeCode"
+                    class="gna-responsive">Souscripteur
+                  <p-sortIcon field="subscriberTypeCode" />
                 <th pSortableColumn="enabled">Statut
                   <p-sortIcon field="enabled" />
                 </th>
@@ -103,10 +106,25 @@
                   }
                 </td>
                 <td>
-              <span class="text-warning">Paiement en attente</span>
+                  @if (element.insuredName) {
+                    {{ element.insuredName }}
+                  } @else {
+                    N/A
+                  }
                 </td>
                 <td>
-                    <p-tag severity="success" value="Validé"></p-tag>
+                  @if (element.subscriberName) {
+                    {{ element.subscriberName }}
+                  } @else if (element.subscriberParticularFirstName) {
+                    {{ element.subscriberParticularFirstName }} {{ element.subscriberParticularLastName }}
+                  } @else if (element.subscriberCompanyName) {
+                    {{ element.elementData.subscriberCompanyName }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td>
+              <span class="text-warning">Paiement en attente</span>
                 </td>
                 <td class="gna-responsive">
                   {{ element.createdAt | date: 'dd-MM-YYYY'}} {{ element.createdAt | date: 'HH:mm:ss'}}
@@ -196,6 +214,7 @@
 
             <ng-template pTemplate="loadingbody">
               <tr *ngFor="let item of fakeDataList">
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>

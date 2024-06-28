@@ -10,12 +10,14 @@ export class UserExternalForm {
     Validators.required]);
 
   email = new FormControl(null, [
-    Validators.email]);
+    Validators.email,
+  Validators.required]);
 
   phone = new FormControl(null, [
     Validators.minLength(10),
     Validators.maxLength(10),
-    Validators.pattern(/^\d{10}$/)]);
+    Validators.pattern(/^\d{10}$/),
+    Validators.required]);
 
   userFirstName = new FormControl(null, [
     Validators.minLength(2),
