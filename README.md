@@ -33,4 +33,5 @@ Voir le fichier d'environnement `src/environnement/environnement.ts` :
     - usersService: (URL de votre environnement + le port du service api-gateway)/users-service,
     - usersExternalService: (URL de votre environnement + le port du service api-gateway)/users-external-service,
     - productsService: (URL de votre environnement + le port du service api-gateway)/products-service,
+    - subscriptionService: (URL de votre environnement + le port du service api-gateway)/subscriptions-service,
     - customersService: (URL de votre environnement):28090"
