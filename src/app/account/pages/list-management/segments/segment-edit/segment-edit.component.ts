@@ -26,24 +26,30 @@ import {SegmentForm} from "../segment-form";
 import {InputTextModule} from "primeng/inputtext";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
 import {CheckboxModule} from "primeng/checkbox";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
 
 @Component({
   selector: 'app-segment-edit',
   standalone: true,
-    imports: [
-        BreadcrumbModule,
-        FormsModule,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        ReactiveFormsModule,
-        InputTextModule,
-        CheckboxModule
-    ],
+  imports: [
+    BreadcrumbModule,
+    FormsModule,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    ReactiveFormsModule,
+    InputTextModule,
+    CheckboxModule,
+    InputTextareaModule,
+    IconFieldModule,
+    InputIconModule
+  ],
   templateUrl: './segment-edit.component.html',
   styleUrl: './segment-edit.component.css'
 })
@@ -74,7 +80,7 @@ export class SegmentEditComponent implements OnInit, OnDestroy {
       // @ts-ignore
       this.segmentData = JSON.parse(localStorage.getItem("SEGMENT_DATA"));
     } else {
-      this._router.navigateByUrl("/account/segments/list")
+      this._router.navigateByUrl("/account/marketing/segments/list")
     }
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
@@ -96,7 +102,7 @@ export class SegmentEditComponent implements OnInit, OnDestroy {
       this.dataForm.description.setValue(this.segmentData.description);
       this.dataForm.selected.setValue(this.segmentData.selected);
     } else {
-      this._router.navigateByUrl("/account/segments/list")
+      this._router.navigateByUrl("/account/marketing/segments/list")
     }
 
     this.formData = this._fb.group(this.dataForm);
@@ -113,7 +119,7 @@ export class SegmentEditComponent implements OnInit, OnDestroy {
   }
 
   onGoToBack() {
-    this._router.navigateByUrl("/account/segments/list");
+    this._router.navigateByUrl("/account/marketing/segments/list");
   }
 
   private onSave() {
@@ -176,7 +182,7 @@ export class SegmentEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/segments/list")
+      this._router.navigateByUrl("/account/marketing/segments/list")
         .then(() => {
         });
 

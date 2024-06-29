@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+
 
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
@@ -101,6 +101,20 @@ a {
   border: 1px solid#1d3593!important;
 }
 
+.gna-card-body-2 {
+  border: 1px solid#1d3593!important;
+  padding-top: 5px!important;
+  text-align: center;
+  height: 35px!important;
+}
+
+.gna-card-body-3 {
+  border: 1px solid#1d3593!important;
+  padding-top: 4px!important;
+  text-align: center;
+  min-height: 150px!important;
+}
+
 /*.card-header {
     padding: .5rem 1rem;
     margin-bottom: 0;
@@ -181,6 +195,14 @@ a {
 
 .label-mr {
   margin-right: 10px;
+}
+
+.label-mr-2 p-checkbox {
+margin-left: auto!important;
+}
+
+.span-mr {
+  margin-right: 5px;
 }
 
 .gna-color {
@@ -266,6 +288,12 @@ a {
   height: 30px!important;
 }
 
+.gna-btn-dark {
+  background-color: black!important;
+  color: white!important;
+  height: 30px!important;
+}
+
 .gna-btn-save {
   background-color: #32BEA6!important;
   color: white!important;
@@ -287,6 +315,11 @@ a {
 
 .btn-tw {
   color: white!important;
+}
+
+.gna-btn-dark:disabled {
+  background-color: #d7d5d5 !important;
+  color: rgba(0, 0, 0, 0.54)!important;
 }
 
 .gna-btn-save:disabled {
@@ -435,6 +468,7 @@ a {
 
 }
 
+
 .gna-btn-remove {
   background-color: #f6993f!important;
   border-color: #f6993f!important;
@@ -533,10 +567,10 @@ a {
 }
 
 .gna-container {
-  position: relative;
+/*  position: relative;
   min-height: 52vh!important;
   max-height: 52vh!important;
-  overflow: auto;
+  overflow: auto;*/
 }
 
 .gna-pricing-list {
@@ -648,6 +682,10 @@ a {
 }
 
 .gna-full-width {
+  width: 105%!important;
+}
+
+.gna-full-width-2 {
   width: 100%!important;
 }
 
@@ -1060,7 +1098,7 @@ th, td {
 }
 
 .gna-form {
-  color: #1d3593;
+  color: #1D3592;;
 }
 
 .gna-form label {
@@ -1082,11 +1120,56 @@ th, td {
   margin: 0!important;
 }
 
+.gna-form-input-insurance {
+  width: 100%!important;
+  height: 35px!important;
+}
+
+.gna-form-input-insurance .p-inputtext {
+  padding: 5px!important;
+  width: 100%!important;
+  height: 35px!important;
+}
+
+.gna-form-input-insurance-2 .p-inputnumber-input {
+  border: 1px solid #1d3593!important;
+  border-radius: 0!important;
+}
+
+
+.gna-form-multiselect-insurance .p-multiselect {
+  width: 100%!important;
+  border-radius: 0!important;
+  border: 1px solid #1d3593 !important;
+  height: 35px!important;
+}
+
+.gna-form-input-insurance .p-inputnumber-input {
+  border: 1px solid #1d3593!important;
+  border-radius: 0!important;
+}
+
 .gna-form-input {
   width: 100%!important;
-  border: 1px solid rgba(29, 53, 146, 0.5) !important;
+  /*border: 1px solid rgba(29, 53, 146, 0.26) !important;*/
   border-radius: 3px!important;
 }
+
+.gna-form-input-2 {
+  width: 80%!important;
+}
+
+.gna-form p-inputnumber, .p-inputnumber {
+  width: 100% !important;
+}
+
+.gna-form p-inputnumber .p-inputtext {
+  /*border: 1px solid rgba(29, 53, 146, 0.26) !important;*/
+  border-radius: 3px!important;
+}
+
+
+
 
 .gna-form .p-inputtext.ng-dirty.ng-invalid {
   border-color: #e24c4c!important;
@@ -1096,13 +1179,13 @@ th, td {
 .gna-form-textarea .p-inputtextarea {
   margin-top: 5px;
   width: 100%!important;
-  border: 1px solid rgba(29, 53, 146, 0.5);
+  /*border: 1px solid rgba(29, 53, 146, 0.5);*/
   border-radius: 3px!important;
 }
 
 .gna-form-multiselect .p-multiselect {
   width: 100%!important;
-  border: 1px solid rgba(29, 53, 146, 0.5);
+  /*border: 1px solid rgba(29, 53, 146, 0.5);*/
   border-radius: 3px!important;
 }
 
@@ -1159,7 +1242,7 @@ th, td {
 
 .gna-form-dropdown .p-dropdown {
   width: 100%!important;
-  border: 1px solid rgba(29, 53, 146, 0.5);
+  /*border: 1px solid rgba(29, 53, 146, 0.26) !important;*/
   border-radius: 3px!important;
 }
 
@@ -1183,7 +1266,7 @@ th, td {
 .gna-form-checkbox .p-checkbox-box {
   margin-top: 5px!important;
   width: 100%!important;
-  border: 1px solid rgba(29, 53, 146, 0.5);
+  border: 1px solid #d1d5db;
   border-radius: 3px!important;
 }
 
@@ -1215,8 +1298,8 @@ th, td {
 }
 
 .gna-table-btn {
-  width: 13px!important;
-  height: 13px!important;
+  width: 14px!important;
+  height: 14px!important;
 }
 
 .gna-table-btn-3 {
@@ -1230,10 +1313,16 @@ th, td {
   padding-bottom: 5px!important;
 }
 
+.gna-table-btn-4 {
+  width: 14px!important;
+  height: 15px!important;
+  margin-bottom: 4px!important;
+}
+
 .gna-table-btn-2 {
-  width: 13px!important;
-  height: 13px!important;
-  margin-bottom: 5px!important;
+  width: 14px!important;
+  height: 15px!important;
+  margin-bottom: 6px!important;
 }
 
 .img-ml {
@@ -1274,7 +1363,7 @@ th, td {
 }
 
 .gna-btn-clauses {
-  border: 1px solid rgba(29, 53, 146, 0.5)!important;
+  border: 1px solid rgba(29, 53, 146, 0.26) !important;
   height: 34px!important;
 }
 
@@ -1423,6 +1512,11 @@ th, td {
 
 }
 
+.gna-table-files-complaints {
+  margin-left: 25px;
+  font-weight: bold;
+}
+
 .gna-files {
   margin-top: 20px;
   font-weight: bold;
@@ -1441,23 +1535,123 @@ th, td {
 }
 
 .gna-element-file-name {
-
+  padding-right: 30px;
 }
 
+.gna-element-file-name-2 {
+  padding-right: 60px;
+}
+
+
 .gna-element-file {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+}
+
+.gna-insurance-editor .p-editor-container {
+  border-radius: 0!important;
+  border: 1px solid #1d3593 !important;
 }
 
 .p-editor-container .p-editor-toolbar {
+  border-radius: 0!important;
+}
+
+.p-editor-container .p-editor-content {
+  border-radius: 0!important;
+}
+
+/*.p-editor-container .p-editor-toolbar {
   background-color: #1d3593!important;
 }
 
 .p-editor-container .p-editor-toolbar.ql-snow .ql-picker .ql-picker-label {
   color: white!important;
-}
+}*/
 
 .gna-table-files-row {
   margin-top: 5px;
-  flex-wrap: nowrap!important;
+  display: flex;
+  flex-direction: row;
+}
+
+.gna-table-files-row-complaints {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+}
+
+/*** ***/
+
+.gna-panelMenu {
+  margin-top: 60px!important;
+}
+
+.gna-panelMenu a {
+  color: white!important;
+}
+
+.gna-panelMenu .p-panelmenu .p-panelmenu-header .p-panelmenu-header-content {
+  border: none!important;
+  background: none!important;
+  transition: box-shadow 0.2s;
+}
+
+.gna-panelMenu .p-panelmenu .p-panelmenu-content {
+  padding: 0!important;
+  border: none!important;
+  background: none!important;
+}
+
+.gna-panelMenu .p-panelmenu .p-panelmenu-header:hover {
+  border: none!important;
+  background: white!important;
+  transition: box-shadow 0.2s;
+}
+
+.gna-panelMenu .p-panelmenu .p-panelmenu-content {
+  border: none!important;
+  background: none!important;
+  transition: box-shadow 0.2s;
+}
+
+.gna-panelMenu a:hover {
+  color: #1C3694!important;
+}
+
+.gna-panelMenu .gna-white:hover {
+  color: #1C3694!important;
+  cursor: pointer;
+}
+
+.gna-panelMenu a:focus {
+  color: #1C3694!important;
+
+}
+
+.gna-panelMenu .gna-white:focus {
+  color: #1C3694!important;
+  cursor: pointer;
+}
+
+
+.gna-form .pi {
+  margin-top: 8px!important;
+}
+
+
+.gna-panelMenu .p-icon-wrapper {
+  order: 1!important;
+  margin-inline-start: auto!important;
+}
+
+
+/*.gna-active {
+  color: #1C3694!important;
+}*/
+
+.gna-insurance-text {
+  font-size: 14px;
+  font-weight: bold;
+  color: #1C3694!important;
 }

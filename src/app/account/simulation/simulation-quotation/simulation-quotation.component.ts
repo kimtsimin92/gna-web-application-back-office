@@ -64,7 +64,7 @@ export class SimulationQuotationComponent implements OnInit, AfterViewInit, OnDe
 
   ngOnInit(): void {
     if (localStorage.getItem("SIMULATION_REQUEST_DATA")) {
-      this.headerTitle = "Simulation Cotation";
+      this.headerTitle = "Simulation";
       localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
       // @ts-ignore
       this.simulationRequestData = JSON.parse(localStorage.getItem("SIMULATION_REQUEST_DATA"));
@@ -72,7 +72,7 @@ export class SimulationQuotationComponent implements OnInit, AfterViewInit, OnDe
         this.onGetQuotation();
       }
     } else {
-      this._router.navigateByUrl("/account/simulation/quotation");
+      this._router.navigateByUrl("/account/simulation/quote");
     }
   }
 

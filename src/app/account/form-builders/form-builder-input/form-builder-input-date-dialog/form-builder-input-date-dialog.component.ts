@@ -40,7 +40,7 @@ export class FormBuilderInputDateDialogComponent implements OnInit, OnDestroy {
     min: new FormControl(null, [
       Validators.pattern(/^[0-9\-]*$/)]),
     required: new FormControl(false),
-    text: new FormControl(false),
+    numeric: new FormControl(null),
   });
 
   currentSelectedTag: any = null;

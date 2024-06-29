@@ -34,28 +34,35 @@ import {
 import {
   SaveErrorNotificationDialogComponent
 } from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {InputTextModule} from "primeng/inputtext";
+import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
 
 @Component({
   selector: 'app-user-management-edit',
   standalone: true,
-    imports: [
-        BreadcrumbModule,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatError,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        MatOption,
-        MatRadioButton,
-        MatRadioGroup,
-        MatSelect,
-        NgIf,
-        PaginatorModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BreadcrumbModule,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatError,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatOption,
+    MatRadioButton,
+    MatRadioGroup,
+    MatSelect,
+    NgIf,
+    PaginatorModule,
+    ReactiveFormsModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule
+  ],
   templateUrl: './user-management-edit.component.html',
   styleUrl: './user-management-edit.component.css'
 })
@@ -92,6 +99,9 @@ export class UserManagementEditComponent implements OnInit, OnDestroy {
   profileList: any[] = [];
   profilesByUserType: any[] = [];
 
+  isDisabled: boolean = true;
+  loadingPage: boolean = false;
+
   constructor(
     private _fb: FormBuilder,
     public _dialog: MatDialog,
@@ -122,16 +132,21 @@ export class UserManagementEditComponent implements OnInit, OnDestroy {
       this.userAccountData = JSON.parse(localStorage.getItem("USER_ACCOUNT_DATA"));
       this.profileForm.firstName.setValue(this.userAccountData.firstName);
       this.profileForm.lastName.setValue(this.userAccountData.lastName);
-      this.profileForm.gender.setValue(this.userAccountData.gender);
-      this.profileForm.address.setValue(this.userAccountData.address);
+
       this.profileForm.email.setValue(this.userAccountData.email);
       this.profileForm.phone.setValue(this.userAccountData.phone);
-      this.profileForm.userType.setValue(this.userAccountData.type.code);
-      this.profileForm.userProfile.setValue(this.userAccountData.profile.id);
-      // @ts-ignore
-      this.profileForm.enabled.setValue(""+this.userAccountData.enabled);
+
+      if (this.userAccountData.gender) {
+        this.profileForm.gender.setValue(this.userAccountData.gender);
+      }
+
+      if (this.userAccountData.profile) {
+        this.profileForm.userProfile.setValue(this.userAccountData.profile.name);
+      }
+
+
     } else {
-      this._router.navigateByUrl("/account/settings/users")
+      this._router.navigateByUrl("/account/admin/users/interns/list")
     }
 
     this.formProfile = this._fb.group(this.profileForm);
@@ -148,7 +163,7 @@ export class UserManagementEditComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings/users");
+    this._router.navigateByUrl("/account/admin/users/interns/list");
   }
 
   getErrorMessageFirstNane() {
@@ -182,13 +197,30 @@ export class UserManagementEditComponent implements OnInit, OnDestroy {
       username: this.userAccountData.username,
       firstName: this.formProfile.value.firstName,
       lastName: this.formProfile.value.lastName,
-      gender: this.formProfile.value.gender,
-      address: this.formProfile.value.address,
+      gender: null,
       email: this.formProfile.value.email,
       phone: this.formProfile.value.phone,
-      userType: this.formProfile.value.userType,
-      profileId: this.formProfile.value.userProfile,
-      enabled: this.formProfile.value.enabled
+      profileId: null,
+    }
+
+    if (this.formProfile.value.userProfile) {
+      if (this.profileList && this.profileList.length > 0) {
+        this.profileList.forEach((item: any) => {
+          if (item.name === this.formProfile.value.userProfile) {
+            requestData.profileId = item.id;
+          }
+        });
+      }
+    }
+
+    if (this.formProfile.value.gender) {
+      if (this.formProfile.value.gender === 'H') {
+        // @ts-ignore
+        requestData.gender = "H";
+      } else if (this.formProfile.value.gender === 'F') {
+        // @ts-ignore
+        requestData.gender = "F";
+      }
     }
 
     this.accountService.managerEditUserAccount(requestData)
@@ -267,6 +299,12 @@ export class UserManagementEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
+      this._router.navigateByUrl("/account/admin/users/interns/list").then(() => {
+        // @ts-ignore
+        localStorage.setItem("USER_ACCOUNT_DATA", JSON.stringify(this.userAccountData));
+        this.loadingPage = false;
+      });
+
     });
 
   }
@@ -329,4 +367,11 @@ export class UserManagementEditComponent implements OnInit, OnDestroy {
 
   }
 
+  onGetNotBlankAlert() {
+    const dialogRef = this._dialog.open(NotBlankDialogComponent, {
+      width: '440px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
+  }
 }

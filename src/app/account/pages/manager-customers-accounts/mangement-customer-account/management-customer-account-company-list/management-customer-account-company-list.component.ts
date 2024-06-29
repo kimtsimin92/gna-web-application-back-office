@@ -32,6 +32,15 @@ import { SaveLoadingDialogComponent } from '../../../../dialogs/loading/save-loa
 import { SaveNotificationDialogComponent } from '../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component';
 import { SaveErrorNotificationDialogComponent } from '../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component';
 import { environment } from '../../../../../../environments/environment';
+import {
+  ConfirmationToggleEnableDialogComponent
+} from "../../../../dialogs/confirmation/confirmation-toggle-enable-dialog/confirmation-toggle-enable-dialog.component";
+import {
+  RemoveLoadingDialogComponent
+} from "../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
+import {
+  ErrorNotificationDialogComponent
+} from "../../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
 
 @Component({
   selector: 'app-management-customer-account-company-list',
@@ -157,6 +166,7 @@ export class ManagementCustomerAccountCompanyListComponent
     private responsive: BreakpointObserver,
     private _router: Router,
     public _dialog: MatDialog,
+    public accountService: AccountService,
     private managerCustomerAccountService: ManagerCustomerAccountService
   ) {}
 
@@ -225,15 +235,16 @@ export class ManagementCustomerAccountCompanyListComponent
 
     this.pageNumber = this.currentPage;
 
+    let userType = "PMO";
     let filter = {
-      type_customer_id: '1',
-      is_valid: true,
+      validation_status: 2,
     };
 
     this.dataList = [];
 
     this.managerCustomerAccountService
       .onGetCustomerAccountRequestListByType(
+        userType,
         filter,
         this.pageNumber,
         this.pageSize,
@@ -264,6 +275,14 @@ export class ManagementCustomerAccountCompanyListComponent
             if (this.dataPaginationResponse.totalPages > 0) {
               this.dataList = this.dataPaginationResponse.data;
 
+          /*    if (this.dataList.length > 0) {
+                this.dataList.forEach(dt => {
+                  if (dt.code_segment) {
+                    this.onGetSegmentByCode(dt);
+                  }
+                });
+              }*/
+
               if (this.currentPage <= 0) {
                 this.currentPage++;
               }
@@ -275,9 +294,26 @@ export class ManagementCustomerAccountCompanyListComponent
           this.loading = false;
 
           console.log(errorData);
+          this.onGetNotificationErrorDialog();
         }
       );
   }
+
+  onGetNotificationErrorDialog(): void {
+
+    const dialogRef = this._dialog.open(ErrorNotificationDialogComponent, {
+      width: '400px',
+      height: '340px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.closeDialog();
+      }
+    });
+  }
+
 
   onGetCustomerAccountFilesById(element: any) {
     this.isLoadingFiles = true;
@@ -361,7 +397,7 @@ export class ManagementCustomerAccountCompanyListComponent
     localStorage.setItem('CUSTOMER_ACCOUNT_REQUEST_DATA', JSON.stringify(data));
 
     this._router
-      .navigateByUrl('/account/managements/accounts/companies/view')
+      .navigateByUrl('/account/management/customers/accounts/companies/view')
       .then(() => {
         this.loadingPage = false;
       });
@@ -375,4 +411,138 @@ export class ManagementCustomerAccountCompanyListComponent
   }
 
   protected readonly environment = environment;
+
+  onConfirmToggleEnabled(data: any, isToggle: boolean): void {
+    this.isSave = true;
+    this.accountService.isSave = this.isSave;
+
+    const dialogRef = this._dialog.open(
+      ConfirmationToggleEnableDialogComponent,
+      {
+        hasBackdrop: false,
+        width: '400px',
+        height: '400px',
+        data: {
+          dialogMessage: 'le compte ' + data.numero_compte,
+          isToggle: isToggle,
+        },
+      }
+    );
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.pageNumber = 0;
+        this.currentPage = 0;
+        this.onSaveToggleEnable(data);
+      } else {
+        data.is_active = !data.is_active;
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+
+  openSaveLoadingDialog(): void {
+    const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
+      hasBackdrop: false,
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+
+  closeDialog() {
+    this._dialog.closeAll();
+  }
+
+  private onSaveToggleEnable(data: any) {
+    this.isSave = true;
+
+    this.openSaveLoadingDialog();
+
+    this.accountService.saveCustomerAccountToggleEnable(data.id).subscribe(
+      (responseData) => {
+        this.isSave = false;
+        this.closeDialog();
+        this.openSaveToggleEnableNotificationDialog();
+      },
+      (error: HttpErrorResponse) => {
+        this.isSave = false;
+        data.is_active = !data.is_active;
+        console.log(error);
+        this.closeDialog();
+        this.openSaveToggleEnableErrorNotificationDialog(error);
+      }
+    );
+  }
+
+  openSaveToggleEnableNotificationDialog(): void {
+    const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '400px',
+      data: {
+        dialogMessage: "L'opération a réussi.",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+
+    this.rows = this.pageSize;
+    this.pageNumber = 1;
+    this.currentPage = 1;
+    this.onGetDataList();
+
+  }
+
+  openSaveToggleEnableErrorNotificationDialog(error: HttpErrorResponse): void {
+    const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '440px',
+      data: {
+        httpError: error,
+        dialogMessage: "L'opération a échoué.",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+
+  onGetSegmentByCode(item: any) {
+
+    this.accountService.getSegmentByCode(item.code_segment)
+      .subscribe((responseData: HttpResponse<any>) => {
+
+        console.log(responseData);
+
+        let responseBody = responseData['body'];
+
+        if (responseBody) {
+          item.segment = responseBody;
+        }
+
+      }, (errorData: HttpErrorResponse) => {
+
+        console.log(errorData);
+
+      });
+
+  }
+
+
 }

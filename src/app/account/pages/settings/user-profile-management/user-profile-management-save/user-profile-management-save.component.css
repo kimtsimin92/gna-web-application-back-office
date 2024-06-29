@@ -279,8 +279,7 @@ table th {
 
 
 .gna-profiles-table {
-  height: 340px;
-  overflow: auto;
+
 }
 
 .gna-pmt-mt {
@@ -289,17 +288,16 @@ table th {
 
 .gna-pis-mr {
   margin-right: 5px;
+  margin-top: 2px;
+  margin-bottom: 5px;
 }
 .gna-pdh {
   background-color: #1C3694;
   color: white;
-  border-radius: 50px;
   text-align: center;
-  width: 200Px;
+  border-radius: 50px;
+  width: 180Px;
   height: 30px;
-  display: flex;
-  flex-direction: row;
-  align-content: space-between;
   padding-top: 5px;
   padding-left: 10px;
 }
@@ -309,7 +307,7 @@ table th {
 }
 
 .gna-pr {
-  margin-top: 40px;
+  margin-top: 5px;
 }
 
 /* width */
@@ -331,4 +329,12 @@ table th {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #474747;
+}
+
+.gna-profile-group {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: stretch;
 }

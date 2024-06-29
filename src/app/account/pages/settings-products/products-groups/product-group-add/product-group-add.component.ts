@@ -38,6 +38,11 @@ import {CheckboxModule} from "primeng/checkbox";
 import {MatDivider} from "@angular/material/divider";
 import {MultiSelectModule} from "primeng/multiselect";
 import {InputTextareaModule} from "primeng/inputtextarea";
+import {
+  GuaranteeClauseEditorDialogComponent
+} from "../../guarantees/guarantee-clause-editor-dialog/guarantee-clause-editor-dialog.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
 
 @Component({
   selector: 'app-product-group-add',
@@ -70,7 +75,9 @@ import {InputTextareaModule} from "primeng/inputtextarea";
     NgIf,
     NgClass,
     MultiSelectModule,
-    InputTextareaModule
+    InputTextareaModule,
+    IconFieldModule,
+    InputIconModule
   ],
   templateUrl: './product-group-add.component.html',
   styleUrl: './product-group-add.component.css'
@@ -164,6 +171,17 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
   branchCode: any = null;
   guaranteeCode: any = null;
 
+  yesOrNoList: any[] = [
+    {
+      value: true,
+      name: "Oui",
+    },
+    {
+      value: false,
+      name: "Non",
+    },
+  ];
+
   constructor(
     private _fb: FormBuilder,
     public _dialog: MatDialog,
@@ -189,9 +207,8 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
 
     this.formData = this._fb.group(this.dataForm);
 
-    this.onGetBranchList();
-    this.onGetPeriodList();
     this.onGetGuaranteeList();
+    this.onGetPeriodList();
 
   }
 
@@ -203,7 +220,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/products-groups/list");
+    this._router.navigateByUrl("/account/management/products/groups/list");
   }
 
   onConfirm(): void {
@@ -214,7 +231,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         dialogMessage: "de ce groupe produit"
       },
@@ -255,21 +272,37 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     this.onSaveLoadingDialog();
 
     let requestData = {
+      code: this.formData.value.code,
       name: this.formData.value.name,
       accessoryTaxRate: this.formData.value.accessoryTaxRate,
       accessoryAmountCompany: this.formData.value.accessoryAmountCompany,
       accessoryAmountIntermediate: this.formData.value.accessoryAmountIntermediate,
-      coverageRate: this.formData.value.coverageRate,
-      managementMode: this.formData.value.managementMode,
-      insuredMultiple: this.formData.value.insuredMultiple,
+      coverageRate: null,
+      managementMode: null,
+      beneficiaries: null,
+      maturityNotice: this.formData.value.maturityNotice,
       paymentMethodId: null,
       periodicityId: null,
       insuranceSectorId: null,
       apiIds: [],
-      guarantees: [],
-      branchId: null,
-      description: this.formData.value.description
+      guaranteeList: [],
+      categoryId: null,
+      description: this.formData.value.description,
+      clauses: this.guaranteeClauses
     }
+
+    if (this.formData.value.coverageRate) {
+      requestData.coverageRate = this.formData.value.coverageRate.value;
+    }
+
+    if (this.formData.value.managementMode) {
+      requestData.managementMode = this.formData.value.managementMode.value;
+    }
+
+    if (this.formData.value.beneficiaries) {
+      requestData.beneficiaries = this.formData.value.beneficiaries.value;
+    }
+
 
     if (this.selectGuaranteeList && this.selectGuaranteeList.length > 0) {
       // @ts-ignore
@@ -277,7 +310,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     if (this.formData.value.guarantees.value) {
-      requestData.guarantees = this.formData.value.guarantees.value;
+      requestData.guaranteeList = this.formData.value.guarantees.value;
     }
 
     if (this.formData.value.apiIds) {
@@ -290,8 +323,8 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
       }
     }
 
-    if (this.formData.value.branchId) {
-      requestData.branchId = this.formData.value.branchId.id;
+    if (this.formData.value.category) {
+      requestData.categoryId = this.formData.value.category.id;
     }
 
     if (this.formData.value.paymentMethodId) {
@@ -328,7 +361,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         dialogMessage: "L'enregistrement de ce groupe produit a réussi."
       },
@@ -341,7 +374,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/products-groups/list")
+      this._router.navigateByUrl("/account/management/products/groups/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -355,7 +388,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "L'enregistrement de ce groupe produit a échoué."
@@ -383,7 +416,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     this.formData.markAllAsTouched();
     const dialogRef = this._dialog.open(NotBlankDialogComponent, {
       width: '400px',
-      height: '340px',
+      height: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -405,7 +438,7 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
 
   onGetBranchList() {
     this.accountService.pageLoading = true;
-    this.accountService.getBranchList()
+    this.accountService.getCategoryList()
       .subscribe((responseData: HttpResponse<any>) => {
         this.accountService.pageLoading = false;
         console.log(responseData);
@@ -440,13 +473,30 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
     } */
 
   onAddGuaranteeToTable() {
-    if (!this.selectGuaranteeList[this.guaranteeCode.id]) {
+    console.log(this.selectGuarantee);
+    if (!this.selectGuaranteeList[this.selectGuarantee.id]) {
+      this.guaranteeCode = this.selectGuarantee
       this.guaranteeCode.mandatory = false;
       this.selectGuaranteeList[this.guaranteeCode.id] = this.guaranteeCode;
         // @ts-ignore
         this.dataForm.guarantees.setValue(new FormControl(this.selectGuaranteeList));
-    }
 
+      if (this.guaranteeList && this.guaranteeList.length > 0 && this.selectGuaranteeList && this.selectGuaranteeList.length > 0) {
+        let guaranteeList: any[] = [];
+        this.guaranteeList.forEach((gl: any) => {
+          if (!this.selectGuaranteeList[gl.id]) {
+            guaranteeList.push(gl);
+          }
+        });
+        this.guaranteeList = guaranteeList;
+      }
+
+      this.selectGuarantee = null;
+
+    } else {
+      this.selectGuarantee = null;
+
+  }
   }
 
   onSelectGuarantee(guarantee: any) {
@@ -457,6 +507,36 @@ export class ProductGroupAddComponent implements OnInit, OnDestroy, AfterViewIni
   onRemoveGuaranteeFromList(selectGuarantee: any) {
     if (this.selectGuaranteeList[selectGuarantee.id]) {
       delete this.selectGuaranteeList[selectGuarantee.id];
+      let gl = {
+        id: selectGuarantee.id,
+        code: selectGuarantee.code,
+        name: selectGuarantee.name,
+        mandatory: false,
+      }
+      this.guaranteeList.push(gl);
     }
   }
+
+  openClauseEditorDialog() {
+    const dialogRef = this._dialog.open(GuaranteeClauseEditorDialogComponent, {
+      hasBackdrop: false,
+      data: {clauses: this.guaranteeClauses},
+      width: '900px',
+      height: '900'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result && result.length > 0) {
+        this.guaranteeClauses = result;
+      }
+    });
+  }
+
+  onGetGuaranteesByCategory(category: any) {
+    console.log(category);
+    this.selectGuaranteeList = [];
+    this.onGetGuaranteeList();
+  }
+
 }

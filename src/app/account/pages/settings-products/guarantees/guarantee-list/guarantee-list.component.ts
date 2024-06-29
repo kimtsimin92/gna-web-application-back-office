@@ -43,7 +43,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatTooltip} from "@angular/material/tooltip";
 import {TooltipModule} from "primeng/tooltip";
 import {ChipModule} from "primeng/chip";
-import {DatePipe, DecimalPipe, NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe, NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {SkeletonModule} from "primeng/skeleton";
 import {MatFormField, MatInput} from "@angular/material/input";
 import {MatLabel} from "@angular/material/form-field";
@@ -55,6 +55,7 @@ import {InputSwitchModule} from "primeng/inputswitch";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {Breakpoints} from '@angular/cdk/layout';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {AuthService} from "../../../../../auth/auth.service";
 
 interface PageEvent {
   first: number;
@@ -110,6 +111,7 @@ interface PageEvent {
     MatMenu,
     MatMenuItem,
     NgClass,
+    CurrencyPipe,
   ],
   templateUrl: './guarantee-list.component.html',
   styleUrl: './guarantee-list.component.css'
@@ -156,15 +158,16 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     }
   ];
 
-  pageSort: string = "name";
-  pageOrder: string = "asc";
+  pageSort: string = "updatedAt";
+  pageOrder: string = "desc";
 
   totalPages: number = 0;
   currentPage: number = 0;
-  isLoadingResults = false;
-  isRateLimitReached = false;
 
-  fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
+
+  fakeDataList: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5},  {id: 6}];
+  fakeDataListOne: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}];
+  fakeDataListTwo: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
 
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -251,6 +254,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     public _dialog: MatDialog,
     private _router: Router,
     private _liveAnnouncer: LiveAnnouncer,
+    public authService: AuthService,
     public accountService: AccountService) {
 
   }
@@ -263,6 +267,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
           console.log("screens matches XSmall : pageSize 5");
           this.scrollHeight = "390px";
           this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
           this.onGetDataList();
         }
 
@@ -275,6 +281,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
           console.log("screens matches Small : pageSize 5");
           this.scrollHeight = "390px";
           this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
           this.onGetDataList();
         }
 
@@ -287,6 +295,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
           console.log("screens matches Large : pageSize 5");
           this.scrollHeight = "390px";
           this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
           this.onGetDataList();
         }
 
@@ -299,6 +309,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
           console.log("screens matches XLarge : pageSize 10");
           this.scrollHeight = "660px";
           this.pageSize = 10;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
           this.onGetDataList();
         }
 
@@ -379,7 +391,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   onGoToSave() {
-    this._router.navigateByUrl("/account/guarantees/add");
+    this._router.navigateByUrl("/account/management/products/guarantees/add");
   }
 
 
@@ -391,7 +403,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     // @ts-ignore
     localStorage.setItem("GUARANTEE_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/guarantees/view")
+    this._router.navigateByUrl("/account/management/products/guarantees/view")
       .then(() => {
         this.loadingPage = false;
       });
@@ -405,7 +417,7 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
     // @ts-ignore
     localStorage.setItem("GUARANTEE_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/guarantees/edit")
+    this._router.navigateByUrl("/account/management/products/guarantees/edit")
       .then(() => {
         this.loadingPage = false;
       });
@@ -472,6 +484,11 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
   }*/
   onGetDataList() {
 
+    this.loadingPage = true;
+    this.loading = true;
+
+    this.dataList = [];
+
     if (this.currentPage > 0) {
       this.pageNumber = this.currentPage - 1;
     } else {
@@ -480,6 +497,9 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
 
     this.accountService.onGetGuaranteeList(this.pageSort, this.pageOrder, this.pageNumber, this.pageSize)
       .subscribe((responseData: HttpResponse<any>) => {
+
+        this.loadingPage = false;
+        this.loading = false;
 
         console.log(responseData);
         this.dataPaginationResponse =  responseData["body"];
@@ -496,7 +516,8 @@ export class GuaranteeListComponent implements OnInit, OnDestroy, AfterViewInit 
         }
 
       }, (errorData: HttpErrorResponse) => {
-
+        this.loadingPage = false;
+        this.loading = false;
         console.log(errorData);
         this.dataPaginationResponse = {};
         this.onGetNotificationErrorDialog();

@@ -25,7 +25,7 @@ import {
 import {BreadcrumbModule} from "primeng/breadcrumb";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
-import {DecimalPipe, NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe, LowerCasePipe, NgForOf, NgIf} from "@angular/common";
 import {ChipModule} from "primeng/chip";
 import {MatChipListbox, MatChipOption} from "@angular/material/chips";
 import {DropdownModule} from "primeng/dropdown";
@@ -34,6 +34,9 @@ import {InputTextareaModule} from "primeng/inputtextarea";
 import {KeyFilterModule} from "primeng/keyfilter";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {MultiSelectModule} from "primeng/multiselect";
+import {environment} from "../../../../../../environments/environment";
+import {TagModule} from "primeng/tag";
+import {AuthService} from "../../../../../auth/auth.service";
 
 @Component({
   selector: 'app-guarantee-view',
@@ -57,7 +60,12 @@ import {MultiSelectModule} from "primeng/multiselect";
     MatTab,
     MatTabGroup,
     MultiSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DatePipe,
+    NgForOf,
+    TagModule,
+    LowerCasePipe,
+    CurrencyPipe
   ],
   templateUrl: './guarantee-view.component.html',
   styleUrl: './guarantee-view.component.css'
@@ -88,6 +96,7 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
     private _fb: FormBuilder,
     public _dialog: MatDialog,
     private _router: Router,
+    public authService: AuthService,
     public accountService: AccountService) {
   }
 
@@ -142,13 +151,10 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
     if (localStorage.getItem("APP_HEADER_TITLE")) {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
-    if (localStorage.getItem("GUARANTEE_DATA")) {
-      localStorage.removeItem("GUARANTEE_DATA");
-    }
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/guarantees/list");
+    this._router.navigateByUrl("/account/management/products/guarantees/list");
   }
 
   private onSave() {
@@ -295,6 +301,20 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
     this._dialog.closeAll();
   }
 
+  onViewEdit() {
+
+    this.loadingPage = true;
+
+    // @ts-ignore
+    localStorage.setItem("GUARANTEE_DATA", JSON.stringify(this.guaranteeData));
+
+    this._router.navigateByUrl("/account/management/products/guarantees/edit")
+      .then(() => {
+        this.loadingPage = false;
+      });
+
+  }
+
   onConfirm(): void {
 
     this.isSave = true;
@@ -313,7 +333,7 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
-        this.onSave();
+       // this.onSave();
       } else {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
@@ -355,4 +375,6 @@ export class GuaranteeViewComponent implements OnInit, OnDestroy {
       });
 
   }
+
+  protected readonly environment = environment;
 }

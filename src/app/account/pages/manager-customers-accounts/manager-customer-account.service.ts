@@ -11,11 +11,58 @@ export class ManagerCustomerAccountService {
     private _http: HttpClient
   ) { }
 
-  onGetCustomerAccountRequestListByType(filter: any, page: number, limit: number, orderBy: string) {
+  onGetCampaignList(page: number, limit: number, orderBy: string) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+'/v1/campagnes', {
+        observe: 'response',
+        params: new HttpParams({fromString: `page=${page}&limit=${limit}&order_by=${orderBy}`})
+      });
+  }
+
+  onGetCustomerAccountRequestListByType(userType: string, filter: any, page: number, limit: number, orderBy: string) {
     return this._http
       .get<HttpResponse<any>>(environment.customersService+'/v1/users', {
         observe: 'response',
-        params: new HttpParams({fromString:  `filters={"type_customer_id":${filter.type_customer_id}}&page=${page}&limit=${limit}&order_by=${orderBy}`})
+        params: new HttpParams({fromString:  `filters={"validation_status":${filter.validation_status}}&code=${userType}&page=${page}&limit=${limit}&order_by=${orderBy}`})
+      });
+  }
+
+  onGetCustomerAccountListByType(userType: string, filter: any, page: number, limit: number, orderBy: string) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+'/v1/users', {
+        observe: 'response',
+        params: new HttpParams({fromString:  `filters={"validation_status":${filter.validation_status}}&code=${userType}&page=${page}&limit=${limit}&order_by=${orderBy}`})
+      });
+  }
+
+  onGetVisitList(filter: any, page: number, limit: number, orderBy: string) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+'/v1/visiteurs', {
+        observe: 'response',
+        params: new HttpParams({fromString:  `page=${page}&limit=${limit}&order_by=${orderBy}`})
+      });
+  }
+
+  onGetComplaintListList(filter: any, page: number, limit: number, orderBy: string) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+'/v1/reclamations', {
+        observe: 'response',
+        params: new HttpParams({fromString:  `filters={"statut":${filter.status}}&page=${page}&limit=${limit}&order_by=${orderBy}`})
+      });
+  }
+
+  onGetCustomerAccountById(id: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+`/v1/users/${id}`, {
+        observe: 'response'
+      });
+  }
+
+  onGetCustomerAccountInsureds(filter: any) {
+    return this._http
+      .get<HttpResponse<any>>(environment.customersService+'/v1/assures', {
+        observe: 'response',
+        params: new HttpParams({fromString:  `filters={"created_user":${filter.created_user}}&order_by=-updated_at`})
       });
   }
 

@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Marketing / Produits / Voir / En Attente</span>
+  <span>Marketing / Produits / Voir</span>
 </div>
 
 
@@ -8,299 +8,400 @@
   <div class="container-fluid gna-main-div-card">
     <mat-card class="gna-card">
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-btn row">
-          <div class="col-12 col-sm-6">
-            <button mat-raised-button
-                    class="gna-btn-default gna-btn-cancel"
-                    (click)="onBack()"
-                    [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
-          </div>
-          <div class="col-12 col-sm-6">
+        <div class="container-fluid">
 
-            <button mat-raised-button
-                    class="gna-btn-default gna-btn-save"
-                    [disabled]="isSave || accountService.pageLoading || accountService.isSave">Soumettre</button>
-          </div>
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
 
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour
+                </button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour
+                </button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-full-width gna-disable">Modifier
+                </button>
+              } @else {
+
+                <button mat-raised-button
+                        color="primary"
+                        class="gna-btn-default gna-full-width"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                        (click)="onViewEdit()">Modifier
+                </button>
+              }
+            </div>
+
+            <!--<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Soumettre</button>
+              } @else {
+
+                @if (!formData.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Soumettre</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onConfirm()">Soumettre</button>
+                }
+              }
+            </div>-->
+
+          </div>
         </div>
       </mat-card-header>
       <mat-card-content>
 
-        <div class="mt-3 gna-card-tab"></div>
+        <div class="container-fluid">
+          <div class="mt-4">
+            <div class="card">
+              <div class="card-body gna-card-body"
+                   *ngIf="productData">
 
-        <ul class="nav nav-tabs">
-          <li class="nav-item">
-            <a class="nav-link active"
-               id="pills-home-tab"
-               data-bs-toggle="pill"
-               data-bs-target="#pills-home"
-               type="button" role="tab"
-               aria-current="page"
-               aria-controls="pills-home"
-               aria-selected="true">Produit</a>
-          </li>
-          <li class="nav-item gna-nav-tabs-2">
-            <a class="nav-link"
-               id="pills-profile-tab"
-               data-bs-toggle="pill"
-               data-bs-target="#pills-partners"
-               type="button" role="tab"
-               aria-controls="pills-partners"
-               aria-selected="false">Partenaires</a>
-          </li>
-        </ul>
+                <div class="row">
 
-        <div class="gna-card-tab-item">
-          <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
-
-              <div class="container-fluid">
-                  <div class="row pb-2 gna-form">
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3 mt-2">
-                      @if (productData && productData.image) {
-                        <p-image src="{{ productData.image.url }}" alt="Product Image" width="50" height="30"></p-image>
-                      } @else {
-                        <label for="name">Image produit </label>
-                      }
-                      <div class="input-group mt-2">
-                        <input type="file" accept="image/*" class="form-control"
-                               id="productImageFile"
-                               [disabled]="isDisable">
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="name">Nom produit</label>
-                      <input pInputText
-                             type="text" id="name" aria-describedby="name-help" class="gna-form-input"
-                             [disabled]="isDisable"
-                             [value]="productData.name"/>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Groupe produit</label>
-
-                      <p-dropdown [options]="productGroupList"
-                                  class="gna-form-dropdown"
-                                  [disabled]="isDisable">
-                      </p-dropdown>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Segement</label>
-                      <p-dropdown [options]="segmentList"
-                                  [disabled]="isDisable"
-                                  class="gna-form-dropdown">
-                      </p-dropdown>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Renouvelable</label>
-                        <p-dropdown [disabled]="isDisable"
-                                    [options]="yesOrNoList1"
-                                    class="gna-form-dropdown"></p-dropdown>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Tacite reconduction</label>
-                        <p-dropdown [disabled]="isDisable"
-                                    [options]="yesOrNoList2"
-                                    class="gna-form-dropdown"></p-dropdown>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="cashBackRate">Taux de cash-back %</label>
-                      <input pInputText pKeyFilter="money"
-                             id="cashBackRate" aria-describedby="accessory-amount-intermediate-help"  class="gna-form-input"
-                             [disabled]="isDisable"
-                             [value]="productData.cashBackRate"/>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="cashBackRate">Taux de réduction commerciale %</label>
-                      <input pInputText pKeyFilter="money"
-                             id="commercialDiscountRate" aria-describedby="accessory-amount-intermediate-help"
-                              class="gna-form-input"
-                             [disabled]="isDisable"
-                             [value]="productData.commercialDiscountRate"/>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="cashBackRate">Taux de majoration de la prime %</label>
-                      <input pInputText pKeyFilter="money"
-                             id="premiumIncreaseRate" aria-describedby="accessory-amount-intermediate-help"
-                              class="gna-form-input"
-                             [disabled]="isDisable"
-                             [value]="productData.premiumIncreaseRate"/>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="name">Code produit cross selling</label>
-                      <input pInputText
-                             type="text" id="crossSellingProductCode" aria-describedby="name-help"
-                             [disabled]="isDisable"
-                             [value]="productData.crossSellingProductCode" class="gna-form-input"/>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="cashBackRate">Taux de réduction cross selling %</label>
-                      <input pInputText pKeyFilter="money"
-                             id="crossSellingDiscountRate" aria-describedby="accessory-amount-intermediate-help"
-                             [disabled]="isDisable"
-                             [value]="productData.crossSellingDiscountRate" class="gna-form-input"/>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="cashBackRate">Point de fidélité</label>
-                      <input pInputText pKeyFilter="num"
-                             id="loyaltyPoint" aria-describedby="accessory-amount-intermediate-help"
-                             [disabled]="isDisable"
-                             [value]="productData.loyaltyPoint" class="gna-form-input"/>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Incentives client</label>
-                      <p-multiSelect [options]="incentiveList"
-                                     [disabled]="isDisable"
-                                     [(ngModel)]="incentiveList"
-                                     class="gna-form-multiselect">
-                      </p-multiSelect>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Objet publi</label>
-                      <p-dropdown [disabled]="isDisable"
-                                  [options]="yesOrNoList3"
-                                  class="gna-form-dropdown"></p-dropdown>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>
-                        Fichier objet publi
-                        <span *ngIf="productData && productData.advertisementObjectFile">
-                          <a [href]="productData.advertisementObjectFile.url" [download]="productData.advertisementObjectFile.name"
-                             target="_blank">
-                              <i class="pi pi-paperclip gna-clickable"></i>
-                          </a>
-                        </span>
-                      </label>
-                      <div class="input-group mt-2">
-                        <input type="file"
-                               accept=".pdf"
-                               id="advertisementObjectFile"
-                               class="form-control" [disabled]="isDisable">
-                      </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Clauses</label>
-                      <button
-                        type="button"
-                        mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
-                        (click)="openClauseEditorDialog()">Ajouter</button>
-                    </div>
-                    <div class="col-12 col-sm-9 col-md-9 col-lg-9 col-xl-9">
-                      <label>Description</label>
-                      <textarea rows="2" pInputTextarea
-                                class="gna-form-input"
-                                [disabled]="isDisable"
-                                [value]="productData.description"></textarea>
-                    </div>
-                    <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                      <label>Validation back office</label>
-                      <br>
-                      <p-checkbox inputId="backOfficeValidation"
-                                  class="gna-form-checkbox"
-                                  [binary]="true"
-                                  [disabled]="isDisable"
-                                  [(ngModel)]="productData.backOfficeValidation"></p-checkbox>
-                    </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Statut : </span>
+                    @if (productData.statusCode && productData.statusCode === 10) {
+                      <p-tag severity="warning" value="Enregistré"></p-tag>
+                    } @else if (productData.statusCode && productData.statusCode === 11) {
+                      <p-tag severity="success" value="Validé"></p-tag>
+                    } @else if (productData.statusCode && productData.statusCode === 12) {
+                      <p-tag severity="success" value="Approuvé"></p-tag>
+                    }
                   </div>
-
-              </div>
-
-            </div>
-
-            <div class="tab-pane fade" id="pills-partners" role="tabpanel" aria-labelledby="pills-partners-tab" tabindex="0">
-              <div class="container-fluid">
-                  <div class="row pb-2 gna-form">
-
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Partnaire commercial</label>
-
-                      <p-dropdown
-                                  [disabled]="isDisable" placeholder="Partnaire commercial"
-                                  class="gna-form-dropdown">
-                      </p-dropdown>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="partnerAccessoryAmount">Montant forfaitaire des accessoires</label>
-                      <input pInputText pKeyFilter="money"
-                             id="partnerAccessoryAmount" aria-describedby="accessory-amount-company-help" placeholder="Montant forfaitaire des accessoires partenaire" class="gna-form-input"
-                             [disabled]="isDisable"/>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="partnerCommissionRate">Taux de commission %</label>
-                      <input pInputText pKeyFilter="money"
-                             id="partnerCommissionRate" aria-describedby="name-help" placeholder="Taux de commission partenaire" class="gna-form-input"
-                            [disabled]="isDisable"/>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="sponsorshipCode">Code parainage</label>
-                      <input pInputText
-                             type="text" id="sponsorshipCode" aria-describedby="name-help" placeholder="Code parainage Partenaire" class="gna-form-input"
-                            [disabled]="isDisable"/>
-                    </div>
-
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Etat : </span>
+                    @if (productData.enabled) {
+                      <p-tag severity="success" value="Activé"></p-tag>
+                    } @else {
+                      <p-tag severity="danger" value="Désactivé"></p-tag>
+                    }
                   </div>
-
-
-                  <div class="row gna-form mb-3">
-
-
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-5 btn-new">
-                        <button mat-raised-button
-                                class="gna-btn-default gna-btn-add gna-disable">Ajouter</button>
-                    </div>
-
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Enregistrement : </span>
+                    @if (productData.createdAt) {
+                      {{ productData.createdAt | date: 'dd-MM-YYYY' }} {{ productData.createdAt | date: 'hh:mm:ss' }}
+                    } @else {
+                      N/A
+                    }
                   </div>
-                <div class="example-table-con ">
-                  <table class="table table-borderless gi-table">
-                    <thead>
-                    <tr>
-                      <th>Code partnaire</th>
-                      <th>Nom partnaire</th>
-                      <th>Montant forfaitaire</th>
-                      <th>Taux commission</th>
-                      <th>Code parainage</th>
-                      <th></th>
-                    </tr>
-                    </thead>
-                    <tbody class="gna-disable">
-                      @for (selectPartner of selectPartnerList | keyvalue; track selectPartner) {
-                        <tr>
-                          <td>{{ selectPartner.value.code }}</td>
-                          <td>{{ selectPartner.value.name }}</td>
-                          <td>
-                            <span *ngIf="selectPartner.value.accessoryAmount">
-                              {{ selectPartner.value.accessoryAmount | number : "2.0" }}
-                            </span>
-                          </td>
-                          <td>
-                           <span *ngIf="selectPartner.value.commissionRate">
-                             {{ selectPartner.value.commissionRate | number : "2.0" }}%
-                           </span>
-                          </td>
-                          <td>{{ selectPartner.value.sponsorshipCode }}</td>
-                          <td>
-                              <span class="gna-action-span-div">
-                      <span class="gna-action-span">
-                        <img src="assets/images/table-pencil.svg" alt="" class="gna-table-btn gna-disable">
-                      </span>
-                                        <span class="gna-action-span">
-                                      <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2 gna-disable">
-                                        </span>
-                              </span>
-                          </td>
-                        </tr>
-                      }
-                    </tbody>
-                  </table>
                 </div>
 
+                <div class="row">
+
+                  <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2 mt-2 mb-2">
+                    <span class="gna-view-value">
+                     @if (productData.image) {
+                       <p-image src="{{ productData.image.url }}" alt="Product Image" width="150" height="150"
+                                [preview]="true"></p-image>
+                     } @else {
+                       <img src="assets/gna/images/gna-logo.png" alt="Product Image" width="150" height="150">
+                     }
+                  </span>
+                  </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-10 col-lg-10 col-xl-10">
+                    <div class="row">
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label">Code Produit : </span>
+                        <span class="gna-view-value">
+                    @if (productData.code) {
+                      {{ productData.code }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label">Nom Produit : </span>
+                        <span class="gna-view-value">
+                    @if (productData.name) {
+                      {{ productData.name }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Groupe Produit : </span>
+                        <span class="gna-view-value">
+                       @if (productData.group) {
+                         {{ productData.group.name }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Segment : </span>
+                        <span class="gna-view-value">
+                       @if (productData.segment) {
+                         {{ productData.segment.name }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Types d'assurés : </span>
+                        <span class="gna-view-value">
+                       @if (productData.insuredTypes && productData.insuredTypes.length > 0) {
+                         @for (insuredType of productData.insuredTypes; track insuredType) {
+                           <p-chip><span>{{ insuredType.libelle }}</span></p-chip> <span class="span-mr"></span>
+                         }
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Nombre Maximum Souscriptions: </span>
+                        <span class="gna-view-value">
+                       @if (productData.numberSubscriptions) {
+                         {{ productData.numberSubscriptions | number : "2.0" }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label">Renouvelable : </span>
+                        <span class="gna-view-value">
+                       @if (productData.renewable) {
+                         Oui
+                       } @else {
+                         Non
+                       }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label">Tacite Reconduction : </span>
+                        <span class="gna-view-value">
+                       @if (productData.tacitAgreement) {
+                         Oui
+                       } @else {
+                         Non
+                       }
+                  </span>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Montant Accessoires Compagnie : </span>
+                        <span class="gna-view-value">
+                       @if (productData.accessoryAmountCompany) {
+                         {{ productData.accessoryAmountCompany | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr' }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                      </div>
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Taux Cash-Back : </span>
+                        <span class="gna-view-value">
+                       @if (productData.cashBackRate) {
+                         {{ productData.cashBackRate | number : "2.0" }}%
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Taux Réduction Commerciale : </span>
+                        <span class="gna-view-value">
+                       @if (productData.commercialDiscountRate) {
+                         {{ productData.commercialDiscountRate | number : "2.0" }}%
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Taux Majoration Prime : </span>
+                        <span class="gna-view-value">
+                       @if (productData.premiumIncreaseRate) {
+                         {{ productData.premiumIncreaseRate | number : "2.0" }}%
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Taux Réduction Cross Selling : </span>
+                        <span class="gna-view-value">
+                       @if (productData.crossSellingDiscountRate) {
+                         {{ productData.crossSellingDiscountRate | number : "2.0" }}%
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label">Code Produit Cross Selling : </span>
+                        <span class="gna-view-value">
+                    @if (productData.crossSellingProductCode) {
+                      {{ productData.crossSellingProductCode }}
+                    } @else {
+                      N/A
+                    }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Points de fidélité : </span>
+                        <span class="gna-view-value">
+                       @if (productData.loyaltyPoints) {
+                         {{ productData.loyaltyPoints | number : "2.0" }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label">Validation Back-Office : </span>
+                        <span class="gna-view-value">
+                       @if (productData.backOfficeValidation) {
+                         Oui
+                       } @else {
+                         Non
+                       }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Seuil Validation Back-Office Capitaux : </span>
+                        <span class="gna-view-value">
+                           @if (productData.backOfficeValidation) {
+                       @if (productData.backOfficeValidationCapital) {
+                         {{ productData.backOfficeValidationCapital  | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                       } @else {
+                         N/A
+                       }
+                       } @else {
+                             N/A
+                           }
+                  </span>
+                      </div>
+
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <span class="gna-view-label"> Seuil Validation Back-Office Prime: </span>
+                        <span class="gna-view-value">
+                           @if (productData.backOfficeValidation) {
+                             @if (productData.backOfficeValidationPremium) {
+                               {{ productData.backOfficeValidationPremium  | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                             } @else {
+                               N/A
+                             }
+                           } @else {
+                             N/A
+                           }
+                  </span>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12">
+                    <span class="gna-view-label"> Description : </span>
+                    <span class="gna-view-value">
+                       @if (productData.description) {
+                         {{ productData.description }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-12 col-lg-12 col-xl-12">
+                    <div class="gna-view-label text-center"> Clauses Commerciales</div>
+                    <span class="gna-view-value">
+                       @if (productData.clauses) {
+                         <div [innerHTML]="productData.clauses"></div>
+                       } @else {
+                         <div>N/A</div>
+                       }
+                  </span>
+                  </div>
+
+                </div>
+
+
               </div>
             </div>
-          </div>
-        </div>
 
+            <div *ngIf="productData && productData.partnerSubscriptions && productData.partnerSubscriptions.length > 0">
+              <table class="table table-borderless gi-table mt-2">
+                <thead>
+                <tr>
+                  <th>Code Partenaire Commercial</th>
+                  <th>Nom Partenaire Commercial</th>
+                  <th>Montant Forfaitaire Accessoires</th>
+                  <th>Taux Taxe Accessoires</th>
+                  <th>Taux Commission</th>
+                  <th>Code Parainage</th>
+                </tr>
+                </thead>
+                <tbody>
+                  @for (item of productData.partnerSubscriptions; track item) {
+                    <tr>
+                      <td>{{ productData.code }}</td>
+                      <td>{{ productData.name }}</td>
+                      <td>
+                            <span *ngIf="item.accessoryAmount">
+                              {{ item.accessoryAmount | number : "2.0" }}
+                            </span>
+                      </td>
+                      <td>
+                           <span *ngIf="item.accessoryTaxRate">
+                             {{ item.accessoryTaxRate | number : "2.0" }}%
+                           </span>
+                      </td>
+                      <td>
+                           <span *ngIf="item.commissionRate">
+                             {{ item.commissionRate | number : "2.0" }}%
+                           </span>
+                      </td>
+                      <td>{{ item.sponsorshipCode }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
       </mat-card-content>
     </mat-card>
   </div>

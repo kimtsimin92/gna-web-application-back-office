@@ -1,6 +1,5 @@
 .sbtn {
   padding-top: 60px!important;
-  padding-left: 10px!important;
 }
 
 .gna-simulation {
@@ -12,8 +11,6 @@
 
 .gna-simulation-card {
   width: 540px !important;
-  min-height: 75vh !important;
-  max-height: 75vh !important;
   background: #FFFFFF 0 0 no-repeat padding-box !important;
   border-radius: 20px!important;
   opacity: 1!important;
@@ -103,6 +100,16 @@
   margin-bottom: 20px;
 }
 
+.gna-simulation-card-hr {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #2960A3;
+  opacity: 1;
+  width: 80px;
+  height: 2px!important;
+}
+
+
 .gna-simulation-card-h2 {
   font-family: Avenir, sans-serif !important;
   color: #040A10;;
@@ -141,6 +148,11 @@
 .gs-gm-cd {
   font-family: Avenir, sans-serif !important;
   color: #F6993F;
+  cursor: pointer;
+}
+
+.mlcb {
+  margin-left: 5px !important;
   cursor: pointer;
 }
 

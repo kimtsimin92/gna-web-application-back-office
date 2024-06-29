@@ -22,6 +22,10 @@
     margin-top: 5px!important;
   }
 
+  .gna-full-width {
+    width: 100%!important;
+  }
+
   .gna-action-span-div {
     justify-content: flex-start!important;
   }
@@ -42,6 +46,7 @@
     min-height: 65vh!important;
   }
 
+
 }
 
 @media only screen and (min-width : 1200px) {
@@ -53,6 +58,7 @@
   .example-table-container-form {
     min-height: 65vh!important;
   }
+
 
 }
 

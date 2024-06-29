@@ -20,6 +20,9 @@ import {TooltipModule} from "primeng/tooltip";
 import {FormsModule} from "@angular/forms";
 import {RippleModule} from "primeng/ripple";
 import {environment} from "../../../../../environments/environment";
+import {
+  ErrorNotificationDialogComponent
+} from "../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
 
 @Component({
   selector: 'app-customer-personal-account-request-list',
@@ -65,7 +68,7 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
   pageSort: string = "-created_at";
   pageOrder: string = "desc";
   pageNumber: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 5;
   pageSizeList: any[] = [
     {
       name: 5
@@ -205,14 +208,14 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
 
       this.pageNumber = this.currentPage;
 
-    let filter = {
-      type_customer_id: "1",
-      is_valid: true
+      let userType = "PPH";
+      let filter = {
+      validation_status: "[1,3]"
     };
 
     this.dataList = [];
 
-    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(filter, this.pageNumber, this.pageSize, this.pageSort)
+    this.managerCustomerAccountService.onGetCustomerAccountRequestListByType(userType, filter, this.pageNumber, this.pageSize, this.pageSort)
       .subscribe((responseData: HttpResponse<any>) => {
 
         this.loadingPage = false;
@@ -248,10 +251,30 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
         this.loading = false;
 
         console.log(errorData);
+        this.onGetNotificationErrorDialog();
 
       });
 
 
+  }
+
+  onGetNotificationErrorDialog(): void {
+
+    const dialogRef = this._dialog.open(ErrorNotificationDialogComponent, {
+      width: '400px',
+      height: '340px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.closeDialog();
+      }
+    });
+  }
+
+  closeDialog() {
+    this._dialog.closeAll();
   }
 
   onGetCustomerAccountFilesById(element: any) {
@@ -339,7 +362,7 @@ export class CustomerPersonalAccountRequestListComponent implements OnInit, Afte
     // @ts-ignore
     localStorage.setItem("CUSTOMER_ACCOUNT_REQUEST_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/manager/accounts/personals/requests/view")
+    this._router.navigateByUrl("/account/management/customers/requests/personals/view")
       .then(() => {
         this.loadingPage = false;
       });

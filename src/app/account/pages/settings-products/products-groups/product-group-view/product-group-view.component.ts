@@ -3,7 +3,7 @@ import {CheckboxModule} from "primeng/checkbox";
 import {DropdownModule} from "primeng/dropdown";
 import {InputTextModule} from "primeng/inputtext";
 import {KeyFilterModule} from "primeng/keyfilter";
-import {KeyValuePipe} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe, KeyValuePipe, LowerCasePipe, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
@@ -30,6 +30,8 @@ import {
 } from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
 import {InputTextareaModule} from "primeng/inputtextarea";
+import {ChipModule} from "primeng/chip";
+import {TagModule} from "primeng/tag";
 
 @Component({
   selector: 'app-product-group-view',
@@ -50,6 +52,13 @@ import {InputTextareaModule} from "primeng/inputtextarea";
     ReactiveFormsModule,
     SharedModule,
     InputTextareaModule,
+    ChipModule,
+    CurrencyPipe,
+    DecimalPipe,
+    LowerCasePipe,
+    NgIf,
+    TagModule,
+    DatePipe,
   ],
   templateUrl: './product-group-view.component.html',
   styleUrl: './product-group-view.component.css'
@@ -90,7 +99,7 @@ export class ProductGroupViewComponent implements OnInit, OnDestroy, AfterViewIn
   selectApiList: any[] = [];
   branchCode: any = null;
   guaranteeCode: any = null;
-  productGroup: any = null;
+  productGroupData: any = null;
 
   constructor(
     private _fb: FormBuilder,
@@ -105,39 +114,40 @@ export class ProductGroupViewComponent implements OnInit, OnDestroy, AfterViewIn
     if (localStorage.getItem("PRODUCT_GROUP_DATA")) {
 
       // @ts-ignore
-      this.productGroup = JSON.parse(localStorage.getItem("PRODUCT_GROUP_DATA"));
+      this.productGroupData = JSON.parse(localStorage.getItem("PRODUCT_GROUP_DATA"));
 
-      if (this.productGroup.branch) {
-          this.branchList.push(this.productGroup.branch.name);
+
+      if (this.productGroupData.branch) {
+          this.branchList.push(this.productGroupData.branch.name);
       }
 
-      if (this.productGroup.paymentMethod) {
-        this.paymentMethodList.push(this.productGroup.paymentMethod.name);
+      if (this.productGroupData.paymentMethod) {
+        this.paymentMethodList.push(this.productGroupData.paymentMethod.name);
       }
 
-      if (this.productGroup.periodicity) {
-        this.periodicityList.push(this.productGroup.periodicity.name);
+      if (this.productGroupData.periodicity) {
+        this.periodicityList.push(this.productGroupData.periodicity.name);
       }
 
-      if (this.productGroup.insuranceSector) {
-        this.insuranceSectorList.push(this.productGroup.insuranceSector.name);
+      if (this.productGroupData.insuranceSector) {
+        this.insuranceSectorList.push(this.productGroupData.insuranceSector.name);
       }
 
-      if (this.productGroup.apis && this.productGroup.apis.length > 0) {
-        this.productGroup.apis.forEach((a: any) => {
+      if (this.productGroupData.apis && this.productGroupData.apis.length > 0) {
+        this.productGroupData.apis.forEach((a: any) => {
           this.selectApiList.push(a.name);
         });
       }
 
 
-      if (this.productGroup.guarantees && this.productGroup.guarantees.length > 0) {
-        this.productGroup.guarantees.forEach((g: any) => {
+      if (this.productGroupData.guarantees && this.productGroupData.guarantees.length > 0) {
+        this.productGroupData.guarantees.forEach((g: any) => {
           this.selectGuaranteeList[g.id] = g;
         })
       }
 
     } else {
-      this._router.navigateByUrl("/account/products-groups/list")
+      this._router.navigateByUrl("/account/management/products/groups/list")
     }
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
@@ -154,9 +164,9 @@ export class ProductGroupViewComponent implements OnInit, OnDestroy, AfterViewIn
 
     if (localStorage.getItem("PRODUCT_GROUP_DATA")) {
       // @ts-ignore
-      this.productGroup = JSON.parse(localStorage.getItem("PRODUCT_GROUP_DATA"));
+      this.productGroupData = JSON.parse(localStorage.getItem("PRODUCT_GROUP_DATA"));
     } else {
-      this._router.navigateByUrl("/account/products-groups/list");
+      this._router.navigateByUrl("/account/management/products/groups/list");
     }
 
     this.formData = this._fb.group(this.dataForm);
@@ -170,14 +180,24 @@ export class ProductGroupViewComponent implements OnInit, OnDestroy, AfterViewIn
     if (localStorage.getItem("APP_HEADER_TITLE")) {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
-    if (localStorage.getItem("PRODUCT_GROUP_DATA")) {
-      localStorage.removeItem("PRODUCT_GROUP_DATA");
-    }
-    this.productGroup = null;
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/products-groups/list");
+    this._router.navigateByUrl("/account/management/products/groups/list");
+  }
+
+  onViewEdit() {
+
+    this.loadingPage = true;
+
+    // @ts-ignore
+    localStorage.setItem("PRODUCT_GROUP_DATA", JSON.stringify(this.productGroupData));
+
+    this._router.navigateByUrl("/account/management/products/groups/edit")
+      .then(() => {
+        this.loadingPage = false;
+      });
+
   }
 
   onConfirm(): void {
@@ -315,7 +335,7 @@ export class ProductGroupViewComponent implements OnInit, OnDestroy, AfterViewIn
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/products-groups/list")
+      this._router.navigateByUrl("/account/management/products/groups/list")
         .then(() => {
           this.loadingPage = false;
         });

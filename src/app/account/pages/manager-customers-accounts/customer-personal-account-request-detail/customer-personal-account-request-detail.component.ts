@@ -75,9 +75,9 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
       this.elementData = JSON.parse(localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA"));
 
 
-      if (!this.elementData.files) {
+     /* if (!this.elementData.files) {
         this.onGetCustomerAccountFilesById(this.elementData);
-      }
+      }*/
 
     } else {
       this._router.navigateByUrl("/account/manager/accounts/personals/requests")
@@ -97,7 +97,7 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
   }
 
   onGoToBack() {
-    this._router.navigateByUrl("/account/manager/accounts/personals/requests/list");
+    this._router.navigateByUrl("/account/management/customers/requests/personals/list");
   }
 
   onValid(): void {
@@ -174,8 +174,8 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
           this.accountService.isSave = this.isSave;
           console.log(responseData);
           let message = "L'enregistrement de la validation du compte a reussi."
-          this.onSaveNotificationDialog(message);
           this.closeDialog();
+          this.onSaveNotificationDialog(message);
         }, (errorData: HttpErrorResponse) => {
           this.isSave = false;
           this.accountService.isSave = this.isSave;
@@ -206,8 +206,8 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
         this.accountService.isSave = this.isSave;
         console.log(responseData);
         let message = "L'enregistrement du rejet du compte a reussi."
-        this.onSaveNotificationDialog(message);
         this.closeDialog();
+        this.onSaveNotificationDialog(message);
       }, (errorData: HttpErrorResponse) => {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
@@ -249,9 +249,10 @@ export class CustomerPersonalAccountRequestDetailComponent implements OnInit, Af
       if (result) {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
+
       }
 
-      this._router.navigateByUrl("/account/manager/accounts/personals/requests/list")
+      this._router.navigateByUrl("/account/management/customers/requests/personals/list")
         .then(() => {
           // @ts-ignore
           this.loadingPage = false;

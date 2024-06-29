@@ -42,7 +42,7 @@
 
 .gna-simulation-radio-2 {
   text-align: center;
-  width: 140px;
+  min-width: 140px;
   height: 80px;
   background: #FFFFFF 0 0 no-repeat padding-box;
   border: 1px solid #2960A3;
@@ -53,6 +53,7 @@
 }
 
 .gna-simulation-radio-2 input[type="radio"] {
+  margin-top: 25px!important;
   border: 2px solid #DDDDDD;
   padding-top: 20px!important;
   height: 10px!important;
@@ -70,7 +71,7 @@
 }
 
 .gna-simulation-radio-2 label {
-  margin-top: 30px!important;
+  /*margin-top: 30px!important;*/
   font-family: Avenir, sans-serif!important;
   letter-spacing: 1.5px;
   color: #141415;

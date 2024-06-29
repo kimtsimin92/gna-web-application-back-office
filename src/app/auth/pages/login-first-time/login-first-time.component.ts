@@ -192,7 +192,7 @@ export class LoginFirstTimeComponent implements OnInit {
 /*    dialogRef.afterClosed().subscribe(result => {
 
       if (result) {*/
-        this._router.navigateByUrl("/account/home").then(() => {
+        this._router.navigateByUrl("/account/dashboard").then(() => {
           this.isSave = false;
       /*  });
       }

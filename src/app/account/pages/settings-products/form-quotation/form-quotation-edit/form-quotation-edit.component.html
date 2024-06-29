@@ -1,45 +1,59 @@
 <div class="gna-bc">
-  <span>Configuration Produit / Formulaires Cotations / Modifier</span>
+  <span>Configuration des produits / Formulaires de cotations / Modifier</span>
 </div>
+
 
 <div class="gna-main-content">
 
   <div class="container-fluid gna-main-div-card">
     <mat-card class="gna-card">
       <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-btn row">
-          <div class="col-12 col-sm-6">
-            @if (isSave) {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-cancel">Annuler</button>
-            } @else {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-cancel"
-                      (click)="onBack()"
-                      [disabled]="isSave">Annuler</button>
-            }
+        <div class="container-fluid">
+
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer</button>
+              } @else {
+
+                @if (!formQuotation.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Enregistrer</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onConfirm()">Enregistrer</button>
+                }
+              }
+            </div>
 
           </div>
-          <div class="col-12 col-sm-6">
-            @if (!formQuotation.valid) {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      (click)="onGetNotBlankAlert()">Modifier</button>
-            } @else {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save"
-                      [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                      (click)="onConfirm()">Modifier</button>
-            }
-          </div>
-
         </div>
       </mat-card-header>
       <mat-card-content class="gna-card-content">
 
         <div class="container-fluid">
 
-          <h3 class="gna-text-primary gna-text-bold mt-2">Formulaire Cotation</h3>
 
           <form
             [formGroup]="formQuotation">
@@ -50,19 +64,14 @@
                   Nom formulaire
                   <span class="gna-text-red gna-text-bold">*</span>
                 </label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
                 <input pInputText
                        type="text" id="name" aria-describedby="name-help" placeholder="Entrer nom du formulaire" class="gna-form-input"
                        required
                        formControlName="name"
                        [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
-              </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="name">Description formulaire</label>
-                <input pInputText
-                       type="text" id="description" aria-describedby="name-help"
-                       placeholder="Entrer description du formulaire" class="gna-form-input"
-                       formControlName="description"
-                       [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
               </div>
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <label>Groupe Produit
@@ -75,6 +84,9 @@
                             placeholder="Sélectionner groupe produit"
                             class="gna-form-dropdown"
                             formControlName="productGroup"
+                            [filter]="true"
+                            filterBy="name"
+                            [showClear]="true"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave">
                   <ng-template let-group pTemplate="group">
                     <div class="flex align-items-center gap-2">
@@ -82,6 +94,13 @@
                     </div>
                   </ng-template>
                 </p-dropdown>
+              </div>
+
+              <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <label>Description</label>
+                <textarea rows="2" pInputTextarea formControlName="description"
+                          class="gna-form-input"
+                          [readonly]="isSave || accountService.pageLoading || accountService.isSave"></textarea>
               </div>
 
             </div>
@@ -122,7 +141,7 @@
                         </mat-form-field>
                       </div>
 
-                      <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <!--               <label for="name" class="gna-form-label">
                                     Description Etape
                                        </label>
@@ -342,16 +361,70 @@
                                   }
                                 </div>
 
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-6 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                      <label>Utilisable dans le contrat</label>
+                                    </div>
+                                    <div class="col-6 col-sm-8 col-md-8 col-lg-8 col-xl-8 mt-2">
+                                      <p-checkbox [binary]="true"
+                                                  class="gna-form-checkbox"
+                                                  formControlName="contractAdd"></p-checkbox>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-6 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                      <label>Plancher de garantie applicable</label>
+                                    </div>
+                                    <div class="col-6 col-sm-8 col-md-8 col-lg-8 col-xl-8  mt-2">
+                                      <p-checkbox [binary]="true"
+                                                  class="gna-form-checkbox"
+                                                  formControlName="floor"></p-checkbox>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-6 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                      <label>Plafond de garantie applicable</label>
+                                    </div>
+                                    <div class="col-6 col-sm-8 col-md-8 col-lg-8 col-xl-8  mt-2">
+                                      <p-checkbox [binary]="true"
+                                                  class="gna-form-checkbox"
+                                                  formControlName="ceiling"></p-checkbox>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-12">
+                                  <div class="row">
+                                    <div class="col-6 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                      <label>Activer lors de la modification d’un contrat</label>
+                                    </div>
+                                    <div class="col-6 col-sm-8 col-md-8 col-lg-8 col-xl-8  mt-2">
+                                      <p-checkbox [binary]="true"
+                                                  class="gna-form-checkbox"
+                                                  formControlName="contractEdit"></p-checkbox>
+                                    </div>
+                                  </div>
+                                </div>
+
                               </div>
                             </form>
 
                             @if (fStep.value.questions.length > 1) {
-                              <div>
+                              <div class="mt-1">
                                 @if (!ffsq) {
-                                  <button mat-button matStepperPrevious>Question précédente</button>
+                                  <button mat-stroked-button color="primary" matStepperPrevious>Question Précédente
+                                    <mat-icon>keyboard_double_arrow_left</mat-icon></button>
                                 }
                                 @if (!lfsq) {
-                                  <button mat-button matStepperNext>Question suivante</button>
+                                  <button mat-stroked-button color="primary" matStepperNext>Question Suivante
+                                    <mat-icon>keyboard_double_arrow_right</mat-icon></button>
                                 }
                               </div>
                             }

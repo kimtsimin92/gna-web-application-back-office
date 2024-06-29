@@ -16,25 +16,27 @@ import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {HeaderComponent} from "../components/header/header.component";
 import {AccountService} from "../account.service";
 import {MatIcon} from "@angular/material/icon";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-simulation',
   standalone: true,
-    imports: [
-        MatButton,
-        SimulationRadioComponent,
-        SimulationTextComponent,
-        NgIf,
-        SimulationNumberComponent,
-        SimulationDateComponent,
-        SimulationCheckboxComponent,
-        SimulationSelectComponent,
-        SimulationTextareaComponent,
-        SimulationEmailComponent,
-        SimulationTelComponent,
-      MatIcon,
-        HeaderComponent
-    ],
+  imports: [
+    MatButton,
+    SimulationRadioComponent,
+    SimulationTextComponent,
+    NgIf,
+    SimulationNumberComponent,
+    SimulationDateComponent,
+    SimulationCheckboxComponent,
+    SimulationSelectComponent,
+    SimulationTextareaComponent,
+    SimulationEmailComponent,
+    SimulationTelComponent,
+    MatIcon,
+    HeaderComponent,
+    MatProgressSpinner
+  ],
   templateUrl: './simulation.component.html',
   styleUrl: './simulation.component.css'
 })
@@ -51,6 +53,8 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
   currentStepQuestionIndex: number = 0;
   loadingPage: boolean = false;
 
+  productData: any = null;
+
   constructor(
     private _router: Router,
     public accountService: AccountService,
@@ -64,24 +68,15 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
       localStorage.removeItem("SIMULATION_REQUEST_DATA");
     }
 
-    if (localStorage.getItem("FORM_QUOTATION_DATA")) {
-
-      this.headerTitle = "Simulation Cotation";
-      localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
+    if (localStorage.getItem("PRODUCT_DATA")) {
 
       // @ts-ignore
-      this.quotationForm = JSON.parse(localStorage.getItem("FORM_QUOTATION_DATA"));
-      console.log(this.quotationForm);
+      this.productData = JSON.parse(localStorage.getItem("PRODUCT_DATA"));
 
-      if (this.quotationForm && this.quotationForm.steps && this.quotationForm.steps.length > 0) {
-        this.quotationFormSteps = this.quotationForm.steps;
-        if (this.quotationFormSteps && this.quotationFormSteps.length > 0) {
-          this.onGetCurrentElements();
-        }
-      }
+      this.onGetQuoteForm(this.productData.id);
+
     } else {
-
-      this._router.navigateByUrl("/account/settings-products/forms/quotations/list");
+      this._router.navigateByUrl("/account/marketing/products/list");
     }
 
 
@@ -121,7 +116,9 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
         this.currentStepQuestionIndex++;
         this.currentStepQuestion = currentStep.questions[this.currentStepQuestionIndex];
         if (currentStepQuestion.field.code == 6) {
-          this.currentStepQuestion.field.code = 5;
+          if (this.currentStepQuestion.field.code == 6) {
+            this.currentStepQuestion.field.code = 5;
+          }
         } else if (currentStepQuestion.field.code == 6) {
           this.currentStepQuestion.field.code = 6;
         }
@@ -181,97 +178,12 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
     this.currentStepQuestion = currentStep.questions[this.currentStepQuestionIndex];
   }
 
-/*  onGetPricing(simulationRequest: any) {
-
-    let guaranteeList: any[] = [
-      {
-        id: 6,
-        name: "N/A",
-        pricingList: [
-          {
-            "output": {
-              "amount": 100000,
-              "modality": 1,
-              "variable": null,
-              "parameter": null,
-              "operatorVariable": null,
-              "operatorParameter": null
-            },
-            "result": 100000,
-            "valueOne": "Bleu",
-            "operatorOne": {
-              "label": "égal",
-              "typeCode": 1,
-              "typeValue": "=="
-            },
-            "variableOne": {
-              "name": "step1_field1",
-              "step": 1,
-              "field": 1,
-              "label": "Couleur",
-              "typeCode": 6
-            }
-          }
-        ]
-      }
-    ];
-
-    if (guaranteeList && guaranteeList.length > 0) {
-
-      guaranteeList.forEach((guarantee: any) => {
-
-        console.log(guarantee);
-
-        if (guarantee.pricingList && guarantee.pricingList.length > 0) {
-
-          guarantee.pricingList.forEach((pricing: any) => {
-
-            if (pricing.output && pricing.output.modality && pricing.output.modality == 1) {
-
-              if (pricing.variableOne) {
-
-                if (simulationRequest && simulationRequest.answers && simulationRequest.answers.length > 0) {
-
-                  simulationRequest.answers.forEach((answer: any) => {
-
-                    if (answer.name == pricing.variableOne.name) {
-
-                      if (pricing.operatorOne && pricing.operatorOne.typeCode) {
-
-                        if (pricing.operatorOne.typeCode == 1) {
-                          if (pricing.valueOne == answer.value) {
-                            console.log("PRIME GUARANTIE: " + guarantee.id);
-                            console.log(pricing.output.amount);
-                          }
-                        }
-
-                      }
-
-                    }
-
-                  })
-
-                }
-
-              }
-
-            }
-
-          });
-
-        }
-
-      })
-
-    }
-
-  }*/
 
   onGetQuotation(currentStep: any, currentStepQuestion: any) {
 
       let simulationRequest = {
-        quotationFormId: this.quotationForm.id,
-        groupId: this.quotationForm.productGroup.id,
+        quoteFormId: this.quotationForm.id,
+        productGroupId: this.quotationForm.productGroup.id,
         productId: null,
         answers: []
       }
@@ -287,7 +199,7 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
               value: question.field.attributes.value,
             }
 
-            if (question.field.attributes.text) {
+            if (question.field.attributes.numeric) {
               answer.value = Number(question.field.attributes.value);
             }
             // @ts-ignore
@@ -304,22 +216,55 @@ export class SimulationComponent implements OnInit, AfterViewInit, OnDestroy {
 
        this.loadingPage = true;
 
-       this._router.navigateByUrl("/account/simulation/quotation")
+       this._router.navigateByUrl("/account/simulation/quote")
          .then(() => {
            localStorage.setItem("SIMULATION_REQUEST_DATA", JSON.stringify(simulationRequest));
            this.loadingPage = false;
          });
 
-/*    this.simulationService.onGetQuotation(simulationRequest)
-      .subscribe((response: HttpResponse<any>) => {
-        console.log(response);
-      }, (error: HttpErrorResponse) => {
-        console.error(error);
-      });*/
-
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings-products/forms/quotations/list");
+    this._router.navigateByUrl("/account/marketing/products/list");
   }
+
+  onGetQuoteForm(productId: number) {
+
+    this.loadingPage = true;
+
+    this.accountService.onGetQuoteForm(productId)
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.loadingPage = false;
+        console.log(responseData);
+
+        if (responseData["body"]) {
+          this.quotationForm = responseData["body"];
+          // @ts-ignore
+          localStorage.setItem("FORM_QUOTATION_DATA", JSON.stringify(this.quotationForm));
+
+          if (this.quotationForm) {
+
+            console.log(this.quotationForm);
+
+            if (this.quotationForm && this.quotationForm.steps && this.quotationForm.steps.length > 0) {
+              this.quotationFormSteps = this.quotationForm.steps;
+              if (this.quotationFormSteps && this.quotationFormSteps.length > 0) {
+                this.onGetCurrentElements();
+              }
+            }
+          } else {
+
+            this._router.navigateByUrl("/account/marketing/products/list");
+
+          }
+
+        }
+
+      }, (errorData: HttpErrorResponse) => {
+        this.loadingPage = false;
+        console.log(errorData);
+      })
+
+  }
+
 }

@@ -37,6 +37,11 @@ import {
   EditLoadingDialogComponent
 } from "../../../../dialogs/loading/edit-loading-dialog/edit-loading-dialog.component";
 import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-blank-dialog.component";
+import {InputTextModule} from "primeng/inputtext";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {DropdownModule} from "primeng/dropdown";
+import {InputMaskModule} from "primeng/inputmask";
 
 @Component({
   selector: 'app-users-manager-save',
@@ -62,7 +67,12 @@ import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-
     FormsModule,
     MatCheckbox,
     MatRadioGroup,
-    MatRadioButton
+    MatRadioButton,
+    InputTextModule,
+    IconFieldModule,
+    InputIconModule,
+    DropdownModule,
+    InputMaskModule
   ],
   templateUrl: './users-manager-save.component.html',
   styleUrl: './users-manager-save.component.css'
@@ -142,12 +152,9 @@ export class UsersManagerSaveComponent implements OnInit, OnDestroy {
       this.profileForm.firstName.setValue(this.userAccountData.firstName);
       this.profileForm.lastName.setValue(this.userAccountData.lastName);
       this.profileForm.gender.setValue(this.userAccountData.gender);
-      this.profileForm.address.setValue(this.userAccountData.address);
       this.profileForm.email.setValue(this.userAccountData.email);
       this.profileForm.phone.setValue(this.userAccountData.phone);
-      this.profileForm.userType.setValue(this.userAccountData.type.code);
       this.profileForm.userProfile.setValue(this.userAccountData.profile.id);
-      this.profileForm.enabled.setValue(this.userAccountData.enabled);
     } else {
       this.modeEdit = true;
     }
@@ -167,7 +174,7 @@ export class UsersManagerSaveComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings/users");
+    this._router.navigateByUrl("/account/admin/users/interns/list");
   }
 
   getErrorMessageFirstNane() {
@@ -199,13 +206,20 @@ export class UsersManagerSaveComponent implements OnInit, OnDestroy {
       token: this.accountService.getToken(),
       firstName: this.formProfile.value.firstName,
       lastName: this.formProfile.value.lastName,
-      gender: this.formProfile.value.gender,
-      address: this.formProfile.value.address,
+      gender: null,
       email: this.formProfile.value.email,
       phone: this.formProfile.value.phone,
-      userType: this.formProfile.value.userType,
-      profileId: this.formProfile.value.userProfile,
-      enabled: this.formProfile.value.enabled
+      profileId: null,
+    }
+
+
+    if (this.formProfile.value.gender) {
+      requestData.gender = this.formProfile.value.gender.value;
+    }
+
+
+    if (this.formProfile.value.userProfile) {
+      requestData.profileId = this.formProfile.value.userProfile.id;
     }
 
     this.accountService.managerAddUserAccount(requestData)
@@ -231,8 +245,8 @@ export class UsersManagerSaveComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
-      width: '380px',
-      height: '350px',
+      width: '400px',
+      height: '400px',
       data: {
         dialogMessage: "de ce compte utilisateur"
       },
@@ -256,7 +270,7 @@ export class UsersManagerSaveComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -282,7 +296,7 @@ export class UsersManagerSaveComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/settings/users/edit").then(() => {
+      this._router.navigateByUrl("/account/admin/users/interns/list").then(() => {
         // @ts-ignore
         localStorage.setItem("USER_ACCOUNT_DATA", JSON.stringify(this.userAccountData));
         this.loadingPage = false;

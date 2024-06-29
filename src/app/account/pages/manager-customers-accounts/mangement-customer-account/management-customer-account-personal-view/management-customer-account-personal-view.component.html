@@ -1,17 +1,17 @@
 <div class="gna-bc">
     <span>Gestion des comptes / Comptes / Particuliers</span>
   </div>
-  
+
   <div class="container-fluid">
-  
+
     <div>
       <mat-card class="gna-card">
         <mat-card-header class="gna-card-header">
           <div class="container-fluid">
-  
+
             <div class="gna-card-header-btn row">
               <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
-  
+
                 @if (isSave || accountService.pageLoading || accountService.isSave) {
                   <button mat-raised-button color="primary"
                           class="gna-full-width gna-btn-default gna-disable">Retour</button>
@@ -21,78 +21,65 @@
                           (click)="onGoToBack()"
                           [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
                 }
-  
+
               </div>
-  
-              @if (elementData && elementData.validation_status <= 1) {
-  
-                <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-6">
-  
-                  @if (isSave || accountService.pageLoading || accountService.isSave) {
-                    <button mat-raised-button
-                            class="gna-btn-default gna-btn-save gna-full-width gna-disable">Valider</button>
-                  } @else {
-                    <button mat-raised-button
-                            class="gna-btn-default gna-btn-save gna-full-width"
-                            [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                            (click)="onValid()">Valider</button>
-                  }
-                </div>
-                <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
-  
-                  @if (isSave || accountService.pageLoading || accountService.isSave) {
-                    <button mat-raised-button
-                            class="gna-btn-default gna-btn-cancel gna-full-width gna-disable">Rejeter</button>
-                  } @else {
-                    <button mat-raised-button
-                            class="gna-btn-default gna-btn-cancel gna-full-width"
-                            [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                            (click)="onReject()">Rejeter</button>
-                  }
-                </div>
-  
-              } @else if (elementData && elementData.validation_status == 3) {
-                <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
-  
-                  @if (isSave || accountService.pageLoading || accountService.isSave) {
-                    <button mat-raised-button
-                            class="gna-btn-default gna-btn-save gna-full-width gna-disable">Valider</button>
-                  } @else {
-                    <button mat-raised-button
-                            class="gna-btn-default gna-btn-save gna-full-width"
-                            [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                            (click)="onValid()">Valider</button>
-                  }
-                </div>
-              }
-  
+
+
+
             </div>
           </div>
         </mat-card-header>
-  
+
         <mat-card-content>
-  
+
           <div class="container-fluid">
             <div class="example-table-container mt-4">
               <div class="card">
                 <div class="card-body gna-card-body"
-                     *ngIf="elementData">
-  
-                  <div class="row" *ngIf="elementData.validation_status == 3">
-                    <div class="col">
-                      <p-tag severity="danger" value="Rejeté"></p-tag>
+                     *ngIf="!loadingPage && elementData">
+
+                  <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label">Etat : </span>
+                      @if (elementData.is_active) {
+                        <p-tag severity="success" value="Activé"></p-tag>
+                      } @else  {
+                        <p-tag severity="danger" value="Désactivé"></p-tag>
+                      }
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+
+                      <div class="row">
+                        <div class="col-11 col-sm-10 col-md-10 col-lg-11 col-xl-11">
+                          <span class="gna-view-label">Enregistrement : </span>
+                          @if (elementData.created_at) {
+                            {{ elementData.created_at | date: 'dd-MM-YYYY'}} {{ elementData.created_at | date: 'hh:mm:ss'}}
+                          } @else  {
+                            N/A
+                          }
+                        </div>
+                        <div class="col-1 col-sm-2 col-md-2 col-lg-1 col-xl-1">
+
+                          <p-button icon="pi pi-pencil" class="gna-btn-edit"
+                                    pTooltip="Segmentation"
+                                    tooltipPosition="bottom"
+                                    [disabled]="isSave"
+                          (click)="onShowViewEdit()"></p-button>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
-  
+
                   <div class="row">
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">Type Compte : </span>
                       <span class="gna-view-value">
                      Particulier
                     </span>
                     </div>
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Code Compte : </span>
                       <span class="gna-view-value">
@@ -103,11 +90,20 @@
                          }
                     </span>
                     </div>
-  
-                  </div>
-  
-                  <div class="row">
-  
+
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <span class="gna-view-label"> N° Assuré : </span>
+                      <span class="gna-view-value">
+                         @if (elementData.numero_assure ) {
+                           {{ elementData.numero_assure }}
+                         } @else {
+                           N/A
+                         }
+                    </span>
+                    </div>
+
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> N° CNI : </span>
                       <span class="gna-view-value">
@@ -118,7 +114,7 @@
                          }
                     </span>
                     </div>
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">N° CMU : </span>
                       <span class="gna-view-value">
@@ -129,11 +125,8 @@
                       }
                     </span>
                     </div>
-  
-                  </div>
-  
-                  <div class="row">
-  
+
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Nom : </span>
                       <span class="gna-view-value">
@@ -144,22 +137,18 @@
                          }
                     </span>
                     </div>
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                      <span class="gna-view-label">Code Segment : </span>
+                      <span class="gna-view-label">Segment : </span>
                       <span class="gna-view-value">
-                        @if (elementData.code_segment ) {
-                          {{ elementData.code_segment }}
+                        @if (elementData.segment ) {
+                          {{ elementData.segment.name }}
                         } @else {
                           N/A
                         }
                     </span>
                     </div>
-  
-                  </div>
-  
-                  <div class="row">
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Prénom : </span>
                       <span class="gna-view-value">
@@ -170,7 +159,7 @@
                          }
                     </span>
                     </div>
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">Email : </span>
                       <span class="gna-view-value">
@@ -181,11 +170,7 @@
                       }
                     </span>
                     </div>
-  
-                  </div>
-  
-                  <div class="row">
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Genre : </span>
                       <span class="gna-view-value">
@@ -198,7 +183,7 @@
                           }
                     </span>
                     </div>
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">Téléphone : </span>
                       <span class="gna-view-value">
@@ -209,11 +194,8 @@
                         }
                     </span>
                     </div>
-  
-                  </div>
-  
-                  <div class="row">
-  
+
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Date de naissance : </span>
                       <span class="gna-view-value">
@@ -224,7 +206,7 @@
                         }
                     </span>
                     </div>
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">Adresse : </span>
                       <span class="gna-view-value">
@@ -234,23 +216,80 @@
                         N/A
                       }</span>
                     </div>
-  
+
                   </div>
-  
+
+                </div>
+                <div class="card-body gna-card-body"
+                     *ngIf="loadingPage">
+
+                  <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                   <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                      <p-skeleton width="12rem" styleClass="mb-3" />
+                    </div>
+
+                  </div>
+
                 </div>
               </div>
-  
-              <div class="row gna-files">
+              <div class="row gna-files mb-3">
                 <span class="gna-files-underline">Documents joints</span>
                 <div class="row">
-                  @if (!isLoadingFiles) {
-  
-                    @if (elementData.files && elementData.files.length > 0) {
-  
-                      <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1" *ngFor="let file of elementData.files">
+
+                  @if (!loadingPage) {
+
+                    @if (elementData.medias && elementData.medias.length > 0) {
+
+                      <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1" *ngFor="let file of elementData.medias">
                         <span class="gna-element-file-name">{{ file.libelle }}</span>
                         <br>
-  
+
                         @if (file.type == "image/jpeg" ) {
                           <a href="{{ environment.customersService+file.lien }}" download target="_blank">
                             <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
@@ -268,100 +307,308 @@
                             <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
                           </a>
                         }
-  
+
                       </div>
-  
+
                     } @else {
                       <div class="col">
                         <span class="gna-element-file-name">N/A</span>
                       </div>
                     }
-  
-  
+
+
                   } @else {
                     <div class="col">
                       <p-skeleton width="2rem" size="5rem" styleClass="mr-2" />
                     </div>
                   }
+
                 </div>
               </div>
-  
-           <!--   <div class="row mt-4">
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                  <label> <strong>Motif</strong></label>
-  
-                  <p-editor [style]="{ height: 'auto' }">
-                    <ng-template pTemplate="header">
-          <span class="ql-formats">
-            <select class="ql-size">
-                <option value="small">Petite</option>
-                <option selected>Normale</option>
-                <option value="large">Grande</option>
-                <option value="huge">Très grande</option>
-              </select>
-          </span>
-                      <span class="ql-formats">
-              <button type="button" class="ql-bold" aria-label="Bold"></button>
-              <button type="button" class="ql-italic" aria-label="Italic"></button>
-              <button type="button" class="ql-underline" aria-label="Underline"></button>
-        </span>
-                      <span class="ql-formats">
-              <select title="Text Alignment" class="ql-align" >
-                <option selected>Gauche</option>
-                <option value="center" label="Center"></option>
-                <option value="right" label="Right"></option>
-                <option value="justify" label="Justify"></option>
-              </select>
-            </span>
-                      <span class="ql-formats">
-              <select title="Text Color" class="ql-color" defaultValue="rgb(0, 0, 0)">
-                <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
-                ...
-                 <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
-                ...
-                   <option value="rgb(255, 0, 0)" label="rgb(255, 0, 0)"></option>
-                    ...
-                   <option value="rgb(0, 128, 0)" label="rgb(0, 128, 0)"></option>
-                ...
-                <option value="rgb(28, 54, 148)" label="rgb(28, 54, 148)"></option>
-                ...
-                <option value="rgb(246, 153, 63)" label="rgb(246, 153, 63)"></option>
-              </select>
-              <span class="ql-format-separator"></span>
-              <select title="Background Color" class="ql-background" defaultValue="rgb(255, 255, 255)">
-               <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
-                ...
-                 <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
-                ...
-                   <option value="rgb(255, 0, 0)" label="rgb(255, 0, 0)"></option>
-                    ...
-                   <option value="rgb(0, 128, 0)" label="rgb(0, 128, 0)"></option>
-                ...
-                <option value="rgb(28, 54, 148)" label="rgb(28, 54, 148)"></option>
-                ...
-                <option value="rgb(246, 153, 63)" label="rgb(246, 153, 63)"></option>
-              </select>
-          </span>
-                      <span class="ql-formats">
-             <button class="ql-list" value="ordered"></button>
-             <button class="ql-list" value="bullet"></button>
-              <button type="button" class="ql-blockquote" aria-label="blockquote"></button>
-              <button type="button" class="ql-link" aria-label="link"></button>
-            </span>
-                    </ng-template>
-                  </p-editor>
-  
-                </div>
-              </div>-->
-  
+
+              <p-table #dt [value]="insuredList" dataKey="id" styleClass="p-datatable-striped"
+                       [tableStyle]="{ 'min-width': '50rem' }"
+                       [totalRecords]="insuredList.length"
+                       [globalFilterFields]="['numero_assure', 'nom']" [scrollable]="true"
+                       [resizableColumns]="true"
+                       [paginator]="true"
+                       [rows]="5"
+                       [loading]="loading"
+                       [rowsPerPageOptions]="[5, 10, 20, 50, 100]">
+                <ng-template pTemplate="header">
+                  <tr class="gna-table-header">
+                    <th pSortableColumn="numero_assure">
+                      Code Assuré
+                      <p-sortIcon field="numero_assure" />
+                      <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
+                    </th>
+                    <th pSortableColumn="type_assure">
+                      Type Assuré
+                      <p-sortIcon field="type_assure" />
+                      <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
+                    </th>
+                    <th pSortableColumn="nom">Nom Assuré
+                      <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
+                      <p-sortIcon field="nom" />
+                    </th>
+                    <th pSortableColumn="libelle">Caractéristiques Assuré
+                      <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
+                      <p-sortIcon field="libelle" />
+                    </th>
+
+                                       <th pSortableColumn="is_active">Etat
+                      <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
+                      <p-sortIcon field="is_active" />
+                    <th pSortableColumn="created_at" class="gna-responsive">Enregistrement
+                      <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
+                      <p-sortIcon field="created_at" />
+                    <th></th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-element let-expanded="expanded">
+                  <tr>
+                    <td>
+                      <div class="row">
+                        <div class="col-4">
+                          <p-button type="button" pRipple [pRowToggler]="element" [text]="true"
+                                    [rounded]="true" [plain]="true"
+                                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"/>
+                        </div>
+                        <div class="col-8 gna-table-td-mt">
+                          @if (element.numero_assure ) {
+                            {{ element.numero_assure }}
+                          } @else {
+                            N/A
+                          }
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      @if (element.type_assure) {
+                        {{ element.type_assure.libelle }}
+                      } @else {
+                        N/A
+                      }
+                    </td>
+                    <td>
+                      @if (element.nom) {
+                        {{ element.nom }} {{ element.prenom }}
+                      } @else if (element.raison_sociale) {
+                        {{ element.raison_sociale }}
+                      } @else {
+                        N/A
+                      }
+                    </td>
+                    <td>
+                      @if (element.libelle) {
+                        {{ element.libelle }}
+                      } @else {
+                        N/A
+                      }
+                    </td>
+                    <td>
+                      @if (element.is_active) {
+                        <p-tag severity="success" value="Activé"></p-tag>
+                      } @else {
+                        <p-tag severity="danger" value="Désactivé"></p-tag>
+                      }
+                    </td>
+                    <td class="gna-responsive">
+                      @if (element.created_at) {
+                        {{ element.created_at | date: 'dd-MM-YYYY'}} {{ element.created_at | date:
+                        'hh:mm:ss'}}
+                      } @else {
+                        N/A
+                      }
+                    </td>
+                    <td>
+                                    <span class="gna-action-span-div">
+                                      <span class="gna-action-span">
+                          <p-inputSwitch
+                            [(ngModel)]="element.is_active"
+                            [disabled]="isSave"
+                            (click)="onConfirmToggleEnabled(element, !element.is_active)"/>
+
+                  </span>
+                                      <span class="gna-action-span">
+                                            <p-button icon="pi pi-eye" class="gna-btn-eye" pTooltip="Voir"
+                                                      tooltipPosition="bottom"
+                                                      [disabled]="isSave"></p-button>
+                                        </span>
+                                    </span>
+                    </td>
+                  </tr>
+
+                </ng-template>
+
+                <ng-template pTemplate="rowexpansion" let-element>
+                  <div class="container">
+
+                    <div class="gna-table-files">
+
+                      <span class="gna-files-underline">Documents joints</span>
+                      <div class="row gna-table-files-row">
+
+                        @if (element.medias && element.medias.length > 0) {
+                          <div class="col" *ngFor="let file of element.medias">
+                            <span class="gna-element-file-name">{{ file.libelle }}</span>
+                            <br>
+
+                            @if (file.type == "image/jpeg" ) {
+                              <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                                <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                              </a>
+                            } @else if (file.type == "image/png") {
+                              <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                                <img src="assets/svg/files/png-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                              </a>
+                            } @else if (file.type == "pdf") {
+                              <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                                <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                              </a>
+                            } @else if (file.type == "doc" || "doc") {
+                              <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                                <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                              </a>
+                            }
+
+                          </div>
+                        } @else {
+                          <div class="col">
+                            <span class="gna-element-file-name">N/A</span>
+                          </div>
+                        }
+
+                      </div>
+                    </div>
+
+
+                  </div>
+
+                </ng-template>
+
+              </p-table>
+
             </div>
-  
+
           </div>
         </mat-card-content>
-  
+
       </mat-card>
-  
+
     </div>
-  
+
   </div>
-  
+
+
+<div class="card flex justify-content-center" *ngIf="elementData">
+  <p-dialog
+    header="COMPTE CLIENT - SEGMENTATION"
+    [(visible)]="showViewEdit"
+    [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [style]="{ width: '50vw', height: '30vw' }"
+    [draggable]="false"
+    [resizable]="false">
+    <div class="row">
+      <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+        @if (isSave || accountService.pageLoading || accountService.isSave) {
+          <button mat-raised-button color="primary"
+                  class="gna-full-width gna-btn-default gna-disable"
+                  [disabled]="isSave || accountService.pageLoading || accountService.isSave">Modifier</button>
+        } @else {
+          <button mat-raised-button color="primary"
+                  class="gna-full-width gna-btn-default"
+                  [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                  (click)="onCustomerEditSegment()">Modifier</button>
+        }
+      </div>
+    </div>
+    <div class="row pb-2 gna-form">
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <label>Numéro Compte : </label>
+      {{ elementData.numero_compte}}
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <label>Numéro Assuré : </label>
+       {{ elementData.numero_assure}}
+      </div>
+
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <label>Cashback : </label>
+        @if (elementData.accounts && elementData.accounts.length > 0) {
+          @if(elementData.accounts[0].cashback) {
+            {{ elementData.accounts[0].cashback }}
+          } @else {
+            0
+          }
+        }
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <label>Points de fidélité : </label>
+        @if (elementData.accounts && elementData.accounts.length > 0) {
+          @if(elementData.accounts[0].point_fidelite) {
+            {{ elementData.accounts[0].point_fidelite }}
+          } @else {
+            0
+          }
+        }
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <label>Code Parrainage : </label>
+        {{ elementData.code_parrainage}}
+      </div>
+
+      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <label>Segement
+          <span class="gna-text-red gna-text-bold">*</span></label>
+        @if (elementData.segment) {
+
+          <p-dropdown [options]="segmentList"
+                      optionLabel="name"
+                      optionValue="code"
+                      [(ngModel)]="customerSegment.code"
+                      emptyMessage="Aucun données disponibles"
+                      placeholder="Selectionner"
+                      class="gna-form-dropdown"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="true"
+                      [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+            <ng-template let-item pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <div>{{ item.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+
+        } @else {
+          <p-dropdown [options]="segmentList"
+                      optionLabel="name"
+                      [(ngModel)]="customerSegment"
+                      emptyMessage="Aucun données disponibles"
+                      placeholder="Selectionner"
+                      class="gna-form-dropdown"
+                      [filter]="true"
+                      filterBy="name"
+                      [showClear]="true"
+                      [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+            <ng-template let-item pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <div>{{ item.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        }
+
+      </div>
+
+    </div>
+  </p-dialog>
+</div>

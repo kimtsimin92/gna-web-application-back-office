@@ -2,7 +2,9 @@ import {FormControl, Validators} from "@angular/forms";
 
 export class ProductGroupForm {
 
-  code = new FormControl(null);
+  code = new FormControl(null, [
+    Validators.minLength(2),
+    Validators.required]);
 
   name = new FormControl(null, [
     Validators.minLength(2),
@@ -11,8 +13,7 @@ export class ProductGroupForm {
   description = new FormControl(null);
 
   // @ts-ignore
-  branchId = new FormControl(null, [
-    Validators.required]);
+  category = new FormControl(null);
 
   accessoryTaxRate = new FormControl(null,
     [
@@ -34,11 +35,14 @@ export class ProductGroupForm {
   // @ts-ignore
   managementMode = new FormControl<boolean>(null);
   // @ts-ignore
-  insuredMultiple = new FormControl<boolean>(null);
+  beneficiaries = new FormControl<boolean>(null);
+  // @ts-ignore
+  maturityNotice = new FormControl<boolean>(null);
   paymentMethodId = new FormControl(null);
   periodicityId = new FormControl(null);
   insuranceSectorId = new FormControl(null);
   apiIds = new FormControl<number[]>([]);
   guarantees = new FormControl<any[]>([], [Validators.required]);
+  clauses = new FormControl(null);
 
 }

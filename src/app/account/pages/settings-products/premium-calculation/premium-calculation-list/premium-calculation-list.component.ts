@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {DatePipe} from "@angular/common";
+import {DatePipe, NgClass, NgForOf} from "@angular/common";
 import {InputTextModule} from "primeng/inputtext";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardHeader} from "@angular/material/card";
@@ -11,39 +11,121 @@ import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {
   ErrorNotificationDialogComponent
 } from "../../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
+import {ButtonModule} from "primeng/button";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {SharedModule} from "primeng/api";
+import {TableModule} from "primeng/table";
+import {TagModule} from "primeng/tag";
+import {TooltipModule} from "primeng/tooltip";
+import {
+  SaveNotificationDialogComponent
+} from "../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component";
+import {
+  SaveErrorNotificationDialogComponent
+} from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
+import {
+  ConfirmationToggleEnableDialogComponent
+} from "../../../../dialogs/confirmation/confirmation-toggle-enable-dialog/confirmation-toggle-enable-dialog.component";
+import {
+  SaveLoadingDialogComponent
+} from "../../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component";
+
+import { environment } from '../../../../../../environments/environment';
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-premium-calculation-list',
   standalone: true,
-    imports: [
-        DatePipe,
-        InputTextModule,
-        MatButton,
-        MatCard,
-        MatCardHeader,
-        SkeletonModule
-    ],
+  imports: [
+    DatePipe,
+    InputTextModule,
+    MatButton,
+    MatCard,
+    MatCardHeader,
+    SkeletonModule,
+    ButtonModule,
+    InputSwitchModule,
+    MatMenu,
+    MatMenuItem,
+    NgForOf,
+    SharedModule,
+    TableModule,
+    TagModule,
+    TooltipModule,
+    FormsModule,
+    MatMenuTrigger,
+    NgClass
+  ],
   templateUrl: './premium-calculation-list.component.html',
   styleUrl: './premium-calculation-list.component.css'
 })
 export class PremiumCalculationListComponent implements OnInit, OnDestroy, AfterViewInit {
 
+
+  loadingPage: boolean = false;
+  isSave: boolean = false;
+
   headerTitle: string | undefined;
 
+  scrollHeight: string = "380px";
+
+  pageSort: string = "updatedAt";
+  pageOrder: string = "desc";
+  pageNumber: number = 1;
+  pageSize: number = 10;
+  pageSizeList: any[] = [
+    {
+      name: 5
+    },
+    {
+      name: 10
+    },
+    {
+      name: 15
+    },
+    {
+      name: 20
+    },
+    {
+      name: 30
+    },
+    {
+      name: 50
+    },
+    {
+      name: 100
+    }
+  ];
+
+  first = 0;
+
+  totalElements: number = 0;
   totalPages: number = 0;
   currentPage: number = 0;
 
-  dataPaginationResponse: any;
-  filteredList: any[] = [];
+  dataList: any[] = [];
 
+  fakeDataList: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5},  {id: 6}];
+  fakeDataListOne: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}];
+  fakeDataListTwo: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
 
-  isLoading: boolean = false;
+  statusList: any[] = [
+    { label: 'En Attente', value: '1' },
+    { label: 'Validé', value: '2' },
+    { label: 'Refusé', value: '3' },
+  ];
 
-  isReadonly: boolean = true;
+  dataPaginationResponse: any = null;
+
+  loading: boolean = false;
+  rows = 0;
+  totalRecords: number = 0;
+
+  isLoadingFiles: boolean = false;
+  protected readonly environment = environment;
   isDisable: boolean = true;
 
-  fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}];
-  loadingPage: boolean = false;
 
   constructor(
     private _router: Router,
@@ -74,24 +156,9 @@ export class PremiumCalculationListComponent implements OnInit, OnDestroy, After
   ngOnDestroy(): void {
   }
 
-  filterResults(text: string) {
-
-    if (!text) {
-      this.filteredList = this.dataPaginationResponse.data;
-      return;
-    }
-
-    if (this.dataPaginationResponse && this.dataPaginationResponse.data) {
-      this.filteredList = this.dataPaginationResponse.data.filter(
-        // @ts-ignore
-        item => item?.name.toLowerCase().includes(text.toLowerCase())
-      );
-    }
-
-  }
 
   onAdd() {
-    this._router.navigateByUrl("/account/settings-products/premium-calculation/add");
+    this._router.navigateByUrl("/account/management/products/pricing/add");
   }
 
   onView(item: any) {
@@ -100,61 +167,47 @@ export class PremiumCalculationListComponent implements OnInit, OnDestroy, After
     // @ts-ignore
     localStorage.setItem("PRICING_DATA", JSON.stringify(item));
 
-    this._router.navigateByUrl("/account/settings-products/premium-calculation/view")
+    this._router.navigateByUrl("/account/management/products/pricing/view")
       .then(() => {
         this.loadingPage = false;
       });
   }
 
-  onGoToPrevious() {
-    this.currentPage--;
-    this.onGetDataList();
-  }
-
-  onGoToNext() {
-    this.currentPage++;
-    this.onGetDataList();
-  }
 
   onGetDataList() {
 
-    let page = 0;
+    this.loadingPage = true;
+    this.loading = true;
+
+    this.dataList = [];
 
     if (this.currentPage > 0) {
-      page = this.currentPage - 1;
+      this.pageNumber = this.currentPage - 1;
     } else {
-      page = this.currentPage;
+      this.pageNumber = this.currentPage;
     }
-
-    this.accountService.getPricingList(page)
+    this.accountService.getPricingList(this.pageSort, this.pageOrder, this.pageNumber, this.pageSize)
       .subscribe((responseData: HttpResponse<any>) => {
+
+        this.loadingPage = false;
+        this.loading = false;
+
         console.log(responseData);
         this.dataPaginationResponse = responseData["body"];
+
         if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
 
-         /* if (this.dataPaginationResponse.data && this.dataPaginationResponse.data.length > 0) {
-            this.dataPaginationResponse.data.forEach((qf: any) => {
-              if (qf.steps && qf.steps.length > 0) {
-                qf.steps.forEach((s: any) => {
-                  if (s.questions && s.questions.length > 0) {
-                    s.questions.forEach((q: any) => {
-                      if (q.field) {
-                        q.field = JSON.parse(q.field);
-                      }
-                    });
-                  }
-                });
-              }
-            });
-          }*/
+          this.dataList = this.dataPaginationResponse.data;
+          this.totalRecords = this.dataList.length;
 
-          this.filteredList = this.dataPaginationResponse.data;
-          console.log(this.filteredList);
           if (this.currentPage <= 0) {
             this.currentPage++;
           }
+
         }
       }, (errorData: HttpErrorResponse) => {
+        this.loadingPage = false;
+        this.loading = false;
         console.log(errorData);
         this.dataPaginationResponse = {};
         this.onGetNotificationErrorDialog();
@@ -165,7 +218,7 @@ export class PremiumCalculationListComponent implements OnInit, OnDestroy, After
 
     const dialogRef = this._dialog.open(ErrorNotificationDialogComponent, {
       width: '400px',
-      height: '340px',
+      height: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -188,12 +241,147 @@ export class PremiumCalculationListComponent implements OnInit, OnDestroy, After
     // @ts-ignore
     localStorage.setItem("PRICING_DATA", JSON.stringify(item));
 
-    this._router.navigateByUrl("/account/settings-products/premium-calculation/edit")
+    this._router.navigateByUrl("/account/management/products/pricing/edit")
       .then(() => {
         this.loadingPage = false;
       });
 
   }
+
+  pageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
+  }
+
+
+  onGoToPrevious() {
+    if (!this.isSave) {
+      this.currentPage--;
+      this.onGetDataList();
+    }
+  }
+
+  onGoToNext() {
+    if (!this.isSave) {
+      this.currentPage++;
+      this.onGetDataList();
+    }
+  }
+
+  getValue(event: Event) {
+    return (event.target as HTMLInputElement).value;
+  }
+
+  onGetPageSize(name: number) {
+    this.pageSize = name;
+    this.rows = this.pageSize;
+    this.pageNumber = 0;
+    this.currentPage = 0;
+    this.onGetDataList();
+  }
+
+  openSaveToggleEnableNotificationDialog(): void {
+    const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '400px',
+      data: {
+        dialogMessage: "L'opération a réussi.",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+
+  openSaveToggleEnableErrorNotificationDialog(error: HttpErrorResponse): void {
+    const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '400px',
+      data: {
+        httpError: error,
+        dialogMessage: "L'opération a échoué.",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+
+  onConfirmToggleEnabled(data: any, isToggle: boolean): void {
+    this.isSave = true;
+    this.accountService.isSave = this.isSave;
+
+    const dialogRef = this._dialog.open(
+      ConfirmationToggleEnableDialogComponent,
+      {
+        hasBackdrop: false,
+        width: '400px',
+        height: '400px',
+        data: {
+          dialogMessage: 'la tarification ' + data.name,
+          isToggle: isToggle,
+        },
+      }
+    );
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.pageNumber = 0;
+        this.currentPage = 0;
+        this.onSaveToggleEnable(data);
+      } else {
+        data.enabled = !data.enabled;
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+
+  private onSaveToggleEnable(data: any) {
+    this.isSave = true;
+
+    this.openSaveLoadingDialog();
+
+    this.accountService.savePricingFormToggleEnable(data.id).subscribe(
+      (responseData) => {
+        this.isSave = false;
+        this.closeDialog();
+        this.onGetDataList();
+        this.openSaveToggleEnableNotificationDialog();
+      },
+      (error: HttpErrorResponse) => {
+        this.isSave = false;
+        console.log(error);
+        this.closeDialog();
+        this.openSaveToggleEnableErrorNotificationDialog(error);
+      }
+    );
+  }
+
+
+  openSaveLoadingDialog(): void {
+    const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
+      hasBackdrop: false,
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
 
 
 }

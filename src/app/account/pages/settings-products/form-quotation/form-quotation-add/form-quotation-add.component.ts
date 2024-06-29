@@ -63,6 +63,8 @@ import {
 import {
   FormBuilderInputRadioDialogComponent
 } from "../../../../form-builders/form-builder-input/form-builder-input-radio-dialog/form-builder-input-radio-dialog.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
 
 
 class QuotationFormData {
@@ -115,7 +117,9 @@ class QuotationStepQuestionItem {
     MatLabel,
     MatOption,
     MatInput,
-    MatIcon
+    MatIcon,
+    IconFieldModule,
+    InputIconModule
   ],
   templateUrl: './form-quotation-add.component.html',
   styleUrl: './form-quotation-add.component.css'
@@ -131,43 +135,27 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
   appFormBuilder: any[] = [
     {
       code: 1,
-      name: "Texte",
+      name: "Zone de texte",
       tag: "input",
       type: "text"
     },
     {
       code: 2,
-      name: "Numérique",
+      name: "Zone de chiffre",
       tag: "input",
       type: "number"
+    },
+    {
+      code: 6,
+      name: "Zone de liste",
+      tag: "select",
+      type: "text"
     },
     {
       code: 3,
       name: "Date",
       tag: "input",
       type: "date"
-    },
-/*    {
-      code: 4,
-      name: "Case à Cocher",
-      tag: "input",
-      type: "checkbox"
-    },
-    {
-      code: 5,
-      name: "Bouton Radio",
-      tag: "input",
-      type: "radio"
-    },*/
-    {
-      code: 6,
-      name: "Liste Déroulante",
-      tag: "select"
-    },
-    {
-      code: 7,
-      name: "Zone de Texte",
-      tag: "textarea"
     },
     {
       code: 8,
@@ -180,7 +168,24 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
       name: "Téléphone",
       tag: "input",
       type: "tel"
-    }
+    },
+    /*    {
+          code: 4,
+          name: "Case à Cocher",
+          tag: "input",
+          type: "checkbox"
+        },
+        {
+          code: 5,
+          name: "Bouton Radio",
+          tag: "input",
+          type: "radio"
+        },*/
+  /*  {
+      code: 7,
+      name: "Description",
+      tag: "textarea"
+    }*/
   ];
 
   fieldsets: any[] = [];
@@ -253,7 +258,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings-products/forms/quotations/list");
+    this._router.navigateByUrl("/account/management/products/quotes/forms/list");
   }
 
   closeDialog() {
@@ -266,7 +271,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     this.formStep.markAllAsTouched();
     const dialogRef = this._dialog.open(NotBlankDialogComponent, {
       width: '400px',
-      height: '350px',
+      height: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -306,7 +311,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
     const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -381,6 +386,12 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
 
               if (fsq.value.attributes) {
                 attributes = fsq.value.attributes;
+                if (attributes) {
+                  if (attributes.numeric) {
+                    // @ts-ignore
+                    field.type = "numeric";
+                  }
+                }
                 field.attributes = attributes;
               }
 
@@ -397,7 +408,11 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
                 let question = {
                   position: position,
                   name: fsq.value.name,
-                  fieldData: JSON.stringify(field)
+                  fieldData: JSON.stringify(field),
+                  contractAdd: fsq.value.contractAdd,
+                  contractEdit: fsq.value.contractEdit,
+                  floor: fsq.value.floor,
+                  ceiling: fsq.value.ceiling,
                 }
 
                 // @ts-ignore
@@ -450,7 +465,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '350px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "L'enregistrement de ce formulaire a échoué."
@@ -473,7 +488,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '350px',
+      height: '400px',
       data: {
         dialogMessage: "L'enregistrement de ce formulaire a réussi."
       },
@@ -486,7 +501,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/settings-products/forms/quotations/list")
+      this._router.navigateByUrl("/account/management/products/quotes/forms/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -663,7 +678,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
       // @ts-ignore
       const dialogRef = this._dialog.open(this.viewDialog, {
         hasBackdrop: false,
-        width: '300px',
+        width: '400px',
         height: '450px',
         data: {
           formStepQuestion: formStepQuestion,
@@ -687,7 +702,7 @@ export class FormQuotationAddComponent implements OnInit, OnDestroy, AfterViewIn
                   label: result.value.label,
                   options: [],
                   values: [],
-                  text: result.value.text,
+                  numeric: result.value.numeric,
                   required: result.value.required,
 
               }

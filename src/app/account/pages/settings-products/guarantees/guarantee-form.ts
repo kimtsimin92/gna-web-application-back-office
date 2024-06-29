@@ -10,12 +10,14 @@ export class GuaranteeForm {
     Validators.minLength(2),
     Validators.required]);
 
-  franchiseMinimum = new FormControl(null,
-    [
-      Validators.pattern(/^\d+$/)]);
   franchiseMaximum = new FormControl(null,
     [
-      Validators.pattern(/^\d+$/)]);
+      Validators.pattern(/^\d+(\.\d+)?$/)]);
+
+  franchiseMinimum = new FormControl(null,
+    [
+      Validators.pattern(/^\d+(\.\d+)?$/)]);
+
   franchiseRate = new FormControl(null, [
     Validators.pattern(/^\d+(\.\d+)?$/)]);
 
@@ -25,25 +27,25 @@ export class GuaranteeForm {
     Validators.pattern(/^\d+$/)]);
 
   subscriptionMinimumPeriod = new FormControl(null,
-    [Validators.min(1),
+    [
     Validators.required,
       Validators.pattern(/^\d+$/)]);
 
   subscriptionMaximumPeriod = new FormControl(null,
-    [Validators.min(1),
+    [
     Validators.required,
       Validators.pattern(/^\d+$/)]);
 
   guaranteeFloor = new FormControl(null,
     [
-      Validators.pattern(/^\d+$/)]);
+      Validators.pattern(/^\d+(\.\d+)?$/)]);
   guaranteeCeiling = new FormControl(null,
     [
-      Validators.pattern(/^\d+$/)]);
+      Validators.pattern(/^\d+(\.\d+)?$/)]);
 
   premiumMinimum = new FormControl(null,
     [Validators.min(1),
-      Validators.pattern(/^\d+$/)]);
+      Validators.pattern(/^\d+(\.\d+)?$/)]);
 
   taxRate = new FormControl(null,
     [
@@ -55,6 +57,9 @@ export class GuaranteeForm {
 
   zone = new FormControl(null,
     [Validators.required]);
+
+  category = new FormControl(null, [
+    Validators.required]);
 
  partners = new FormControl(null);
  description = new FormControl(null);

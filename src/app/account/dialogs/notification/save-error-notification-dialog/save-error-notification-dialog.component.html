@@ -25,22 +25,12 @@
     </div>
 
     <div
-      *ngIf="httpError && httpError.error && !httpError.error.error && httpError.error.message"
+      *ngIf="httpError && httpError.error &&  httpError.error.message"
       class="text-center">
       <h5 class="gna-text-secondary">
-        @if (httpError.status !== 500 && httpError.error) {
           <span>
         {{ httpError.error.message }}
       </span>
-        } @else if (httpError.status === 500 && httpError.error && httpError.error.message) {
-          <span>
-        {{ httpError.error.message }}
-      </span>
-        } @else {
-          <span>
-        {{ httpError.error.status }}
-      </span>
-        }
       </h5>
     </div>
   }
@@ -53,6 +43,6 @@
 </div>
 
 <div mat-dialog-actions>
-  <button mat-raised-button [mat-dialog-close]="true" class="gna-btn-default-2 gna-btn-save">OK</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" class="gna-btn-default-2">OK</button>
 </div>
 

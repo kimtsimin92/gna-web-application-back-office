@@ -54,7 +54,7 @@ export class SegmentViewComponent implements OnInit, OnDestroy {
       // @ts-ignore
       this.elementData = JSON.parse(localStorage.getItem("SEGMENT_DATA"));
     } else {
-      this._router.navigateByUrl("/account/segments/list")
+      this._router.navigateByUrl("/account/marketing/segments/list")
     }
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
@@ -74,19 +74,17 @@ export class SegmentViewComponent implements OnInit, OnDestroy {
     if (localStorage.getItem("APP_HEADER_TITLE")) {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
-    if (localStorage.getItem("SEGMENT_DATA")) {
-      localStorage.removeItem("SEGMENT_DATA");
-    }
+
   }
 
   onGoToBack() {
-    this._router.navigateByUrl("/account/segments/list");
+    this._router.navigateByUrl("/account/marketing/segments/list");
   }
 
   onGoToEdit() {
     this.loadingPage = true;
 
-    this._router.navigateByUrl("/account/segments/edit")
+    this._router.navigateByUrl("/account/marketing/segments/edit")
       .then(() => {
         // @ts-ignore
         localStorage.setItem("SEGMENT_DATA", JSON.stringify(this.elementData));
@@ -96,4 +94,14 @@ export class SegmentViewComponent implements OnInit, OnDestroy {
 
   }
 
+  onViewEdit() {
+    this.loadingPage = true;
+
+    // @ts-ignore
+    localStorage.setItem('SEGMENT_DATA', JSON.stringify(this.elementData));
+
+    this._router.navigateByUrl('/account/marketing/segments/edit').then(() => {
+      this.loadingPage = false;
+    });
+  }
 }

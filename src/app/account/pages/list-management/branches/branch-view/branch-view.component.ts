@@ -8,19 +8,24 @@ import {Router} from "@angular/router";
 import {AccountService} from "../../../../account.service";
 import {InputTextModule} from "primeng/inputtext";
 import {ReactiveFormsModule} from "@angular/forms";
+import {DatePipe, NgIf} from "@angular/common";
+import {TagModule} from "primeng/tag";
 
 @Component({
   selector: 'app-branch-view',
   standalone: true,
-    imports: [
-        BreadcrumbModule,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        InputTextModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BreadcrumbModule,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    InputTextModule,
+    ReactiveFormsModule,
+    NgIf,
+    TagModule,
+    DatePipe
+  ],
   templateUrl: './branch-view.component.html',
   styleUrl: './branch-view.component.css'
 })
@@ -32,7 +37,7 @@ export class BranchViewComponent implements OnInit, OnDestroy {
   home: MenuItem | undefined;
 
 
-  branchData: any = null;
+  elementData: any = null;
   loadingPage: boolean = true;
   isDisable: boolean = true;
 
@@ -47,9 +52,9 @@ export class BranchViewComponent implements OnInit, OnDestroy {
 
     if (localStorage.getItem("BRANCH_DATA")) {
       // @ts-ignore
-      this.branchData = JSON.parse(localStorage.getItem("BRANCH_DATA"));
+      this.elementData = JSON.parse(localStorage.getItem("BRANCH_DATA"));
     } else {
-      this._router.navigateByUrl("/account/branches/list")
+      this._router.navigateByUrl("/account/settings/lists/branches/list")
     }
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
@@ -59,36 +64,39 @@ export class BranchViewComponent implements OnInit, OnDestroy {
     this.headerTitle = "Gestion des listes";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
-
-    this.items = [{ label: 'Gestion Listes' }, { label: 'Branches'}];
-
   }
 
   ngOnDestroy(): void {
     if (localStorage.getItem("APP_HEADER_TITLE")) {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
-    if (localStorage.getItem("BRANCH_DATA")) {
-      localStorage.removeItem("BRANCH_DATA");
-    }
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/branches/list");
+    this._router.navigateByUrl("/account/settings/lists/branches/list");
   }
 
   onGoToEdit() {
     this.loadingPage = true;
 
-    this._router.navigateByUrl("/account/branches/edit")
+    this._router.navigateByUrl("/account/settings/lists/branches/edit")
       .then(() => {
         // @ts-ignore
-        localStorage.setItem("BRANCH_DATA", JSON.stringify(this.branchData));
+        localStorage.setItem("BRANCH_DATA", JSON.stringify(this.elementData));
 
         this.loadingPage = false;
       });
 
   }
 
+  onViewEdit() {
+    this.loadingPage = true;
+
+    // @ts-ignore
+    localStorage.setItem('BRANCH_DATA', JSON.stringify(this.elementData));
+
+    this._router.navigateByUrl('/account/settings/lists/branches/edit').then(() => {
+      this.loadingPage = false;
+    });
+  }
 }

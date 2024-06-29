@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Marketing / Segments / Créer</span>
+  <span>Marketing / Segmentation / Créer</span>
 </div>
 
 
@@ -56,14 +56,12 @@
           <form [formGroup]="formData">
             <div class="row pb-2 gna-form">
               <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="name">Nom</label>
-                <input pInputText type="text" id="name" aria-describedby="name-help" placeholder="Nom Segment *"
+                <label for="name">Code Segment <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                <input pInputText type="text" id="name" aria-describedby="name-help"
                   class="gna-form-input" required formControlName="name" />
-              </div>
-              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                <label for="description">Description</label>
-                <input pInputText type="text" id="description" aria-describedby="name-help" placeholder="Description Segment"
-                       class="gna-form-input" formControlName="description" />
+                </p-iconField>
               </div>
               <div class="col-6 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                 <label>Par défaut</label>
@@ -71,6 +69,11 @@
                 <p-checkbox formControlName="selected" [binary]="true" inputId="selected"
                             class="gna-form-checkbox"
                             [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-checkbox>
+              </div>
+              <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <label>Description</label>
+                <textarea rows="2" pInputTextarea formControlName="description"
+                          class="gna-form-input"></textarea>
               </div>
             </div>
           </form>

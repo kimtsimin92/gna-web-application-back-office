@@ -77,7 +77,7 @@ export class PartnerViewComponent implements OnInit, OnDestroy {
 
 
     } else {
-      this._router.navigateByUrl("/account/partners/list")
+      this._router.navigateByUrl("/account/settings/lists/partners/list")
     }
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
@@ -99,13 +99,13 @@ export class PartnerViewComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/partners/list");
+    this._router.navigateByUrl("/account/settings/lists/partners/list");
   }
 
   onGoToEdit() {
     this.loadingPage = true;
 
-    this._router.navigateByUrl("/account/partners/edit")
+    this._router.navigateByUrl("/account/settings/lists/partners/edit")
       .then(() => {
         // @ts-ignore
         localStorage.setItem("PARTNER_DATA", JSON.stringify(this.partnerData));

@@ -1,0 +1,258 @@
+<div class="gna-bc">
+  <span>Marketing / Réclamations / Tickets fermés / Voir</span>
+</div>
+
+<div class="container-fluid">
+
+  <div>
+    <mat-card class="gna-card">
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onGoToBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+          </div>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+
+        <div class="container-fluid">
+          <div class="example-table-container mt-4">
+            <div class="card">
+              <div class="card-body gna-card-body"
+                   *ngIf="elementData">
+
+                <div class="row" *ngIf="elementData.statut > 0">
+                  <div class="col-12 col-sm-6 col-md-10 col-lg-10 col-xl-11">
+                    <span class="gna-view-label"> Enregistrement : </span>
+                    <span class="gna-view-value">
+                    @if (elementData.created_at) {
+                      {{ elementData.created_at | date: 'dd-MM-YYYY'}} {{ elementData.created_at | date:
+                      'hh:mm:ss'}}
+                    } @else {
+                      N/A
+                    }
+                    </span>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-1 gna-responsive">
+                    <p-tag severity="danger" value="Fermé"></p-tag>
+                  </div>
+                </div>
+
+                <div class="row">
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Numéro Tciket : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.numero_ticket ) {
+                         {{ elementData.numero_ticket }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Reclamant : </span>
+                    <span class="gna-view-value">
+                   @if (!elementData.visiteur && elementData.user && elementData.user.nom) {
+                     {{ elementData.user.prenom }} {{ elementData.user.nom }}
+                   } @else if (!elementData.user && elementData.visiteur && elementData.visiteur.nom) {
+                     {{ elementData.visiteur.prenom }} {{ elementData.visiteur.nom }}
+                   } @else {
+                     N/A
+                   }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Application : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.app) {
+                         {{ elementData.app | uppercase }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Type Compte : </span>
+                    <span class="gna-view-value">
+                   @if (elementData && elementData.user && elementData.user.type_customer) {
+                     @if (elementData.user.type_customer.libelle) {
+                       {{ elementData.user.type_customer.libelle }}
+                     } @else {
+                       N/A
+                     }
+                   } @else {
+                     N/A
+                   }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Numéro Compte : </span>
+                    <span class="gna-view-value">
+                          @if (elementData && elementData.user && elementData.user.numero_compte) {
+                            {{ elementData.user.numero_compte }}
+                          } @else {
+                            N/A
+                          }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Numéro Assuré : </span>
+                    <span class="gna-view-value">
+                        @if (elementData && !elementData.visiteur && elementData.user) {
+                          @if (elementData.user.numero_assure) {
+                            {{ elementData.user.numero_assure }}
+                          } @else {
+                            N/A
+                          }
+                        } @else if  (elementData && !elementData.user && elementData.visiteur) {
+                          @if (elementData.visiteur.numero_assure) {
+                            {{ elementData.usvisteurer.numero_assure }}
+                          } @else {
+                            N/A
+                          }
+                        } @else {
+                          N/A
+                        }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Email : </span>
+                    <span class="gna-view-value">
+                        @if (!elementData.visiteur && elementData.user && elementData.user.email) {
+                          {{ elementData.user.email }}
+                        } @else if (!elementData.user && elementData.visiteur && elementData.visiteur.email) {
+                          {{ elementData.visiteur.email }}
+                        } @else {
+                          N/A
+                        }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Téléphone : </span>
+                    <span class="gna-view-value">
+                            @if (!elementData.visiteur && elementData.user && elementData.user.contact) {
+                              {{ elementData.user.contact }}
+                            } @else if (!elementData.user && elementData.visiteur && elementData.visiteur.contact) {
+                              {{ elementData.visiteur.contact }}
+                            } @else {
+                              N/A
+                            }
+                  </span>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card mt-2">
+              <div class="card-body gna-card-body"
+                   *ngIf="elementData">
+
+                <div class="row">
+
+                  <div class="col-12">
+                    <span class="gna-view-label"> Objet : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.objet && elementData.objet.libelle) {
+                         {{ elementData.objet.libelle }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div class="col-12 mt-2">
+                    <span class="gna-view-label">Description : </span>
+                    <span class="gna-view-value">
+                   @if (elementData && elementData.description) {
+                     {{ elementData.description }}
+                   } @else {
+                     N/A
+                   }
+                  </span>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row gna-files">
+              <span class="gna-files-underline">Pièces jointes</span>
+              <div class="row">
+
+                @if (elementData.medias && elementData.medias.length > 0) {
+
+                  <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1" *ngFor="let file of elementData.medias">
+                    <span class="gna-element-file-name">{{ file.libelle }}</span>
+                    <br>
+
+                    @if (file.type == "image/jpeg" ) {
+                      <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                        <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                      </a>
+                    } @else if (file.type == "image/png") {
+                      <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                        <img src="assets/svg/files/png-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                      </a>
+                    } @else if (file.type == "pdf") {
+                      <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                        <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                      </a>
+                    } @else if (file.type == "doc" || "doc") {
+                      <a href="{{ environment.customersService+file.lien }}" download target="_blank">
+                        <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
+                      </a>
+                    }
+
+                  </div>
+
+                } @else {
+                  <div class="col">
+                    <span class="gna-element-file-name">N/A</span>
+                  </div>
+                }
+
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+      </mat-card-content>
+
+    </mat-card>
+
+  </div>
+
+</div>

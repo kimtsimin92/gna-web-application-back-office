@@ -7,7 +7,7 @@ import {MenuItem} from "primeng/api";
 import {BreadcrumbModule} from "primeng/breadcrumb";
 import {ButtonModule} from "primeng/button";
 import {ChipModule} from "primeng/chip";
-import {DatePipe, NgIf} from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {InputTextModule} from "primeng/inputtext";
 import {MatButton} from "@angular/material/button";
 import {PaginatorModule} from "primeng/paginator";
@@ -50,6 +50,9 @@ import {
 import {
   SaveErrorNotificationDialogComponent
 } from "../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {TagModule} from "primeng/tag";
 
 @Component({
   selector: 'app-user-profile-management',
@@ -84,7 +87,14 @@ import {
     MatCheckbox,
     MatCardHeader,
     ImageModule,
-    SkeletonModule
+    SkeletonModule,
+    InputSwitchModule,
+    MatMenu,
+    MatMenuItem,
+    NgForOf,
+    TagModule,
+    MatMenuTrigger,
+    NgClass
   ],
   templateUrl: './user-profile-management.component.html',
   styleUrl: './user-profile-management.component.css'
@@ -93,22 +103,13 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
 
   headerTitle: string | undefined;
 
-  items: MenuItem[] | undefined;
-  home: MenuItem | undefined;
-
 
   loadingPage: boolean = false;
   loading: boolean = false;
-  dataList: any[] = [];
   dataPaginationResponse: any;
 
-  first: number = 0;
   rows: number = 10;
   totalRecords: number = 0;
-
-  displayedColumns: string[] = ['name', 'type', 'status', 'action'];
-  dataSource = new MatTableDataSource<any>(this.dataList);
-  selection = new SelectionModel<any>(true, []);
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -121,10 +122,6 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
 
   @Output() newEvent = new EventEmitter<boolean>();
 
-  pageSize: number = 10;
-
-  totalPages: number = 0;
-  currentPage: number = 0;
 
   filteredList: any[] = [];
 
@@ -136,6 +133,49 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
   isDisable: boolean = true;
 
   fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}];
+
+  scrollHeight: string = "380px";
+
+  pageSort: string = "createdAt";
+  pageOrder: string = "desc";
+  pageNumber: number = 1;
+  pageSize: number = 10;
+  pageSizeList: any[] = [
+    {
+      name: 5
+    },
+    {
+      name: 10
+    },
+    {
+      name: 15
+    },
+    {
+      name: 20
+    },
+    {
+      name: 30
+    },
+    {
+      name: 50
+    },
+    {
+      name: 100
+    }
+  ];
+
+  first = 0;
+
+  totalElements: number = 0;
+  totalPages: number = 0;
+  currentPage: number = 0;
+
+  dataList: any[] = [];
+
+  fakeDataList: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5},  {id: 6}];
+  fakeDataListOne: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}];
+  fakeDataListTwo: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
+
 
   constructor(
     public _dialog: MatDialog,
@@ -154,9 +194,6 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
     this.headerTitle = "Gestion Profils";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
-    this.items = [{ label: 'Paramètres' }, { label: 'Profils' }];
-
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
 
     if (localStorage.getItem("PROFILE_DATA")) {
       localStorage.removeItem("PROFILE_DATA")
@@ -189,75 +226,78 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
     }
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: any): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
-  }
 
   onGetDataList() {
 
-    let page = 0;
+    this.loadingPage = true;
+    this.loading = true;
 
-    if (this.currentPage > 0) {
-      page = this.currentPage - 1;
-    } else {
-      page = this.currentPage;
-    }
+    this.pageNumber = this.currentPage;
 
-    this.accountService.getProfiles(page)
+    this.dataList = [];
+    this.accountService.getProfiles(this.pageSort, this.pageOrder, this.pageNumber, this.pageSize)
       .subscribe((responseData: HttpResponse<any>) => {
-        console.log(responseData);
-        this.dataPaginationResponse = responseData["body"];
-        if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
-          this.filteredList = this.dataPaginationResponse.profiles;
-          if (this.currentPage <= 0) {
-            this.currentPage++;
+
+          this.loadingPage = false;
+          this.loading = false;
+
+          console.log(responseData);
+
+          this.dataPaginationResponse = responseData['body'];
+
+          if (this.dataPaginationResponse) {
+
+            this.totalRecords = this.dataPaginationResponse.totalElements;
+
+            if (this.dataPaginationResponse.totalPages > 0) {
+
+              this.dataList = this.dataPaginationResponse.profiles;
+
+              if (this.currentPage <= 0) {
+                this.currentPage++;
+              }
+
+            }
+
           }
+
+        },
+        (errorData: HttpErrorResponse) => {
+          this.loadingPage = false;
+          this.loading = false;
+          console.log(errorData);
+          this.onGetNotificationErrorDialog();
         }
-      }, (errorData: HttpErrorResponse) => {
-        console.log(errorData);
-        this.dataPaginationResponse = {};
-        this.onGetNotificationErrorDialog();
-      });
+      );
 
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+  getValue(event: Event) {
+    return (event.target as HTMLInputElement).value;
+  }
+
+  onGetPageSize(name: number) {
+    this.pageSize = name;
+    this.rows = this.pageSize;
+    this.pageNumber = 0;
+    this.currentPage = 0;
+    this.onGetDataList();
+  }
+
+
+  pageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
   }
 
   onAdd() {
-    this._router.navigateByUrl("/account/settings/profiles/add");
+    this._router.navigateByUrl("/account/admin/users/interns/profiles/add");
   }
 
   onView(element: any) {
     this.loadingPage = true;
-    this._router.navigateByUrl("/account/settings/profiles/view")
+    this._router.navigateByUrl("/account/admin/users/interns/profiles/view")
       .then(() => {
         // @ts-ignore
         localStorage.setItem("PROFILE_DATA", JSON.stringify(element));
@@ -269,12 +309,12 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
   onEdit(element: any) {
     this.loadingPage = true;
 
-    this._router.navigateByUrl("/account/settings/profiles/edit")
-      .then(() => {
-        // @ts-ignore
-        localStorage.setItem("PROFILE_DATA", JSON.stringify(element));
-        this.loadingPage = false;
-      });
+        this._router.navigateByUrl("/account/admin/users/interns/profiles/edit")
+          .then(() => {
+            // @ts-ignore
+            localStorage.setItem("PROFILE_DATA", JSON.stringify(element));
+            this.loadingPage = false;
+          });
 
   }
 
@@ -347,8 +387,11 @@ export class UserProfileManagementComponent implements OnInit, OnDestroy, AfterV
       console.log(`Dialog result: ${result}`);
 
       if (result) {
+        this.pageNumber = 0;
+        this.currentPage = 0;
         this.onSaveToggleEnable(data);
       } else {
+        data.enabled = !data.enabled;
         this.isSave = false;
         this.accountService.isSave = this.isSave;
       }

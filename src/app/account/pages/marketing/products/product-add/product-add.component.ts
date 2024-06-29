@@ -5,7 +5,7 @@ import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} f
 import {InputTextModule} from "primeng/inputtext";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {KeyFilterModule} from "primeng/keyfilter";
-import {DecimalPipe, KeyValuePipe, NgIf} from "@angular/common";
+import {DecimalPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
@@ -36,33 +36,54 @@ import {
   GuaranteeClauseEditorDialogComponent
 } from "../../../settings-products/guarantees/guarantee-clause-editor-dialog/guarantee-clause-editor-dialog.component";
 import {ImageModule} from "primeng/image";
-import {MatInput} from "@angular/material/input";
+import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {InputNumberModule} from "primeng/inputnumber";
+import {EditorModule} from "primeng/editor";
+import {ProductModalityForm} from "../product-modality-form";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
+import {MatIcon} from "@angular/material/icon";
+import {MatTooltip} from "@angular/material/tooltip";
+import {ProductModality} from "../product-modality";
 
 @Component({
   selector: 'app-product-add',
   standalone: true,
-    imports: [
-        CheckboxModule,
-        DropdownModule,
-        FormsModule,
-        InputTextModule,
-        InputTextareaModule,
-        KeyFilterModule,
-        KeyValuePipe,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatDivider,
-        MultiSelectModule,
-        ReactiveFormsModule,
-        SharedModule,
-        TabViewModule,
-        ImageModule,
-        NgIf,
-        DecimalPipe,
-        MatInput
-    ],
+  imports: [
+    CheckboxModule,
+    DropdownModule,
+    FormsModule,
+    InputTextModule,
+    InputTextareaModule,
+    KeyFilterModule,
+    KeyValuePipe,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatDivider,
+    MultiSelectModule,
+    ReactiveFormsModule,
+    SharedModule,
+    TabViewModule,
+    ImageModule,
+    NgIf,
+    DecimalPipe,
+    MatInput,
+    IconFieldModule,
+    InputIconModule,
+    InputNumberModule,
+    EditorModule,
+    MatFormField,
+    MatLabel,
+    MatOption,
+    MatSelect,
+    MatIcon,
+    MatTooltip,
+    NgForOf
+  ],
   templateUrl: './product-add.component.html',
   styleUrl: './product-add.component.css'
 })
@@ -97,6 +118,9 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
   // @ts-ignore
   partnerId: number = null;
 
+  clauses: any;
+  isView: boolean = false;
+
   paymentMethodList: any[] = [
     {
       id: 1,
@@ -111,19 +135,15 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
   periodicityList: any[] = [
     {
       id: 1,
-      name: "Mensuel"
+      name: "Jour"
     },
     {
       id: 2,
-      name: "Trimestriel"
+      name: "Mois"
     },
     {
-      id: 3,
-      name: "Semestriel"
-    },
-    {
-      id: 4,
-      name: "Annuel"
+      id: 2,
+      name: "Annéé"
     }
   ];
 
@@ -172,6 +192,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
   branchCode: any = null;
   guaranteeCode: any = null;
 
+  insuredTypeList: any[] = [];
   incentiveList: any[] = [];
 
   // @ts-ignore
@@ -187,6 +208,21 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // @ts-ignore
   objectFileErrorMessage: string = null;
+
+  //
+
+  formContractModalityList: FormGroup[] = [];
+  formContractModality: FormGroup = new FormGroup({}, undefined, undefined);
+  contractModalityForm: ProductModalityForm = new ProductModalityForm();
+  contractModality: ProductModality = new ProductModality();
+  contractModalityList: any[] = [];
+
+  isFormValid: boolean = true;
+  getForm: any = null;
+
+  periodList: any[] = [];
+
+  //
 
   constructor(
     private _fb: FormBuilder,
@@ -209,9 +245,29 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     this.formData = this._fb.group(this.dataForm);
     this.formProductPartner = this._fb.group(this.productPartnerForm);
 
-    this.onGetProductGroupList()
-    this.onGetSegmentList()
-    this.onGetIncentiveList()
+    //
+    this.formContractModality = this._fb.group(this.contractModalityForm);
+
+    // @ts-ignore
+    this.contractModality.name.setValue("1 Mois");
+    // @ts-ignore
+    this.contractModality.duration.setValue(1);
+    // @ts-ignore
+    this.contractModality.unitId.setValue(2);
+    // @ts-ignore
+    this.contractModality.weighting.setValue(0.1);
+    // @ts-ignore
+    this.contractModality.position.setValue(1);
+    this.contractModality.start = true;
+    let fcm = this._fb.group(this.contractModality);
+    this.formContractModalityList.push(fcm);
+    //
+
+    this.onGetProductGroupList();
+    this.onGetSegmentList();
+    this.onGetInsuredTypeList();
+    this.onGetIncentiveList();
+    this.onGetPeriodList();
     this.onGetPartnerCommercialList();
 
   }
@@ -226,7 +282,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/products/list");
+    this._router.navigateByUrl("account/marketing/products/list");
   }
 
   onConfirm(): void {
@@ -237,7 +293,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         dialogMessage: "de ce produit"
       },
@@ -261,7 +317,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -278,25 +334,37 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     this.onSaveLoadingDialog();
 
     let requestData = {
+      code: this.formData.value.code,
       name: this.formData.value.name,
       description: this.formData.value.description,
       groupId: null,
       segmentId: null,
       crossSellingProductCode: this.formData.value.crossSellingProductCode,
       crossSellingDiscountRate: this.formData.value.crossSellingDiscountRate,
-      incentives: [],
+      incentiveIds: [],
       cashBackRate: this.formData.value.cashBackRate,
       commercialDiscountRate: this.formData.value.commercialDiscountRate,
       premiumIncreaseRate: this.formData.value.premiumIncreaseRate,
-      loyaltyPoint: this.formData.value.loyaltyPoint,
+      loyaltyPoints: this.formData.value.loyaltyPoints,
+      numberSubscriptions: this.formData.value.numberSubscriptions,
       renewable: null,
       tacitAgreement: null,
       advertisementObject: null,
       advertisementObjectFile: null,
       backOfficeValidation: this.formData.value.backOfficeValidation,
-      clauses: this.productClauses,
+      backOfficeValidationCapital: null,
+      backOfficeValidationPremium: null,
+      clauses: this.clauses,
       partners: [],
+      insuredTypeIds: [],
+      modalityList: [],
     }
+
+    if(requestData.backOfficeValidation) {
+      requestData.backOfficeValidationCapital = this.formData.value.backOfficeValidationCapital;
+      requestData.backOfficeValidationPremium = this.formData.value.backOfficeValidationPremium;
+    }
+
 
     if (this.formData.value.group) {
       requestData.groupId = this.formData.value.group.id;
@@ -329,7 +397,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
       if (incentives.length > 0) {
         incentives.forEach((incentive: any) => {
           // @ts-ignore
-          requestData.incentives.push(incentive.id);
+          requestData.incentiveIds.push(incentive.id);
         });
       }
     }
@@ -337,6 +405,31 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectPartnerList && this.selectPartnerList.length > 0) {
       // @ts-ignore
       requestData.partners = this.selectPartnerList;
+    }
+
+
+    if (this.formData.value.insuredTypes) {
+      let insuredTypes = this.formData.value.insuredTypes;
+      if (insuredTypes.length > 0) {
+        insuredTypes.forEach((it: any) => {
+          // @ts-ignore
+          requestData.insuredTypeIds.push(it.id);
+        });
+      }
+    }
+
+    if (this.formContractModalityList && this.formContractModalityList.length > 0) {
+
+      let productModalities: ProductModality[] = [];
+
+      this.formContractModalityList.forEach(fcm => {
+        console.log(fcm.value);
+        productModalities.push(fcm.value);
+      });
+
+      // @ts-ignore
+      requestData.modalityList = productModalities;
+
     }
 
     console.log(requestData);
@@ -432,7 +525,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '350px',
+      height: '400px',
       data: {
         dialogMessage: "L'enregistrement de ce produit a réussi."
       },
@@ -445,7 +538,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/products/list")
+      this._router.navigateByUrl("account/marketing/products/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -459,7 +552,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '350px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "L'enregistrement de ce produit a échoué."
@@ -487,7 +580,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
     this.formData.markAllAsTouched();
     const dialogRef = this._dialog.open(NotBlankDialogComponent, {
       width: '400px',
-      height: '350px',
+      height: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -515,6 +608,19 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
         this.accountService.pageLoading = false;
         console.log(responseData);
         this.segmentList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
+  }
+
+  onGetInsuredTypeList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getInsuredTypeList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.insuredTypeList = responseData["body"];
       }, (errorData: HttpErrorResponse) => {
         this.accountService.pageLoading = false;
         console.log(errorData);
@@ -558,6 +664,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
               code: p.code,
               name: p.name,
               accessoryAmount: this.formProductPartner.value.partnerAccessoryAmount,
+              accessoryTaxRate: this.formProductPartner.value.partnerAccessoryTaxRate,
               commissionRate: this.formProductPartner.value.partnerCommissionRate,
               sponsorshipCode: this.formProductPartner.value.sponsorshipCode,
             };
@@ -580,6 +687,7 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
   onEditItem(item: any) {
     this.productPartnerForm.partnerId.setValue(item.name);
     this.productPartnerForm.partnerAccessoryAmount.setValue(item.accessoryAmount);
+    this.productPartnerForm.partnerAccessoryTaxRate.setValue(item.accessoryTaxRate);
     this.productPartnerForm.partnerCommissionRate.setValue(item.commissionRate);
     this.productPartnerForm.sponsorshipCode.setValue(item.sponsorshipCode);
   }
@@ -754,6 +862,56 @@ export class ProductAddComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
     });
+  }
+
+  onAddFormModality() {
+
+    const lastItem = this.formContractModalityList[this.formContractModalityList.length - 1];
+
+    if (lastItem.valid) {
+      let f: FormGroup;
+      let pm = new ProductModality();
+      pm.position = lastItem.value.position + 1;
+      pm.start = false;
+      f = this._fb.group(pm);
+      this.getForm = f;
+      console.log(f);
+      this.formContractModalityList.push(f);
+    }
+
+  }
+
+  onRemoveFormModality(f: any) {
+
+    let i = this.formContractModalityList.lastIndexOf(f);
+    let s = i;
+    let e = i -1;
+
+    if (e < 1) {
+      e = 1
+    }
+
+    if (this.getForm) {
+      if (this.formContractModalityList.lastIndexOf(f) === this.formContractModalityList.lastIndexOf(this.getForm)) {
+        this.isFormValid = true;
+      }
+    }
+
+    this.formContractModalityList.splice(s, e);
+
+  }
+
+  onGetPeriodList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getPeriodList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.periodList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
   }
 
 }

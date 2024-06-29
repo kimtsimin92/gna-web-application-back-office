@@ -6,6 +6,6 @@ export class UserProfileManagementSaveForm {
     Validators.minLength(2),
     Validators.required]);
 
-  userType = new FormControl(null,  [Validators.required]);
+  description = new FormControl(null);
 
 }

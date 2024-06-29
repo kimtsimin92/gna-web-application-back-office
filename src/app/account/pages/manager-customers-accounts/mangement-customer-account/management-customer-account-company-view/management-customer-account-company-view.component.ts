@@ -19,6 +19,9 @@ import { ManagerCustomerAccountService } from '../../manager-customer-account.se
 import { SaveLoadingDialogComponent } from '../../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component';
 import { SaveNotificationDialogComponent } from '../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component';
 import { SaveErrorNotificationDialogComponent } from '../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component';
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
+import {TableModule} from "primeng/table";
 
 @Component({
   selector: 'app-management-customer-account-company-view',
@@ -37,7 +40,10 @@ import { SaveErrorNotificationDialogComponent } from '../../../../dialogs/notifi
     EditorModule,
     TagModule,
     NgForOf,
-    SkeletonModule
+    SkeletonModule,
+    ButtonModule,
+    RippleModule,
+    TableModule
   ],
   templateUrl: './management-customer-account-company-view.component.html',
   styleUrl: './management-customer-account-company-view.component.css'
@@ -68,11 +74,6 @@ export class ManagementCustomerAccountCompanyViewComponent  implements OnInit, A
       // @ts-ignore
       this.elementData = JSON.parse(localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA"));
 
-
-      if (!this.elementData.files) {
-        this.onGetCustomerAccountFilesById(this.elementData);
-      }
-
     } else {
       this._router.navigateByUrl("/account/managements/accounts/companies/list")
     }
@@ -91,7 +92,7 @@ export class ManagementCustomerAccountCompanyViewComponent  implements OnInit, A
   }
 
   onGoToBack() {
-    this._router.navigateByUrl("/account/managements/accounts/companies/list");
+    this._router.navigateByUrl("/account/management/customers/accounts/companies/list");
   }
 
   onValid(): void {

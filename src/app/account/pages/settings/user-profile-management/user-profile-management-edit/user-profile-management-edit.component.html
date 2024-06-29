@@ -1,121 +1,138 @@
-<!--
 <div class="gna-bc">
-  <span>Marketing / Produits / Créer</span>
+  <span>Administration / Gestion des utilisateurs internes / Profils / Modifier</span>
 </div>
 
 
-<div class="gna-main-content">
+<div class="container-fluid">
 
-  <div class="container-fluid gna-main-div-card">
+  <div>
     <mat-card class="gna-card">
-      <mat-card-header class="gna-card-header">
-        <div class="gna-card-header-title">
-          Profil
-        </div>
-        <div class="gna-card-header-btn">
-          <div class="gna-card-header-btn-1">
 
-            <button mat-raised-button
-                    class="gna-btn-default gna-btn-cancel"
-                    (click)="onBack()"
-                    [disabled]="isSave">Annuler</button>
-          </div>
-          <div class="gna-card-header-btn-2">
-            <button mat-raised-button
-                    class="gna-btn-default gna-btn-save"
-                    (click)="openConfirmEdit()"
-                    [disabled]="!formProfile.valid || isSave">Enregistrer</button>
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer</button>
+              } @else {
+
+                @if (!formProfile.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Enregistrer</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="openConfirmEdit()">Enregistrer</button>
+                }
+              }
+            </div>
+
           </div>
         </div>
       </mat-card-header>
+
       <mat-card-content>
-        <div class="mt-4">
+        <div class="container-fluid">
+
 
           <form
             [formGroup]="formProfile">
-            <div class="row pb-2">
-              <div class="col-4">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Nom Profil</mat-label>
-                  <input matInput
-                         required
-                         formControlName="name"
-                         [readonly]="isSave">
-                  <mat-error *ngIf="profileForm.name.invalid">{{getErrorMessageNane()}}</mat-error>
-                </mat-form-field>
+            <div class="row pb-2 gna-form">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">Nom
+                  <span class="gna-text-red gna-text-bold">*</span>
+                </label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                <input pInputText
+                       type="text" id="name" aria-describedby="name-help"  class="gna-form-input"
+                       required
+                       formControlName="name"/>
+                </p-iconField>
               </div>
-              <div class="col-4">
-                <mat-form-field appearance="outline" class="example-full-width gna-mff">
-                  <mat-label>Type Utilisateur</mat-label>
-                  <mat-select formControlName="userType">
-                    @for (type of userTypes; track type) {
-                      <mat-option [value]="type.value"
-                                  [disabled]="isSave">{{type.viewValue}}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                <label>Description</label>
+                <textarea pInputTextarea formControlName="description"
+                          class="gna-form-input"></textarea>
               </div>
             </div>
           </form>
-          <div class="gna-profiles-table container-fluid">
+          <div class="gna-profiles-table container-fluid m-2">
 
-            <div class="row">
 
-              <div class="col-3"
-                   *ngFor="let fug of formUserGroupList">
-                &lt;!&ndash;   <form
-                   [formGroup]="fug">
-&ndash;&gt;
-                <div class="position-fixed">
-                  <div class="gna-pdh">
-                    <div>
-                      <mat-icon>{{ fug.icon }}</mat-icon>
-                    </div>
-                    <div>
-                      {{ fug.label }}
-                    </div>
-                  </div>
+            <div class="row mb-2"
+                 *ngFor="let fug of formUserGroupList">
+              <!--   <form
+                 [formGroup]="fug">
+-->
+
+              <div class="gna-pdh">
+                <div>
+                  {{ fug.label }}
                 </div>
-
-                <div class="gna-pr container-fluid">
-                  <ng-container *ngIf="fug && fug['roles'] && fug.roles.length > 0">
-
-                    @for (role of fug["roles"]; track role) {
-                      <div>
-                        <span class="gna-psh">{{ role.label }}</span>
-
-                        <ng-container
-                          *ngIf="role && role.permissions && role.permissions.length > 0">
-                          @for (permission of role["permissions"]; track permission) {
-                            <form
-                              [formGroup]="permission['formPermission']">
-
-                              <div class="row">
-                                <div class="col-2 gna-pis-mr">
-                                  <p-inputSwitch formControlName="permissionStatus"></p-inputSwitch>
-                                </div>
-                                <div class="col-8">
-                                  {{ permission.label }}
-                                </div>
-                              </div>
-                            </form>
-                          }
-                        </ng-container>
-
-                      </div>
-                    }
-
-                  </ng-container>
-                </div>
-
-                &lt;!&ndash;                    </form>&ndash;&gt;
-
               </div>
+
+
+              <div class="gna-pr container-fluid row">
+                <ng-container *ngIf="fug && fug['roles'] && fug.roles.length > 0">
+
+                  @for (role of fug["roles"]; track role) {
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <span class="gna-psh">{{ role.label }}</span>
+
+                      <ng-container
+                        *ngIf="role && role.permissions && role.permissions.length > 0">
+                        @for (permission of role["permissions"]; track permission) {
+                          <form
+                            [formGroup]="permission['formPermission']">
+
+                            <div class="row">
+                              <div class="col-2 gna-pis-mr">
+                                <p-inputSwitch
+                                  formControlName="permissionStatus"
+                                  [disabled]="isSave"/>
+                              </div>
+                              <div class="col-8">
+                                {{ permission.label }}
+                              </div>
+                            </div>
+                          </form>
+                        }
+                      </ng-container>
+
+                    </div>
+                  }
+
+                </ng-container>
+              </div>
+
+              <!--                    </form>-->
 
             </div>
 
-
           </div>
+
         </div>
       </mat-card-content>
 
@@ -123,4 +140,3 @@
   </div>
 
 </div>
--->

@@ -5,7 +5,7 @@ import {BreakpointObserver} from "@angular/cdk/layout";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ChipModule} from "primeng/chip";
-import {DatePipe, NgForOf, NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {EditorModule} from "primeng/editor";
@@ -19,6 +19,23 @@ import { ManagerCustomerAccountService } from '../../manager-customer-account.se
 import { SaveLoadingDialogComponent } from '../../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component';
 import { SaveNotificationDialogComponent } from '../../../../dialogs/notification/save-notification-dialog/save-notification-dialog.component';
 import { SaveErrorNotificationDialogComponent } from '../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component';
+import {ButtonModule} from "primeng/button";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {MatMenu, MatMenuItem} from "@angular/material/menu";
+import {RippleModule} from "primeng/ripple";
+import {TableModule} from "primeng/table";
+import {TooltipModule} from "primeng/tooltip";
+import {
+  ConfirmationToggleEnableDialogComponent
+} from "../../../../dialogs/confirmation/confirmation-toggle-enable-dialog/confirmation-toggle-enable-dialog.component";
+import {
+  RemoveLoadingDialogComponent
+} from "../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
+import {DialogModule} from "primeng/dialog";
+import {DropdownModule} from "primeng/dropdown";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {InputTextModule} from "primeng/inputtext";
 
 @Component({
   selector: 'app-management-customer-account-personal-view',
@@ -37,7 +54,21 @@ import { SaveErrorNotificationDialogComponent } from '../../../../dialogs/notifi
     EditorModule,
     TagModule,
     NgForOf,
-    SkeletonModule
+    SkeletonModule,
+    CurrencyPipe,
+    DecimalPipe,
+    ButtonModule,
+    InputSwitchModule,
+    MatMenu,
+    MatMenuItem,
+    RippleModule,
+    TableModule,
+    TooltipModule,
+    DialogModule,
+    DropdownModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule
   ],
   templateUrl: './management-customer-account-personal-view.component.html',
   styleUrl: './management-customer-account-personal-view.component.css'
@@ -46,12 +77,19 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
 
   isSave: boolean = false;
 
+  customerSegment: any = null;
+
   elementData: any;
   loadingPage: boolean = false;
   loading: boolean = false;
 
+  insuredList: any[] = [];
+
   protected readonly environment = environment;
   isLoadingFiles: boolean = false;
+
+  showViewEdit: boolean = false;
+  segmentList: any[] = [];
 
   constructor(
     private responsive: BreakpointObserver,
@@ -66,11 +104,13 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
 
     if (localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA")) {
       // @ts-ignore
-      this.elementData = JSON.parse(localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA"));
+      let customerAccountData = JSON.parse(localStorage.getItem("CUSTOMER_ACCOUNT_REQUEST_DATA"));
 
-
-      if (!this.elementData.files) {
-        this.onGetCustomerAccountFilesById(this.elementData);
+      if (customerAccountData) {
+        this.onGetCustomerAccountById(customerAccountData.id);
+        if (customerAccountData.segment) {
+          this.customerSegment = customerAccountData.segment;
+        }
       }
 
     } else {
@@ -91,7 +131,7 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
   }
 
   onGoToBack() {
-    this._router.navigateByUrl("/account/managements/accounts/personals/list");
+    this._router.navigateByUrl("/account/management/customers/accounts/personals/list");
   }
 
   onValid(): void {
@@ -306,6 +346,271 @@ export class ManagementCustomerAccountPersonalViewComponent  implements OnInit, 
         console.log(errorData);
 
       });
+
+  }
+
+  onConfirmToggleEnabled(data: any, isToggle: boolean): void {
+    this.isSave = true;
+    this.accountService.isSave = this.isSave;
+
+    let insuredCode = "";
+
+    if(data.numero_assure) {
+      insuredCode = data.numero_assure;
+    }
+
+    const dialogRef = this._dialog.open(
+      ConfirmationToggleEnableDialogComponent,
+      {
+        hasBackdrop: false,
+        width: '400px',
+        height: '400px',
+        data: {
+          dialogMessage: "le compte assuré "  + insuredCode,
+          isToggle: isToggle,
+        },
+      }
+    );
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.onSaveToggleEnable(data);
+      } else {
+        data.is_active = !data.is_active;
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+
+  private onSaveToggleEnable(data: any) {
+    this.isSave = true;
+
+    this.openSaveLoadingDialog();
+
+    this.accountService.saveInsuredToggleEnable(data.id).subscribe(
+      (responseData) => {
+        this.isSave = false;
+        this.insuredList = [];
+        this.closeDialog();
+        this.openSaveToggleEnableNotificationDialog();
+      },
+      (error: HttpErrorResponse) => {
+        this.isSave = false;
+        data.is_active = !data.is_active;
+        console.log(error);
+        this.closeDialog();
+        this.openSaveToggleEnableErrorNotificationDialog(error);
+      }
+    );
+  }
+
+
+  openSaveToggleEnableNotificationDialog(): void {
+    const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '400px',
+      height: '400px',
+      data: {
+        dialogMessage: "L'opération a réussi.",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+
+    this.onGetCustomerAccountById(this.elementData.id);
+
+  }
+
+  openSaveToggleEnableErrorNotificationDialog(error: HttpErrorResponse): void {
+    const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
+      hasBackdrop: false,
+      width: '440px',
+      data: {
+        httpError: error,
+        dialogMessage: "L'opération a échoué.",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.isSave = false;
+        this.accountService.isSave = this.isSave;
+      }
+    });
+  }
+
+  openSaveLoadingDialog(): void {
+    const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
+      hasBackdrop: false,
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  onGetSegmentByCode(item: any) {
+
+    this.loadingPage = true;
+    this.loading = true;
+
+    this.accountService.getSegmentByCode(item.code_segment)
+      .subscribe((responseData: HttpResponse<any>) => {
+
+        this.loadingPage = false;
+        this.loading = false;
+
+
+        console.log(responseData);
+
+        let responseBody = responseData['body'];
+
+        if (responseBody) {
+          item.segment = responseBody;
+        }
+
+      }, (errorData: HttpErrorResponse) => {
+
+        this.loadingPage = false;
+        this.loading = false;
+
+
+        console.log(errorData);
+
+      });
+
+  }
+
+  onGetCustomerAccountById(id: number) {
+
+    this.loadingPage = true;
+    this.loading = true;
+
+
+    this.managerCustomerAccountService
+      .onGetCustomerAccountById(id)
+      .subscribe(
+        (responseData: HttpResponse<any>) => {
+
+          this.loadingPage = false;
+          this.loading = false;
+
+          console.log(responseData);
+          let responseBody = responseData['body'];
+          if (responseBody) {
+            this.elementData = responseBody.data;
+            if (this.elementData.assures) {
+              this.insuredList = this.elementData.assures;
+            }
+          }
+
+        },
+        (errorData: HttpErrorResponse) => {
+          this.loadingPage = false;
+          this.loading = false;
+
+          console.log(errorData);
+        }
+      );
+  }
+
+  onGetInsuredList(id: number) {
+
+    this.loadingPage = true;
+    this.loading = true;
+
+    let filter = {
+      created_user: id,
+    };
+
+
+    this.managerCustomerAccountService
+      .onGetCustomerAccountInsureds(
+        filter
+      )
+      .subscribe(
+        (responseData: HttpResponse<any>) => {
+          this.loadingPage = false;
+          this.loading = false;
+
+          console.log(responseData);
+          let responseBody = responseData['body'];
+
+          if (responseBody) {
+            this.insuredList = responseBody.data;
+          }
+
+        },
+        (errorData: HttpErrorResponse) => {
+          this.loadingPage = false;
+          this.loading = false;
+
+          console.log(errorData);
+        }
+      );
+  }
+
+
+  onShowViewEdit() {
+
+    if (this.elementData) {
+      if (this.elementData.segment) {
+        this.customerSegment = this.elementData.segment;
+      }
+    }
+    this.onGetSegmentList();
+    this;this.showViewEdit = true;
+  }
+
+  onGetSegmentList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getSegmentList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.segmentList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
+  }
+
+  onCustomerEditSegment() {
+
+    let requestData = {
+      customerId: this.elementData.id,
+      codeSegment: this.customerSegment.code,
+    }
+
+    console.log(requestData);
+
+    this.isSave = true;
+
+    this.openSaveLoadingDialog();
+
+    this.accountService.saveEditCustomerSegment(requestData.customerId, requestData).subscribe(
+      (responseData) => {
+        this.isSave = false;
+        console.log(responseData);
+        this.closeDialog();
+        this.openSaveToggleEnableNotificationDialog();
+      },
+      (error: HttpErrorResponse) => {
+        this.isSave = false;
+        console.log(error);
+        this.closeDialog();
+        this.openSaveToggleEnableErrorNotificationDialog(error);
+      }
+    );
 
   }
 

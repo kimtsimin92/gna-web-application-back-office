@@ -8,6 +8,9 @@ export class ProductPartnerForm {
   partnerAccessoryAmount = new FormControl(null,
     [Validators.pattern(/^\d+$/)]);
 
+  partnerAccessoryTaxRate = new FormControl(null,
+    [Validators.pattern(/^\d+(\.\d+)?$/)]);
+
   partnerCommissionRate = new FormControl(null,
     [Validators.pattern(/^\d+(\.\d+)?$/)]);
 

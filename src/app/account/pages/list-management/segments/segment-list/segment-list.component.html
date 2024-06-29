@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Marketing / Segments</span>
+  <span>Marketing / Segmentation / Lister</span>
 </div>
 
 <div class="container-fluid">
@@ -24,7 +24,8 @@
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
               <button mat-raised-button color="primary"
-                      class="gna-full-width gna-btn-default">Créer
+                      class="gna-full-width gna-btn-default"
+              (click)="onGoToSave()">Créer
                 Segment</button>
             </div>
           </div>
@@ -54,20 +55,15 @@
             [resizableColumns]="true" >
             <ng-template pTemplate="header">
               <tr class="gna-table-header">
-                <th pSortableColumn="code">
-                  Code
-                  <p-sortIcon field="code" />
-                  <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
-                </th>
-                <th pSortableColumn="name">Nom
+                <th pSortableColumn="name">Code
                   <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <p-sortIcon field="name" />
                 </th>
-                <th pSortableColumn="description" class="gna-responsive">Description
-                  <!--                  <p-columnFilter type="text" field="prenom" display="menu" />-->
+                <th pSortableColumn="description">Description
+                  <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
                   <p-sortIcon field="description" />
                 </th>
-                <th pSortableColumn="enabled">Statut
+                <th pSortableColumn="enabled">Etat
                   <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
                   <p-sortIcon field="enabled" />
                 <th pSortableColumn="createdAt" class="gna-responsive">Enregistrement
@@ -80,20 +76,13 @@
             <ng-template pTemplate="body" let-element let-expanded="expanded">
               <tr>
                 <td>
-                      @if (element.code ) {
-                        {{ element.code }}
-                      } @else {
-                        N/A
-                      }
-                </td>
-                <td>
                   @if (element.name) {
                     {{ element.name }}
                   } @else {
                     N/A
                   }
                 </td>
-                <td class="gna-responsive">
+                <td>
                   @if (element.description) {
                     {{ element.description }}
                   } @else {
@@ -118,16 +107,14 @@
                         <span class="gna-action-span-div">
                           <span class="gna-action-span">
                           <p-inputSwitch
-                                          [(ngModel)]="element.enabled"
-                                         pTooltip="Désactiver"
-                                         tooltipPosition="bottom"
-                                         (click)="onConfirmToggleEnabled(element, !element.enabled)"
-                                         [disabled]="isSave"/>
+                            [(ngModel)]="element.enabled"
+                            (click)="onConfirmToggleEnabled(element, !element.enabled)"
+                            [disabled]="isSave"/>
 
                   </span>
                       <span class="gna-action-span">
                     <p-button icon="pi pi-eye" class="gna-btn-eye"
-                              pTooltip="Afficher"
+                              pTooltip="Voir"
                               tooltipPosition="bottom"
                               (click)="onView(element)"
                               [disabled]="isSave"></p-button>
@@ -168,9 +155,17 @@
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
-                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
                 <td>
                    <span class="gna-action-span-div">
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
                       <span class="gna-action-span">
                           <p-skeleton size="2rem" styleClass="mr-2" />
                       </span>

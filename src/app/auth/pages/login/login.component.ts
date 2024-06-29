@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit, DoCheck {
 
   getErrorMessageEmail() {
     return this.authRequest.username.hasError('required') ? 'Vous devez entrer une valeur.' :
-      this.authRequest.username.hasError('email') ? "Veuiller entrer une adresse email valide.": '';
+      this.authRequest.username.hasError('email') ? "Veuiller entrer un nom d'utilisateur valide.": '';
   }
 
   getErrorMessagePassword() {

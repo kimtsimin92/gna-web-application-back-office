@@ -1,0 +1,268 @@
+<div class="gna-bc">
+  <span>Paramètres / Paramètres des listes / Catégories / Lister</span>
+</div>
+
+<div class="container-fluid">
+
+  <div>
+    <mat-card class="gna-card">
+
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+          <div class="gna-list-header row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <span class="p-input-icon-left gna-full-width">
+                    <i class="pi pi-search"></i>
+                    <input
+                      pInputText
+                      type="text"
+                      placeholder="Rechercher"
+                      class="gna-full-width gna-list-ir"
+                      (input)="dt.filterGlobal(getValue($event), 'contains')"
+                      [disabled]="isSave"/>
+                      </span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
+              <button mat-raised-button color="primary"
+                      class="gna-full-width gna-btn-default"
+                      (click)="onGoToSave()">Créer
+                Catégorie</button>
+            </div>
+          </div>
+        </div>
+      </mat-card-header>
+
+      <div class="container-fluid">
+
+        <div class="example-table-container mt-4">
+
+
+          <p-table
+            #dt
+            [value]="dataList"
+            dataKey="id"
+            styleClass="p-datatable-striped"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [loading]="loading"
+            [rows]="rows"
+            [totalRecords]="totalRecords"
+            [paginator]="false"
+            [first]="first"
+            (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[5, 10, 20, 15, 30, 50, 100]"
+            [globalFilterFields]="['code', 'name', 'description', 'status', 'createdAt']"
+            [scrollable]="true"
+            [resizableColumns]="true" >
+            <ng-template pTemplate="header">
+              <tr class="gna-table-header">
+                <th pSortableColumn="code">
+                  Code Catégorie
+                  <p-sortIcon field="code" />
+                  <!--                  <p-columnFilter type="text" field="matricule_cmu" display="menu" />-->
+                </th>
+                <th pSortableColumn="name">Nom Catégorie
+                  <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
+                  <p-sortIcon field="name" />
+                </th>
+                <th pSortableColumn="name">Branche
+                  <!--                  <p-columnFilter type="text" field="nom" display="menu" />-->
+                  <p-sortIcon field="name" />
+                </th>
+                <th pSortableColumn="enabled">Etat
+                  <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
+                  <p-sortIcon field="enabled" />
+                <th pSortableColumn="createdAt" class="gna-responsive">Enregistrement
+                  <!--                  <p-columnFilter type="date" field="created_at" display="menu" />-->
+                  <p-sortIcon field="createdAt" />
+                <th></th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-element let-expanded="expanded">
+              <tr>
+                <td>
+                  @if (element.code ) {
+                    {{ element.code }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td>
+                  @if (element.name) {
+                    {{ element.name }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td>
+                  @if (element.branch) {
+                    {{ element.branch.name }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td>
+                  @if (element.enabled) {
+                    <p-tag severity="success" value="Activé"></p-tag>
+                  } @else {
+                    <p-tag severity="danger" value="Désactivé"></p-tag>
+                  }
+                </td>
+                <td class="gna-responsive">
+                  @if (element.createdAt) {
+                    {{ element.createdAt | date: 'dd-MM-YYYY'}} {{ element.createdAt | date: 'hh:mm:ss'}}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td>
+                        <span class="gna-action-span-div">
+                          <span class="gna-action-span">
+                          <p-inputSwitch
+                            [(ngModel)]="element.enabled"
+                            (click)="onConfirmToggleEnabled(element, !element.enabled)"
+                            [disabled]="isSave"/>
+
+                  </span>
+                      <span class="gna-action-span">
+                    <p-button icon="pi pi-eye" class="gna-btn-eye"
+                              pTooltip="Voir"
+                              tooltipPosition="bottom"
+                              (click)="onView(element)"
+                              [disabled]="isSave"></p-button>
+                  </span>
+                           <span class="gna-action-span">
+                    <p-button icon="pi pi-pencil" class="gna-btn-edit"
+                              pTooltip="Modifier"
+                              tooltipPosition="bottom"
+                              (click)="onViewEdit(element)"
+                              [disabled]="isSave"></p-button>
+                  </span>
+                           <span class="gna-action-span">
+                        @if (element.removable) {
+                          <p-button icon="pi pi-trash"
+                                    pTooltip="Supprimer"
+                                    tooltipPosition="bottom"
+                                    class="gna-btn-delete"
+                                    [disabled]="isSave"
+                                    (click)="onConfirm(element)"></p-button>
+                        } @else {
+                          <p-button icon="pi pi-trash"
+                                    pTooltip="Supprimer"
+                                    tooltipPosition="bottom"
+                                    class="gna-btn-delete"
+                                    [disabled]="isDisable"></p-button>
+                        }
+
+                  </span>
+                                   </span>
+                </td>
+              </tr>
+
+            </ng-template>
+
+            <ng-template pTemplate="loadingbody">
+              <tr *ngFor="let item of fakeDataList">
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td>
+                   <span class="gna-action-span-div">
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                      <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                   </span>
+                </td>
+              </tr>
+            </ng-template>
+
+          </p-table>
+
+        </div>
+
+        <div class="gna-pagination-row">
+
+          <div class="gna-pagination">
+
+            @if (dataPaginationResponse) {
+              @if (dataPaginationResponse.totalPages > 0) {
+                <span class="gna-pagination-page-size"
+                      [matMenuTriggerFor]="aboveMenu"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ dataPaginationResponse.pageSize }}
+                  <i class="pi pi-angle-up"></i></span>
+                <mat-menu #aboveMenu="matMenu" yPosition="above">
+                  @for (psl of pageSizeList; track psl) {
+                    <button mat-menu-item (click)="onGetPageSize(psl.name)"
+                            [disabled]="isSave">{{ psl.name }}</button>
+                  }
+                </mat-menu>
+              } @else {
+                <span class="gna-pagination-page-size gna-pagination-disabled">0
+                <i class="pi pi-angle-up"></i></span>
+              }
+            } @else {
+              <span class="gna-pagination-page-size gna-pagination-disabled">0
+                <i class="pi pi-angle-up"></i></span>
+            }
+          </div>
+
+          <div class="gna-pagination">
+            @if (dataPaginationResponse) {
+              @if (currentPage > 1) {
+                <span class="gna-pagination-previous"
+                      (click)="onGoToPrevious()"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">
+              <i class="pi pi-arrow-left"></i>
+            </span>
+              } @else {
+                <span class="gna-pagination-previous gna-pagination-disabled">
+              <i class="pi pi-arrow-left"></i>
+            </span>
+              }
+              @if (dataPaginationResponse.totalPages > 0) {
+                <span class="gna-pagination-page"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ currentPage }}</span>
+              } @else {
+                <span class="gna-pagination-page gna-pagination-disabled">0</span>
+              }
+              @if (currentPage < dataPaginationResponse.totalPages) {
+                <span class="gna-pagination-next"
+                      (click)="onGoToNext()"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">
+             <i class="pi pi-arrow-right"></i>
+          </span>
+              } @else {
+                <span class="gna-pagination-next gna-pagination-disabled">
+             <i class="pi pi-arrow-right"></i>
+          </span>
+              }
+            } @else {
+              <span class="gna-pagination-previous gna-pagination-disabled"><i class="pi pi-arrow-left"></i></span>
+              <span class="gna-pagination-page gna-pagination-disabled">0</span>
+              <span class="gna-pagination-next gna-pagination-disabled"><i class="pi pi-arrow-right"></i></span>
+            }
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </mat-card>
+
+  </div>
+
+
+
+</div>

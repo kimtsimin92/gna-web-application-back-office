@@ -1,17 +1,17 @@
 <div class="gna-bc">
-    <span>Coassurances / Souscriptions validées</span>
+    <span>Coassurances / Coassurances rejétées</span>
   </div>
-  
+
   <div class="container-fluid">
-  
+
     <div>
       <mat-card class="gna-card">
         <mat-card-header class="gna-card-header">
           <div class="container-fluid">
-  
+
             <div class="gna-card-header-btn row">
               <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
-  
+
                 @if (isSave || accountService.pageLoading || accountService.isSave) {
                   <button mat-raised-button color="primary"
                           class="gna-full-width gna-btn-default gna-disable">Retour</button>
@@ -21,31 +21,31 @@
                           (click)="onGoToBack()"
                           [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
                 }
-  
+
               </div>
-              
-  
+
+
             </div>
           </div>
         </mat-card-header>
-  
+
         <mat-card-content>
-  
+
           <div class="container-fluid">
             <div class="example-table-container mt-4">
               <div class="card">
                 <div class="card-body gna-card-body"
                      *ngIf="elementData">
-  
+
                   <div class="row">
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">Type Compte : </span>
                       <span class="gna-view-value">
                      Entreprise
                     </span>
                     </div>
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Code Compte : </span>
                       <span class="gna-view-value">
@@ -56,11 +56,11 @@
                          }
                     </span>
                     </div>
-  
+
                   </div>
-  
+
                   <div class="row">
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> N° CNI : </span>
                       <span class="gna-view-value">
@@ -71,7 +71,7 @@
                          }
                     </span>
                     </div>
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">N° CMU : </span>
                       <span class="gna-view-value">
@@ -82,11 +82,11 @@
                       }
                     </span>
                     </div>
-  
+
                   </div>
-  
+
                   <div class="row">
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Nom : </span>
                       <span class="gna-view-value">
@@ -97,7 +97,7 @@
                          }
                     </span>
                     </div>
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">Code Segment : </span>
                       <span class="gna-view-value">
@@ -108,11 +108,11 @@
                         }
                     </span>
                     </div>
-  
+
                   </div>
-  
+
                   <div class="row">
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Prénom : </span>
                       <span class="gna-view-value">
@@ -123,7 +123,7 @@
                          }
                     </span>
                     </div>
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">Email : </span>
                       <span class="gna-view-value">
@@ -134,11 +134,11 @@
                       }
                     </span>
                     </div>
-  
+
                   </div>
-  
+
                   <div class="row">
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Genre : </span>
                       <span class="gna-view-value">
@@ -151,7 +151,7 @@
                           }
                     </span>
                     </div>
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">Téléphone : </span>
                       <span class="gna-view-value">
@@ -162,11 +162,11 @@
                         }
                     </span>
                     </div>
-  
+
                   </div>
-  
+
                   <div class="row">
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label"> Date de naissance : </span>
                       <span class="gna-view-value">
@@ -177,7 +177,7 @@
                         }
                     </span>
                     </div>
-  
+
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                       <span class="gna-view-label">Adresse : </span>
                       <span class="gna-view-value">
@@ -187,23 +187,23 @@
                         N/A
                       }</span>
                     </div>
-  
+
                   </div>
-  
+
                 </div>
               </div>
-  
+
               <div class="row gna-files">
                 <span class="gna-files-underline">Documents joints</span>
                 <div class="row">
                   @if (!isLoadingFiles) {
-  
+
                     @if (elementData.files && elementData.files.length > 0) {
-  
+
                       <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1" *ngFor="let file of elementData.files">
                         <span class="gna-element-file-name">{{ file.libelle }}</span>
                         <br>
-  
+
                         @if (file.type == "image/jpeg" ) {
                           <a href="{{ environment.customersService+file.lien }}" download target="_blank">
                             <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
@@ -221,16 +221,16 @@
                             <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ file.libelle }}" class="gna-element-file gna-clickable">
                           </a>
                         }
-  
+
                       </div>
-  
+
                     } @else {
                       <div class="col">
                         <span class="gna-element-file-name">N/A</span>
                       </div>
                     }
-  
-  
+
+
                   } @else {
                     <div class="col">
                       <p-skeleton width="2rem" size="5rem" styleClass="mr-2" />
@@ -238,11 +238,11 @@
                   }
                 </div>
               </div>
-  
+
            <!--   <div class="row mt-4">
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <label> <strong>Motif</strong></label>
-  
+
                   <p-editor [style]="{ height: 'auto' }">
                     <ng-template pTemplate="header">
           <span class="ql-formats">
@@ -303,18 +303,17 @@
             </span>
                     </ng-template>
                   </p-editor>
-  
+
                 </div>
               </div>-->
-  
+
             </div>
-  
+
           </div>
         </mat-card-content>
-  
+
       </mat-card>
-  
+
     </div>
-  
+
   </div>
-  

@@ -197,7 +197,7 @@ export class CoinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
 
   onGetDataList() {
 
-    this.loadingPage = true;
+   /* this.loadingPage = true;
     this.loading = true;
 
     console.log(this.currentPage);
@@ -205,8 +205,7 @@ export class CoinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
       this.pageNumber = this.currentPage;
 
     let filter = {
-      type_customer_id: "1",
-      is_valid: true
+      type_customer_id: "0",
     };
 
     this.dataList = [];
@@ -248,7 +247,7 @@ export class CoinsuranceSubmitListComponent implements OnInit, AfterViewInit, On
 
         console.log(errorData);
 
-      });
+      });*/
 
 
   }

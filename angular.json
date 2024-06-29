@@ -32,7 +32,8 @@
               "src/custom-theme.scss",
               "src/styles.css",
               "src/assets/scss/style-gna.scss",
-              "src/assets/css/gna-responsive.css"
+              "src/assets/css/gna-responsive.css",
+              "node_modules/material-icons-font/material-icons-font.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

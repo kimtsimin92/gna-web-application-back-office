@@ -26,6 +26,9 @@ import {NotBlankDialogComponent} from "../../../../dialogs/not-blank-dialog/not-
 import {SegmentForm} from "../segment-form";
 import {InputTextModule} from "primeng/inputtext";
 import {CheckboxModule} from "primeng/checkbox";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
 
 @Component({
   selector: 'app-segment-add',
@@ -42,7 +45,10 @@ import {CheckboxModule} from "primeng/checkbox";
     MatLabel,
     ReactiveFormsModule,
     InputTextModule,
-    CheckboxModule
+    CheckboxModule,
+    InputTextareaModule,
+    IconFieldModule,
+    InputIconModule
   ],
   templateUrl: './segment-add.component.html',
   styleUrl: './segment-add.component.css'
@@ -98,7 +104,7 @@ export class SegmentAddComponent implements OnInit, OnDestroy {
   }
 
   onGoToBack() {
-    this._router.navigateByUrl("/account/segments/list");
+    this._router.navigateByUrl("/account/marketing/segments/list");
   }
 
   onConfirm(): void {
@@ -108,8 +114,8 @@ export class SegmentAddComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
-      width: '380px',
-      height: '350px',
+      width: '400px',
+      height: '400px',
       data: {
         dialogMessage: "de ce segment"
       },
@@ -133,7 +139,7 @@ export class SegmentAddComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -188,7 +194,7 @@ export class SegmentAddComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/segments/list")
+      this._router.navigateByUrl("/account/marketing/segments/list")
         .then(() => {
         });
 

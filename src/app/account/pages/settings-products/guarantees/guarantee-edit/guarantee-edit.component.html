@@ -8,30 +8,52 @@
   <div>
     <mat-card class="gna-card">
       <mat-card-header class="gna-card-header">
-
         <div class="container-fluid">
 
-        <div class="gna-card-header-btn row">
-          <div class="col-12 col-sm-6 col-md-4 offset-md-4 col-lg-4 offset-lg-4 col-xl-2 offset-xl-8">
-            <button mat-raised-button
-                    class="gna-btn-default gna-btn-cancel gna-full-width"
-                    (click)="onBack()"
-                    [disabled]="isSave || accountService.pageLoading || accountService.isSave">Annuler</button>
-          </div>
-          <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
-            @if (!formData.valid) {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save gna-full-width"
-                      (click)="onGetNotBlankAlert()">Modifier</button>
-            } @else {
-              <button mat-raised-button
-                      class="gna-btn-default gna-btn-save gna-full-width"
-                      [disabled]="isSave || accountService.pageLoading || accountService.isSave"
-                      (click)="onConfirm()">Modifier</button>
-            }
-          </div>
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
 
-        </div>
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (authService.getProfilePermission(
+                'GROUP_MANAGEMENT_PRODUCTS',
+                'ROLE_MANAGEMENT_PRODUCT_GUARANTEES',
+                'PERMISSION_EDIT')) {
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer</button>
+              } @else {
+
+                @if (!formData.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Enregistrer</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onConfirm()">Enregistrer</button>
+                }
+              }
+              }
+            </div>
+
+          </div>
         </div>
       </mat-card-header>
       <div class="container-fluid">
@@ -67,61 +89,163 @@
                   [formGroup]="formData">
                   <div class="row pb-2 gna-form">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="name">Code Garantie</label>
+                      <label for="name">Code Garantie
+                        <span class="gna-text-red gna-text-bold">*</span></label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-info" />
                       <input pInputText
-                             type="text" id="code" aria-describedby="name-help" placeholder="Code Garantie *" class="gna-form-input"
+                             type="text" id="code" aria-describedby="name-help" placeholder="Code" class="gna-form-input"
                              required
                              formControlName="code"/>
+                      </p-iconField>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="name">Nom Garantie</label>
+                      <label for="name">Nom Garantie
+                        <span class="gna-text-red gna-text-bold">*</span></label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-info" />
                       <input pInputText
-                             type="text" id="name" aria-describedby="name-help" placeholder="Nom Garantie *" class="gna-form-input"
+                             type="text" id="name" aria-describedby="name-help" placeholder="Nom" class="gna-form-input"
                              required
                              formControlName="name"/>
+                      </p-iconField>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="name">Taux de taxe</label>
-                      <input pInputText pKeyFilter="money"
-                             id="taxRate" aria-describedby="name-help" placeholder="Taux de taxe *" class="gna-form-input"
+                      @if (categoryList && categoryList.length > 0) {
+                        <label>Catégorie
+                          <span class="gna-text-red gna-text-bold">*</span>
+                        </label>
+                    <p-dropdown [options]="categoryList"
+                                optionLabel="name"
+                                optionValue="name"
+                                placeholder="Selectionner"
+                                class="gna-form-dropdown"
+                                formControlName="category"
+                                [filter]="true"
+                                filterBy="name"
+                                [showClear]="true"
+                                [readonly]="isSave || accountService.pageLoading || accountService.isSave">
+                      <ng-template let-item pTemplate="item">
+                        <div class="flex align-items-center gap-2">
+                          <div>{{ item.name }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                    } @else {
+                    <label>Catégorie
+                      <span class="gna-text-red gna-text-bold">*</span>
+                    </label>
+                    <p-dropdown placeholder="Selectionner"
+                                class="gna-form-dropdown" [disabled]="isDisable"></p-dropdown>
+                  }
+                  </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <label for="name">Taux Taxe Assurance
+                        <span class="gna-text-red gna-text-bold">*</span></label>
+                     <!-- <input pInputText pKeyFilter="money"
+                             id="taxRate" aria-describedby="name-help" placeholder="Pourcentage" class="gna-form-input"
                              type="text"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              required
-                             formControlName="taxRate"/>
+                             formControlName="taxRate"/>-->
+                      <p-inputNumber
+                        inputId="percent"
+                        suffix="%"
+                        required
+                        formControlName="taxRate"
+                        placeholder="Pourcentage"
+                        [minFractionDigits]="2"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="name">Taux franchise</label>
-                      <input pInputText pKeyFilter="money"
-                             id="franchiseRate" aria-describedby="name-help" placeholder="Taux franchise" class="gna-form-input"
+                      <label for="name">Taux Franchise</label>
+               <!--       <input pInputText pKeyFilter="money"
+                             id="franchiseRate" aria-describedby="name-help" placeholder="Pourcentage" class="gna-form-input"
                              type="text"
                              pattern="^[0-9]+(\.[0-9]+)?$"
-                             formControlName="franchiseRate"/>
+                             formControlName="franchiseRate"/>-->
+                      <p-inputNumber
+                        inputId="percent"
+                        suffix="%"
+                        formControlName="franchiseRate"
+                        placeholder="Pourcentage"
+                        [minFractionDigits]="2"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="franchiseMinimum">Franchise minimum</label>
-                      <input pInputText pKeyFilter="money"
-                             id="franchiseMinimum" aria-describedby="accessory-amount-company-help" placeholder="Franchise minimum" class="gna-form-input"
+                      <label for="franchiseMinimum">Franchise Minimum</label>
+                     <!-- <input pInputText pKeyFilter="money"
+                             id="franchiseMinimum" aria-describedby="accessory-amount-company-help" placeholder="Montant" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="franchiseMinimum"
                              max="{{franchiseMaximum.value}}"
                              #franchiseMinimum
-                             [readonly]="isSave || accountService.pageLoading"/>
+                             [readonly]="isSave || accountService.pageLoading"/>-->
+
+                      <p-inputNumber
+                        id="franchiseMinimum"
+                        mode="currency"
+                        inputId="currency-ivory-cost"
+                        currency="XOF"
+                        locale="ci-CI"
+                        [minFractionDigits]="2"
+                        formControlName="franchiseMinimum"
+                        placeholder="Montant"
+                        #franchiseMinimum
+                        [readonly]="isSave || accountService.pageLoading"/>
+
+
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="franchiseMinimum">Franchise maximum</label>
-                      <input pInputText pKeyFilter="money"
-                             id="franchiseMaximum" aria-describedby="accessory-amount-company-help" placeholder="Franchise maximum" class="gna-form-input"
+                      <label for="franchiseMaximum">Franchise Maximum</label>
+                     <!-- <input pInputText pKeyFilter="money"
+                             id="franchiseMaximum" aria-describedby="accessory-amount-company-help" placeholder="Montant" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="franchiseMaximum"
                              #franchiseMaximum
-                             [readonly]="isSave || accountService.pageLoading"/>
+                             [readonly]="isSave || accountService.pageLoading"/>-->
+                      <p-inputNumber
+                        id="franchiseMaximum"
+                        mode="currency"
+                        inputId="currency-ivory-cost"
+                        currency="XOF"
+                        locale="ci-CI"
+                        [minFractionDigits]="2"
+                        formControlName="franchiseMaximum"
+                        placeholder="Montant"
+                        #franchiseMaximum
+                        [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="subscriptionMinimumPeriod">Durée minimum souscription</label>
+                      <label for="premiumMinimum">Prime Minimum
+                        <span class="gna-text-red gna-text-bold">*</span></label>
+                      <!--       <input pInputText pKeyFilter="money"
+                                    id="premiumMinimum" aria-describedby="accessory-amount-company-help" placeholder="Monatnt" class="gna-form-input"
+                                    type="number"
+                                    pattern="^[0-9]+(\.[0-9]+)?$"
+                                    min="1"
+                                    required
+                                    formControlName="premiumMinimum"
+                                    [readonly]="isSave || accountService.pageLoading"/>-->
+                      <p-inputNumber
+                        id="premiumMinimum"
+                        mode="currency"
+                        inputId="currency-ivory-cost"
+                        currency="XOF"
+                        locale="ci-CI"
+                        [minFractionDigits]="2"
+                        required
+                        formControlName="premiumMinimum"
+                        placeholder="Montant"
+                        [readonly]="isSave || accountService.pageLoading"/>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                      <label for="subscriptionMinimumPeriod">Durée Minimum Souscription
+                        <span class="gna-text-red gna-text-bold">*</span></label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-calendar-minus" />
                       <input pInputText pKeyFilter="int"
-                             id="subscriptionMinimumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée minimum souscription *" class="gna-form-input"
+                             id="subscriptionMinimumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Jours" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              min="1"
@@ -130,12 +254,16 @@
                              #subscriptionMinimumPeriod
                              formControlName="subscriptionMinimumPeriod"
                              [readonly]="isSave || accountService.pageLoading"/>
+                      </p-iconField>
                     </div>
 
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="subscriptionMaximumPeriod">Durée maximum souscription</label>
+                      <label for="subscriptionMaximumPeriod">Durée Maximum Souscription
+                        <span class="gna-text-red gna-text-bold">*</span></label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-calendar-plus" />
                       <input pInputText pKeyFilter="int"
-                             id="subscriptionMaximumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Durée maximum souscription *" class="gna-form-input"
+                             id="subscriptionMaximumPeriod" aria-describedby="accessory-amount-company-help" placeholder="Jours" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              min="{{subscriptionMinimumPeriod.value}}"
@@ -143,75 +271,93 @@
                              #subscriptionMaximumPeriod
                              formControlName="subscriptionMaximumPeriod"
                              [readonly]="isSave || accountService.pageLoading"/>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="premiumMinimum">Prime minimum</label>
-                      <input pInputText pKeyFilter="money"
-                             id="premiumMinimum" aria-describedby="accessory-amount-company-help" placeholder="Prime minimum *" class="gna-form-input"
-                             type="number"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
-                             min="1"
-                             required
-                             formControlName="premiumMinimum"
-                             [readonly]="isSave || accountService.pageLoading"/>
+                      </p-iconField>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label>Délai de carence</label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-info" />
                       <input pInputText pKeyFilter="int"
-                             id="deficiencyDeadline" aria-describedby="accessory-amount-company-help" placeholder="Délai de carence" class="gna-form-input"
+                             id="deficiencyDeadline" aria-describedby="accessory-amount-company-help" placeholder="Nombre" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              #deficiencyDeadline
                              formControlName="deficiencyDeadline"
                              [readonly]="isSave || accountService.pageLoading"/>
+                      </p-iconField>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label>Unité délai de carence</label>
                       <p-dropdown formControlName="deficiencyDeadlineUnit" [options]="periodList" optionLabel="name" optionValue="name"
-                                  placeholder="Unité délai de carence"
+                                  placeholder="Selectionner"
                                   class="gna-form-dropdown"
+                                  #deficiencyDeadlineUnit
+                                  [showClear]="true"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="guaranteeFloor">Plancher de garantie</label>
-
-                      <input pInputText pKeyFilter="money"
-                             id="guaranteeFloor" aria-describedby="accessory-amount-company-help" placeholder="Plancher de garantie" class="gna-form-input"
-                             type="number"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
-                             formControlName="guaranteeFloor"
-                             [readonly]="isSave || accountService.pageLoading"/>
+                 <label for="guaranteeFloor">Plancher de garantie</label>
+                      <!--
+                                           <input pInputText pKeyFilter="money"
+                                                  id="guaranteeFloor" aria-describedby="accessory-amount-company-help" placeholder="Montant" class="gna-form-input"
+                                                  type="number"
+                                                  pattern="^[0-9]+(\.[0-9]+)?$"
+                                                  formControlName="guaranteeFloor"
+                                                  [readonly]="isSave || accountService.pageLoading"/>-->
+                      <p-inputNumber
+                        id="guaranteeFloor"
+                        mode="currency"
+                        inputId="currency-ivory-cost"
+                        currency="XOF"
+                        locale="ci-CI"
+                        [minFractionDigits]="2"
+                        formControlName="guaranteeFloor"
+                        placeholder="Montant"
+                        [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                       <label for="guaranteeCeiling">Plafond de garantie</label>
-                      <input pInputText pKeyFilter="money"
-                             id="guaranteeCeiling" aria-describedby="accessory-amount-company-help" placeholder="Plafond de garantie" class="gna-form-input"
+               <!--       <input pInputText pKeyFilter="money"
+                             id="guaranteeCeiling" aria-describedby="accessory-amount-company-help" placeholder="Montant" class="gna-form-input"
                              type="number"
                              pattern="^[0-9]+(\.[0-9]+)?$"
                              formControlName="guaranteeCeiling"
-                             [readonly]="isSave || accountService.pageLoading"/>
+                             [readonly]="isSave || accountService.pageLoading"/>-->
+                      <p-inputNumber
+                        id="guaranteeCeiling"
+                        mode="currency"
+                        inputId="currency-ivory-cost"
+                        currency="XOF"
+                        locale="ci-CI"
+                        [minFractionDigits]="2"
+                        formControlName="guaranteeCeiling"
+                        placeholder="Montant"
+                        [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Réduction applicable</label>
+                      <label>Réduction Applicable
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <p-dropdown formControlName="discountApplicable" [options]="yesOrNoList" optionLabel="name" optionValue="name"
-                                  placeholder="Réduction applicable *"
+                                  placeholder="Selectionner"
                                   class="gna-form-dropdown"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Territoire</label>
+                      <label>Territorialité
+                        <span class="gna-text-red gna-text-bold">*</span></label>
                       <br>
                       <p-dropdown formControlName="zone" [options]="zoneList" optionLabel="name"
                                   optionValue="name"
-                                  placeholder="Territoire *"
+                                  placeholder="Selectionner"
                                   class="gna-form-dropdown"
+                                  [showClear]="true"
                                   [readonly]="isSave || accountService.pageLoading || accountService.isSave"></p-dropdown>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Partenaires techniques</label>
+                      <label>Partenaires Techniques</label>
                       <p-multiSelect [options]="partnerList"
                                      optionLabel="name"  optionValue="name"
-                                     placeholder="Partenaires techniques"
+                                     placeholder="Selectionner"
                                      class="gna-form-multiselect"
                                      formControlName="partners"
                                      [filter]="false"
@@ -223,18 +369,19 @@
                         </ng-template>
                       </p-multiSelect>
                     </div>
-                    <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-9">
+                  <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
+                    <label>Clauses</label>
+                    <button
+                      type="button"
+                      mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
+                      (click)="openClauseEditorDialog()">Ajouter</button>
+                  </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                       <label>Description</label>
                       <textarea rows="2" pInputTextarea formControlName="description"
                                 class="gna-form-input"></textarea>
                     </div>
-                    <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
-                      <label>Clauses</label>
-                      <button
-                        type="button"
-                        mat-stroked-button color="primary" class="example-full-width gna-btn-clauses"
-                        (click)="openClauseEditorDialog()">Ajouter</button>
-                    </div>
+
                   </div>
 
                 </form>
@@ -246,51 +393,68 @@
                   [formGroup]="formDataItem">
                   <div class="row pb-2 gna-form">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Nom Sous garantie</label>
+                      <label>Nom Sous Garantie
+                        <span class="gna-text-red gna-text-bold">*</span></label>
+                      <p-iconField iconPosition="right">
+                        <p-inputIcon styleClass="pi pi-info" />
                       <input pInputText
-                             type="text" aria-describedby="name-help" placeholder="Nom sous garantie *" class="gna-form-input"
+                             type="text" aria-describedby="name-help" placeholder="Nom" class="gna-form-input"
                              required
                              formControlName="name"
                              [readonly]="isSave || accountService.pageLoading"/>
+                      </p-iconField>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Capital</label>
-                      <input pInputText pKeyFilter="money"
-                             aria-describedby="accessory-amount-company-help" placeholder="Capital *" class="gna-form-input"
-                             type="number"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
-                             min="1"
-                             formControlName="capital"
-                             required
-                             [readonly]="isSave || accountService.pageLoading"/>
+                      <label>Capital
+                        <span class="gna-text-red gna-text-bold">*</span></label>
+                      <p-inputNumber
+                        id="capital"
+                        mode="currency"
+                        inputId="currency-ivory-cost"
+                        currency="XOF"
+                        locale="ci-CI"
+                        [minFractionDigits]="2"
+                        formControlName="capital"
+                        placeholder="Montant"
+                        required
+                        [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="franchiseMinimum">Franchise minimum</label>
-                      <input pInputText pKeyFilter="money"
-                             aria-describedby="accessory-amount-company-help" placeholder="Franchise minimum" class="gna-form-input"
-                             type="number"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
-                             formControlName="franchiseMinimum"
-                             max="{{franchiseMaximumS.value}}"
-                             [readonly]="isSave || accountService.pageLoading"/>
+                      <label for="franchiseMinimumS">Franchise Minimum</label>
+                      <p-inputNumber
+                        id="franchiseMinimumS"
+                        mode="currency"
+                        inputId="currency-ivory-cost"
+                        currency="XOF"
+                        locale="ci-CI"
+                        [minFractionDigits]="2"
+                        formControlName="franchiseMinimum"
+                        placeholder="Montant"
+                        #franchiseMinimumS
+                        [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label for="franchiseMinimum">Franchise maximum</label>
-                      <input pInputText pKeyFilter="money"
-                             aria-describedby="accessory-amount-company-help" placeholder="Franchise maximum" class="gna-form-input"
-                             type="number"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
-                             formControlName="franchiseMaximum"
-                             #franchiseMaximumS
-                             [readonly]="isSave || accountService.pageLoading"/>
+                      <label for="franchiseMaximumS">Franchise Maximum</label>
+                      <p-inputNumber
+                        id="franchiseMaximumS"
+                        mode="currency"
+                        inputId="currency-ivory-cost"
+                        currency="XOF"
+                        locale="ci-CI"
+                        [minFractionDigits]="2"
+                        formControlName="franchiseMaximum"
+                        placeholder="Montant"
+                        #franchiseMaximumS
+                        [readonly]="isSave || accountService.pageLoading"/>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
-                      <label>Taux franchise</label>
-                      <input pInputText pKeyFilter="money"
-                             aria-describedby="name-help" placeholder="Taux franchise" class="gna-form-input"
-                             type="text"
-                             pattern="^[0-9]+(\.[0-9]+)?$"
-                             formControlName="franchiseRate"/>
+                      <label>Taux Franchise</label>
+                      <p-inputNumber
+                        inputId="percent"
+                        suffix="%"
+                        formControlName="franchiseRate"
+                        placeholder="Pourcentage"
+                        [minFractionDigits]="2"/>
                     </div>
                     <div class="col-12 btn-new mb-3">
                       @if (!formDataItem.valid) {
@@ -310,12 +474,12 @@
                   <table class="table table-borderless gi-table">
                     <thead>
                     <tr>
-                      <th>Code</th>
-                      <th>Nom</th>
+                      <th>Code Sous Garantie</th>
+                      <th>Nom Sous Garantie</th>
                       <th>Capital</th>
-                      <th>Taux franchise</th>
-                      <th>Franchise minimum</th>
-                      <th>Franchise maximum</th>
+                      <th>Taux Franchise</th>
+                      <th>Franchise Minimum</th>
+                      <th>Franchise Maximum</th>
                       <th></th>
                     </tr>
                     </thead>
@@ -359,9 +523,9 @@
                   </span>
                   <span>
                            @if (isSave || accountService.pageLoading || accountService.isSave) {
-                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2">
+                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-4">
                            } @else {
-                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-2"
+                             <img src="assets/images/table-trash-small.svg" alt="" class="gna-table-btn-4"
                                   (click)="onConfirmRemove(item)">
                            }
 
@@ -640,9 +804,9 @@
                         <td>{{ item.capital | number : "2.0" }}</td>
                         <td>
                           @if (item.franchiseRate) {
-                            {{ item.franchiseRate | number : "2.0" }}%
+                            {{ item.franchiseRate | number : "2.0" }}Pourcentage
                           } @else {
-                            0%
+                            0Pourcentage
                           }
                         </td>
                         <td>

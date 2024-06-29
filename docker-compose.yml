@@ -1,7 +1,9 @@
 version: '3'
 services:
   backoffice-web-application:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: gna-backoffice-web-application:v1
     container_name: gna-backoffice-web-application
     networks:

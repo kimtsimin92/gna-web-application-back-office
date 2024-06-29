@@ -1,13 +1,13 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
 import {AccountService} from "../../../../account.service";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {
   ErrorNotificationDialogComponent
 } from "../../../../dialogs/notification/error-notification-dialog/error-notification-dialog.component";
 import {CheckboxModule} from "primeng/checkbox";
-import {DecimalPipe, KeyValuePipe, NgIf} from "@angular/common";
+import {DecimalPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {DropdownModule} from "primeng/dropdown";
 import {ImageModule} from "primeng/image";
 import {InputTextModule} from "primeng/inputtext";
@@ -40,7 +40,15 @@ import {
 import {
   ConfirmationEditDialogComponent
 } from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
-import {MatInput} from "@angular/material/input";
+import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {EditorModule} from "primeng/editor";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
+import {MatTooltip} from "@angular/material/tooltip";
+import {ProductModality} from "../product-modality";
+import {ProductModalityForm} from "../product-modality-form";
 
 @Component({
   selector: 'app-product-edit',
@@ -63,7 +71,20 @@ import {MatInput} from "@angular/material/input";
         PaginatorModule,
         ReactiveFormsModule,
         SharedModule,
-        MatInput
+        MatInput,
+        IconFieldModule,
+        InputIconModule,
+        EditorModule,
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormField,
+        MatLabel,
+        MatOption,
+        MatSelect,
+        MatTooltip,
+        NgForOf
     ],
   templateUrl: './product-edit.component.html',
   styleUrl: './product-edit.component.css'
@@ -130,6 +151,26 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // @ts-ignore
   objectFileErrorMessage: string = null;
+  insuredTypeList: any[] = [];
+
+  //
+  clauses: any;
+  isView: boolean = false;
+
+  //
+
+  formContractModalityList: FormGroup[] = [];
+  formContractModality: FormGroup = new FormGroup({}, undefined, undefined);
+  contractModalityForm: ProductModalityForm = new ProductModalityForm();
+  contractModality: ProductModality = new ProductModality();
+  contractModalityList: any[] = [];
+
+  isFormValid: boolean = true;
+  getForm: any = null;
+
+  periodList: any[] = [];
+
+  //
 
   constructor(
     private _fb: FormBuilder,
@@ -150,26 +191,58 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.headerTitle = "Marketing";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
-      this.onGetProductGroupList()
-      this.onGetSegmentList()
+      this.onGetProductGroupList();
+      this.onGetSegmentList();
+      this.onGetPeriodList();
+      this.onGetInsuredTypeList();
       this.onGetIncentiveList()
       this.onGetPartnerCommercialList();
 
       // @ts-ignore
       this.productData = JSON.parse(localStorage.getItem("PRODUCT_DATA"));
 
+      this.dataForm.code.setValue(this.productData.code);
       this.dataForm.name.setValue(this.productData.name);
 
-      this.dataForm.cashBackRate.setValue(this.productData.cashBackRate);
-      this.dataForm.commercialDiscountRate.setValue(this.productData.commercialDiscountRate);
-      this.dataForm.premiumIncreaseRate.setValue(this.productData.premiumIncreaseRate);
+      if (this.productData.cashBackRate) {
+        this.dataForm.cashBackRate.setValue(this.productData.cashBackRate);
+      }
+
+      if (this.productData.commercialDiscountRate) {
+        this.dataForm.commercialDiscountRate.setValue(this.productData.commercialDiscountRate);
+      }
+
+      if (this.productData.premiumIncreaseRate) {
+        this.dataForm.premiumIncreaseRate.setValue(this.productData.premiumIncreaseRate);
+      }
+
+      if (this.productData.crossSellingDiscountRate) {
+        this.dataForm.crossSellingDiscountRate.setValue(this.productData.crossSellingDiscountRate);
+      }
+
       this.dataForm.crossSellingProductCode.setValue(this.productData.crossSellingProductCode);
-      this.dataForm.crossSellingDiscountRate.setValue(this.productData.crossSellingDiscountRate);
-      this.dataForm.loyaltyPoint.setValue(this.productData.loyaltyPoint);
+
+      if (this.productData.loyaltyPoints) {
+        this.dataForm.loyaltyPoints.setValue(this.productData.loyaltyPoints);
+      }
+
+      if (this.productData.numberSubscriptions) {
+        this.dataForm.numberSubscriptions.setValue(this.productData.numberSubscriptions);
+      }
+
       this.dataForm.clauses.setValue(this.productData.clauses);
-      this.productClauses = this.productData.clauses;
+      this.clauses = this.productData.clauses;
       this.dataForm.description.setValue(this.productData.description);
       this.dataForm.backOfficeValidation.setValue(this.productData.backOfficeValidation);
+
+      if (this.productData.backOfficeValidationCapital) {
+        this.dataForm.backOfficeValidationCapital.setValue(this.productData.backOfficeValidationCapital);
+      }
+
+      if (this.productData.backOfficeValidationPremium) {
+        this.dataForm.backOfficeValidationPremium.setValue(this.productData.backOfficeValidationPremium);
+      }
+
 
       if (this.productData.group) {
         this.dataForm.group.setValue(this.productData.group.name);
@@ -204,6 +277,17 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
         this.dataForm.advertisementObject.setValue("Non");
       }
 
+      if (this.productData.insuredTypes) {
+        if (this.productData.insuredTypes.length > 0) {
+          let insuredTypes: any[] = [];
+          this.productData.insuredTypes.forEach((it: any) => {
+            insuredTypes.push(it.libelle);
+          });
+          // @ts-ignore
+          this.dataForm.insuredTypes.setValue(insuredTypes);
+        }
+      }
+
       if (this.productData.incentives) {
         if (this.productData.incentives.length > 0) {
           let incentiveIds: any[] = [];
@@ -223,6 +307,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
               code: ps.partner.code,
               name: ps.partner.name,
               accessoryAmount: ps.accessoryAmount,
+              accessoryTaxRate: ps.accessoryTaxRate,
               commissionRate: ps.commissionRate,
               sponsorshipCode: ps.sponsorshipCode,
             }
@@ -239,12 +324,58 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
         this.productAdvertisementObjectFileUrl = this.productData.advertisementObjectFile.url;
       }
 
+      if (this.productData.modalities && this.productData.modalities.length > 0) {
+
+        // @ts-ignore
+        this.productData.modalities.forEach(modality => {
+
+          let m = new ProductModality();
+          m.id = modality.id;
+          // @ts-ignore
+          m.name.setValue(modality.name);
+          // @ts-ignore
+         m.duration.setValue(modality.duration);
+          // @ts-ignore
+          m.unitId.setValue(modality.unit.id);
+          // @ts-ignore
+          m.weighting.setValue(modality.weighting);
+          // @ts-ignore
+          m.position.setValue(modality.position);
+          //
+          this.formContractModality = this._fb.group(this.contractModalityForm);
+          let fcm = this._fb.group(m);
+          this.formContractModalityList.push(fcm);
+          //
+
+        });
+
+      } else {
+        //
+        this.formContractModality = this._fb.group(this.contractModalityForm);
+
+        // @ts-ignore
+        this.contractModality.name.setValue("1 Mois");
+        // @ts-ignore
+        this.contractModality.duration.setValue(1);
+        // @ts-ignore
+        this.contractModality.unitId.setValue(2);
+        // @ts-ignore
+        this.contractModality.weighting.setValue(0.1);
+        // @ts-ignore
+        this.contractModality.position.setValue(1);
+        this.contractModality.start = true;
+        let fcm = this._fb.group(this.contractModality);
+        this.formContractModalityList.push(fcm);
+        //
+      }
+
+
 
     this.formData = this._fb.group(this.dataForm);
     this.formProductPartner = this._fb.group(this.productPartnerForm);
 
     } else {
-      this._router.navigateByUrl("/account/products/list");
+      this._router.navigateByUrl("account/marketing/products/list");
     }
 
   }
@@ -265,7 +396,20 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/products/list");
+    this._router.navigateByUrl("account/marketing/products/list");
+  }
+
+  onGetInsuredTypeList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getInsuredTypeList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.insuredTypeList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
   }
 
   onConfirm(): void {
@@ -275,8 +419,8 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
-      width: '405px',
-      height: '340px',
+      width: '400px',
+      height: '400px',
       data: {
         dialogMessage: "de ce produit"
       },
@@ -317,24 +461,35 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.onSaveLoadingDialog();
 
     let requestData = {
+      code: this.formData.value.code,
       name: this.formData.value.name,
       description: this.formData.value.description,
       groupId: null,
       segmentId: null,
       crossSellingProductCode: this.formData.value.crossSellingProductCode,
       crossSellingDiscountRate: this.formData.value.crossSellingDiscountRate,
-      incentives: [],
+      incentiveIds: [],
       cashBackRate: this.formData.value.cashBackRate,
       commercialDiscountRate: this.formData.value.commercialDiscountRate,
       premiumIncreaseRate: this.formData.value.premiumIncreaseRate,
-      loyaltyPoint: this.formData.value.loyaltyPoint,
+      loyaltyPoints: this.formData.value.loyaltyPoints,
+      numberSubscriptions: this.formData.value.numberSubscriptions,
       renewable: null,
       tacitAgreement: null,
       advertisementObject: null,
       advertisementObjectFile: null,
       backOfficeValidation: this.formData.value.backOfficeValidation,
-      clauses: this.productClauses,
+      backOfficeValidationCapital: null,
+      backOfficeValidationPremium: null,
+      clauses: this.clauses,
       partners: [],
+      insuredTypeIds: [],
+      modalityList: [],
+    }
+
+    if(requestData.backOfficeValidation) {
+      requestData.backOfficeValidationCapital = this.formData.value.backOfficeValidationCapital;
+      requestData.backOfficeValidationPremium = this.formData.value.backOfficeValidationPremium;
     }
 
     if (this.formData.value.group) {
@@ -352,6 +507,22 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
         this.segmentList.forEach((item: any) => {
           if (item.name === this.formData.value.segment) {
             requestData.segmentId = item.id;
+          }
+        });
+      }
+    }
+
+    if (this.formData.value.insuredTypes) {
+      let insuredTypes = this.formData.value.insuredTypes;
+      if (insuredTypes.length > 0) {
+        insuredTypes.forEach((it: any) => {
+          if (this.insuredTypeList.length > 0) {
+            this.insuredTypeList.forEach((itl: any) => {
+              if (it === itl.libelle) {
+                // @ts-ignore
+                requestData.insuredTypeIds.push(itl.id);
+              }
+            });
           }
         });
       }
@@ -398,7 +569,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
       if (incentives.length > 0) {
         incentives.forEach((incentive: any) => {
           // @ts-ignore
-          requestData.incentives.push(incentive.id);
+          requestData.incentiveIds.push(incentive.id);
         });
       }
     }
@@ -406,6 +577,20 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectPartnerList && this.selectPartnerList.length > 0) {
       // @ts-ignore
       requestData.partners = this.selectPartnerList;
+    }
+
+    if (this.formContractModalityList && this.formContractModalityList.length > 0) {
+
+      let productModalities: ProductModality[] = [];
+
+      this.formContractModalityList.forEach(fcm => {
+        console.log(fcm.value);
+        productModalities.push(fcm.value);
+      });
+
+      // @ts-ignore
+      requestData.modalityList = productModalities;
+
     }
 
     let id = this.productData.id;
@@ -516,7 +701,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/products/list")
+      this._router.navigateByUrl("account/marketing/products/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -629,6 +814,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
               code: p.code,
               name: p.name,
               accessoryAmount: this.formProductPartner.value.partnerAccessoryAmount,
+              accessoryTaxRate: this.formProductPartner.value.partnerAccessoryTaxRate,
               commissionRate: this.formProductPartner.value.partnerCommissionRate,
               sponsorshipCode: this.formProductPartner.value.sponsorshipCode,
             };
@@ -652,6 +838,7 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.productPartnerForm.partnerId.setValue(item.name);
     this.productPartnerForm.partnerAccessoryAmount.setValue(item.accessoryAmount);
     this.productPartnerForm.partnerCommissionRate.setValue(item.commissionRate);
+    this.productPartnerForm.partnerAccessoryTaxRate.setValue(item.accessoryTaxRate);
     this.productPartnerForm.sponsorshipCode.setValue(item.sponsorshipCode);
   }
 
@@ -824,6 +1011,56 @@ export class ProductEditComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
     });
+  }
+
+  onAddFormModality() {
+
+    const lastItem = this.formContractModalityList[this.formContractModalityList.length - 1];
+
+    if (lastItem.valid) {
+      let f: FormGroup;
+      let pm = new ProductModality();
+      pm.position = lastItem.value.position + 1;
+      pm.start = false;
+      f = this._fb.group(pm);
+      this.getForm = f;
+      console.log(f);
+      this.formContractModalityList.push(f);
+    }
+
+  }
+
+  onRemoveFormModality(f: any) {
+
+    let i = this.formContractModalityList.lastIndexOf(f);
+    let s = i;
+    let e = i -1;
+
+    if (e < 1) {
+      e = 1
+    }
+
+    if (this.getForm) {
+      if (this.formContractModalityList.lastIndexOf(f) === this.formContractModalityList.lastIndexOf(this.getForm)) {
+        this.isFormValid = true;
+      }
+    }
+
+    this.formContractModalityList.splice(s, e);
+
+  }
+
+  onGetPeriodList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getPeriodList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.periodList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
   }
 
 

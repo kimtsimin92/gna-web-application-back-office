@@ -44,7 +44,7 @@ export class FormBuilderInputCheckboxDialogComponent implements OnInit, OnDestro
     options: new FormControl(this.optionsData),
     values: new FormControl(this.valuesData),
     required: new FormControl(false),
-    text: new FormControl(true),
+    numeric: new FormControl(null),
   });
 
   currentSelectedTag: any = null;
@@ -88,7 +88,7 @@ export class FormBuilderInputCheckboxDialogComponent implements OnInit, OnDestro
 
 
       if (this.data.formStepQuestion.value.attributes.text) {
-        this.inputForm.patchValue({text: this.data.formStepQuestion.value.attributes.text});
+        this.inputForm.patchValue({numeric: this.data.formStepQuestion.value.attributes.numeric});
       }
     }
 

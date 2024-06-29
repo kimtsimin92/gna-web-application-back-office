@@ -241,6 +241,107 @@ import {
 import {
   CompensationRequestCloseListComponent
 } from "./pages/compensation/compensation-request-close/compensation-request-close-list/compensation-request-close-list.component";
+import {profileGroupGuard} from "../auth/profile/profile-group.guard";
+import {profileRoleGuard} from "../auth/profile/profile-role.guard";
+import {profilePermissionGuard} from "../auth/profile/profile-permission.guard";
+import {
+  ProductCategoryListComponent
+} from "./pages/list-management/product-category/product-category-list/product-category-list.component";
+import {
+  ProductCategoryEditComponent
+} from "./pages/list-management/product-category/product-category-edit/product-category-edit.component";
+import {
+  ProductCategoryViewComponent
+} from "./pages/list-management/product-category/product-category-view/product-category-view.component";
+import {
+  ProductCategoryAddComponent
+} from "./pages/list-management/product-category/product-category-add/product-category-add.component";
+import {CapitalListComponent} from "./pages/settings-products/capital/capital-list/capital-list.component";
+import {CapitalAddComponent} from "./pages/settings-products/capital/capital-add/capital-add.component";
+import {QuoteSimulationComponent} from "./pages/quote/quote-simulation/quote-simulation.component";
+import {
+  SubscriptionQuoteListComponent
+} from "./pages/subscription/subscription-quote/subscription-quote-list/subscription-quote-list.component";
+import {
+  SubscriptionQuoteViewComponent
+} from "./pages/subscription/subscription-quote/subscription-quote-view/subscription-quote-view.component";
+import {
+  SubscriptionSubmitListComponent
+} from "./pages/subscription/subscription-submit/subscription-submit-list/subscription-submit-list.component";
+import {
+  SubscriptionSubmitViewComponent
+} from "./pages/subscription/subscription-submit/subscription-submit-view/subscription-submit-view.component";
+import {
+  SubscriptionRejectListComponent
+} from "./pages/subscription/subscription-reject/subscription-reject-list/subscription-reject-list.component";
+import {
+  SubscriptionValidateViewComponent
+} from "./pages/subscription/subscription-validate/subscription-validate-view/subscription-validate-view.component";
+import {
+  SubscriptionRejectViewComponent
+} from "./pages/subscription/subscription-reject/subscription-reject-view/subscription-reject-view.component";
+import {
+  SubscriptionValidateListComponent
+} from "./pages/subscription/subscription-validate/subscription-validate-list/subscription-validate-list.component";
+import {ComplaintsListComponent} from "./pages/marketing/complaints/complaints-list/complaints-list.component";
+import {ComplaintsViewComponent} from "./pages/marketing/complaints/complaints-view/complaints-view.component";
+import {
+  ComplaintsCloseListComponent
+} from "./pages/marketing/complaints/complaints-close-list/complaints-close-list.component";
+import {
+  UserCoinsurerListComponent
+} from "./pages/settings/users-external/user-coinsurer-list/user-coinsurer-list.component";
+import {
+  UserCoinsurerAddComponent
+} from "./pages/settings/users-external/user-coinsurer-add/user-coinsurer-add.component";
+import {
+  UserCoinsurerEditComponent
+} from "./pages/settings/users-external/user-coinsurer-edit/user-coinsurer-edit.component";
+import {
+  UserCoinsurerViewComponent
+} from "./pages/settings/users-external/user-coinsurer-view/user-coinsurer-view.component";
+import {
+  UserReinsurerListComponent
+} from "./pages/settings/users-external/user-reinsurer-list/user-reinsurer-list.component";
+import {
+  UserReinsurerAddComponent
+} from "./pages/settings/users-external/user-reinsurer-add/user-reinsurer-add.component";
+import {
+  UserReinsurerEditComponent
+} from "./pages/settings/users-external/user-reinsurer-edit/user-reinsurer-edit.component";
+import {
+  UserReinsurerViewComponent
+} from "./pages/settings/users-external/user-reinsurer-view/user-reinsurer-view.component";
+import {
+  ComplaintsCloseViewComponent
+} from "./pages/marketing/complaints/complaints-close-view/complaints-close-view.component";
+import {VisitListComponent} from "./pages/marketing/captive-portal/visits/visit-list/visit-list.component";
+import {VisitViewComponent} from "./pages/marketing/captive-portal/visits/visit-view/visit-view.component";
+import {CoinsuranceComponent} from "./pages/subscription/coinsurance/coinsurance.component";
+import {ReinsuranceComponent} from "./pages/subscription/reinsurance/reinsurance.component";
+
+const PROFILE_GROUPS: any = {
+  managementCustomers: "GROUP_MANAGEMENT_CUSTOMERS",
+  managementProducts: "GROUP_MANAGEMENT_PRODUCTS",
+  managementMarketing: "GROUP_MANAGEMENT_MARKETING",
+}
+
+const PROFILE_ROLES: any = {
+  managementCustomerRequests: "ROLE_MANAGEMENT_CUSTOMER_REQUESTS",
+  managementCustomerAccounts: "ROLE_MANAGEMENT_CUSTOMER_ACCOUNTS",
+  managementProductGuarantees: "ROLE_MANAGEMENT_PRODUCT_GUARANTEES",
+  managementProductGroups: "ROLE_MANAGEMENT_PRODUCT_GROUPS",
+}
+
+const PROFILE_PERMISSION: any = {
+  PERMISSION_LIST: "PERMISSION_LIST",
+  PERMISSION_VIEW: "PERMISSION_VIEW",
+  PERMISSION_ADD: "PERMISSION_ADD",
+  PERMISSION_EDIT: "PERMISSION_EDIT",
+  PERMISSION_REMOVE: "PERMISSION_REMOVE",
+  PERMISSION_ENABLE: "PERMISSION_ENABLE",
+  PERMISSION_VALIDATE: "PERMISSION_VALIDATE",
+}
 
 
 export const routes: Routes = [
@@ -255,36 +356,193 @@ export const routes: Routes = [
         title: 'Dashboard | GNA',
       },
       {
-        path: 'manager/accounts/personals/requests/list', component: CustomerPersonalAccountRequestListComponent,
-        title: "Demmandes d'ouvertures de comptes particuliers - Lister | GNA",
+        path: 'management/customers',
+        title: "Gestion des comptes | GNA",
+      /*  canActivate: [profileGroupGuard],
+        data: {
+          groups: [PROFILE_GROUPS.managementCustomers]
+        },*/
+        children: [
+          {
+            path: 'requests',
+            title: "Demmandes d'ouvertures de comptes | GNA",
+         /*   canActivate: [profileRoleGuard],
+            data: {
+              roles: [PROFILE_ROLES.managementCustomerRequests]
+            },*/
+            children: [
+              {
+                path: 'personals/list', component: CustomerPersonalAccountRequestListComponent,
+                title: "Demmandes d'ouvertures de comptes particuliers - Lister | GNA",
+              },
+              {
+                path: 'personals/view', component: CustomerPersonalAccountRequestDetailComponent,
+                title: "Demmandes d'ouvertures de comptes particuliers - Voir | GNA",
+              },
+              {
+                path: 'companies/list', component: CustomerCompanyAccountRequestListComponent,
+                title: "Demmandes d'ouvertures de comptes entreprises - Lister | GNA",
+              },
+              {
+                path: 'companies/view', component: CustomerCompanyAccountRequestDetailComponent,
+                title: "Demmandes d'ouvertures de comptes entreprises - Voir | GNA",
+              },
+            ]
+          },
+          {
+            path: 'accounts',
+            title: "Comptes | GNA",
+           /* canActivate: [profileRoleGuard],
+            data: {
+              roles: [PROFILE_ROLES.managementCustomerAccounts]
+            },*/
+            children: [
+              {
+                path: 'personals/list', component: ManagementCustomerAccountPersonalListComponent,
+                title: "Comptes particuliers | GNA",
+              },
+              {
+                path: 'personals/view', component: ManagementCustomerAccountPersonalViewComponent,
+                title: "Comptes particuliers | GNA",
+              },
+              {
+                path: 'companies/list', component: ManagementCustomerAccountCompanyListComponent,
+                title: "Comptes entreprises | GNA",
+              },
+              {
+                path: 'companies/view', component: ManagementCustomerAccountCompanyViewComponent,
+                title: "Comptes entreprises | GNA",
+              },
+            ]
+          },
+        ]
       },
       {
-        path: 'manager/accounts/personals/requests/view', component: CustomerPersonalAccountRequestDetailComponent,
-        title: "Demmandes d'ouvertures de comptes particuliers - Voir | GNA",
+        path: 'management/products',
+        title: 'Configuration des produits | GNA',
+      /*  canActivate: [profileGroupGuard],
+        data: {
+          groups: [PROFILE_GROUPS.managementProducts]
+        },*/
+        children: [
+          {
+            path: 'guarantees',
+            title: 'Garanties | GNA',
+          /*  canActivate: [profileRoleGuard],
+            data: {
+              roles: [PROFILE_ROLES.managementProductGuarantees]
+            },*/
+            children: [
+              {
+                path: 'list', component: GuaranteeListComponent,
+                title: 'Garanties - Lister | GNA',
+              /*  canActivate: [profilePermissionGuard],
+                data: {
+                  groups: [PROFILE_GROUPS.managementProducts],
+                  roles: [PROFILE_ROLES.managementProductGuarantees],
+                  permissions: [PROFILE_PERMISSION.PERMISSION_LIST],
+                },*/
+              },
+              {
+                path: 'add', component: GuaranteeAddComponent,
+                title: 'Garanties - Créer | GNA',
+               /* canActivate: [profilePermissionGuard],
+                data: {
+                  groups: [PROFILE_GROUPS.managementProducts],
+                  roles: [PROFILE_ROLES.managementProductGuarantees],
+                  permissions: [PROFILE_PERMISSION.PERMISSION_ADD],
+                },*/
+              },
+              {
+                path: 'edit', component: GuaranteeEditComponent,
+                title: 'Garanties - Modifier | GNA',
+             /*   canActivate: [profilePermissionGuard],
+                data: {
+                  groups: [PROFILE_GROUPS.managementProducts],
+                  roles: [PROFILE_ROLES.managementProductGuarantees],
+                  permissions: [PROFILE_PERMISSION.PERMISSION_EDIT],
+                },*/
+              },
+              {
+                path: 'view', component: GuaranteeViewComponent,
+                title: 'Garanties - Voir | GNA',
+               /* canActivate: [profilePermissionGuard],
+                data: {
+                  groups: [PROFILE_GROUPS.managementProducts],
+                  roles: [PROFILE_ROLES.managementProductGuarantees],
+                  permissions: [PROFILE_PERMISSION.PERMISSION_VIEW],
+                },*/
+              },
+            ]
+          },
+          {
+            path: 'groups',
+            title: 'Groupes de produits | GNA',
+          /*  canActivate: [profileRoleGuard],
+            data: {
+              roles: [PROFILE_ROLES.managementProductGroups]
+            },*/
+            children: [
+              {
+                path: 'list', component: ProductGroupListComponent,
+                title: 'Groupes de produits - Lister | GNA',
+              },
+              {
+                path: 'add', component: ProductGroupAddComponent,
+                title: 'Groupes de produits - Créer | GNA',
+              },
+              {
+                path: 'edit', component: ProductGroupEditComponent,
+                title: 'Groupes de produits - Modifier | GNA',
+              },
+              {
+                path: 'view', component: ProductGroupViewComponent,
+                title: 'Groupes de produits | GNA',
+              },
+            ]
+          },
+        ]
+      },
+
+      {
+        path: 'subscriptions/quotes/list', component: SubscriptionQuoteListComponent,
+        title: "Gestion des souscriptions - Cotations | GNA",
       },
       {
-        path: 'manager/accounts/companies/requests/list', component: CustomerCompanyAccountRequestListComponent,
-        title: "Demmandes d'ouvertures de comptes entreprises - Lister | GNA",
+        path: 'subscriptions/quotes/view', component: SubscriptionQuoteViewComponent,
+        title: "Gestion des souscriptions - Cotations | GNA",
       },
       {
-        path: 'manager/accounts/companies/requests/view', component: CustomerCompanyAccountRequestDetailComponent,
-        title: "Demmandes d'ouvertures de comptes entreprises - Voir | GNA",
+        path: 'subscriptions/submits/list', component: SubscriptionSubmitListComponent,
+        title: "Gestion des souscriptions - Demandes soumises | GNA",
       },
       {
-        path: 'managements/accounts/personals/list', component: ManagementCustomerAccountPersonalListComponent,
-        title: "Comptes particuliers | GNA",
+        path: 'subscriptions/submits/view', component: SubscriptionSubmitViewComponent,
+        title: "Gestion des souscriptions - Demandes soumises | GNA",
       },
       {
-        path: 'managements/accounts/personals/view', component: ManagementCustomerAccountPersonalViewComponent,
-        title: "Comptes particuliers | GNA",
+        path: 'subscriptions/submits/co-insurances/view', component: CoinsuranceComponent,
+        title: "Gestion des souscriptions - Demandes soumises - Coassurance | GNA",
       },
       {
-        path: 'managements/accounts/companies/list', component: ManagementCustomerAccountCompanyListComponent,
-        title: "Comptes entreprises | GNA",
+        path: 'subscriptions/submits/re-insurances/view', component: ReinsuranceComponent,
+        title: "Gestion des souscriptions - Demandes soumises - Réassurance | GNA",
       },
       {
-        path: 'managements/accounts/companies/view', component: ManagementCustomerAccountCompanyViewComponent,
-        title: "Comptes entreprises | GNA",
+        path: 'subscriptions/validates/list', component: SubscriptionValidateListComponent,
+        title: "Gestion des souscriptions - Demandes validées | GNA",
+      },
+      {
+        path: 'subscriptions/validates/view', component: SubscriptionValidateViewComponent,
+        title: "Gestion des souscriptions - Demandes validées | GNA",
+      },
+      {
+        path: 'subscriptions/rejects/list', component: SubscriptionRejectListComponent,
+        title: "Gestion des souscriptions - Demandes rejetées | GNA",
+      },
+      {
+        path: 'subscriptions/rejects/view', component: SubscriptionRejectViewComponent,
+        title: "Gestion des souscriptions - Demandes rejetées | GNA",
       },
       {
         path: 'coinsurance/requests/submits/list', component: CoinsuranceSubmitListComponent,
@@ -444,84 +702,100 @@ export const routes: Routes = [
 
 
       {
-        path: 'partners/list', component: PartnerListComponent,
+        path: 'settings/lists/partners/list', component: PartnerListComponent,
         title: 'Partenaires - Lister | GNA',
       },
       {
-        path: 'partners/add', component: PartnerSaveComponent,
+        path: 'settings/lists/partners/add', component: PartnerSaveComponent,
         title: 'Partenaires - Créer | GNA',
       },
       {
-        path: 'partners/edit', component: PartnerEditComponent,
+        path: 'settings/lists/partners/edit', component: PartnerEditComponent,
         title: 'Partenaires - Modifier | GNA',
       },
       {
-        path: 'partners/view', component: PartnerViewComponent,
+        path: 'settings/lists/partners/view', component: PartnerViewComponent,
         title: 'Partenaires | GNA',
       },
       {
-        path: 'branches/list', component: BranchListComponent,
+        path: 'settings/lists/branches/list', component: BranchListComponent,
         title: 'Branches - Lister | GNA',
       },
       {
-        path: 'branches/add', component: BranchAddComponent,
+        path: 'settings/lists/branches/add', component: BranchAddComponent,
         title: 'Branches - Créer | GNA',
       },
       {
-        path: 'branches/edit', component: BranchEditComponent,
+        path: 'settings/lists/branches/edit', component: BranchEditComponent,
         title: 'Branches - Modifier | GNA',
       },
       {
-        path: 'branches/view', component: BranchViewComponent,
+        path: 'settings/lists/branches/view', component: BranchViewComponent,
         title: 'Branches | GNA',
       },
       {
-        path: 'zones/list', component: ZoneListComponent,
+        path: 'settings/lists/categories/list', component: ProductCategoryListComponent,
+        title: 'Catégories - Lister | GNA',
+      },
+      {
+        path: 'settings/lists/categories/add', component: ProductCategoryAddComponent,
+        title: 'Catégories - Créer | GNA',
+      },
+      {
+        path: 'settings/lists/categories/edit', component: ProductCategoryEditComponent,
+        title: 'Catégories - Modifier | GNA',
+      },
+      {
+        path: 'settings/lists/categories/view', component: ProductCategoryViewComponent,
+        title: 'Catégories | GNA',
+      },
+      {
+        path: 'settings/lists/zones/list', component: ZoneListComponent,
         title: 'Territoires - Lister | GNA',
       },
       {
-        path: 'zones/add', component: ZoneAddComponent,
+        path: 'settings/lists/zones/add', component: ZoneAddComponent,
         title: 'Territoires - Créer | GNA',
       },
       {
-        path: 'zones/edit', component: ZoneEditComponent,
+        path: 'settings/lists/zones/edit', component: ZoneEditComponent,
         title: 'Territoires - Modifier | GNA',
       },
       {
-        path: 'zones/view', component: ZoneViewComponent,
+        path: 'settings/lists/zones/view', component: ZoneViewComponent,
         title: 'Territoires | GNA',
       },
       {
-        path: 'segments/list', component: SegmentListComponent,
+        path: 'marketing/segments/list', component: SegmentListComponent,
         title: 'Segmentation - Lister | GNA',
       },
       {
-        path: 'segments/add', component: SegmentAddComponent,
+        path: 'marketing/segments/add', component: SegmentAddComponent,
         title: 'Segmentation - Créer | GNA',
       },
       {
-        path: 'segments/edit', component: SegmentEditComponent,
+        path: 'marketing/segments/edit', component: SegmentEditComponent,
         title: 'Segmentation - Modifier | GNA',
       },
       {
-        path: 'segments/view', component: SegmentViewComponent,
+        path: 'marketing/segments/view', component: SegmentViewComponent,
         title: 'Segmentation | GNA',
       },
       {
-        path: 'settings-products/forms/quotations/list', component: FormQuotationListComponent,
-        title: 'Formulaires Cotations - Lister | GNA',
+        path: 'management/products/quotes/forms/list', component: FormQuotationListComponent,
+        title: 'Formulaires de cotations - Lister | GNA',
       },
       {
-        path: 'settings-products/forms/quotations/add', component: FormQuotationAddComponent,
-        title: 'Formulaires Cotations - Créer | GNA',
+        path: 'management/products/quotes/forms/add', component: FormQuotationAddComponent,
+        title: 'Formulaires de cotations - Créer | GNA',
       },
       {
-        path: 'settings-products/forms/quotations/edit', component: FormQuotationEditComponent,
-        title: 'Formulaires Cotations - Modifier | GNA',
+        path: 'management/products/quotes/forms/edit', component: FormQuotationEditComponent,
+        title: 'Formulaires de cotations - Modifier | GNA',
       },
       {
-        path: 'settings-products/forms/quotations/view', component: FormQuotationViewComponent,
-        title: 'Formulaires Cotations | GNA',
+        path: 'management/products/quotes/forms/view', component: FormQuotationViewComponent,
+        title: 'Formulaires de cotations - Voir | GNA',
       },
       {
         path: 'settings-products/forms/subscriptions/list', component: FormSubscriptionListComponent,
@@ -540,68 +814,48 @@ export const routes: Routes = [
         title: 'Formulaires Souscriptions | GNA',
       },
       {
-        path: 'settings-products/premium-calculation/list', component: PremiumCalculationListComponent,
-        title: 'Calculs de primes - Lister | GNA',
+        path: 'management/products/pricing/list', component: PremiumCalculationListComponent,
+        title: 'Tarification des primes - Lister | GNA',
       },
       {
-        path: 'settings-products/premium-calculation/add', component: PremiumCalculationAddComponent,
-        title: 'Calculs de primes - Créer | GNA',
+        path: 'management/products/pricing/add', component: PremiumCalculationAddComponent,
+        title: 'Tarification des primes - Créer | GNA',
       },
       {
-        path: 'settings-products/premium-calculation/edit', component: PremiumCalculationEditComponent,
-        title: 'Calculs de primes - Modifier | GNA',
+        path: 'management/products/pricing/edit', component: PremiumCalculationEditComponent,
+        title: 'Tarification des primes - Modifier | GNA',
       },
       {
-        path: 'settings-products/premium-calculation/view', component: PremiumCalculationDetailComponent,
-        title: 'Calculs de primes - Voir | GNA',
+        path: 'management/products/pricing/view', component: PremiumCalculationDetailComponent,
+        title: 'Tarification des primes - Voir | GNA',
       },
       {
-        path: 'guarantees/list', component: GuaranteeListComponent,
-        title: 'Garantie - Lister | GNA',
+        path: 'management/products/capitals/list', component: CapitalListComponent,
+        title: 'Capital - Lister | GNA',
       },
       {
-        path: 'guarantees/add', component: GuaranteeAddComponent,
-        title: 'Garantie - Créer | GNA',
+        path: 'management/products/capitals/add', component: CapitalAddComponent,
+        title: 'Capital - Créer | GNA',
       },
       {
-        path: 'guarantees/edit', component: GuaranteeEditComponent,
-        title: 'Garantie - Modifier | GNA',
-      },
-      {
-        path: 'guarantees/view', component: GuaranteeViewComponent,
-        title: 'Garantie | GNA',
-      },
-      {
-        path: 'products-groups/list', component: ProductGroupListComponent,
-        title: 'Groupe Produit - Lister | GNA',
-      },
-      {
-        path: 'products-groups/add', component: ProductGroupAddComponent,
-        title: 'Groupe Produit - Créer | GNA',
-      },
-      {
-        path: 'products-groups/edit', component: ProductGroupEditComponent,
-        title: 'Groupe Produit - Modifier | GNA',
-      },
-      {
-        path: 'products-groups/view', component: ProductGroupViewComponent,
-        title: 'Groupe Produit | GNA',
-      },
-      {
-        path: 'products/list', component: ProductListComponent,
+        path: 'marketing/products/list', component: ProductListComponent,
         title: 'Produit - Lister | GNA',
       },
       {
-        path: 'products/add', component: ProductAddComponent,
+        path: 'marketing/products/add', component: ProductAddComponent,
         title: 'Produit - Créer | GNA',
       },
       {
-        path: 'products/edit', component: ProductEditComponent,
+        path: 'marketing/products/edit', component: ProductEditComponent,
         title: 'Produit - Modifier | GNA',
       },
       {
-        path: 'products/view', component: ProductViewComponent,
-        title: 'Produit | GNA',
+        path: 'marketing/products/view', component: ProductViewComponent,
+        title: 'Produit - Voir | GNA',
+      },
+      {
+        path: 'marketing/products/simulation', component: QuoteSimulationComponent,
+        title: 'Produit - Simulation | GNA',
       },
       {
         path: 'marketing/campaigns/list', component: CampaignListComponent,
@@ -620,40 +874,96 @@ export const routes: Routes = [
         title: 'Marketing Campagnes Modifier | GNA',
       },
       {
+        path: 'marketing/visits/list', component: VisitListComponent,
+        title: 'Visites | Marketing - GNA',
+      },
+      {
+        path: 'marketing/visits/view', component: VisitViewComponent,
+        title: 'Visites | Marketing - GNA',
+      },
+      {
+        path: 'marketing/complaints/open/list', component: ComplaintsListComponent,
+        title: 'Réclamations - Tikets ouverts | Marketing - GNA',
+      },
+      {
+        path: 'marketing/complaints/open/view', component: ComplaintsViewComponent,
+        title: 'Réclamations - Tikets ouverts | Marketing - GNA',
+      },
+      {
+        path: 'marketing/complaints/close/list', component: ComplaintsCloseListComponent,
+        title: 'Réclamations - Tikets fermés | Marketing - GNA',
+      },
+      {
+        path: 'marketing/complaints/close/view', component: ComplaintsCloseViewComponent,
+        title: 'Réclamations - Tikets fermés | Marketing - GNA',
+      },
+      {
         path: 'profile', component: ProfileComponent,
         title: 'Compte - Mon Profil | GNA',
       },
       {
-        path: 'settings/profiles/list', component: UserProfileManagementComponent,
+        path: 'admin/users/interns/profiles/list', component: UserProfileManagementComponent,
         title: 'Gestion Profils | GNA',
       },
       {
-        path: 'settings/profiles/add', component: UserProfileManagementSaveComponent,
+        path: 'admin/users/interns/profiles/add', component: UserProfileManagementSaveComponent,
         title: 'Gestion Profils - Créer | GNA',
       },
       {
-        path: 'settings/profiles/view', component: UserProfileManagementViewComponent,
+        path: 'admin/users/interns/profiles/view', component: UserProfileManagementViewComponent,
         title: 'Gestion Profils | GNA',
       },
       {
-        path: 'settings/profiles/edit', component: UserProfileManagementEditComponent,
+        path: 'admin/users/interns/profiles/edit', component: UserProfileManagementEditComponent,
         title: 'Gestion Profils - Modifier | GNA',
       },
       {
-        path: 'settings/users', component: UsersManagerComponent,
+        path: 'admin/users/interns/list', component: UsersManagerComponent,
         title: 'Gestion Utilisateurs | GNA',
       },
       {
-        path: 'settings/users/add', component: UsersManagerSaveComponent,
+        path: 'admin/users/interns/add', component: UsersManagerSaveComponent,
         title: 'Gestion Utilisateurs - Créer | GNA',
       },
       {
-        path: 'settings/users/edit', component: UserManagementEditComponent,
+        path: 'admin/users/interns/edit', component: UserManagementEditComponent,
         title: 'Gestion Utilisateurs - Modifier | GNA',
       },
       {
-        path: 'settings/users/view', component: UserManagementViewComponent,
+        path: 'admin/users/interns/view', component: UserManagementViewComponent,
         title: 'Gestion Utilisateurs | GNA',
+      },
+      {
+        path: 'admin/users/external/coinsurers/list', component: UserCoinsurerListComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/coinsurers/add', component: UserCoinsurerAddComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/coinsurers/edit', component: UserCoinsurerEditComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/coinsurers/view', component: UserCoinsurerViewComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/reinsurers/list', component: UserReinsurerListComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/reinsurers/add', component: UserReinsurerAddComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/reinsurers/edit', component: UserReinsurerEditComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
+      },
+      {
+        path: 'admin/users/external/reinsurers/view', component: UserReinsurerViewComponent,
+        title: 'Gestion Utilisateurs Externes | GNA',
       },
     ],
   },
@@ -664,9 +974,9 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'simulation/quotation',
+    path: 'simulation/quote',
     component: SimulationQuotationComponent,
-    title: 'Simulation Cotation | GNA',
+    title: 'Simulation | GNA',
     canActivate: [authGuard]
   }
 ];

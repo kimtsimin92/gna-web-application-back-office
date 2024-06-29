@@ -79,7 +79,7 @@
                    *ngIf="elementData">
 
                 <div class="row" *ngIf="elementData.validation_status == 3">
-                  <div class="col">
+                  <div class="col offset-10">
                     <p-tag severity="danger" value="Rejeté"></p-tag>
                   </div>
                 </div>
@@ -148,8 +148,8 @@
                   <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                     <span class="gna-view-label">Code Segment : </span>
                     <span class="gna-view-value">
-                      @if (elementData.code_segment ) {
-                        {{ elementData.code_segment }}
+                      @if (elementData.segment ) {
+                        {{ elementData.segment.name }}
                       } @else {
                         N/A
                       }
@@ -243,11 +243,10 @@
             <div class="row gna-files">
               <span class="gna-files-underline">Documents joints</span>
               <div class="row">
-                @if (!isLoadingFiles) {
 
-                  @if (elementData.files && elementData.files.length > 0) {
+                  @if (elementData.medias && elementData.medias.length > 0) {
 
-                    <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1" *ngFor="let file of elementData.files">
+                    <div class="col-6 col-sm-6 col-md-2 col-lg-1 col-xl-1" *ngFor="let file of elementData.medias">
                       <span class="gna-element-file-name">{{ file.libelle }}</span>
                       <br>
 
@@ -277,12 +276,6 @@
                     </div>
                   }
 
-
-                } @else {
-                  <div class="col">
-                    <p-skeleton width="2rem" size="5rem" styleClass="mr-2" />
-                  </div>
-                }
               </div>
             </div>
 

@@ -52,6 +52,10 @@ import {InputTextModule} from "primeng/inputtext";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {KeyFilterModule} from "primeng/keyfilter";
 import {MultiSelectModule} from "primeng/multiselect";
+import {InputNumberModule} from "primeng/inputnumber";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {AuthService} from "../../../../../auth/auth.service";
 
 @Component({
   selector: 'app-guarantee-edit',
@@ -80,7 +84,10 @@ import {MultiSelectModule} from "primeng/multiselect";
         InputTextModule,
         InputTextareaModule,
         KeyFilterModule,
-        MultiSelectModule
+        MultiSelectModule,
+        InputNumberModule,
+        IconFieldModule,
+        InputIconModule
     ],
   templateUrl: './guarantee-edit.component.html',
   styleUrl: './guarantee-edit.component.css'
@@ -122,10 +129,13 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
     },
   ];
 
+  categoryList: any[] = [];
+
   constructor(
     private _fb: FormBuilder,
     public _dialog: MatDialog,
     private _router: Router,
+    public authService: AuthService,
     public accountService: AccountService) {
   }
 
@@ -151,6 +161,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     if (localStorage.getItem("GUARANTEE_DATA")) {
 
+      this.onGetCategoryList();
       this.onGetPeriodList();
       this.onGetZoneList();
       this.onGetPartnerList();
@@ -167,6 +178,10 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
       this.dataForm.subscriptionMinimumPeriod.setValue(this.guarantee.subscriptionMinimumPeriod);
       this.dataForm.subscriptionMaximumPeriod.setValue(this.guarantee.subscriptionMaximumPeriod);
       this.dataForm.deficiencyDeadline.setValue(this.guarantee.deficiencyDeadline);
+
+      if (this.guarantee.category) {
+        this.dataForm.category.setValue(this.guarantee.category.name);
+      }
 
       if (this.guarantee.deficiencyDeadlineUnit) {
         this.dataForm.deficiencyDeadlineUnit.setValue(this.guarantee.deficiencyDeadlineUnit.name);
@@ -222,12 +237,14 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/guarantees/list");
+    this._router.navigateByUrl("/account/management/products/guarantees/list");
   }
 
   private onSave() {
 
     this.isSave = true;
+
+    console.log(this.formData.value.deficiencyDeadlineUnit);
 
     this.onSaveLoadingDialog();
 
@@ -238,7 +255,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
       franchiseRate: this.formData.value.franchiseRate,
       franchiseMinimum: this.formData.value.franchiseMinimum,
       franchiseMaximum: this.formData.value.franchiseMaximum,
-      deficiencyDeadlineUnitCode: this.formData.value.deficiencyDeadlineUnit,
+      deficiencyDeadlineUnitId: null,
       deficiencyDeadline: this.formData.value.deficiencyDeadline,
       subscriptionMinimumPeriod: this.formData.value.subscriptionMinimumPeriod,
       subscriptionMaximumPeriod: this.formData.value.subscriptionMaximumPeriod,
@@ -249,7 +266,19 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
       zoneId: null,
       partnerIds: [],
       description: this.formData.value.description,
-      clauses: this.guaranteeClauses
+      clauses: this.guaranteeClauses,
+      categoryId: null,
+    }
+
+
+    if (this.formData.value.category) {
+      if (this.categoryList && this.categoryList.length > 0) {
+        this.categoryList.forEach((item: any) => {
+          if (item.name === this.formData.value.category) {
+            requestData.categoryId = item.id;
+          }
+        });
+      }
     }
 
     if (this.formData.value.discountApplicable && this.formData.value.discountApplicable == "Oui") {
@@ -258,6 +287,18 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
     } else {
       // @ts-ignore
       requestData.discountApplicable = false;
+    }
+
+    if (this.formData.value.deficiencyDeadlineUnit) {
+
+      if (this.periodList && this.periodList.length > 0) {
+        this.periodList.forEach((p: any) => {
+              if (p.name === this.formData.value.deficiencyDeadlineUnit) {
+                // @ts-ignore
+                requestData.deficiencyDeadlineUnitId = p.id;
+              }
+            });
+      }
     }
 
     if (this.formData.value.partners) {
@@ -313,7 +354,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(EditLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -354,10 +395,6 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/guarantees/list")
-        .then(() => {
-      this.guarantee = null;
-        });
 
     });
 
@@ -368,7 +405,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "La modification de la garantie a échoué."
@@ -542,7 +579,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
     const dialogRef = this._dialog.open(ConfirmationAddDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         dialogMessage: "de cette sous garantie"
       },
@@ -566,7 +603,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(AddLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -579,7 +616,7 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
       data: {
         dialogMessage: "L'enregistrement de la sous garantie a réussi."
       },
@@ -744,6 +781,20 @@ export class GuaranteeEditComponent implements OnInit, OnDestroy {
 
     });
 
+  }
+
+
+  onGetCategoryList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getCategoryList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.categoryList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
   }
 
 }

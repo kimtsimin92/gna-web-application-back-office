@@ -34,28 +34,35 @@ import {
 } from "../../../../dialogs/confirmation/confirmation-edit-dialog/confirmation-edit-dialog.component";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {MatInput} from "@angular/material/input";
+import {
+  GuaranteeClauseEditorDialogComponent
+} from "../../guarantees/guarantee-clause-editor-dialog/guarantee-clause-editor-dialog.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
 
 @Component({
   selector: 'app-product-group-edit',
   standalone: true,
-    imports: [
-        CheckboxModule,
-        DropdownModule,
-        InputTextModule,
-        KeyFilterModule,
-        KeyValuePipe,
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatDivider,
-        MultiSelectModule,
-        PaginatorModule,
-        ReactiveFormsModule,
-        SharedModule,
-        InputTextareaModule,
-        MatInput
-    ],
+  imports: [
+    CheckboxModule,
+    DropdownModule,
+    InputTextModule,
+    KeyFilterModule,
+    KeyValuePipe,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatDivider,
+    MultiSelectModule,
+    PaginatorModule,
+    ReactiveFormsModule,
+    SharedModule,
+    InputTextareaModule,
+    MatInput,
+    IconFieldModule,
+    InputIconModule
+  ],
   templateUrl: './product-group-edit.component.html',
   styleUrl: './product-group-edit.component.css'
 })
@@ -148,6 +155,21 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
   selectGuarantee: any = null;
   productGroup: any = null;
 
+  yesOrNoList: any[] = [
+    {
+      value: true,
+      name: "Oui",
+    },
+    {
+      value: false,
+      name: "Non",
+    },
+  ];
+
+
+  guaranteeCode: any = null;
+
+
   constructor(
     private _fb: FormBuilder,
     public _dialog: MatDialog,
@@ -162,7 +184,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       // @ts-ignore
       this.productGroup = JSON.parse(localStorage.getItem("PRODUCT_GROUP_DATA"));
     } else {
-      this._router.navigateByUrl("/account/products-groups/list")
+      this._router.navigateByUrl("/account/management/products/groups/list")
     }
 
     if (localStorage.getItem("APP_HEADER_TITLE")) {
@@ -179,9 +201,8 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
 
     if (localStorage.getItem("PRODUCT_GROUP_DATA")) {
 
-      this.onGetBranchList();
-      this.onGetPeriodList();
       this.onGetGuaranteeList();
+      this.onGetPeriodList();
 
       // @ts-ignore
       this.productGroup = JSON.parse(localStorage.getItem("PRODUCT_GROUP_DATA"));
@@ -189,9 +210,10 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       this.dataForm.name.setValue(this.productGroup.name);
       this.dataForm.description.setValue(this.productGroup.description);
 
-      if (this.productGroup.branch) {
-        this.dataForm.branchId.setValue(this.productGroup.branch.name);
-      }
+      /*if (this.productGroup.category) {
+        this.dataForm.category.setValue(this.productGroup.category.name);
+        this.onGetGuaranteeList(this.productGroup.category.id);
+      }*/
 
       if (this.productGroup.accessoryAmountCompany) {
         this.dataForm.accessoryAmountCompany.setValue(this.productGroup.accessoryAmountCompany);
@@ -240,12 +262,39 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
         }
       }
 
-      this.dataForm.managementMode.setValue(this.productGroup.managementMode);
-      this.dataForm.insuredMultiple.setValue(this.productGroup.insuredMultiple);
       this.dataForm.coverageRate.setValue(this.productGroup.coverageRate);
+      this.dataForm.maturityNotice.setValue(this.productGroup.maturityNotice);
+      this.dataForm.clauses.setValue(this.productGroup.clauses);
+
+      this.guaranteeClauses = this.productGroup.clauses;
+
+      if (this.productGroup.managementMode) {
+        // @ts-ignore
+        this.dataForm.managementMode.setValue("Oui");
+      } else {
+        // @ts-ignore
+        this.dataForm.managementMode.setValue("Non");
+      }
+
+      if (this.productGroup.beneficiaries) {
+        // @ts-ignore
+        this.dataForm.beneficiaries.setValue("Oui");
+      } else {
+        // @ts-ignore
+        this.dataForm.beneficiaries.setValue("Non");
+      }
+
+      if (this.productGroup.coverageRate) {
+        // @ts-ignore
+        this.dataForm.coverageRate.setValue("Oui");
+      } else {
+        // @ts-ignore
+        this.dataForm.coverageRate.setValue("Non");
+      }
+
 
     } else {
-      this._router.navigateByUrl("/account/products-groups/list");
+      this._router.navigateByUrl("/account/management/products/groups/list");
     }
 
     this.formData = this._fb.group(this.dataForm);
@@ -266,7 +315,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/products-groups/list");
+    this._router.navigateByUrl("/account/management/products/groups/list");
   }
 
   onConfirm(): void {
@@ -277,7 +326,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     const dialogRef = this._dialog.open(ConfirmationEditDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         dialogMessage: "de ce groupe produit"
       },
@@ -320,20 +369,65 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     let id = this.productGroup.id;
 
     let requestData = {
+      code: this.formData.value.code,
       name: this.formData.value.name,
       accessoryTaxRate: this.formData.value.accessoryTaxRate,
       accessoryAmountCompany: this.formData.value.accessoryAmountCompany,
       accessoryAmountIntermediate: this.formData.value.accessoryAmountIntermediate,
-      coverageRate: this.formData.value.coverageRate,
-      managementMode: this.formData.value.managementMode,
-      insuredMultiple: this.formData.value.insuredMultiple,
-      paymentMethodName: this.formData.value.paymentMethodId,
-      periodicityName: this.formData.value.periodicityId,
-      insuranceSectorName: this.formData.value.insuranceSectorId,
+      coverageRate: null,
+      managementMode: null,
+      beneficiaries: null,
+      maturityNotice: this.formData.value.maturityNotice,
+      paymentMethodId: null,
+      periodicityId: null,
+      insuranceSectorId: null,
       apiIds: [],
-      guarantees: [],
-      branchName: this.formData.value.branchId,
-      description: this.formData.value.description
+      guaranteeList: [],
+      categoryId: null,
+      insuranceSectorName: this.formData.value.insuranceSectorId,
+      paymentMethodName: this.formData.value.paymentMethodId,
+      description: this.formData.value.description,
+      clauses: this.guaranteeClauses
+    }
+
+    if (this.formData.value.category) {
+      if (this.branchList && this.branchList.length > 0) {
+        this.branchList.forEach((item: any) => {
+          if (item.name === this.formData.value.category) {
+            requestData.categoryId = item.id;
+          }
+        });
+      }
+    }
+
+    if (this.formData.value.managementMode) {
+      if (this.formData.value.managementMode === 'Oui') {
+        // @ts-ignore
+        requestData.managementMode = true;
+      } else if (this.formData.value.managementMode === 'Non') {
+        // @ts-ignore
+        requestData.managementMode = false;
+      }
+    }
+
+    if (this.formData.value.coverageRate) {
+      if (this.formData.value.coverageRate === 'Oui') {
+        // @ts-ignore
+        requestData.coverageRate = true;
+      } else if (this.formData.value.coverageRate === 'Non') {
+        // @ts-ignore
+        requestData.coverageRate = false;
+      }
+    }
+
+    if (this.formData.value.beneficiaries) {
+      if (this.formData.value.beneficiaries === 'Oui') {
+        // @ts-ignore
+        requestData.beneficiaries = true;
+      } else if (this.formData.value.beneficiaries === 'Non') {
+        // @ts-ignore
+        requestData.beneficiaries = false;
+      }
     }
 
     if (this.selectGuaranteeList && this.selectGuaranteeList.length > 0) {
@@ -342,7 +436,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     if (this.formData.value.guarantees.value) {
-      requestData.guarantees = this.formData.value.guarantees.value;
+      requestData.guaranteeList = this.formData.value.guarantees.value;
     }
 
     if (this.formData.value.apiIds) {
@@ -383,7 +477,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         dialogMessage: "La modification de ce groupe produit a réussi."
       },
@@ -396,7 +490,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/products-groups/list")
+      this._router.navigateByUrl("/account/management/products/groups/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -410,7 +504,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "La modification de ce groupe produit a échoué."
@@ -438,7 +532,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     this.formData.markAllAsTouched();
     const dialogRef = this._dialog.open(NotBlankDialogComponent, {
       width: '400px',
-      height: '340px',
+      height: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -460,7 +554,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
 
   onGetBranchList() {
     this.accountService.pageLoading = true;
-    this.accountService.getBranchList()
+    this.accountService.getCategoryList()
       .subscribe((responseData: HttpResponse<any>) => {
         this.accountService.pageLoading = false;
         console.log(responseData);
@@ -475,7 +569,6 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
     this.accountService.pageLoading = true;
     this.accountService.getGuaranteeList()
       .subscribe((responseData: HttpResponse<any>) => {
-
         this.accountService.pageLoading = false;
         console.log(responseData);
 
@@ -498,9 +591,46 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       });
   }
 
-
-
   onAddGuaranteeToTable() {
+    console.log(this.selectGuarantee);
+
+
+    if (this.selectGuarantee) {
+      if (this.guaranteeList && this.guaranteeList.length > 0) {
+        this.guaranteeList.forEach((item: any) => {
+          if (item.name === this.selectGuarantee) {
+            this.selectGuarantee = item;
+          }
+        });
+      }
+    }
+
+    if (!this.selectGuaranteeList[this.selectGuarantee.id]) {
+      this.guaranteeCode = this.selectGuarantee;
+      this.guaranteeCode.mandatory = false;
+      this.selectGuaranteeList[this.guaranteeCode.id] = this.guaranteeCode;
+      // @ts-ignore
+      this.dataForm.guarantees.setValue(new FormControl(this.selectGuaranteeList));
+
+      if (this.guaranteeList && this.guaranteeList.length > 0 && this.selectGuaranteeList && this.selectGuaranteeList.length > 0) {
+        let guaranteeList: any[] = [];
+        this.guaranteeList.forEach((gl: any) => {
+          if (!this.selectGuaranteeList[gl.id]) {
+            guaranteeList.push(gl);
+          }
+        });
+        this.guaranteeList = guaranteeList;
+      }
+
+      this.selectGuarantee = null;
+
+    } else {
+      this.selectGuarantee = null;
+    }
+
+  }
+
+/*  onAddGuaranteeToTable() {
 
     console.log(this.selectGuarantee);
     console.log(this.selectGuaranteeList);
@@ -536,7 +666,7 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
       this.selectGuarantee = null;
     }
 
-  }
+  }*/
 
   onSelectGuarantee(guarantee: any) {
     this.selectGuarantee = guarantee;
@@ -553,8 +683,39 @@ export class ProductGroupEditComponent implements OnInit, OnDestroy, AfterViewIn
         mandatory: false,
       }
       this.guaranteeList.push(gl);
+    } else if (this.selectGuaranteeList[selectGuarantee.id]) {
+      delete this.selectGuaranteeList[selectGuarantee.id];
+      let gl = {
+        id: selectGuarantee.id,
+        code: selectGuarantee.code,
+        name: selectGuarantee.name,
+        mandatory: false,
+      }
+      this.guaranteeList.push(gl);
     }
 
+  }
+
+  openClauseEditorDialog() {
+    const dialogRef = this._dialog.open(GuaranteeClauseEditorDialogComponent, {
+      hasBackdrop: false,
+      data: {clauses: this.guaranteeClauses},
+      width: '900px',
+      height: '900'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result && result.length > 0) {
+        this.guaranteeClauses = result;
+      }
+    });
+  }
+
+  onGetGuaranteesByCategory(category: any) {
+    console.log(category);
+    this.selectGuaranteeList = [];
+    this.onGetGuaranteeList();
   }
 
 }

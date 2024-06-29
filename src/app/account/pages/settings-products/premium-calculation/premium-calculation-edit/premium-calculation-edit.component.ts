@@ -71,6 +71,9 @@ import {
 import {
   EditLoadingDialogComponent
 } from "../../../../dialogs/loading/edit-loading-dialog/edit-loading-dialog.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 @Component({
   selector: 'app-premium-calculation-edit',
@@ -96,7 +99,10 @@ import {
     NgIf,
     ReactiveFormsModule,
     SharedModule,
-    MatMenuTrigger
+    MatMenuTrigger,
+    IconFieldModule,
+    InputIconModule,
+    InputTextareaModule
   ],
   templateUrl: './premium-calculation-edit.component.html',
   styleUrl: './premium-calculation-edit.component.css'
@@ -223,6 +229,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
   operatorList: any[] = [];
   operatorListTwo: any[] = [];
+  operatorListThree: any[] = [];
 
 
   modeValue: number = 1;
@@ -290,13 +297,20 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
               operatorLogic: new FormControl(clause.operatorLogic),
               vTwo: new FormControl(null),
               variableTwo: new FormControl(null),
-              operatorTwo: new FormControl(clause.operatorTwo),
+              operatorTwo: new FormControl(null),
               valueTwo: new FormControl(clause.valueTwo),
+             operatorLogicTwo: new FormControl(clause.operatorLogicTwo),
+             vThree: new FormControl(null),
+             variableThree: new FormControl(null),
+             operatorThree: new FormControl(null),
+             valueThree: new FormControl(clause.valueThree),
               result: new FormControl(clause.result, [Validators.required]),
               output: new FormControl(clause.output, [Validators.required]),
               modeOutputLabel: new FormControl("Alors"),
+              modeOutputLabelTwo: new FormControl("Alors"),
               operatorList: new FormControl([]),
-              operatorListTwo: new FormControl([])
+              operatorListTwo: new FormControl([]),
+              operatorListThree: new FormControl([])
             });
 
             this.onGetVariableType(pricingForm, clause.variableOne);
@@ -318,6 +332,23 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
            }
 
+            if (clause.operatorLogicTwo) {
+              pricingForm.patchValue({modeOutputLabelTwo: "et"});
+
+              if (clause.operatorThree) {
+                console.log(clause.operatorThree)
+                pricingForm.patchValue({operatorThree: clause.operatorThree.typeCode});
+              }
+
+              if (clause.variableThree) {
+                console.log(clause.variableThree)
+                pricingForm.patchValue({vThree: clause.variableThree});
+                pricingForm.patchValue({variableThree: clause.variableThree.name});
+                this.onGetVariableTypeThree(pricingForm, clause.variableThree);
+              }
+
+            }
+
 
            this.pricingFormList.push(pricingForm);
 
@@ -331,7 +362,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
 
     } else {
-      this._router.navigateByUrl("/account/settings-products/premium-calculation/edit/list");
+      this._router.navigateByUrl("/account/management/products/pricing/edit/list");
     }
 
 
@@ -350,7 +381,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings-products/premium-calculation/list");
+    this._router.navigateByUrl("/account/management/products/pricing/list");
   }
 
   closeDialog() {
@@ -461,12 +492,15 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
             let variableOne = null;
             let variableTwo = null;
+            let variableThree = null;
 
             let operatorOne = null;
             let operatorTwo = null;
+            let operatorThree = null;
 
             let valueOne = null;
             let valueTwo = null;
+            let valueThree = null;
 
             if (pf.value.variableOne) {
 
@@ -514,9 +548,71 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
               valueTwo = pf.value.valueTwo;
             }
 
-            let operatorLogic = pf.value.operatorLogic;
+            //
 
-            if (operatorLogic) {
+            if (pf.value.variableThree) {
+              if (this.variableList && this.variableList.length > 0) {
+                this.variableList.forEach((vl: any) => {
+                  if (vl.name == pf.value.variableThree)
+                    variableThree = vl;
+                });
+              }
+            }
+
+            if (pf.value.operatorThree) {
+              if (pf.value.operatorListThree && pf.value.operatorListThree.length > 0) {
+                pf.value.operatorListThree.forEach((ol: any) => {
+                  if (ol.typeCode == pf.value.operatorThree)
+                    operatorThree = ol;
+                });
+              }
+            }
+
+            if (pf.value.valueThree) {
+              valueThree = pf.value.valueThree;
+            }
+
+            //
+
+            let operatorLogic = pf.value.operatorLogic;
+            let operatorLogicTwo = pf.value.operatorLogicTwo;
+
+            if (operatorLogic && operatorLogicTwo) {
+
+              let clause: any = {
+                variableOne: variableOne,
+                operatorOne: operatorOne,
+                valueOne: valueOne,
+                operatorLogic: operatorLogic,
+                variableTwo: variableTwo,
+                operatorTwo: operatorTwo,
+                valueTwo: valueTwo,
+                operatorLogicTwo: operatorLogicTwo,
+                variableThree: variableThree,
+                operatorThree: operatorThree,
+                valueThree: valueThree,
+                output: null,
+                result: null
+              };
+
+              let output = null;
+              let result = null;
+
+              if (pf.value.output) {
+                output = pf.value.output;
+              }
+
+              if (pf.value.result) {
+                result = pf.value.result;
+              }
+
+              clause.output = output;
+              clause.result = result;
+
+              // @ts-ignore
+              clauses.push(clause);
+
+            } else if (operatorLogic) {
 
               let clause: any = {
                 variableOne: variableOne,
@@ -654,7 +750,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/settings-products/premium-calculation/list")
+      this._router.navigateByUrl("/account/management/products/pricing/list")
         .then(() => {
           this.loadingPage = false;
         });
@@ -746,17 +842,23 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
         operatorOne: new FormControl(null, [Validators.required]),
         valueOne: new FormControl(null, [Validators.required]),
         operatorLogic: new FormControl(null),
-        variableTwo: new FormControl(null),
         vTwo: new FormControl(null),
+        variableTwo: new FormControl(null),
         operatorTwo: new FormControl(null),
         valueTwo: new FormControl(null),
+        operatorLogicTwo: new FormControl(null),
+        vThree: new FormControl(null),
+        variableThree: new FormControl(null),
+        operatorThree: new FormControl(null),
+        valueThree: new FormControl(null),
         result: new FormControl(null, [Validators.required]),
         output: new FormControl(null, [Validators.required]),
         modeOutputLabel: new FormControl("Alors"),
+        modeOutputLabelTwo: new FormControl("Alors"),
         operatorList: new FormControl([]),
-        operatorListTwo: new FormControl([])
+        operatorListTwo: new FormControl([]),
+        operatorListThree: new FormControl([])
       });
-
       this.pricingFormList.push(pricingForm);
 
       console.log(this.pricingFormList);
@@ -842,7 +944,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
       // @ts-ignore
       const dialogRef = this._dialog.open(this.viewDialog, {
         hasBackdrop: false,
-        width: '300px',
+        width: '400px',
         height: '450px',
         data: {
           formStepQuestion: formStepQuestion,
@@ -1072,10 +1174,10 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
                   typeValue: field.type,
                   name: name,
                   label: label,
-                  text: field.attributes.text
+                  numeric: field.attributes.numeric
                 }
 
-                if (variable.text) {
+                if (variable.numeric) {
                   variable.typeCode = 2;
                 }
 
@@ -1111,6 +1213,21 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
     }
   }
 
+  onGetModeOutputTwo(pf: FormGroup, mode: number) {
+    if (mode == 2) {
+      pf.patchValue({modeOutputLabelTwo: "et"});
+      let operatorLogicTwo = {
+        typeCode: 9,
+        typeValue: "&&",
+        label: "et"
+      }
+      pf.patchValue({operatorLogicTwo: operatorLogicTwo});
+    } else {
+      pf.patchValue({modeOutputLabelTwo: "Alors"});
+      pf.patchValue({operatorLogicTwo: null});
+    }
+  }
+
   onGetVariableType(pf: FormGroup, variable: any) {
 
     console.log(variable);
@@ -1119,6 +1236,7 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
         pf.patchValue({"vOne": variable});
 
+      console.log(pf);
 
     if (variable.typeCode) {
 
@@ -1346,13 +1464,130 @@ export class PremiumCalculationEditComponent implements OnInit, OnDestroy, After
 
   }
 
+  onGetVariableTypeThree(pf: FormGroup, variable: any) {
+
+    console.log(variable);
+
+    let operatorList = [];
+
+    pf.patchValue({"vThree": variable});
+
+    if (variable.typeCode) {
+
+      switch (variable.typeCode) {
+        case 2:
+          operatorList = [
+            {
+              typeCode: 1,
+              typeValue: "==",
+              label: "égal"
+            },
+            {
+              typeCode: 2,
+              typeValue: "!=",
+              label: "non égal"
+            },
+            {
+              typeCode: 3,
+              typeValue: ">",
+              label: "supérieur à"
+            },
+            {
+              typeCode: 4,
+              typeValue: ">=",
+              label: "supérieur ou égal à"
+            },
+            {
+              typeCode: 5,
+              typeValue: "<",
+              label: "inférieur à"
+            },
+            {
+              typeCode: 6,
+              typeValue: "<=",
+              label: "inférieur ou égal à"
+            }
+          ];
+          pf.patchValue({"operatorListThree": operatorList});
+          break;
+        case 3:
+          operatorList = [
+            {
+              typeCode: 1,
+              typeValue: "==",
+              label: "égal"
+            },
+            {
+              typeCode: 2,
+              typeValue: "!=",
+              label: "non égal"
+            },
+            {
+              typeCode: 3,
+              typeValue: ">",
+              label: "supérieur à"
+            },
+            {
+              typeCode: 4,
+              typeValue: ">=",
+              label: "supérieur ou égal à"
+            },
+            {
+              typeCode: 5,
+              typeValue: "<",
+              label: "inférieur à"
+            },
+            {
+              typeCode: 6,
+              typeValue: "<=",
+              label: "inférieur ou égal à"
+            }
+          ];
+          pf.patchValue({"operatorListThree": operatorList});
+          break;
+        default:
+          operatorList = [
+            {
+              typeCode: 1,
+              typeValue: "==",
+              label: "égal"
+            },
+            {
+              typeCode: 2,
+              typeValue: "!=",
+              label: "non égal"
+            },
+          ];
+          pf.patchValue({"operatorListThree": operatorList});
+          break
+
+      }
+
+    } else {
+      operatorList = [
+        {
+          typeCode: 1,
+          typeValue: "==",
+          label: "égal"
+        },
+        {
+          typeCode: 2,
+          typeValue: "!=",
+          label: "non égal"
+        },
+      ];
+      pf.patchValue({"operatorListThree": operatorList});
+    }
+
+  }
+
   onGetModalitySetting(pf: FormGroup) {
 
     // @ts-ignore
     const dialogRef = this._dialog.open(PremiumCalculationModalityDialogComponent, {
       hasBackdrop: false,
-      width: '300px',
-      height: '460px',
+      width: '400px',
+      height: '500px',
       data: {
         outputData: pf.value.output,
         variableList: this.variableList

@@ -271,9 +271,70 @@ table th {
   display: flex;
   align-content: center;
   align-items: center;
-  height: 60px;
 }
 
 .example-margin {
   margin: 0 10px;
+}
+
+
+.gna-profiles-table {
+
+}
+
+.gna-pmt-mt {
+  padding-top: 3px!important;
+}
+
+.gna-pis-mr {
+  margin-right: 5px;
+  margin-top: 2px;
+  margin-bottom: 5px;
+}
+.gna-pdh {
+  background-color: #1C3694;
+  color: white;
+  text-align: center;
+  border-radius: 50px;
+  width: 180Px;
+  height: 30px;
+  padding-top: 5px;
+  padding-left: 10px;
+}
+
+.gna-psh {
+  font-weight: bold;
+}
+
+.gna-pr {
+  margin-top: 5px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #474747;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #474747;
+}
+
+.gna-profile-group {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: stretch;
 }

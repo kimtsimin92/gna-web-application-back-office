@@ -1,27 +1,37 @@
-# GnaBackofficeWebApplication
+# GNA Web Application - Back-Office
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.7.
+![Presentation de l'application web de GNA](gna-web-application-back-office.png "Presentation de l'application web de GNA")
 
-## Development server
+## Table des Matières
+- Introduction
+- Fonctionnalités
+- Prérequis
+- Installation
+- Configuration
+- Utilisation
+- Tests
+- Déploiement
+- Contribuer
+- Licence
+- Auteurs
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Introduction
+Ce projet est une application web Angular qui permet de N/A. Il a été conçu pour N/A.
 
-## Code scaffolding
+### Prérequis
+Avant de commencer, assurez-vous que les éléments suivants sont installés dans votre environnement :
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Node v20.10.0 ou plus
+- Angular v17.0.7 ou plus
+- Git
 
-## Build
+### Configuration
+Voir le fichier d'environnement `src/environnement/environnement.ts` :
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+##### changer les paramètres d'environnement
+    - apiGateway: (URL de votre environnement + le port du service api-gateway),
+    - usersService: (URL de votre environnement + le port du service api-gateway)/users-service,
+    - usersExternalService: (URL de votre environnement + le port du service api-gateway)/users-external-service,
+    - productsService: (URL de votre environnement + le port du service api-gateway)/products-service,
+    - subscriptionService: (URL de votre environnement + le port du service api-gateway)/subscriptions-service,
+    - customersService: (URL de votre environnement):28090"

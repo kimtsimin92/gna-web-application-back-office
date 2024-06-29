@@ -199,7 +199,7 @@ export class ReinsuranceRejectListComponent implements OnInit, AfterViewInit, On
 
   onGetDataList() {
 
-    this.loadingPage = true;
+  /*  this.loadingPage = true;
     this.loading = true;
 
     console.log(this.currentPage);
@@ -207,8 +207,7 @@ export class ReinsuranceRejectListComponent implements OnInit, AfterViewInit, On
       this.pageNumber = this.currentPage;
 
     let filter = {
-      type_customer_id: "1",
-      is_valid: true
+      type_customer_id: "0",
     };
 
     this.dataList = [];
@@ -234,7 +233,7 @@ export class ReinsuranceRejectListComponent implements OnInit, AfterViewInit, On
           if (this.dataPaginationResponse.totalPages > 0) {
 
             this.dataList = this.dataPaginationResponse.data;
-           /* this.dataPaginationResponse.data.forEach((el:any)=>{
+           /!* this.dataPaginationResponse.data.forEach((el:any)=>{
               this.dataList.push({
                 adresse: el.adresse,
                 ​​contact: el.contact,
@@ -250,7 +249,7 @@ export class ReinsuranceRejectListComponent implements OnInit, AfterViewInit, On
                })
             })
 
-console.log("fjnfkvk",this.dataList);*/
+console.log("fjnfkvk",this.dataList);*!/
 
 
             if (this.currentPage <= 0) {
@@ -269,7 +268,7 @@ console.log("fjnfkvk",this.dataList);*/
         console.log(errorData);
 
       });
-
+*/
 
   }
 
@@ -361,7 +360,7 @@ console.log("fjnfkvk",this.dataList);*/
       .then(() => {
         this.loadingPage = false;
       });
-      
+
 
   }
 
@@ -373,5 +372,5 @@ console.log("fjnfkvk",this.dataList);*/
     }, Math.random() * 1000 + 250);
   }
   protected readonly environment = environment;
- 
+
 }

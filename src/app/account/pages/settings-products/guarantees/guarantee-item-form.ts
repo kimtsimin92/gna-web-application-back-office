@@ -13,13 +13,14 @@ export class GuaranteeItemForm {
       Validators.required,
       Validators.pattern(/^\d+$/)]);
 
+  // @ts-ignore
   franchiseMinimum = new FormControl(null,
-    [Validators.min(0),
-      Validators.pattern(/^\d+$/)]);
+    [
+      Validators.pattern(/^\d+(\.\d+)?$/)]);
 
   franchiseMaximum = new FormControl(null,
-    [Validators.min(0),
-      Validators.pattern(/^\d+$/)]);
+    [
+      Validators.pattern(/^\d+(\.\d+)?$/)]);
 
   franchiseRate = new FormControl(null, [
     Validators.pattern(/^\d+(\.\d+)?$/)]);

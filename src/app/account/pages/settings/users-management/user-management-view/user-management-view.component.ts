@@ -7,7 +7,7 @@ import {MatInput} from "@angular/material/input";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatSelect} from "@angular/material/select";
-import {NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {UserSaveForm} from "../../users-manager/forms/user-save-form";
@@ -29,6 +29,7 @@ import {
   SaveErrorNotificationDialogComponent
 } from "../../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
 import {ChipModule} from "primeng/chip";
+import {TagModule} from "primeng/tag";
 
 @Component({
   selector: 'app-user-management-view',
@@ -50,7 +51,11 @@ import {ChipModule} from "primeng/chip";
     NgIf,
     PaginatorModule,
     ReactiveFormsModule,
-    ChipModule
+    ChipModule,
+    CurrencyPipe,
+    DatePipe,
+    DecimalPipe,
+    TagModule
   ],
   templateUrl: './user-management-view.component.html',
   styleUrl: './user-management-view.component.css'
@@ -117,10 +122,8 @@ export class UserManagementViewComponent implements OnInit, OnDestroy {
       this.profileForm.firstName.setValue(this.userAccountData.firstName);
       this.profileForm.lastName.setValue(this.userAccountData.lastName);
       this.profileForm.gender.setValue(this.userAccountData.gender);
-      this.profileForm.address.setValue(this.userAccountData.address);
       this.profileForm.email.setValue(this.userAccountData.email);
       this.profileForm.phone.setValue(this.userAccountData.phone);
-      this.profileForm.userType.setValue(this.userAccountData.type.code);
       this.profileForm.userProfile.setValue(this.userAccountData.profile.id);
       // @ts-ignore
       this.profileForm.enabled.setValue(""+this.userAccountData.enabled);
@@ -143,7 +146,7 @@ export class UserManagementViewComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/settings/users");
+    this._router.navigateByUrl("/account/admin/users/interns/list");
   }
 
   getErrorMessageFirstNane() {
@@ -242,7 +245,7 @@ export class UserManagementViewComponent implements OnInit, OnDestroy {
 
     this.loadingPage = true;
 
-    this._router.navigateByUrl("/account/settings/users/edit")
+    this._router.navigateByUrl("/account/admin/users/interns/edit")
       .then(() => {
         // @ts-ignore
         localStorage.setItem("USER_ACCOUNT_DATA", JSON.stringify(this.userAccountData));

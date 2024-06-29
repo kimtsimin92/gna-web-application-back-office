@@ -46,6 +46,10 @@ import {
   RemoveLoadingDialogComponent
 } from "../../../../dialogs/loading/remove-loading-dialog/remove-loading-dialog.component";
 import {AddLoadingDialogComponent} from "../../../../dialogs/loading/add-loading-dialog/add-loading-dialog.component";
+import {InputIconModule} from "primeng/inputicon";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputNumberModule} from "primeng/inputnumber";
+import {AuthService} from "../../../../../auth/auth.service";
 
 @Component({
   selector: 'app-guarantee-add',
@@ -76,7 +80,10 @@ import {AddLoadingDialogComponent} from "../../../../dialogs/loading/add-loading
     DropdownModule,
     MultiSelectModule,
     InputTextareaModule,
-    DecimalPipe
+    DecimalPipe,
+    InputIconModule,
+    IconFieldModule,
+    InputNumberModule
   ],
   templateUrl: './guarantee-add.component.html',
   styleUrl: './guarantee-add.component.css'
@@ -126,11 +133,13 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
   guarantee: any = null;
   guaranteeItem: any = null;
   guaranteeItemsData: any[] = [];
+  categoryList: any[] = [];
 
   constructor(
     private _fb: FormBuilder,
     public _dialog: MatDialog,
     private _router: Router,
+    public authService: AuthService,
     public accountService: AccountService) {
 
   }
@@ -150,13 +159,10 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
       this.guaranteeData = JSON.parse(localStorage.getItem("GUARANTEE_DATA"));
     }
 
+    this.onGetCategoryList();
     this.onGetPeriodList();
     this.onGetZoneList();
     this.onGetPartnerList();
-
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
-
-    this.items = [{ label: 'Configuration Produits' }, { label: 'Garanties'}, {label: "Création"}];
 
 
     this.formData = this._fb.group(this.dataForm);
@@ -172,7 +178,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/guarantees/list");
+    this._router.navigateByUrl("/account/management/products/guarantees/list");
   }
 
   onConfirm(): void {
@@ -207,7 +213,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -230,7 +236,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
       franchiseRate: this.formData.value.franchiseRate,
       franchiseMinimum: this.formData.value.franchiseMinimum,
       franchiseMaximum: this.formData.value.franchiseMaximum,
-      deficiencyDeadlineUnitCode: this.formData.value.deficiencyDeadlineUnit,
+      deficiencyDeadlineUnitId: null,
       deficiencyDeadline: this.formData.value.deficiencyDeadline,
       subscriptionMinimumPeriod: this.formData.value.subscriptionMinimumPeriod,
       subscriptionMaximumPeriod: this.formData.value.subscriptionMaximumPeriod,
@@ -239,6 +245,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
       premiumMinimum: this.formData.value.premiumMinimum,
       discountApplicable: null,
       zoneId: null,
+      categoryId: null,
       partnerIds: [],
       description: this.formData.value.description,
       clauses: this.guaranteeClauses,
@@ -247,6 +254,22 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.formData.value.discountApplicable) {
       requestData.discountApplicable = this.formData.value.discountApplicable.value;
+    }
+
+    if (this.formData.value.deficiencyDeadlineUnit) {
+
+      if (this.periodList && this.periodList.length > 0) {
+        this.periodList.forEach((p: any) => {
+          if (p.name === this.formData.value.deficiencyDeadlineUnit) {
+            // @ts-ignore
+            requestData.deficiencyDeadlineUnitId = p.id;
+          }
+        });
+      }
+    }
+
+    if (this.formData.value.category) {
+      requestData.categoryId = this.formData.value.category.id;
     }
 
     if (this.formData.value.zone) {
@@ -285,7 +308,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
       data: {
         dialogMessage: "L'enregistrement de cette garantie a réussi."
       },
@@ -293,12 +316,11 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
 
-      if (result) {
+
         this.isSave = false;
         this.accountService.isSave = this.isSave;
-      }
 
-      this._router.navigateByUrl("/account/guarantees/edit")
+      this._router.navigateByUrl("/account/management/products/guarantees/edit")
         .then(() => {
           // @ts-ignore
           localStorage.setItem("GUARANTEE_DATA", JSON.stringify(this.guaranteeData));
@@ -314,7 +336,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
     const dialogRef = this._dialog.open(SaveErrorNotificationDialogComponent, {
       hasBackdrop: false,
       width: '400px',
-      height: '340px',
+      height: '400px',
       data: {
         httpError: error,
         dialogMessage: "L'enregistrement de cette garantie a échoué."
@@ -578,7 +600,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(SaveNotificationDialogComponent, {
       hasBackdrop: false,
-      width: '440px',
+      width: '400px',
       data: {
         dialogMessage: "L'enregistrement de la sous garantie a réussi."
       },
@@ -626,7 +648,7 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const dialogRef = this._dialog.open(AddLoadingDialogComponent, {
       hasBackdrop: false,
-      width: '350px',
+      width: '400px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -668,6 +690,19 @@ export class GuaranteeAddComponent implements OnInit, OnDestroy, AfterViewInit {
         this.onSaveItemErrorNotificationDialog(errorData);
       });
 
+  }
+
+  onGetCategoryList() {
+    this.accountService.pageLoading = true;
+    this.accountService.getCategoryList()
+      .subscribe((responseData: HttpResponse<any>) => {
+        this.accountService.pageLoading = false;
+        console.log(responseData);
+        this.categoryList = responseData["body"];
+      }, (errorData: HttpErrorResponse) => {
+        this.accountService.pageLoading = false;
+        console.log(errorData);
+      });
   }
 
 }

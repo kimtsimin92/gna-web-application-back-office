@@ -10,7 +10,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
-import {CurrencyPipe, DatePipe, DecimalPipe, NgForOf, NgIf, NgStyle, UpperCasePipe} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe, NgClass, NgForOf, NgIf, NgStyle, UpperCasePipe} from "@angular/common";
 import {MatPaginator} from "@angular/material/paginator";
 import {SelectionModel} from "@angular/cdk/collections";
 import {
@@ -62,6 +62,7 @@ import {
 import {
   SaveErrorNotificationDialogComponent
 } from "../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 
 interface PageEvent {
   first: number;
@@ -78,62 +79,66 @@ interface Column {
 @Component({
   selector: 'app-users-manager',
   standalone: true,
-    imports: [
-        MatButton,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatError,
-        MatFormField,
-        MatIcon,
-        MatInput,
-        MatLabel,
-        MatSlideToggle,
-        MatSuffix,
-        MatTab,
-        MatTabGroup,
-        NgIf,
-        ReactiveFormsModule,
-        MatPaginator,
-        MatTable,
-        MatSort,
-        MatColumnDef,
-        MatHeaderCell,
-        MatCell,
-        MatHeaderCellDef,
-        MatCellDef,
-        MatSortHeader,
-        DatePipe,
-        UpperCasePipe,
-        DecimalPipe,
-        MatHeaderRow,
-        MatRow,
-        MatHeaderRowDef,
-        MatRowDef,
-        MatProgressSpinner,
-        MatMiniFabButton,
-        FormsModule,
-        MatPrefix,
-        MatDivider,
-        BreadcrumbModule,
-        TagModule,
-        ButtonModule,
-        InputSwitchModule,
-        TableModule,
-        CurrencyPipe,
-        InputTextModule,
-        RippleModule,
-        TooltipModule,
-        CheckboxModule,
-        PaginatorModule,
-        ChipModule,
-        ProgressBarModule,
-        MatProgressBar,
-        SkeletonModule,
-        NgStyle,
-        NgForOf,
-        MatTooltip,
-    ],
+  imports: [
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatError,
+    MatFormField,
+    MatIcon,
+    MatInput,
+    MatLabel,
+    MatSlideToggle,
+    MatSuffix,
+    MatTab,
+    MatTabGroup,
+    NgIf,
+    ReactiveFormsModule,
+    MatPaginator,
+    MatTable,
+    MatSort,
+    MatColumnDef,
+    MatHeaderCell,
+    MatCell,
+    MatHeaderCellDef,
+    MatCellDef,
+    MatSortHeader,
+    DatePipe,
+    UpperCasePipe,
+    DecimalPipe,
+    MatHeaderRow,
+    MatRow,
+    MatHeaderRowDef,
+    MatRowDef,
+    MatProgressSpinner,
+    MatMiniFabButton,
+    FormsModule,
+    MatPrefix,
+    MatDivider,
+    BreadcrumbModule,
+    TagModule,
+    ButtonModule,
+    InputSwitchModule,
+    TableModule,
+    CurrencyPipe,
+    InputTextModule,
+    RippleModule,
+    TooltipModule,
+    CheckboxModule,
+    PaginatorModule,
+    ChipModule,
+    ProgressBarModule,
+    MatProgressBar,
+    SkeletonModule,
+    NgStyle,
+    NgForOf,
+    MatTooltip,
+    MatMenu,
+    MatMenuItem,
+    MatMenuTrigger,
+    NgClass,
+  ],
   templateUrl: './users-manager.component.html',
   styleUrl: './users-manager.component.css'
 })
@@ -177,7 +182,8 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
 
-  pageSize: number = 10;
+
+  rows: number = 10;
 
   totalPages: number = 0;
   currentPage: number = 0;
@@ -192,6 +198,45 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}];
 
+  scrollHeight: string = "380px";
+
+  pageSort: string = "createdAt";
+  pageOrder: string = "desc";
+  pageNumber: number = 1;
+  pageSize: number = 10;
+  pageSizeList: any[] = [
+    {
+      name: 5
+    },
+    {
+      name: 10
+    },
+    {
+      name: 15
+    },
+    {
+      name: 20
+    },
+    {
+      name: 30
+    },
+    {
+      name: 50
+    },
+    {
+      name: 100
+    }
+  ];
+
+  first = 0;
+
+  totalElements: number = 0;
+  totalRecords: number = 0;
+
+  fakeDataList: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5},  {id: 6}];
+  fakeDataListOne: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}];
+  fakeDataListTwo: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
+
 
   constructor(
     private _fb: FormBuilder,
@@ -203,11 +248,14 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
 
+    localStorage.removeItem("USER_ACCOUNT_DATA");
+
+
     if (localStorage.getItem("APP_HEADER_TITLE")) {
       localStorage.removeItem("APP_HEADER_TITLE");
     }
 
-    this.headerTitle = "Gestion Utilisateurs";
+    this.headerTitle = "Gestion Utilisateurs Internes";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
     this.items = [{ label: 'Paramètres' }, { label: 'Utilisateurs' }];
@@ -245,29 +293,47 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onGetDataList() {
 
-    let page = 0;
+    this.loadingPage = true;
+    this.loading = true;
 
-    if (this.currentPage > 0) {
-      page = this.currentPage - 1;
-    } else {
-      page = this.currentPage;
-    }
+    this.pageNumber = this.currentPage;
 
-    this.accountService.getUsersListData(page)
+    this.dataList = [];
+
+    this.accountService.getUsersListData(this.pageSort, this.pageOrder, this.pageNumber, this.pageSize)
       .subscribe((responseData: HttpResponse<any>) => {
-        console.log(responseData);
-        this.dataPaginationResponse = responseData["body"];
-        if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
-          this.filteredList = this.dataPaginationResponse.data;
-          if (this.currentPage <= 0) {
-            this.currentPage++;
+
+          this.loadingPage = false;
+          this.loading = false;
+
+          console.log(responseData);
+
+          this.dataPaginationResponse = responseData['body'];
+
+          if (this.dataPaginationResponse) {
+
+            this.totalRecords = this.dataPaginationResponse.totalElements;
+
+            if (this.dataPaginationResponse.totalPages > 0) {
+
+              this.dataList = this.dataPaginationResponse.data;
+
+              if (this.currentPage <= 0) {
+                this.currentPage++;
+              }
+
+            }
+
           }
+
+        },
+        (errorData: HttpErrorResponse) => {
+          this.loadingPage = false;
+          this.loading = false;
+          console.log(errorData);
+          this.onGetNotificationErrorDialog();
         }
-      }, (errorData: HttpErrorResponse) => {
-        console.log(errorData);
-        this.dataPaginationResponse = {};
-        this.onGetNotificationErrorDialog();
-      });
+      );
 
   }
 
@@ -328,7 +394,7 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onViewAdd() {
-    this._router.navigateByUrl("/account/settings/users/add");
+    this._router.navigateByUrl("/account/admin/users/interns/add");
   }
 
   onView(userAccountData: any) {
@@ -338,7 +404,7 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ts-ignore
     localStorage.setItem("USER_ACCOUNT_DATA", JSON.stringify(userAccountData));
 
-      this._router.navigateByUrl("/account/settings/users/view")
+      this._router.navigateByUrl("/account/admin/users/interns/view")
         .then(() => {
           this.loadingPage = false;
         });
@@ -352,7 +418,7 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ts-ignore
     localStorage.setItem("USER_ACCOUNT_DATA", JSON.stringify(userAccountData));
 
-      this._router.navigateByUrl("/account/settings/users/edit")
+      this._router.navigateByUrl("/account/admin/users/interns/edit")
         .then(() => {
           this.loadingPage = false;
         });
@@ -397,8 +463,11 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
+        this.pageNumber = 0;
+        this.currentPage = 0;
         this.onSaveToggleEnable(data);
       } else {
+        data.enabled = !data.enabled;
         this.isSave = false;
         this.accountService.isSave = this.isSave;
       }
@@ -463,6 +532,25 @@ export class UsersManagerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
   }
+
+  getValue(event: Event) {
+    return (event.target as HTMLInputElement).value;
+  }
+
+  onGetPageSize(name: number) {
+    this.pageSize = name;
+    this.rows = this.pageSize;
+    this.pageNumber = 0;
+    this.currentPage = 0;
+    this.onGetDataList();
+  }
+
+
+  pageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
+  }
+
 
 
   openSaveToggleEnableErrorNotificationDialog(error: HttpErrorResponse): void {

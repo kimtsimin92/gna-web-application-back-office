@@ -195,7 +195,7 @@ export class PrestationRejectListComponent   {
 
   onGetDataList() {
 
-    this.loadingPage = true;
+   /* this.loadingPage = true;
     this.loading = true;
 
     console.log(this.currentPage);
@@ -246,7 +246,7 @@ export class PrestationRejectListComponent   {
 
         console.log(errorData);
 
-      });
+      });*/
 
 
   }

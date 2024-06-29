@@ -44,7 +44,7 @@ export class FormBuilderInputRadioDialogComponent implements OnInit, OnDestroy {
     options: new FormControl(this.optionsData, [Validators.required]),
     values: new FormControl(this.valuesData, [Validators.required]),
     required: new FormControl(false),
-    text: new FormControl(true),
+    numeric: new FormControl(null),
   });
 
   currentSelectedTag: any = null;
@@ -104,7 +104,7 @@ export class FormBuilderInputRadioDialogComponent implements OnInit, OnDestroy {
       }
 
       if (this.data.formStepQuestion.value.attributes.text) {
-        this.inputForm.patchValue({text: this.data.formStepQuestion.value.attributes.text});
+        this.inputForm.patchValue({numeric: this.data.formStepQuestion.value.attributes.numeric});
       }
     }
 

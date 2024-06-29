@@ -43,8 +43,8 @@ export class FormBuilderInputSelectDialogComponent implements OnInit, OnDestroy 
    // multiple: new FormControl(false),
     options: new FormControl(this.optionsData, [Validators.required]),
     values: new FormControl(this.valuesData, [Validators.required]),
-    required: new FormControl(false),
-    text: new FormControl(true),
+    required: new FormControl(null),
+    numeric: new FormControl(null),
   });
 
   currentSelectedTag: any = null;
@@ -103,7 +103,7 @@ export class FormBuilderInputSelectDialogComponent implements OnInit, OnDestroy 
         this.inputForm.patchValue({required: this.data.formStepQuestion.value.attributes.required});
       }
 
-        this.inputForm.patchValue({text: this.data.formStepQuestion.value.attributes.text});
+        this.inputForm.patchValue({numeric: this.data.formStepQuestion.value.attributes.numeric});
 
     }
 

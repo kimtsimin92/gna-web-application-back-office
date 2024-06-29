@@ -36,7 +36,7 @@ import {
 import {BreadcrumbModule} from "primeng/breadcrumb";
 import {ButtonModule} from "primeng/button";
 import {ChipModule} from "primeng/chip";
-import {DatePipe, DecimalPipe, NgIf} from "@angular/common";
+import {DatePipe, DecimalPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {InputTextModule} from "primeng/inputtext";
 import {MatButton} from "@angular/material/button";
 import {MatCard, MatCardHeader} from "@angular/material/card";
@@ -45,6 +45,12 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatTooltip} from "@angular/material/tooltip";
 import {TooltipModule} from "primeng/tooltip";
 import {SkeletonModule} from "primeng/skeleton";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {TableModule} from "primeng/table";
+import {TagModule} from "primeng/tag";
+import {FormsModule} from "@angular/forms";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-product-group-list',
@@ -77,7 +83,16 @@ import {SkeletonModule} from "primeng/skeleton";
     DatePipe,
     MatCardHeader,
     NgIf,
-    SkeletonModule
+    SkeletonModule,
+    InputSwitchModule,
+    MatMenu,
+    MatMenuItem,
+    NgForOf,
+    TableModule,
+    TagModule,
+    FormsModule,
+    MatMenuTrigger,
+    NgClass
   ],
   templateUrl: './product-group-list.component.html',
   styleUrl: './product-group-list.component.css'
@@ -89,23 +104,50 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
 
-
   loadingPage: boolean = false;
   loading: boolean = false;
-  dataPaginationResponse: any;
+  dataPaginationResponse: any = null;
 
-  displayedColumns: string[] = ['select', 'code', 'name', 'branch', 'accessoryTaxRate',
-    'accessoryAmountCompany', 'accessoryAmountIntermediate',
-    'status', 'action'];
   dataSource = new MatTableDataSource<any>([]);
   selection = new SelectionModel<any>(true, []);
 
-  resultsLength = 0;
-  isLoadingResults = false;
-  isRateLimitReached = false;
+
+  pageNumber: number = 0;
   pageSize: number = 10;
+  pageSizeList: any[] = [
+    {
+      name: 5
+    },
+    {
+      name: 10
+    },
+    {
+      name: 15
+    },
+    {
+      name: 20
+    },
+    {
+      name: 30
+    },
+    {
+      name: 50
+    },
+    {
+      name: 100
+    }
+  ];
+
+  pageSort: string = "updatedAt";
+  pageOrder: string = "desc";
+
   totalPages: number = 0;
   currentPage: number = 0;
+
+
+  fakeDataList: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5},  {id: 6}];
+  fakeDataListOne: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}];
+  fakeDataListTwo: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}];
 
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -116,11 +158,38 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
   isSave: boolean = false;
   isDisable: boolean = true;
 
+  scrollHeight: string = "380px";
+
   filteredList: any[] = [];
 
-  fakeItems: any[] = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}];
+  dataList: any[] = [];
+
+  first = 0;
+  rows = 10;
+
+  first1: number = 0;
+
+  rows1: number = 10;
+
+  first2: number = 0;
+
+  rows2: number = 10;
+
+  first3: number = 0;
+
+  rows3: number = 10;
+
+  totalRecords: number = 0;
+
+  options = [
+    { label: 5, value: 5 },
+    { label: 10, value: 10 },
+    { label: 20, value: 20 },
+    { label: 100, value: 100 }
+  ];
 
   constructor(
+    private responsive: BreakpointObserver,
     public _dialog: MatDialog,
     private _router: Router,
     private _liveAnnouncer: LiveAnnouncer,
@@ -136,11 +205,62 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
     this.headerTitle = "Configuration des produits";
     localStorage.setItem("APP_HEADER_TITLE", this.headerTitle);
 
-    this.items = [{ label: 'Configuration Produits' }, { label: 'Groupes Produits' }];
 
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
+    this.responsive.observe(Breakpoints.XSmall)
+      .subscribe(result => {
 
-      this.onGetDataList();
+        if (result.matches) {
+          console.log("screens matches XSmall : pageSize 5");
+          this.scrollHeight = "390px";
+          this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
+          this.onGetDataList();
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.Small)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches Small : pageSize 5");
+          this.scrollHeight = "390px";
+          this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
+          this.onGetDataList();
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.Large)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches Large : pageSize 5");
+          this.scrollHeight = "390px";
+          this.pageSize = 5;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
+          this.onGetDataList();
+        }
+
+      });
+
+    this.responsive.observe(Breakpoints.XLarge)
+      .subscribe(result => {
+
+        if (result.matches) {
+          console.log("screens matches XLarge : pageSize 10");
+          this.scrollHeight = "660px";
+          this.pageSize = 10;
+          this.rows = this.pageSize;
+          this.fakeDataList = this.fakeDataListOne;
+          this.onGetDataList();
+        }
+
+      });
 
 
   }
@@ -191,7 +311,7 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   onGoToSave() {
-    this._router.navigateByUrl("/account/products-groups/add");
+    this._router.navigateByUrl("/account/management/products/groups/add");
   }
 
   onGetNotificationErrorDialog(): void {
@@ -217,7 +337,7 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
     // @ts-ignore
     localStorage.setItem("PRODUCT_GROUP_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/products-groups/view")
+    this._router.navigateByUrl("/account/management/products/groups/view")
       .then(() => {
         this.loadingPage = false;
       });
@@ -232,37 +352,61 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
     // @ts-ignore
     localStorage.setItem("PRODUCT_GROUP_DATA", JSON.stringify(data));
 
-    this._router.navigateByUrl("/account/products-groups/edit")
+    this._router.navigateByUrl("/account/management/products/groups/edit")
       .then(() => {
         this.loadingPage = false;
       });
 
   }
 
+  pageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
+  }
+
     onGetDataList() {
 
-      let page = 0;
+      this.loadingPage = true;
+      this.loading = true;
+
+      this.dataList = [];
 
       if (this.currentPage > 0) {
-        page = this.currentPage - 1;
+        this.pageNumber = this.currentPage - 1;
       } else {
-        page = this.currentPage;
+        this.pageNumber = this.currentPage;
       }
 
-      this.accountService.getProductGroups(page)
+      this.accountService.getProductGroups(this.pageSort, this.pageOrder, this.pageNumber, this.pageSize)
         .subscribe((responseData: HttpResponse<any>) => {
+
+          console.log(responseData);
+          this.loadingPage = false;
+          this.loading = false;
+
           console.log(responseData);
           this.dataPaginationResponse =  responseData["body"];
+
           if (this.dataPaginationResponse && this.dataPaginationResponse.totalPages > 0) {
-            this.filteredList = this.dataPaginationResponse.productGroups;
+
+            this.dataList = this.dataPaginationResponse.productGroups;
+            this.totalRecords = this.dataList.length;
+
             if (this.currentPage <= 0) {
               this.currentPage++;
             }
+
           }
 
         }, (errorData: HttpErrorResponse) => {
+          this.loadingPage = false;
+          this.loading = false;
           console.log(errorData);
+          this.dataPaginationResponse = {};
+          this.onGetNotificationErrorDialog();
+
         });
+
 
     }
 
@@ -417,6 +561,19 @@ export class ProductGroupListComponent implements OnInit, OnDestroy, AfterViewIn
       );
     }
 
+  }
+
+
+
+  getValue(event: Event) {
+    return (event.target as HTMLInputElement).value;
+  }
+
+  onGetPageSize(name: number) {
+    this.pageSize = name;
+    this.pageNumber = 0;
+    this.currentPage = 0;
+    this.onGetDataList();
   }
 
 

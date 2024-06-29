@@ -1,5 +1,5 @@
 <div class="gna-bc">
-  <span>Configuration des produits / Garanties</span>
+  <span>Configuration des produits / Garanties / Lister</span>
 </div>
 
 <div class="container-fluid">
@@ -23,26 +23,19 @@
                       </span>
           </div>
           <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
-            <button mat-raised-button color="primary"
-                    class="gna-full-width gna-btn-default"
-                    (click)="onGoToSave()"
-            [disabled]="isSave">Créer Garantie</button>
+            @if (authService.getProfilePermission(
+              'GROUP_MANAGEMENT_PRODUCTS',
+              'ROLE_MANAGEMENT_PRODUCT_GUARANTEES',
+              'PERMISSION_ADD')) {
+              <button mat-raised-button color="primary"
+                      class="gna-full-width gna-btn-default"
+                      (click)="onGoToSave()"
+                      [disabled]="isSave">Créer Garantie</button>
+            }
           </div>
         </div>
         </div>
       </mat-card-header>
-      @if (isLoadingResults || isRateLimitReached) {
-        <div class="example-loading-shade">
-          @if (isLoadingResults) {
-            <mat-spinner></mat-spinner>
-          }
-          @if (isRateLimitReached) {
-            <div class="example-rate-limit-reached">
-              GNA API rate limit has been reached. It will be reset in one minute.
-            </div>
-          }
-        </div>
-      }
 
       <div class="container-fluid">
 
@@ -51,51 +44,40 @@
           <p-table
             #dt
             [value]="dataList"
-                   styleClass="p-datatable-striped"
-            [tableStyle]="{ 'min-width': '60rem' }"
-                   [paginator]="false"
-                   [rows]="10"
-                   [first]="first"
-                   [showCurrentPageReport]="true"
-                   (onPage)="pageChange($event)"
-                   [rowsPerPageOptions]="[5, 10, 20, 15, 30, 50, 100]"
+            dataKey="id"
+            styleClass="p-datatable-striped"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [loading]="loading"
+            [rows]="rows"
+            [totalRecords]="totalRecords"
+            [paginator]="false"
+            [first]="first"
+            (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[5, 10, 20, 15, 30, 50, 100]"
             [globalFilterFields]="['code', 'name', 'premiumMinimum', 'taxRate']"
-            [scrollable]="true">
+            [scrollable]="true"
+            [resizableColumns]="true" >
             <ng-template pTemplate="header">
               <tr>
-                <th pSortableColumn="code" style="width:15%">
+                <th pSortableColumn="code">
                   Code Garantie
-                  <p-columnFilter type="text" field="code" display="menu" />
+                  <p-sortIcon field="code" />
                 </th>
-                <th pSortableColumn="name" style="width:30%">Nom Garantie
-                  <p-columnFilter type="text" field="name" display="menu" />
+                <th pSortableColumn="name">Nom Garantie
+                  <p-sortIcon field="name" />
                 </th>
-                <th pSortableColumn="premiumMinimum" style="width:15%"
-                    class="gna-responsive">Prime Minimum
-                <p-columnFilter type="numeric" field="premiumMinimum" display="menu" />
-                <th pSortableColumn="taxRate" style="width:10%"
-                    class="gna-responsive">Taux Taxe
-                <p-columnFilter type="numeric" field="taxRate" display="menu" />
-                <th pSortableColumn="enabled" style="width:10%">Statut
-                  <p-columnFilter field="enabled" matchMode="equals" display="menu">
-                    <ng-template pTemplate="filter" let-filter="filterCallback">
-                      <p-dropdown
-                        [options]="statusList"
-                        (onChange)="filter($event.value)"
-                        placeholder="Statut"
-                        [showClear]="true">
-                        <ng-template let-option pTemplate="item">
-                          <p-tag
-                            [value]="option.label"
-                            [severity]="getSeverity(option.value)" />
-                        </ng-template>
-                      </p-dropdown>
-                    </ng-template>
-                  </p-columnFilter>
+                <th pSortableColumn="category"
+                    class="gna-responsive">Catégorie
+                  <p-sortIcon field="category" />
+                <th pSortableColumn="enabled">Statut
+                <p-sortIcon field="enabled" />
                 </th>
-                <th pSortableColumn="createdAt" style="width:20%" class="gna-responsive">Enregistrement
-                <p-columnFilter type="date" field="createdAt" display="menu" />
-                <th style="width:10%"></th>
+                <th pSortableColumn="enabled">Etat
+                  <p-sortIcon field="enabled" />
+                </th>
+                <th pSortableColumn="createdAt" class="gna-responsive">Enregistrement
+                  <p-sortIcon field="createdAt" />
+                <th></th>
               </tr>
             </ng-template>
 
@@ -108,26 +90,24 @@
                       {{ element.name }}
                     </td>
                     <td class="gna-responsive">
-                      @if (element.premiumMinimum) {
-                        {{ element.premiumMinimum | number : "2.0"}}
+                      @if (element.category) {
+                        {{ element.category.name }}
                       } @else {
-                        0
+                        N/A
                       }
                     </td>
-                    <td class="gna-responsive">
-                      @if (element.taxRate) {
-                        {{ element.taxRate | number : "2.0"}}%
-                      } @else {
-                        0
+                    <td>
+                      @if (element.statusCode && element.statusCode === 10) {
+                        <p-tag severity="warning" value="Enregistré"></p-tag>
+                      } @else if (element.statusCode && element.statusCode === 11) {
+                        <p-tag severity="success" value="Validé"></p-tag>
+                      } @else if (element.statusCode && element.statusCode === 12) {
+                        <p-tag severity="success" value="Approuvé"></p-tag>
                       }
                     </td>
                     <td>
                       @if (element.enabled) {
-                        @if (element.statusCode && element.statusCode === 1) {
-                          <p-tag severity="warning" value="En Attente"></p-tag>
-                        } @else {
-                          <p-tag severity="danger" value="Désactivé"></p-tag>
-                        }
+                        <p-tag severity="success" value="Activé"></p-tag>
                       } @else {
                         <p-tag severity="danger" value="Désactivé"></p-tag>
                       }
@@ -138,49 +118,68 @@
                     <td>
                         <span class="gna-action-span-div">
                           <span class="gna-action-span">
-                        @if (element.enabled) {
+                             @if (authService.getProfilePermission(
+                               'GROUP_MANAGEMENT_PRODUCTS',
+                               'ROLE_MANAGEMENT_PRODUCT_GUARANTEES',
+                               'PERMISSION_ENABLE')) {
+                      <!--  @if (element.enabled) {
                           <p-inputSwitch [(ngModel)]="element.enabled"
                                          pTooltip="Désactiver"
                                          tooltipPosition="bottom"
                                          [disabled]="isSave"/>
-                        } @else {
-                          <p-inputSwitch [(ngModel)]="element.enabled"
-                                         pTooltip="Activer"
-                                         tooltipPosition="bottom"
-                                         [disabled]="isSave"/>
-                        }
+                        } @else {-->
+                       <!--   <p-inputSwitch
+                            class="gna-disable"
+                            [(ngModel)]="!isSave"/>-->
+                     <!--   }-->
+                             }
 
                   </span>
                       <span class="gna-action-span">
-                        @if (element.removable) {
+                         @if (authService.getProfilePermission(
+                           'GROUP_MANAGEMENT_PRODUCTS',
+                           'ROLE_MANAGEMENT_PRODUCT_GUARANTEES',
+                           'PERMISSION_VIEW')) {
+                    <p-button icon="pi pi-eye" class="gna-btn-eye"
+                              pTooltip="Voir"
+                              tooltipPosition="bottom"
+                              (click)="onView(element)"
+                              [disabled]="isSave"></p-button>
+                         }
+                  </span>
+                  <span class="gna-action-span">
+                     @if (authService.getProfilePermission(
+                       'GROUP_MANAGEMENT_PRODUCTS',
+                       'ROLE_MANAGEMENT_PRODUCT_GUARANTEES',
+                       'PERMISSION_EDIT')) {
+                    <p-button icon="pi pi-pencil" class="gna-btn-edit"
+                              pTooltip="Modifier"
+                              tooltipPosition="bottom"
+                              (click)="onViewEdit(element)"
+                              [disabled]="isSave"></p-button>
+                     }
+                  </span>
+                                       <span class="gna-action-span">
+                                          @if (authService.getProfilePermission(
+                                            'GROUP_MANAGEMENT_PRODUCTS',
+                                            'ROLE_MANAGEMENT_PRODUCT_GUARANTEES',
+                                            'PERMISSION_REMOVE')) {
+                       <!-- @if (element.removable) {
                           <p-button icon="pi pi-trash"
                                     pTooltip="Supprimer"
                                     tooltipPosition="bottom"
                                     class="gna-btn-delete"
                                     [disabled]="isSave"
                                     (click)="onConfirm(element)"></p-button>
-                        } @else {
-                          <p-button icon="pi pi-trash"
+                        } @else {-->
+                       <!--   <p-button icon="pi pi-trash"
                                     pTooltip="Supprimer"
                                     tooltipPosition="bottom"
                                     class="gna-btn-delete"
-                                    [disabled]="isDisable"></p-button>
-                        }
+                                    [disabled]="isDisable"></p-button>-->
+                                         <!--     }-->
+                                          }
 
-                  </span>
-                      <span class="gna-action-span">
-                    <p-button icon="pi pi-eye" class="gna-btn-eye"
-                              pTooltip="Afficher"
-                              tooltipPosition="bottom"
-                              (click)="onView(element)"
-                              [disabled]="isSave"></p-button>
-                  </span>
-                  <span class="gna-action-span">
-                    <p-button icon="pi pi-pencil" class="gna-btn-edit"
-                              pTooltip="Modifier"
-                              tooltipPosition="bottom"
-                              (click)="onViewEdit(element)"
-                              [disabled]="isSave"></p-button>
                   </span>
                   </span>
                     </td>
@@ -189,17 +188,31 @@
                 </ng-template>
 
             <ng-template pTemplate="loadingbody">
-              <tr>
-                <td *ngFor="let item of fakeItems">
-                <td><p-skeleton width="5rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="10rem" styleClass="mb-2"></p-skeleton></td>
-                <td><p-skeleton width="8rem" styleClass="mb-2"></p-skeleton></td>
+              <tr *ngFor="let item of fakeDataList">
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td>
+                   <span class="gna-action-span-div">
+                    <!-- <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>-->
+                     <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                      <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                   </span>
+                </td>
               </tr>
             </ng-template>
-
           </p-table>
 
         </div>

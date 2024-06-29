@@ -1,0 +1,122 @@
+<div class="gna-bc">
+  <span>Paramètres / Paramètres des listes / Catégories / Voir</span>
+</div>
+
+
+<div class="gna-main-content">
+
+  <div class="container-fluid gna-main-div-card">
+    <mat-card class="gna-card">
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+              <button mat-raised-button color="primary"
+                      class="gna-full-width gna-btn-default"
+                      (click)="onBack()">Retour</button>
+            </div>
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-full-width gna-disable">Modifier</button>
+              } @else {
+
+                <button mat-raised-button
+                        color="primary"
+                        class="gna-btn-default gna-full-width"
+                        [disabled]="accountService.pageLoading || accountService.isSave"
+                        (click)="onViewEdit()">Modifier</button>
+              }
+            </div>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div class="container-fluid">
+          <div class="example-table-container mt-4">
+            <div class="card">
+              <div class="card-body gna-card-body"
+                   *ngIf="elementData">
+
+                <div class="row">
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Etat : </span>
+                    @if (elementData.enabled) {
+                      <p-tag severity="success" value="Activé"></p-tag>
+                    } @else  {
+                      <p-tag severity="danger" value="Désactivé"></p-tag>
+                    }
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Enregistrement : </span>
+                    @if (elementData.createdAt) {
+                      {{ elementData.createdAt | date: 'dd-MM-YYYY' }} {{ elementData.createdAt | date: 'hh:mm:ss' }}
+                    } @else {
+                      N/A
+                    }
+                  </div>
+                </div>
+
+                <div class="row">
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label">Code Catégorie : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.code ) {
+                         {{ elementData.code }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Nom Catégorie : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.name ) {
+                         {{ elementData.name }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                  <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                    <span class="gna-view-label"> Branche : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.branch ) {
+                         {{ elementData.branch.name }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <span class="gna-view-label">Description : </span>
+                    <span class="gna-view-value">
+                       @if (elementData.description ) {
+                         {{ elementData.description }}
+                       } @else {
+                         N/A
+                       }
+                  </span>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>
+

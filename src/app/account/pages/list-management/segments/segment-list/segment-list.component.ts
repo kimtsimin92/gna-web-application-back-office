@@ -58,6 +58,9 @@ import { TagModule } from 'primeng/tag';
 
 import { environment } from '../../../../../../environments/environment';
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {
+  SaveLoadingDialogComponent
+} from "../../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component";
 @Component({
   selector: 'app-segment-list',
   standalone: true,
@@ -109,30 +112,6 @@ import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 })
 export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
 
-
-  items: MenuItem[] | undefined;
-  home: MenuItem | undefined;
-
-
-
-  displayedColumns: string[] = ['select', 'code', 'name', 'action'];
-  dataSource = new MatTableDataSource<any>([]);
-  selection = new SelectionModel<any>(true, []);
-
-  resultsLength = 0;
-  isLoadingResults = false;
-  isRateLimitReached = false;
-
-  // @ts-ignore
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  // @ts-ignore
-  @ViewChild(MatSort) sort: MatSort;
-
-  @Output() newEvent = new EventEmitter<boolean>();
-  filteredList: any[] = [];
-
-
-
   loadingPage: boolean = false;
   isSave: boolean = false;
 
@@ -140,7 +119,7 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   scrollHeight: string = "380px";
 
-  pageSort: string = "createdAt";
+  pageSort: string = "updatedAt";
   pageOrder: string = "desc";
   pageNumber: number = 1;
   pageSize: number = 10;
@@ -286,48 +265,8 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {}
 
-  /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: any): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.id + 1
-    }`;
-  }
-
   onGoToSave() {
-    this._router.navigateByUrl('/account/segments/add');
+    this._router.navigateByUrl('/account/marketing/segments/add');
   }
 
   onGetNotificationErrorDialog(): void {
@@ -350,7 +289,7 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ts-ignore
     localStorage.setItem('SEGMENT_DATA', JSON.stringify(data));
 
-    this._router.navigateByUrl('/account/segments/view').then(() => {
+    this._router.navigateByUrl('/account/marketing/segments/view').then(() => {
       this.loadingPage = false;
     });
   }
@@ -361,7 +300,7 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
     // @ts-ignore
     localStorage.setItem('SEGMENT_DATA', JSON.stringify(data));
 
-    this._router.navigateByUrl('/account/segments/edit').then(() => {
+    this._router.navigateByUrl('/account/marketing/segments/edit').then(() => {
       this.loadingPage = false;
     });
   }
@@ -458,7 +397,7 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
       (responseData) => {
         this.isSave = false;
         this.closeDialog();
-        this.filteredList = [];
+        this.dataList = [];
         this.onGetDataList();
         this.onSaveNotificationDialog();
       },
@@ -602,35 +541,10 @@ export class SegmentListComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
   }
-/*
-  onGoToPrevious() {
-    this.currentPage--;
-    this.onGetDataList();
-  }
 
-  onGoToNext() {
-    this.currentPage++;
-    this.onGetDataList();
-  } */
-
-  filterResults(text: string) {
-    if (!text) {
-      this.filteredList = this.dataPaginationResponse.zones;
-      return;
-    }
-
-    console.log(text);
-
-    if (this.dataPaginationResponse && this.dataPaginationResponse.zones) {
-      this.filteredList = this.dataPaginationResponse.zones.filter(
-        // @ts-ignore
-        (data) => data?.name.toLowerCase().includes(text.toLowerCase())
-      );
-    }
-  }
 
   openSaveLoadingDialog(): void {
-    const dialogRef = this._dialog.open(RemoveLoadingDialogComponent, {
+    const dialogRef = this._dialog.open(SaveLoadingDialogComponent, {
       hasBackdrop: false,
       width: '350px',
     });

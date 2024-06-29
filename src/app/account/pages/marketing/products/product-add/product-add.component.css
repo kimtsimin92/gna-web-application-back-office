@@ -277,18 +277,18 @@ table th {
 }
 
 .gi-table {
-  border: 1px solid #2960A3!important;
+  border: 1px solid #1C3694!important;
 }
 
 
 .gi-table th {
-  background-color: #2960A3!important;
+  background-color: #1C3694!important;
   color: white!important;
   font-size: 11px!important;
 }
 
 .gi-table td {
-  color: #2960A3!important;
+  color: #1C3694!important;
 }
 
 
@@ -335,4 +335,15 @@ table th {
 .gna-form-label-file {
   margin-top: 0!important;
   font-weight: initial!important;
+}
+
+.mat-mdc-form-field  {
+  width: 99%!important;
+}
+
+.gna-btn-default-action {
+  min-width: 30px!important;
+  max-width: 30px!important;
+  font-size: 15px!important;
+  height: 20px!important;
 }

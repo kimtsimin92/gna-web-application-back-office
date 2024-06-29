@@ -84,7 +84,7 @@ export class ZoneAddComponent implements OnInit, OnDestroy {
       this.zoneData = JSON.parse(localStorage.getItem("ZONE_DATA"));
     }
 
-    this.home = { icon: 'pi pi-home', routerLink: '/account/home' };
+    this.home = { icon: 'pi pi-home', routerLink: '/account/settings/lists/home' };
 
     this.items = [{ label: 'Gestion Listes' }, { label: 'Territoires'}, {label: "Création"}];
 
@@ -97,7 +97,7 @@ export class ZoneAddComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this._router.navigateByUrl("/account/zones/list");
+    this._router.navigateByUrl("/account/settings/lists/zones/list");
   }
 
   onConfirm(): void {
@@ -186,7 +186,7 @@ export class ZoneAddComponent implements OnInit, OnDestroy {
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/zones/list")
+      this._router.navigateByUrl("/account/settings/lists/zones/list")
         .then(() => {
         });
 

@@ -7,7 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ManagerCustomerAccountService} from "../manager-customer-account.service";
 import {AccountService} from "../../../account.service";
 import {ChipModule} from "primeng/chip";
-import {DatePipe, NgIf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {
   ConfirmationToggleDialogComponent
 } from "../../../dialogs/confirmation/confirmation-toggle-dialog/confirmation-toggle-dialog.component";
@@ -22,23 +22,27 @@ import {
   SaveErrorNotificationDialogComponent
 } from "../../../dialogs/notification/save-error-notification-dialog/save-error-notification-dialog.component";
 import {SaveLoadingDialogComponent} from "../../../dialogs/loading/save-loading-dialog/save-loading-dialog.component";
+import {TagModule} from "primeng/tag";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-customer-company-account-request-detail',
   standalone: true,
-  imports: [
-    MatButton,
-    MatCard,
-    MatCardHeader,
-    ChipModule,
-    MatCardContent,
-    NgIf,
-    DatePipe,
-    FormsModule,
-    InputTextareaModule,
-    ReactiveFormsModule,
-    EditorModule
-  ],
+    imports: [
+        MatButton,
+        MatCard,
+        MatCardHeader,
+        ChipModule,
+        MatCardContent,
+        NgIf,
+        DatePipe,
+        FormsModule,
+        InputTextareaModule,
+        ReactiveFormsModule,
+        EditorModule,
+        NgForOf,
+        TagModule
+    ],
   templateUrl: './customer-company-account-request-detail.component.html',
   styleUrl: './customer-company-account-request-detail.component.css'
 })
@@ -82,7 +86,7 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
   }
 
   onGoToBack() {
-    this._router.navigateByUrl("/account/manager/accounts/companies/requests/list");
+    this._router.navigateByUrl("/account/management/customers/requests/companies/list");
   }
 
   onValid(): void {
@@ -150,7 +154,7 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
       let userId = this.elementData.id;
 
     let requestData = {
-      "validation_status": 1
+      "validation_status": 2
     };
 
     this.accountService.onSaveCustomerAccountValid(userId, requestData)
@@ -159,8 +163,8 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
           this.accountService.isSave = this.isSave;
           console.log(responseData);
           let message = "L'enregistrement de la validation du compte a reussi."
-          this.onSaveNotificationDialog(message);
           this.closeDialog();
+          this.onSaveNotificationDialog(message);
         }, (errorData: HttpErrorResponse) => {
           this.isSave = false;
           this.accountService.isSave = this.isSave;
@@ -191,8 +195,8 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
         this.accountService.isSave = this.isSave;
         console.log(responseData);
         let message = "L'enregistrement du rejet du compte a reussi."
-        this.onSaveNotificationDialog(message);
         this.closeDialog();
+        this.onSaveNotificationDialog(message);
       }, (errorData: HttpErrorResponse) => {
         this.isSave = false;
         this.accountService.isSave = this.isSave;
@@ -236,7 +240,7 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
         this.accountService.isSave = this.isSave;
       }
 
-      this._router.navigateByUrl("/account/manager/accounts/companies/requests/list")
+      this._router.navigateByUrl("/account/management/customers/requests/companies/list")
         .then(() => {
           // @ts-ignore
           this.loadingPage = false;
@@ -274,4 +278,5 @@ export class CustomerCompanyAccountRequestDetailComponent implements OnInit, Aft
   }
 
 
+  protected readonly environment = environment;
 }

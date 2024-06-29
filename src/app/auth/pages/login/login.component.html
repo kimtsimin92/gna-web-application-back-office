@@ -148,10 +148,10 @@
                 class="needs-validation mt-4" novalidate>
                 <div class="example-container">
                   <mat-form-field appearance="outline">
-                    <mat-label>Adresse email</mat-label>
+                    <mat-label>Nom d'utilisateur</mat-label>
                     <input matInput  formControlName="username" required
                            [readonly]="auth.loading || auth.isError">
-                    <mat-icon color="primary" matSuffix>email</mat-icon>
+                    <mat-icon color="primary" matSuffix>person</mat-icon>
                     <mat-error *ngIf="authRequest.username.invalid">{{getErrorMessageEmail()}}</mat-error>
                   </mat-form-field>
                   <mat-form-field  appearance="outline">
@@ -166,7 +166,7 @@
                 <div class="btn-new">
                   @if (!form.valid || auth.isError || auth.loading) {
                     <button mat-raised-button color="primary"
-                            class="login-btn gna-disable">   Se connecter
+                            class="login-btn gna-disable">   Connexion
                       <mat-icon>login</mat-icon>
                     </button>
                   } @else {
@@ -178,7 +178,7 @@
                   }
                 </div>
               </form>
-              <div class="login-fp">
+            <div class="login-fp">
                 <a routerLink="/login/password/forgot">Mot de passe oublié ?</a>
               </div>
             </mat-card>

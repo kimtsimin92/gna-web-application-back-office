@@ -71,10 +71,16 @@ export class AccountService {
         .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles/getList', {observe: 'response'});
   }
 
+  getProfileData(id: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.usersService+`/api/v1/users/profiles/${id}`, {observe: 'response'});
+  }
 
-  getProfiles(page: number) {
+
+  getProfiles(sort: string, order: string, page: number, size: number) {
       return this._http
-        .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles?page='+page, {observe: 'response'});
+        .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles?pageNumber='
+          +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
 
   userProfileSave(requestData: any) {
@@ -84,7 +90,7 @@ export class AccountService {
 
   userProfileEdit(requestData: any, id: number) {
       return this._http
-        .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles/save/edit/'+id, requestData, {observe: 'response'});
+        .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/profiles/save/'+id, requestData, {observe: 'response'});
   }
 
   getUserProfile(requestData: any) {
@@ -112,6 +118,16 @@ export class AccountService {
         .post<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users/save', requestData, {observe: 'response'});
   }
 
+  managerAddUserExternalAccount(requestData: any) {
+    return this._http
+      .post<HttpResponse<any>>(environment.usersExternalService+'/api/v1/users/managers/accounts/users/save', requestData, {observe: 'response'});
+  }
+
+  managerEditUserExternalAccount(requestData: any) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.usersExternalService+'/api/v1/users/managers/accounts/users/save/'+requestData.id, requestData, {observe: 'response'});
+  }
+
   managerEditUserAccount(requestData: any) {
       return this._http
         .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users/save/'+requestData.id, requestData, {observe: 'response'});
@@ -125,6 +141,11 @@ export class AccountService {
   managerUsersToggleEnable(id: number) {
     return this._http
       .patch<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users/enabled/'+id, {observe: 'response'});
+  }
+
+  managerUsersExternalToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.usersExternalService+'/api/v1/users/managers/accounts/users/enabled/'+id, {observe: 'response'});
   }
 
 /*  getUsersListData(sort: string, order: string, page: number, size: number) {
@@ -141,11 +162,19 @@ export class AccountService {
         +sort+'&order='+order+'&page='+page+'&size='+size, requestData, {observe: 'response'});
   }*/
 
-  getUsersListData(page: number) {
+  getUsersListData(sort: string, order: string, page: number, size: number) {
     let requestData = {};
     return this._http
-      .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/managers/accounts/users?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
+
+  getUsersExternalListData(profileCode: number, sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.usersExternalService+`/api/v1/users/managers/accounts/profiles/${profileCode}/users?pageNumber=`
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
+  }
+
 
   /*** ***/
 
@@ -185,9 +214,16 @@ export class AccountService {
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/partners/enabled/'+id, {observe: 'response'});
   }
 
-  getBranchesListData(page: number) {
+  getBranchesListData(sort: string, order: string, page: number, size: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/branches?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/branches?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
+  }
+
+  getCategoryListData(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/categories?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
 
 
@@ -196,9 +232,19 @@ export class AccountService {
       .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/branches', requestData, {observe: 'response'});
   }
 
+  saveCategoryAdd(requestData: any) {
+    return this._http
+      .post<HttpResponse<any>>(environment.productsService+'/api/v1/products/categories', requestData, {observe: 'response'});
+  }
+
   saveBranchEdit(requestData: any, id: number) {
     return this._http
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/branches/'+id, requestData, {observe: 'response'});
+  }
+
+  saveCategoryEdit(requestData: any, id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/categories/'+id, requestData, {observe: 'response'});
   }
 
   saveBranchRemove(id: number) {
@@ -206,9 +252,20 @@ export class AccountService {
       .delete<HttpResponse<any>>(environment.productsService+'/api/v1/products/branches/'+id, {observe: 'response'});
   }
 
+  saveCategoryRemove(id: number) {
+    return this._http
+      .delete<HttpResponse<any>>(environment.productsService+'/api/v1/products/categories/'+id, {observe: 'response'});
+  }
+
+
   saveBranchToggleEnable(id: number) {
     return this._http
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/branches/enabled/'+id, {observe: 'response'});
+  }
+
+  saveCategoryToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/categories/enabled/'+id, {observe: 'response'});
   }
 
   //
@@ -253,6 +310,36 @@ export class AccountService {
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/segments/enabled/'+id, {observe: 'response'});
   }
 
+  saveQuoteFormToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations/enabled/'+id, {observe: 'response'});
+  }
+
+  savePricingFormToggleEnable(id: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/pricing/primes/enabled/'+id, {observe: 'response'});
+  }
+
+  saveCustomerAccountToggleEnable(id: number) {
+    return this._http
+      .put<HttpResponse<any>>(environment.customersService+'/v1/users/switch_activation_user/'+id, {observe: 'response'});
+  }
+
+  saveComplaintToggleEnable(id: number) {
+    return this._http
+      .put<HttpResponse<any>>(environment.customersService+'/v1/reclamations/switch_ouvert_reclamation/'+id, {observe: 'response'});
+  }
+
+  saveInsuredToggleEnable(id: number) {
+    return this._http
+      .put<HttpResponse<any>>(environment.customersService+'/v1/assures/switch_activation_assure/'+id, {observe: 'response'});
+  }
+
+  saveEditCustomerSegment(id: number, requestData: any) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/customers/'+id+'/segments', requestData, {observe: 'response'});
+  }
+
 
   saveSegmentAdd(requestData: any) {
     return this._http
@@ -275,6 +362,11 @@ export class AccountService {
     return this._http
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/guarantees?sort='
         +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
+  }
+
+  onGetUserGroupList() {
+    return this._http
+      .get<HttpResponse<any>>(environment.usersService+'/api/v1/users/groups', {observe: 'response'});
   }
 
   onGetGuarantees(page: number) {
@@ -312,9 +404,10 @@ export class AccountService {
       .delete<HttpResponse<any>>(environment.productsService+'/api/v1/products/guarantees/'+guaranteeId+'/items/'+itemId, {observe: 'response'});
   }
 
-  getProductGroups(page: number) {
+  getProductGroups(sort: string, order: string, page: number, size: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/productGroups?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/productGroups?sort='
+        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
   }
 
   getProductGroupsGuarantees() {
@@ -337,9 +430,59 @@ export class AccountService {
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/productGroups/'+id, requestData, {observe: 'response'});
   }
 
-  getProducts(page: number) {
+  getProducts(sort: string, order: string, page: number, size: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products?sort='
+        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
+  }
+
+  getQuoteList(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/admin/subscriptions/quotes?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
+  }
+
+  getSubscriptionSubmittedList(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/admin/subscriptions/submitted/list?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
+  }
+
+  getSubscriptionSubmitted(id: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+`/api/v1/admin/subscriptions/submitted/${id}`, {observe: 'response'});
+  }
+
+  onValidSubscription(subscriptionId: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+`/api/v1/admin/subscriptions/${subscriptionId}/valid`, {}, {observe: 'response'});
+  }
+
+  onSendCoInsuranceRequest(requestData: any) {
+    return this._http
+      .post<HttpResponse<any>>(environment.subscriptionService+`/api/v1/admin/subscriptions/coinsurances/request`, requestData, {observe: 'response'});
+  }
+
+  onSendReInsuranceRequest(requestData: any) {
+    return this._http
+      .post<HttpResponse<any>>(environment.subscriptionService+`/api/v1/admin/subscriptions/reinsurances/request`, requestData, {observe: 'response'});
+  }
+
+  onRejectSubscription(subscriptionId: number) {
+    return this._http
+      .patch<HttpResponse<any>>(environment.productsService+`/api/v1/admin/subscriptions/${subscriptionId}/reject`, {}, {observe: 'response'});
+  }
+
+  getSubscriptionValidatedList(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/admin/subscriptions/validated/list?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
+  }
+
+  getSubscriptionRejectedList(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/admin/subscriptions/rejected/list?pageNumber='
+        +page+'&pageSize='+size+'&orderBy='+sort+'&orderDirection='+order, {observe: 'response'});
   }
 
   //
@@ -364,14 +507,27 @@ export class AccountService {
       .patch<HttpResponse<any>>(environment.productsService+'/api/v1/products/'+id+'/files/advertisementObjects', requestData, {observe: 'response'});
   }
 
-  getFormQuotations(page: number) {
+  getFormQuotations(sort: string, order: string, page: number, size: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/forms/quotations?sort='
+        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
   }
 
-  getPricingList(page: number) {
+  onGetQuoteForm(productId: number) {
     return this._http
-      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/pricing/primes?page='+page, {observe: 'response'});
+      .get<HttpResponse<any>>(environment.productsService+`/api/v1/products/${productId}/quoteForm`, {observe: 'response'});
+  }
+
+  getCapitals(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/capitals?sort='
+        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
+  }
+
+  getPricingList(sort: string, order: string, page: number, size: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/pricing/primes?sort='
+        +sort+'&order='+order+'&page='+page+'&size='+size, {observe: 'response'});
   }
 
 
@@ -445,9 +601,19 @@ export class AccountService {
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/branches', {observe: 'response'});
   }
 
+  getCategoryList() {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/categories', {observe: 'response'});
+  }
+
   getGuaranteeList() {
     return this._http
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/guarantees', {observe: 'response'});
+  }
+
+  getGuaranteeListByCategory(categoryId: number) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+`/api/v1/products/lists/guarantees/categories/${categoryId}`, {observe: 'response'});
   }
 
   getProductGroupList() {
@@ -460,9 +626,19 @@ export class AccountService {
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/segments', {observe: 'response'});
   }
 
+  getSegmentByCode(code: string) {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+`/api/v1/segments/getByCode/${code}`, {observe: 'response'});
+  }
+
   getIncentiveList() {
     return this._http
       .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/incentives', {observe: 'response'});
+  }
+
+  getInsuredTypeList() {
+    return this._http
+      .get<HttpResponse<any>>(environment.productsService+'/api/v1/products/lists/insuredTypes', {observe: 'response'});
   }
 
   onGetTokenExpirationTime() {

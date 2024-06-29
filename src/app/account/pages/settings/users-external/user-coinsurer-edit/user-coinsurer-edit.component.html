@@ -1,0 +1,176 @@
+<div class="gna-bc">
+  <span>Administration / Gestion des utilisateurs externes / Coassureus / Modifier</span>
+</div>
+
+<div class="container-fluid">
+
+  <div>
+    <mat-card class="gna-card">
+
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+
+          <div class="gna-card-header-btn row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default gna-disable">Retour</button>
+              } @else {
+                <button mat-raised-button color="primary"
+                        class="gna-full-width gna-btn-default"
+                        (click)="onBack()"
+                        [disabled]="isSave || accountService.pageLoading || accountService.isSave">Retour</button>
+              }
+
+            </div>
+
+            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 offset-xl-8">
+
+              @if (isSave || accountService.pageLoading || accountService.isSave) {
+                <button mat-raised-button
+                        class="gna-btn-default gna-btn-save gna-full-width gna-disable">Enregistrer</button>
+              } @else {
+
+                @if (!formProfile.valid) {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="onGetNotBlankAlert()">Enregistrer</button>
+
+                } @else {
+                  <button mat-raised-button
+                          class="gna-btn-default gna-btn-save gna-full-width"
+                          [disabled]="isSave || accountService.pageLoading || accountService.isSave"
+                          (click)="openConfirmAdd()">Enregistrer</button>
+                }
+              }
+            </div>
+
+          </div>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="mt-4">
+
+          <form
+            [formGroup]="formProfile">
+
+
+            <div class="row pb-2 gna-form">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="code">Réassureur Code
+                </label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         type="text" id="code" aria-describedby="name-help" class="gna-form-input"
+                         formControlName="code"
+                         [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="name">Réassureur Nom
+                  <span class="gna-text-red gna-text-bold">*</span>
+                </label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         type="text" id="name" aria-describedby="name-help" class="gna-form-input"
+                         required
+                         formControlName="name"
+                         [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="phone">Réassureur Téléphone
+                </label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         id="phone"
+                         class="gna-form-input"
+                         inputmode="numeric"
+                         pattern="^\d{10}$"
+                         required
+                         formControlName="phone"
+                         [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="email">Réassureur Email
+                </label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         type="email" id="email" aria-describedby="name-help" class="gna-form-input"
+                         formControlName="email"
+                         [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
+              </div>
+
+              <p-divider />
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="userFirstName">Utilisateur Prénom
+                  <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         type="text" id="userFirstName" aria-describedby="name-help" class="gna-form-input"
+                         formControlName="userFirstName"
+                         [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="userLastName">Utilisateur Nom
+                  <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         type="text" id="userLastName" aria-describedby="name-help" class="gna-form-input"
+                         formControlName="userLastName"
+                         [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="userPhone">Utilisateur Téléphone
+                  <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         id="userPhone"
+                         class="gna-form-input"
+                         inputmode="numeric"
+                         pattern="^\d{10}$"
+                         formControlName="userPhone"
+                         [readonly]="isSave || accountService.pageLoading || accountService.isSave"/>
+                </p-iconField>
+              </div>
+
+              <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+                <label for="userEmail">Utilisateur Email
+                  <span class="gna-text-red gna-text-bold">*</span></label>
+                <p-iconField iconPosition="right">
+                  <p-inputIcon styleClass="pi pi-info" />
+                  <input pInputText
+                         required
+                         type="email" id="userEmail" aria-describedby="name-help" class="gna-form-input"
+                         formControlName="userEmail"
+                         [readonly]="isDisabled"/>
+                </p-iconField>
+              </div>
+
+            </div>
+          </form>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

@@ -1,0 +1,306 @@
+<div class="gna-bc">
+  <span>Gestion des souscriptions / Demandes / Validées / Lister</span>
+</div>
+
+<div class="container-fluid">
+
+  <div>
+    <mat-card class="gna-card">
+
+      <mat-card-header class="gna-card-header">
+        <div class="container-fluid">
+          <div class="gna-list-header row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+          <span class="p-input-icon-left gna-full-width">
+                    <i class="pi pi-search"></i>
+                    <input
+                      pInputText
+                      type="text"
+                      (input)="dt.filterGlobal(getValue($event), 'contains')"
+                      placeholder="Rechercher"
+                      class="gna-full-width gna-list-ir"
+                      [disabled]="isSave"/>
+                      </span>
+            </div>
+          </div>
+        </div>
+      </mat-card-header>
+
+      <div class="container-fluid">
+
+        <div class="example-table-container mt-4">
+
+          <p-table
+            #dt
+            [value]="dataList"
+            dataKey="id"
+            styleClass="p-datatable-striped"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [loading]="loading"
+            [rows]="rows"
+            [totalRecords]="totalRecords"
+            [paginator]="false"
+            [first]="first"
+            (onPage)="pageChange($event)"
+            [rowsPerPageOptions]="[5, 10, 20, 15, 30, 50, 100]"
+            [globalFilterFields]="['code', 'name', 'premiumMinimum', 'taxRate']"
+            [scrollable]="true"
+            [resizableColumns]="true" >
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="policyCode">
+                  Numéro Police
+                  <p-sortIcon field="policyCode" />
+                </th>
+                <th pSortableColumn="name">Produit
+                  <p-sortIcon field="name" />
+                </th>
+                <th pSortableColumn="branch"
+                    class="gna-responsive">Montant Prime
+                  <p-sortIcon field="branch" />
+                <th pSortableColumn="insuredName"
+                    class="gna-responsive">Assuré
+                  <p-sortIcon field="insuredName" />
+                <th pSortableColumn="subscriberTypeCode"
+                    class="gna-responsive">Souscripteur
+                  <p-sortIcon field="subscriberTypeCode" />
+                <th pSortableColumn="enabled">Statut
+                  <p-sortIcon field="enabled" />
+                </th>
+                <th pSortableColumn="createdAt" class="gna-responsive">Enregistrement
+                  <p-sortIcon field="createdAt" />
+                <th></th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-element let-expanded="expanded">
+              <tr>
+                <td>
+                  <div class="row">
+                    <div class="col-4">
+                      <p-button type="button" pRipple [pRowToggler]="element" [text]="true"
+                                [rounded]="true" [plain]="true"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"/>
+                    </div>
+                    <div class="col-8 gna-table-td-mt">
+                      @if (element.policyCode) {
+                        {{ element.policyCode }}
+                      } @else {
+                        N/A
+                      }
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  @if (element.productName) {
+                    {{ element.productName }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td>
+                  @if (element.premium) {
+                    {{ element.premium | currency: 'XOF' : 'symbol' : '3.2-2' : 'fr'}}
+                  } @else {
+                    0
+                  }
+                </td>
+                <td>
+                  @if (element.insuredName) {
+                    {{ element.insuredName }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td>
+                  @if (element.subscriberName) {
+                    {{ element.subscriberName }}
+                  } @else if (element.subscriberParticularFirstName) {
+                    {{ element.subscriberParticularFirstName }} {{ element.subscriberParticularLastName }}
+                  } @else if (element.subscriberCompanyName) {
+                    {{ element.elementData.subscriberCompanyName }}
+                  } @else {
+                    N/A
+                  }
+                </td>
+                <td>
+              <span class="text-warning">Paiement en attente</span>
+                </td>
+                <td class="gna-responsive">
+                  {{ element.createdAt | date: 'dd-MM-YYYY'}} {{ element.createdAt | date: 'HH:mm:ss'}}
+                </td>
+                <td>
+                        <span class="gna-action-span-div">
+                      <span class="gna-action-span">
+                    <p-button icon="pi pi-eye" class="gna-btn-eye"
+                              pTooltip="Voir"
+                              tooltipPosition="bottom"
+                              (click)="onView(element)"
+                              [disabled]="isSave"></p-button>
+                  </span>
+                                       <span class="gna-action-span">
+
+                  </span>
+                  </span>
+                </td>
+              </tr>
+
+            </ng-template>
+
+            <ng-template pTemplate="rowexpansion" let-element let-expanded="expanded">
+              <div class="container-fluid">
+
+                <div class="gna-table-files">
+
+                  <span class="gna-files-underline">Pièces jointes</span>
+                  <div class="gna-table-files-row">
+
+                    <div>
+                      <span class="gna-element-file-name">Contrat</span>
+                      N/A
+                    </div>
+
+                    <div>
+                      <span class="gna-element-file-name">Devis</span>
+                    @if (element.quotes && element.quotes.length > 0 && element.quotes[0].file) {
+                        <a href="{{ element.quotes[0].file.url }}" download target="_blank">
+                          <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ element.quotes[0].file.label }}" class="gna-element-file gna-clickable">
+                        </a>
+
+                    } @else {
+                      N/A
+                    }
+                  </div>
+
+
+                    @if (element.attachments && element.attachments.length > 0) {
+                      <div
+                           *ngFor="let attachment of element.attachments">
+
+                        <span class="gna-element-file-name">{{ attachment.label }}</span>
+
+                        @if (attachment.type == "image/jpeg" ) {
+                          <a href="{{ attachment.url }}" download target="_blank">
+                            <img src="assets/svg/files/jpg-svgrepo-com.svg" alt="{{ attachment.label }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else if (attachment.type == "image/png") {
+                          <a href="{{ attachment.url }}" download target="_blank">
+                            <img src="assets/svg/files/png-svgrepo-com.svg" alt="{{ attachment.label }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else if (attachment.type == "pdf") {
+                          <a href="{{ attachment.url }}" download target="_blank">
+                            <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ attachment.label }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else if (attachment.type == "doc") {
+                          <a href="{{ attachment.url }}" download target="_blank">
+                            <img src="assets/svg/files/word-svgrepo-com.svg" alt="{{ attachment.label }}" class="gna-element-file gna-clickable">
+                          </a>
+                        } @else {
+                          <a href="{{ attachment.url }}" download target="_blank">
+                            <img src="assets/svg/files/pdf-svgrepo-com.svg" alt="{{ attachment.label }}" class="gna-element-file gna-clickable">
+                          </a>
+                        }
+
+                      </div>
+                    }
+
+                  </div>
+                </div>
+
+
+              </div>
+
+            </ng-template>
+
+            <ng-template pTemplate="loadingbody">
+              <tr *ngFor="let item of fakeDataList">
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td><p-skeleton width="8rem" styleClass="mb-4"></p-skeleton></td>
+                <td>
+                   <span class="gna-action-span-div">
+                      <span class="gna-action-span">
+                          <p-skeleton size="2rem" styleClass="mr-2" />
+                      </span>
+                   </span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+
+        </div>
+
+        <div class="gna-pagination-row">
+
+          <div class="gna-pagination">
+
+            @if (dataPaginationResponse) {
+              @if (dataPaginationResponse.pageSize > 0) {
+                <span class="gna-pagination-page-size"
+                      [matMenuTriggerFor]="aboveMenu"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ pageSize }}
+                  <i class="pi pi-angle-up"></i></span>
+                <mat-menu #aboveMenu="matMenu" yPosition="above">
+                  @for (psl of pageSizeList; track psl) {
+                    <button mat-menu-item (click)="onGetPageSize(psl.name)"
+                            [disabled]="isSave">{{ psl.name }}</button>
+                  }
+                </mat-menu>
+              } @else {
+                <span class="gna-pagination-page-size gna-pagination-disabled">0
+                <i class="pi pi-angle-up"></i></span>
+              }
+            } @else {
+              <span class="gna-pagination-page-size gna-pagination-disabled">0
+                <i class="pi pi-angle-up"></i></span>
+            }
+          </div>
+
+          <div class="gna-pagination">
+            @if (dataPaginationResponse) {
+              @if (!loadingPage && currentPage > 1) {
+                <span class="gna-pagination-previous"
+                      (click)="onGoToPrevious()"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">
+              <i class="pi pi-arrow-left"></i>
+            </span>
+              } @else {
+                <span class="gna-pagination-previous gna-pagination-disabled">
+              <i class="pi pi-arrow-left"></i>
+            </span>
+              }
+              @if (dataPaginationResponse.totalItems > 0) {
+                <span class="gna-pagination-page"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">{{ currentPage }}</span>
+              } @else {
+                <span class="gna-pagination-page gna-pagination-disabled">0</span>
+              }
+              @if (!loadingPage && currentPage < dataPaginationResponse.totalPages) {
+                <span class="gna-pagination-next"
+                      (click)="onGoToNext()"
+                      [ngClass]="{'gna-pagination-disabled': isSave}">
+             <i class="pi pi-arrow-right"></i>
+          </span>
+              } @else {
+                <span class="gna-pagination-next gna-pagination-disabled">
+             <i class="pi pi-arrow-right"></i>
+          </span>
+              }
+            } @else {
+              <span class="gna-pagination-previous gna-pagination-disabled"><i class="pi pi-arrow-left"></i></span>
+              <span class="gna-pagination-page gna-pagination-disabled">0</span>
+              <span class="gna-pagination-next gna-pagination-disabled"><i class="pi pi-arrow-right"></i></span>
+            }
+          </div>
+
+        </div>
+
+      </div>
+    </mat-card>
+  </div>
+
+</div>
